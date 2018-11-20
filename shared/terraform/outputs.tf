@@ -42,26 +42,6 @@ output "cloudfront_logs_bucket_domain_name" {
   value = "${aws_s3_bucket.cloudfront_logs.bucket_domain_name}"
 }
 
-output "catalogue_private_subnets" {
-  value = ["${module.catalogue_vpc.private_subnets}"]
-}
-
-output "catalogue_public_subnets" {
-  value = ["${module.catalogue_vpc.public_subnets}"]
-}
-
-output "catalogue_vpc_private_route_table_ids" {
-  value = "${module.catalogue_vpc.private_route_table_ids}"
-}
-
-output "catalogue_vpc_id" {
-  value = "${module.catalogue_vpc.vpc_id}"
-}
-
-output "catalogue_ssh_controlled_ingress_sg" {
-  value = "${module.bastion.ssh_controlled_ingress_sg}"
-}
-
 output "infra_bucket_arn" {
   value = "${aws_s3_bucket.platform_infra.arn}"
 }

@@ -7,7 +7,7 @@ module "lambda_drain_ecs_container_instance" {
 
   alarm_topic_arn = "${var.lambda_error_alarm_arn}"
   s3_bucket       = "${var.infra_bucket}"
-  s3_key          = "lambdas/shared_infra/drain_ecs_container_instance.zip"
+  s3_key          = "lambdas/infrastructure/shared/lambdas/drain_ecs_container_instance.zip"
 
   log_retention_in_days = 30
 }

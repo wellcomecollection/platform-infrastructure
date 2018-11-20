@@ -14,7 +14,7 @@ module "lambda_ecs_ec2_instance_tagger" {
 
   alarm_topic_arn = "${var.lambda_error_alarm_arn}"
   s3_bucket       = "${var.infra_bucket}"
-  s3_key          = "lambdas/shared_infra/ecs_ec2_instance_tagger.zip"
+  s3_key          = "lambdas/infrastructure/shared/lambdas/ecs_ec2_instance_tagger.zip"
 
   log_retention_in_days = 30
 }
