@@ -2,7 +2,6 @@
 
 Various terraform stacks for handling Wellcome Collection digital platform infrastructure.
 
-See:
 - [critical](critical/README.md): Any infrastructure where extreme care must be taken to prevent deletion of data.
 - [accounts](accounts/README.md): Provisioning AWS account access.
 - [dns](dns/README.md): Managing the infrastructure for Wellcome Collection's DNS.
