@@ -1,18 +1,13 @@
 # Roles
 
 resource "aws_iam_role" "dds_access" {
-  name               = "dds-access"
   assume_role_policy = data.aws_iam_policy_document.dds_assume_role.json
 }
-
-# Assume role policies
 
 resource "aws_iam_role_policy" "dds_access_get_s3" {
   role   = aws_iam_role.dds_access.name
   policy = data.aws_iam_policy_document.archive_get.json
 }
-
-# Policy documents
 
 data "aws_iam_policy_document" "dds_assume_role" {
   statement {

@@ -1,14 +1,3 @@
-data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      identifiers = [local.aws_principal]
-      type        = "AWS"
-    }
-  }
-}
-
 # Workflow support role
 
 module "workflow_support_role" {
@@ -58,10 +47,21 @@ data "aws_iam_policy_document" "workflow_support" {
   }
 }
 
-# s3_scala_releases
+# Developer S3 Scala library access
+
 resource "aws_iam_role" "s3_scala_releases_read" {
-  name               = "travis_machine_s3_scala_releases"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      identifiers = [local.aws_principal]
+      type        = "AWS"
+    }
+  }
 }
 
 resource "aws_iam_role_policy" "s3_scala_releases_read" {
