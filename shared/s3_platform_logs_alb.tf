@@ -3,10 +3,10 @@ locals {
 }
 
 resource "aws_s3_bucket" "alb_logs" {
-  bucket = "${local.alb_logs_bucket_name}"
+  bucket = local.alb_logs_bucket_name
   acl    = "private"
 
-  policy = "${data.aws_iam_policy_document.s3_alb_logs.json}"
+  policy = data.aws_iam_policy_document.s3_alb_logs.json
 
   lifecycle {
     prevent_destroy = true
@@ -36,8 +36,9 @@ data "aws_iam_policy_document" "s3_alb_logs" {
     # AWS account at Wellcome.
     # See https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html
     principals {
-      identifiers = ["arn:aws:iam::156460612806:root"]
-      type        = "AWS"
+      identifiers = [
+      "arn:aws:iam::156460612806:root"]
+      type = "AWS"
     }
   }
 }

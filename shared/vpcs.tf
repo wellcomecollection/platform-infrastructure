@@ -5,7 +5,7 @@
 # - Sierra Adapter
 
 module "catalogue_vpc_delta" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "catalogue-172-31-0-0-16"
 
@@ -38,22 +38,22 @@ locals {
 }
 
 module "storage_vpc" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "storage-172-30-0-0-16"
 
-  cidr_block_vpc = "${local.storage_cidr_block_vpc}"
+  cidr_block_vpc = local.storage_cidr_block_vpc
 
   public_az_count           = "3"
-  cidr_block_public         = "${local.storage_cidr_block_public}"
+  cidr_block_public         = local.storage_cidr_block_public
   cidrsubnet_newbits_public = "2"
 
   private_az_count           = "3"
-  cidr_block_private         = "${local.storage_cidr_block_private}"
+  cidr_block_private         = local.storage_cidr_block_private
   cidrsubnet_newbits_private = "2"
 
   providers = {
-    aws = "aws.storage"
+    aws = aws.storage
   }
 }
 
@@ -62,7 +62,7 @@ module "storage_vpc" {
 # - Various monitoring lambdas
 
 module "monitoring_vpc_delta" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "monitoring-172-28-0-0-16"
 
@@ -82,7 +82,7 @@ module "monitoring_vpc_delta" {
 # - Labs apps & data scientist infra
 
 module "datascience_vpc_delta" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "datascience-172-27-0-0-16"
 
@@ -102,46 +102,45 @@ module "datascience_vpc_delta" {
 # - Labs apps & data scientist infra
 
 module "datascience_vpc" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "datascience-172-17-0-0-16"
 
-  cidr_block_vpc = "${local.datascience_cidr_block_vpc}"
+  cidr_block_vpc = local.datascience_cidr_block_vpc
 
   public_az_count           = "3"
-  cidr_block_public         = "${local.datascience_cidr_block_public}"
+  cidr_block_public         = local.datascience_cidr_block_public
   cidrsubnet_newbits_public = "2"
 
   private_az_count           = "3"
-  cidr_block_private         = "${local.datascience_cidr_block_private}"
+  cidr_block_private         = local.datascience_cidr_block_private
   cidrsubnet_newbits_private = "2"
 
   providers = {
-    aws = "aws.datascience"
+    aws = aws.datascience
   }
 }
 
 # Used by:
 # - Item requesting service
 # - Catalogue API
-# TODO: Move all catalogue services into this VPC
 
 module "catalogue_vpc" {
-  source = "github.com/wellcometrust/terraform//network/prebuilt/vpc/public-private-igw?ref=v19.5.3"
+  source = "./modules/public-private-igw"
 
   name = "catalogue-172-18-0-0-16"
 
-  cidr_block_vpc = "${local.catalogue_cidr_block_vpc}"
+  cidr_block_vpc = local.catalogue_cidr_block_vpc
 
   public_az_count           = "3"
-  cidr_block_public         = "${local.catalogue_cidr_block_public}"
+  cidr_block_public         = local.catalogue_cidr_block_public
   cidrsubnet_newbits_public = "2"
 
   private_az_count           = "3"
-  cidr_block_private         = "${local.catalogue_cidr_block_private}"
+  cidr_block_private         = local.catalogue_cidr_block_private
   cidrsubnet_newbits_private = "2"
 
   providers = {
-    aws = "aws.catalogue"
+    aws = aws.catalogue
   }
 }

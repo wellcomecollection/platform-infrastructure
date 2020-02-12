@@ -1,65 +1,65 @@
 # cloudhealth
 
 module "cloudhealth-catalogue" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.catalogue"
+    aws = aws.catalogue
   }
 }
 
 module "cloudhealth-storage" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.storage"
+    aws = aws.storage
   }
 }
 
 module "cloudhealth-platform" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.platform"
+    aws = aws.platform
   }
 }
 
 module "cloudhealth-datascience" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.datascience"
+    aws = aws.datascience
   }
 }
 
 module "cloudhealth-experience" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.experience"
+    aws = aws.experience
   }
 }
 
 module "cloudhealth-digitisation" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.digitisation"
+    aws = aws.digitisation
   }
 }
 
 module "cloudhealth-workflow" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.workflow"
+    aws = aws.workflow
   }
 }
 
 module "cloudhealth-reporting" {
-  source = "../modules/cloudhealth"
+  source = "./modules/cloudhealth"
 
   providers = {
-    aws = "aws.reporting"
+    aws = aws.reporting
   }
 }
