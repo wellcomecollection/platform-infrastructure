@@ -4,11 +4,6 @@ resource "aws_iam_role" "dds_access" {
   assume_role_policy = data.aws_iam_policy_document.dds_assume_role.json
 }
 
-resource "aws_iam_role_policy" "dds_access_get_s3" {
-  role   = aws_iam_role.dds_access.name
-  policy = data.aws_iam_policy_document.archive_get.json
-}
-
 data "aws_iam_policy_document" "dds_assume_role" {
   statement {
     effect = "Allow"
@@ -61,18 +56,5 @@ data "aws_iam_policy_document" "allow_editorial_photography_goobi_access" {
         local.shell_server_role_arn,
       ]
     }
-  }
-}
-
-data "aws_iam_policy_document" "archive_get" {
-  statement {
-    actions = [
-      "s3:GetObject*",
-    ]
-
-    resources = [
-      "arn:aws:s3:::wellcomecollection-assets-archive-storage",
-      "arn:aws:s3:::wellcomecollection-assets-archive-storage/*",
-    ]
   }
 }
