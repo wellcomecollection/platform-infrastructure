@@ -116,13 +116,11 @@ output "inference_calm_reindex_topic_name" {
 # Catalogue VPC
 
 output "catalogue_vpc_delta_private_subnets" {
-  value = [
-  module.catalogue_vpc_delta.private_subnets]
+  value = module.catalogue_vpc_delta.private_subnets
 }
 
 output "catalogue_vpc_delta_public_subnets" {
-  value = [
-  module.catalogue_vpc_delta.public_subnets]
+  value = module.catalogue_vpc_delta.public_subnets
 }
 
 output "catalogue_vpc_delta_id" {
@@ -132,13 +130,11 @@ output "catalogue_vpc_delta_id" {
 # Storage VPC
 
 output "storage_vpc_private_subnets" {
-  value = [
-  module.storage_vpc.private_subnets]
+  value = module.storage_vpc.private_subnets
 }
 
 output "storage_vpc_public_subnets" {
-  value = [
-  module.storage_vpc.public_subnets]
+  value = module.storage_vpc.public_subnets
 }
 
 output "storage_vpc_id" {
@@ -152,29 +148,23 @@ output "storage_cidr_block_vpc" {
 # Monitoring VPC
 
 output "monitoring_vpc_delta_private_subnets" {
-  value = [
-  module.monitoring_vpc_delta.private_subnets]
+  value = module.monitoring_vpc_delta.private_subnets
 }
 
 output "monitoring_vpc_delta_public_subnets" {
-  value = [
-  module.monitoring_vpc_delta.public_subnets]
+  value = module.monitoring_vpc_delta.public_subnets
 }
 
 output "monitoring_vpc_delta_id" {
   value = module.monitoring_vpc_delta.vpc_id
 }
 
-# Data science VPC
-
 output "datascience_vpc_private_subnets" {
-  value = [
-  module.datascience_vpc.private_subnets]
+  value = module.datascience_vpc.private_subnets
 }
 
 output "datascience_vpc_public_subnets" {
-  value = [
-  module.datascience_vpc.public_subnets]
+  value = module.datascience_vpc.public_subnets
 }
 
 output "datascience_vpc_id" {
@@ -184,13 +174,11 @@ output "datascience_vpc_id" {
 # Catalogue VPC
 
 output "catalogue_vpc_private_subnets" {
-  value = [
-  module.catalogue_vpc.private_subnets]
+  value = module.catalogue_vpc.private_subnets
 }
 
 output "catalogue_vpc_public_subnets" {
-  value = [
-  module.catalogue_vpc.public_subnets]
+  value = module.catalogue_vpc.public_subnets
 }
 
 output "catalogue_vpc_id" {
