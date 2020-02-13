@@ -159,6 +159,8 @@ output "monitoring_vpc_delta_id" {
   value = module.monitoring_vpc_delta.vpc_id
 }
 
+# Data Science VPC
+
 output "datascience_vpc_private_subnets" {
   value = module.datascience_vpc.private_subnets
 }
