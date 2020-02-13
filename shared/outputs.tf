@@ -165,22 +165,6 @@ output "monitoring_vpc_delta_id" {
   value = module.monitoring_vpc_delta.vpc_id
 }
 
-# Data science VPC (DEPRECATED)
-
-output "datascience_vpc_delta_private_subnets" {
-  value = [
-  module.datascience_vpc_delta.private_subnets]
-}
-
-output "datascience_vpc_delta_public_subnets" {
-  value = [
-  module.datascience_vpc_delta.public_subnets]
-}
-
-output "datascience_vpc_delta_id" {
-  value = module.datascience_vpc_delta.vpc_id
-}
-
 # Data science VPC
 
 output "datascience_vpc_private_subnets" {

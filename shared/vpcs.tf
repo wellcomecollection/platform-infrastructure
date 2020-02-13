@@ -77,26 +77,6 @@ module "monitoring_vpc_delta" {
   cidrsubnet_newbits_private = "2"
 }
 
-# (DEPRECATED) Used by:
-# - Data science service
-# - Labs apps & data scientist infra
-
-module "datascience_vpc_delta" {
-  source = "./modules/public-private-igw"
-
-  name = "datascience-172-27-0-0-16"
-
-  cidr_block_vpc = "172.27.0.0/16"
-
-  public_az_count           = "3"
-  cidr_block_public         = "172.27.0.0/17"
-  cidrsubnet_newbits_public = "2"
-
-  private_az_count           = "3"
-  cidr_block_private         = "172.27.128.0/17"
-  cidrsubnet_newbits_private = "2"
-}
-
 # Used by:
 # - Data science service
 # - Labs apps & data scientist infra
