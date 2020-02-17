@@ -1,7 +1,11 @@
+provider "aws" {
+  alias = "us_east_1"
+}
+
 data "aws_acm_certificate" "api_wc_org" {
   domain   = "${var.cert_domain}.wellcomecollection.org"
   statuses = ["ISSUED"]
-  provider = "aws.us-east-1"
+  provider = aws.us_east_1
 }
 
 locals {
@@ -14,7 +18,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   // root
 
   origin {
-    domain_name = "${var.public_api_bucket_domain_name}"
+    domain_name = var.public_api_bucket_domain_name
     origin_id   = "root"
   }
 
@@ -42,7 +46,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   // catalogue
 
   origin {
-    domain_name = "${local.catalogue_domain_name}"
+    domain_name = local.catalogue_domain_name
     origin_id   = "catalogue_api"
 
     custom_origin_config {
@@ -83,7 +87,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   }
   // storage
   origin {
-    domain_name = "${local.storage_domain_name}"
+    domain_name = local.storage_domain_name
     origin_id   = "storage_api"
 
     custom_origin_config {
@@ -124,7 +128,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   }
   // stacks
   origin {
-    domain_name = "${local.stacks_domain_name}"
+    domain_name = local.stacks_domain_name
     origin_id   = "stacks_api"
 
     custom_origin_config {
@@ -166,7 +170,7 @@ resource "aws_cloudfront_distribution" "api_root" {
 
   // shared config
 
-  comment             = "${var.description}"
+  comment             = var.description
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
@@ -175,7 +179,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   ]
   price_class = "PriceClass_100"
   viewer_certificate {
-    acm_certificate_arn      = "${data.aws_acm_certificate.api_wc_org.arn}"
+    acm_certificate_arn      = data.aws_acm_certificate.api_wc_org.arn
     minimum_protocol_version = "TLSv1"
     ssl_support_method       = "sni-only"
   }
@@ -186,7 +190,7 @@ resource "aws_cloudfront_distribution" "api_root" {
   }
   logging_config {
     include_cookies = false
-    bucket          = "${var.cf_logging_bucket}"
+    bucket          = var.cf_logging_bucket
     prefix          = "api_root"
   }
 }
