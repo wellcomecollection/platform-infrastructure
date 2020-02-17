@@ -6,7 +6,7 @@ resource "aws_iam_role" "elasticcloud-snapshot-readonly" {
 
 resource "aws_iam_role_policy" "elasticcloud-snapshot-readonly" {
   policy = "${data.aws_iam_policy_document.elasticcloud-snapshot-readonly.json}"
-  role = "${aws_iam_role.elasticcloud-snapshot-readonly.id}"
+  role   = "${aws_iam_role.elasticcloud-snapshot-readonly.id}"
 }
 
 data "aws_iam_policy_document" "elasticcloud-snapshot-readonly" {
@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "assume-elasticcloud-snapshot-readonly" {
     actions = ["sts:AssumeRole"]
     principals {
       identifiers = ["${var.principals}"]
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }
@@ -39,7 +39,7 @@ resource "aws_iam_user" "elasticcloud" {
 }
 
 resource "aws_iam_access_key" "elasticcloud" {
-  user = "${aws_iam_user.elasticcloud.name}"
+  user    = "${aws_iam_user.elasticcloud.name}"
   pgp_key = "${var.pgp_pub_key}"
 }
 

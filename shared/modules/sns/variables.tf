@@ -3,7 +3,7 @@ variable "name" {
 }
 
 variable "cross_account_subscription_ids" {
-  type = list(string)
-  default = []
+  type        = list(string)
+  default     = []
   description = "AWS account IDs alolowed to subscribe to this topic"
 }

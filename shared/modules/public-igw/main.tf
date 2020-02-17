@@ -1,6 +1,6 @@
 module "subnets" {
   source = "../subnets"
-  name = var.name
+  name   = var.name
 
   vpc_id = var.vpc_id
 
@@ -8,7 +8,7 @@ module "subnets" {
 
   az_count = var.az_count
 
-  cidr_block = var.cidr_block
+  cidr_block         = var.cidr_block
   cidrsubnet_newbits = var.cidrsubnet_newbits
 }
 

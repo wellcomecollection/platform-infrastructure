@@ -19,7 +19,7 @@ module "account_federation" {
   saml_xml = data.aws_s3_bucket_object.account_federation_saml.body
   pgp_key  = data.template_file.pgp_key.rendered
 
-  prefix   = "azure_sso"
+  prefix = "azure_sso"
 }
 
 data "aws_s3_bucket_object" "account_federation_saml" {

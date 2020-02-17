@@ -1,8 +1,8 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_sns_topic_policy" "cross_account_topic_subscription_policy" {
-  count = length(var.cross_account_subscription_ids) > 0 ? 1 : 0
-  arn = aws_sns_topic.topic.arn
+  count  = length(var.cross_account_subscription_ids) > 0 ? 1 : 0
+  arn    = aws_sns_topic.topic.arn
   policy = data.aws_iam_policy_document.cross_account_sns_topic_policy.json
 }
 
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "cross_account_sns_topic_policy" {
     ]
 
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "AWS:SourceOwner"
 
       values = [
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "cross_account_sns_topic_policy" {
     principals {
       type = "AWS"
       identifiers = [
-        "*"]
+      "*"]
     }
 
     resources = [
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "cross_account_sns_topic_policy" {
     ]
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = formatlist("arn:aws:iam::%s:root", var.cross_account_subscription_ids)
     }
 
