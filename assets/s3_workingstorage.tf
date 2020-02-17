@@ -36,8 +36,8 @@ resource "aws_s3_bucket" "working_storage" {
 }
 
 resource "aws_s3_bucket_policy" "working_storage" {
-  bucket = "${aws_s3_bucket.working_storage.id}"
-  policy = "${data.aws_iam_policy_document.working_storage.json}"
+  bucket = aws_s3_bucket.working_storage.id
+  policy = data.aws_iam_policy_document.working_storage.json
 }
 
 data "aws_iam_policy_document" "working_storage" {
