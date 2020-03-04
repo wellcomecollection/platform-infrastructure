@@ -187,6 +187,21 @@ output "catalogue_vpc_id" {
   value = module.catalogue_vpc.vpc_id
 }
 
+# Experience VPC
+
+output "experience_vpc_private_subnets" {
+  value = module.experience_vpc.private_subnets
+}
+
+output "experience_vpc_public_subnets" {
+  value = module.experience_vpc.public_subnets
+}
+
+output "experience_vpc_id" {
+  value = module.experience_vpc.vpc_id
+}
+
+
 # Cloud health roles
 
 output "cloudhealth_catalogue_role_arn" {
