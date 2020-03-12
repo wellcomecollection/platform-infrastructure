@@ -5,6 +5,9 @@ module "super_dev_roleset" {
 
   federated_principal = module.account_federation.principal
   aws_principal       = local.aws_principal
+  
+  # 4 hours
+  max_session_duration_in_seconds = 4 * 60 * 60
 
   assumable_role_arns = [
     # Platform
