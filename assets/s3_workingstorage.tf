@@ -42,6 +42,7 @@ resource "aws_s3_bucket_policy" "working_storage" {
 
 locals {
   digitisation_account_id = "404315009621"
+  storage_account_id      = "975596993436"
 }
 
 
@@ -53,7 +54,7 @@ data "aws_iam_policy_document" "working_storage" {
     ]
 
     principals {
-      identifiers = ["arn:aws:iam::975596993436:root"]
+      identifiers = ["arn:aws:iam::${local.storage_account_id}:root"]
       type        = "AWS"
     }
 
