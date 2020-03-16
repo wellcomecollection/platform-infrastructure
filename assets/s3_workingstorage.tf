@@ -42,27 +42,10 @@ resource "aws_s3_bucket_policy" "working_storage" {
 
 locals {
   digitisation_account_id = "404315009621"
-  storage_account_id      = "975596993436"
 }
 
 
 data "aws_iam_policy_document" "working_storage" {
-  statement {
-    actions = [
-      "s3:List*",
-      "s3:Get*",
-    ]
-
-    principals {
-      identifiers = ["arn:aws:iam::${local.storage_account_id}:root"]
-      type        = "AWS"
-    }
-
-    resources = [
-      "${aws_s3_bucket.working_storage.arn}",
-      "${aws_s3_bucket.working_storage.arn}/*",
-    ]
-  }
 
   # These two statements allow the digitisation team to view the MIRO archive,
   # which is in s3://wc-assets-workingstorage/miro
