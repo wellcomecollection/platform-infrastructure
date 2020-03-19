@@ -25,8 +25,8 @@ data "aws_iam_policy_document" "workflow_support" {
   statement {
     actions = [
       "s3:ListBucket",
-      "s3:GetObject",
-      "s3:PutObject",
+      "s3:Get*",
+      "s3:Put*",
       "s3:DeleteObject",
       "s3:RestoreObject",
     ]
@@ -43,6 +43,22 @@ data "aws_iam_policy_document" "workflow_support" {
       "arn:aws:s3:::wellcomecollection-workflow-upload/*",
       "arn:aws:s3:::wellcomecollection-editorial-photography",
       "arn:aws:s3:::wellcomecollection-editorial-photography/*",
+    ]
+  }
+
+  # Allow workflow-support users to see the name (but not contents) of
+  # every bucket in the workflow account.
+  #
+  # This allows them to see the list of buckets in the "Actions > Move" menu,
+  # which is useful for moving objects in the workflow-upload bucket,
+  # e.g. to move a package from "failed" to the live folder.
+  statement {
+    actions = [
+      "s3:ListAllMyBuckets",
+    ]
+
+    resources = [
+      "*",
     ]
   }
 }
