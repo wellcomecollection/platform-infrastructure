@@ -42,6 +42,7 @@ resource "aws_s3_bucket_policy" "working_storage" {
 
 locals {
   digitisation_account_id = "404315009621"
+  workflow_account_id     = "299497370133"
 }
 
 
@@ -51,8 +52,12 @@ data "aws_iam_policy_document" "working_storage" {
   # which is in s3://wc-assets-workingstorage/miro
   statement {
     principals {
-      identifiers = ["arn:aws:iam::${local.digitisation_account_id}:root"]
-      type        = "AWS"
+      identifiers = [
+        "arn:aws:iam::${local.digitisation_account_id}:root",
+        "arn:aws:iam::${local.workflow_account_id}:root",
+      ]
+
+      type = "AWS"
     }
 
     actions = [
@@ -66,8 +71,12 @@ data "aws_iam_policy_document" "working_storage" {
 
   statement {
     principals {
-      identifiers = ["arn:aws:iam::${local.digitisation_account_id}:root"]
-      type        = "AWS"
+      identifiers = [
+        "arn:aws:iam::${local.digitisation_account_id}:root",
+        "arn:aws:iam::${local.workflow_account_id}:root",
+      ]
+
+      type = "AWS"
     }
 
     actions = [

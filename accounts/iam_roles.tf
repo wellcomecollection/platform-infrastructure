@@ -46,6 +46,28 @@ data "aws_iam_policy_document" "workflow_support" {
     ]
   }
 
+  # Allow workflow-support users to access (but not modify) the MIRO archive.
+  statement {
+    actions = [
+      "s3:List*"
+    ]
+
+    resources = [
+      "arn:aws:s3:::wellcomecollection-assets-workingstorage",
+      "arn:aws:s3:::wellcomecollection-assets-workingstorage/*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "s3:Get*"
+    ]
+
+    resources = [
+      "arn:aws:s3:::wellcomecollection-assets-workingstorage/miro/*",
+    ]
+  }
+
   # Allow workflow-support users to see the name (but not contents) of
   # every bucket in the workflow account.
   #
