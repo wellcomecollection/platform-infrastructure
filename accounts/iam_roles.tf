@@ -32,15 +32,23 @@ data "aws_iam_policy_document" "workflow_support" {
     ]
 
     resources = [
+      # Buckets in the digitisation account
       "arn:aws:s3:::wellcomecollection-archivematica-transfer-source",
       "arn:aws:s3:::wellcomecollection-archivematica-transfer-source/*",
       "arn:aws:s3:::wellcomecollection-archivematica-staging-transfer-source",
       "arn:aws:s3:::wellcomecollection-archivematica-staging-transfer-source/*",
+      "arn:aws:s3:::wellcomecollection-client-transfer-pre2020",
+      "arn:aws:s3:::wellcomecollection-client-transfer-pre2020/*",
+      "arn:aws:s3:::wellcomecollection-digitisation-av",
+      "arn:aws:s3:::wellcomecollection-digitisation-av/*",
 
+      # Other buckets
       "arn:aws:s3:::wellcomecollection-client-transfer",
       "arn:aws:s3:::wellcomecollection-client-transfer/*",
       "arn:aws:s3:::wellcomecollection-workflow-upload",
       "arn:aws:s3:::wellcomecollection-workflow-upload/*",
+      "arn:aws:s3:::wellcomecollection-workflow-stage-upload",
+      "arn:aws:s3:::wellcomecollection-workflow-stage-upload/*",
       "arn:aws:s3:::wellcomecollection-editorial-photography",
       "arn:aws:s3:::wellcomecollection-editorial-photography/*",
     ]
