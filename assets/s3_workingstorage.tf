@@ -50,6 +50,9 @@ data "aws_iam_policy_document" "working_storage" {
 
   # These two statements allow the digitisation team to view the MIRO archive,
   # which is in s3://wc-assets-workingstorage/miro
+  #
+  # It also allows them to view the files that were saved from Preservica
+  # for reingest through Goobi, in /preservica.
   statement {
     principals {
       identifiers = [
@@ -85,6 +88,7 @@ data "aws_iam_policy_document" "working_storage" {
 
     resources = [
       "${aws_s3_bucket.working_storage.arn}/miro/*",
+      "${aws_s3_bucket.working_storage.arn}/preservica/*",
     ]
   }
 }
