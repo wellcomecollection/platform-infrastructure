@@ -235,3 +235,9 @@ output "cloudhealth_workflow_role_arn" {
 output "cloudhealth_reporting_role_arn" {
   value = module.cloudhealth-reporting.role_arn
 }
+
+# Shared secrets
+
+output "shared_secrets_logging" {
+  value = local.logging_secrets
+}
