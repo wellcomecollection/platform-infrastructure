@@ -1,8 +1,0 @@
-locals {
-  secret_names = {
-    es_user = "shared/logging/es_user"
-    es_pass = "shared/logging/es_pass"
-    es_host = "shared/logging/es_host"
-    es_port = "shared/logging/es_port"
-  }
-}
