@@ -1,6 +1,6 @@
 # Distributed secrets
 
-This module copies secrets from the platform account into client accounts as required.
+This module synchronises secrets from the platform account into client accounts as required.
 
 This is useful where it would be dangerous for all client accounts to rely on access to a single resource in the platform account.
 

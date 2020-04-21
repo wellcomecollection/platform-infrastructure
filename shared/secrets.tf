@@ -1,3 +1,12 @@
+locals {
+  logging_secrets = {
+    ES_USER = "shared/logging/es_user"
+    ES_PASS = "shared/logging/es_pass"
+    ES_HOST = "shared/logging/es_host"
+    ES_PORT = "shared/logging/es_port"
+  }
+}
+
 module "storage_logging_secrets" {
   source = "./modules/secrets/distributed"
 
@@ -5,10 +14,5 @@ module "storage_logging_secrets" {
     aws = aws.storage
   }
 
-  secrets = {
-    es_user = "shared/logging/es_user"
-    es_pass = "shared/logging/es_pass"
-    es_host = "shared/logging/es_host"
-    es_port = "shared/logging/es_port"
-  }
+  secrets = local.logging_secrets
 }
