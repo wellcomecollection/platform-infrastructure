@@ -86,6 +86,10 @@ module "monitoring_vpc_delta" {
   private_az_count           = "3"
   cidr_block_private         = local.monitoring_cidr_block_private
   cidrsubnet_newbits_private = "2"
+
+  providers = {
+    aws = aws.platform
+  }
 }
 
 # Used by:
