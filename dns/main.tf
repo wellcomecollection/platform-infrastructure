@@ -29,6 +29,17 @@ module "www" {
     aws.routemaster = aws.routemaster
   }
 }
+  
+module "alpha" {
+  source  = "./modules/redirect"
+  from    = "alpha.wellcomecollection.org"
+  to      = "github.com/wellcomecollection/alpha"
+  zone_id = local.weco_hosted_zone_id
+
+  providers = {
+    aws.routemaster = aws.routemaster
+  }
+}
 
 # We output this for other service to use
 # We don't import it directly from the routemaster stack as we haven't actually provisioned that via terraform properly
