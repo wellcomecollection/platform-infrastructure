@@ -1,7 +1,7 @@
 # elasticcloud
 
 module "elasticcloud-catalogue" {
-  source = "../modules/elasticcloud"
+  source = "./modules/elasticcloud"
 
   bucket_name = aws_s3_bucket.elasticsearch-snapshots-catalogue.id
   namespace   = "catalogue"
