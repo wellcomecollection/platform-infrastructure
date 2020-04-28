@@ -6,7 +6,7 @@
 #
 asn1crypto==0.24.0        # via cryptography
 aws-xray-sdk==0.95        # via moto
-betamax==0.8.0
+betamax==0.8.0            # via -r test_requirements.in
 boto3==1.5.22             # via moto
 boto==2.48.0              # via moto
 botocore==1.8.36          # via boto3, moto, s3transfer
@@ -25,13 +25,13 @@ jsondiff==1.1.1           # via moto
 jsonpickle==0.9.5         # via aws-xray-sdk
 markupsafe==1.0           # via jinja2
 mock==2.0.0               # via moto
-moto==1.2.0
+moto==1.2.0               # via -r test_requirements.in
 pbr==3.1.1                # via mock
 pyaml==17.12.1            # via moto
 pycparser==2.18           # via cffi
 python-dateutil==2.6.1    # via botocore, moto
 pytz==2017.3              # via moto
-pyyaml==3.12              # via pyaml
+pyyaml==5.1               # via pyaml
 requests==2.18.4          # via aws-xray-sdk, betamax, docker, moto
 s3transfer==0.1.12        # via boto3
 six==1.11.0               # via cryptography, docker, docker-pycreds, mock, moto, python-dateutil, websocket-client
