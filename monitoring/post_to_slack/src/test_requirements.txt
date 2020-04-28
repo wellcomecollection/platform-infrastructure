@@ -6,7 +6,7 @@
 #
 asn1crypto==0.24.0        # via cryptography
 aws-xray-sdk==0.95        # via moto
-betamax==0.8.0
+betamax==0.8.0            # via -r test_requirements.in
 boto3==1.5.22             # via moto
 boto==2.48.0              # via moto
 botocore==1.8.36          # via boto3, moto, s3transfer
@@ -14,7 +14,7 @@ certifi==2018.1.18        # via requests
 cffi==1.11.4              # via cryptography
 chardet==3.0.4            # via requests
 cookies==2.2.1            # via moto
-cryptography==2.1.4       # via moto
+cryptography==2.3         # via moto
 docker-pycreds==0.2.1     # via docker
 docker==3.0.0             # via moto
 docutils==0.14            # via botocore
@@ -25,7 +25,7 @@ jsondiff==1.1.1           # via moto
 jsonpickle==0.9.5         # via aws-xray-sdk
 markupsafe==1.0           # via jinja2
 mock==2.0.0               # via moto
-moto==1.2.0
+moto==1.2.0               # via -r test_requirements.in
 pbr==3.1.1                # via mock
 pyaml==17.12.1            # via moto
 pycparser==2.18           # via cffi
