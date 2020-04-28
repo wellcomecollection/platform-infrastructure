@@ -1,0 +1,7 @@
+{
+  "id" : "recorder",
+  "folder" : "catalogue_pipeline/recorder",
+  "dependencyIds" : [
+    "internal_model"
+  ]
+}
