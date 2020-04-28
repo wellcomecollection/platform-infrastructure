@@ -1,2 +1,6 @@
-variable "repo_name" {}
-variable "account_id" {}
+variable "repo_name" {
+  type = string
+}
+variable "account_ids" {
+  type = list(string)
+}

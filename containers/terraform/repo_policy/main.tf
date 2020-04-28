@@ -12,8 +12,11 @@ data "aws_iam_policy_document" "get_images" {
     ]
 
     principals {
-      identifiers = ["arn:aws:iam::${var.account_id}:root"]
+      identifiers = local.identifiers
       type = "AWS"
     }
   }
+}
+locals {
+  identifiers = [for id in var.account_ids : "arn:aws:iam::${id}:root"]
 }
