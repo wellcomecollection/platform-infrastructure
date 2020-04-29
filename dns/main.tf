@@ -29,15 +29,15 @@ module "www" {
     aws.routemaster = aws.routemaster
   }
 }
-  
-module "alpha" {
-  source  = "./modules/redirect"
-  from    = "alpha.wellcomecollection.org"
-  to      = "github.com/wellcomecollection/alpha"
-  zone_id = local.weco_hosted_zone_id
 
-  providers = {
-    aws.routemaster = aws.routemaster
+# We just create the bucket here instead of using a redirect module
+# as wellcomelibrary.org is externally managed for now
+resource "aws_s3_bucket" "alpha_redirect" {
+  bucket = "alpha.wellcomelibrary.org"
+  acl    = "private"
+
+  website {
+    redirect_all_requests_to = "github.com/wellcomecollection/alpha"
   }
 }
 
