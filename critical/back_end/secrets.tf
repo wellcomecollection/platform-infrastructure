@@ -16,3 +16,13 @@ module "storage_logging_secrets" {
 
   secrets = local.logging_secrets
 }
+
+module "catalogue_logging_secrets" {
+  source = "./modules/secrets/distributed"
+
+  providers = {
+    aws = aws.catalogue
+  }
+
+  secrets = local.logging_secrets
+}
