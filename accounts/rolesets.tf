@@ -66,7 +66,9 @@ module "super_dev_roleset" {
     module.s3_releases_scala_typesafe.role_arn,
     module.s3_releases_scala_fixtures.role_arn,
 
-    # Route 53 - drupalinfra
+    # Route 53
+    "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
+    # DERECATED
     "arn:aws:iam::250790015188:role/wellcomecollection-assume_role_hosted_zone_update",
   ]
 }
