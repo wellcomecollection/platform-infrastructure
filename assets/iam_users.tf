@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "allow_miro_access" {
     ]
 
     resources = [
-      aws_s3_bucket.working_storage.arn,
+      "*",
     ]
   }
 
