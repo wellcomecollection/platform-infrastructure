@@ -4,15 +4,17 @@ data "aws_iam_policy_document" "travis_permissions" {
     resources = [var.platform_read_only_role]
   }
 
-  statement {
-    actions = [
-      "s3:*",
-    ]
-
-    resources = [
-      "${var.bucket_arn}/uk/ac/wellcome/${var.name}_2.12/*",
-      "${var.bucket_arn}/uk/ac/wellcome/${var.name}_typesafe_2.12/*",
-    ]
+  dynamic "statement" {
+    for_each = var.lib_names
+    content {
+      actions = [
+        "s3:*",
+      ]
+      resources = [
+        "${var.bucket_arn}/uk/ac/wellcome/${statement.value}_2.12/*",
+        "${var.bucket_arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
+      ]
+    }
   }
 
   statement {
