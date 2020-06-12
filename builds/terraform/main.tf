@@ -13,7 +13,7 @@ module "catalogue_repo" {
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -73,7 +73,7 @@ module "archivematica_infrastructure_repo" {
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.workflow
+    aws    = aws.workflow
     github = github.collection
   }
 }
@@ -93,7 +93,29 @@ module "loris_infrastructure_repo" {
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
+    github = github.collection
+  }
+}
+
+module "scala_libs" {
+  source = "./scala_library"
+
+  name = "libs"
+  lib_names = [
+    "json",
+    "storage",
+    "monitoring",
+    "messaging",
+    "fixtures",
+  "typesafe-app"]
+
+  bucket_arn = aws_s3_bucket.releases.arn
+
+  platform_read_only_role = local.platform_read_only_role
+
+  providers = {
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -101,13 +123,15 @@ module "loris_infrastructure_repo" {
 module "scala_json" {
   source = "./scala_library"
 
-  name       = "json"
+  name = "json"
+  lib_names = [
+  "json"]
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -115,13 +139,15 @@ module "scala_json" {
 module "scala_storage" {
   source = "./scala_library"
 
-  name       = "storage"
+  name = "storage"
+  lib_names = [
+  "storage"]
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -129,13 +155,15 @@ module "scala_storage" {
 module "scala_monitoring" {
   source = "./scala_library"
 
-  name       = "monitoring"
+  name = "monitoring"
+  lib_names = [
+  "monitoring"]
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -143,13 +171,15 @@ module "scala_monitoring" {
 module "scala_messaging" {
   source = "./scala_library"
 
-  name       = "messaging"
+  name = "messaging"
+  lib_names = [
+  "messaging"]
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -157,13 +187,15 @@ module "scala_messaging" {
 module "scala_fixtures" {
   source = "./scala_library"
 
-  name       = "fixtures"
+  name = "fixtures"
+  lib_names = [
+  "fixtures"]
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -171,14 +203,16 @@ module "scala_fixtures" {
 module "scala_typesafe" {
   source = "./scala_library"
 
-  name       = "typesafe-app"
+  name = "typesafe-app"
+  lib_names = [
+  "typesafe-app"]
   repo_name  = "wellcome-typesafe-app"
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -186,15 +220,17 @@ module "scala_typesafe" {
 module "scala_sierra" {
   source = "./scala_library"
 
-  name       = "sierra-streams-source"
-  repo_name  = "sierra-streams-source"
+  name = "sierra-streams-source"
+  lib_names = [
+  "sierra-streams-source"]
+  repo_name = "sierra-streams-source"
 
   bucket_arn = aws_s3_bucket.releases.arn
 
   platform_read_only_role = local.platform_read_only_role
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
