@@ -108,7 +108,8 @@ module "scala_libs" {
     "monitoring",
     "messaging",
     "fixtures",
-  "typesafe-app"]
+    "typesafe_app"
+  ]
 
   bucket_arn = aws_s3_bucket.releases.arn
 
