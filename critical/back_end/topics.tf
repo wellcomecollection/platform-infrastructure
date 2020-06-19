@@ -29,20 +29,19 @@ module "terraform_apply_topic" {
 module "reporting_miro_reindex_topic" {
   source = "./modules/sns"
   name   = "reporting_miro_reindex_topic"
-  cross_account_subscription_ids = [
-  "269807742353"]
+  cross_account_subscription_ids = ["269807742353"]
 }
 
 module "reporting_sierra_reindex_topic" {
   source = "./modules/sns"
   name   = "reporting_sierra_reindex_topic"
+  cross_account_subscription_ids = ["269807742353"]
 }
 
 module "reporting_miro_inventory_reindex_topic" {
   source = "./modules/sns"
   name   = "reporting_miro_inventory_reindex_topic"
-  cross_account_subscription_ids = [
-  "269807742353"]
+  cross_account_subscription_ids = ["269807742353"]
 }
 
 ## Catalogue
