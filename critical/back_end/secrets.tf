@@ -26,3 +26,13 @@ module "catalogue_logging_secrets" {
 
   secrets = local.logging_secrets
 }
+
+module "experience_logging_secrets" {
+  source = "./modules/secrets/distributed"
+
+  providers = {
+    aws = aws.experience
+  }
+
+  secrets = local.logging_secrets
+}
