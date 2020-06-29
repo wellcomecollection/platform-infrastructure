@@ -1,3 +1,5 @@
+.DS_Store
+.releases
 *.plan
 
 # Created by https://www.gitignore.io/api/terraform
