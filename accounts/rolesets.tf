@@ -23,6 +23,11 @@ module "super_dev_roleset" {
 
     module.workflow_support_role.arn,
 
+    # Digirati
+    module.digirati_account.admin_role_arn,
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
+
     # Storage
     module.storage_account.admin_role_arn,
     module.storage_account.developer_role_arn,
@@ -84,6 +89,10 @@ module "dev_roleset" {
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
 
+    # Digirati
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
+
     # Workflow
     module.workflow_account.developer_role_arn,
     module.workflow_account.read_only_role_arn,
@@ -142,6 +151,10 @@ module "storage_dev_roleset" {
     # Workflow
     module.workflow_account.developer_role_arn,
     module.workflow_account.read_only_role_arn,
+
+    # Digirati
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
 
     # Storage
     module.storage_account.developer_role_arn,
@@ -270,5 +283,30 @@ module "digitisation_admin_roleset" {
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
+  ]
+}
+
+module "digirati_dev_roleset" {
+  source = "./modules/roleset"
+
+  name = "digirati-dev"
+
+  federated_principal = module.account_federation.principal
+  aws_principal       = local.aws_principal
+
+  assumable_role_arns = [
+    # Platform
+    module.aws_account.read_only_role_arn,
+
+    # Digitisation
+    module.digirati_account.admin_role_arn,
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
+
+    # Workflow
+    module.workflow_account.read_only_role_arn,
+
+    # Storage
+    module.storage_account.read_only_role_arn
   ]
 }
