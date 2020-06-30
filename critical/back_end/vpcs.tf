@@ -23,7 +23,7 @@ locals {
   experience_cidr_block_public  = cidrsubnet(local.experience_cidr_block_vpc, 1, 0)
   experience_cidr_block_private = cidrsubnet(local.experience_cidr_block_vpc, 1, 1)
 
-  developer_cidr_block_vpc     = "172.56.0.0/16"
+  developer_cidr_block_vpc     = "172.42.0.0/16"
   developer_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
 
