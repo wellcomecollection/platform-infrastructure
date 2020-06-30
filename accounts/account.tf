@@ -120,3 +120,17 @@ module "experience_account" {
     local.aws_principal
   ]
 }
+
+module "digirati_account" {
+  source = "./modules/account/aws"
+
+  providers = {
+    aws = aws.digirati
+  }
+
+  prefix = "digirati"
+
+  principals = [
+    local.aws_principal
+  ]
+}
