@@ -21,7 +21,7 @@ echo ""
       --dind --root -- \
       wellcome/image_builder:23 \
             --project=fluentbit \
-            --file=containers/fluentbit/Dockerfile
+            --file=images/fluentbit/Dockerfile
 
 "$ROOT"/scripts/docker_run.py \
       --aws --root --dind -- \

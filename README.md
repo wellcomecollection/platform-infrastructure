@@ -8,7 +8,7 @@ Wellcome Collection common infrastructure.
 
 - [builds](builds/README.md): Infrastructure for CI (mostly IAM for build agents).
 
-- [containers](containers/README.md): Shared container definitions & repos (e.g. fluentbit, nginx).
+- [images](images/README.md): Shared container definitions & repos (e.g. fluentbit, nginx).
 
 - [critical](critical/README.md): Shared infrastructure for all projects, split into user_facing (api/cognito) and back_end (logs, shared config, networking).
 
