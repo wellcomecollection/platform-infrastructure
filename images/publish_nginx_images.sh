@@ -25,7 +25,7 @@ echo ""
       --dind --root -- \
       wellcome/image_builder:23 \
             --project=nginx_"$SERVICE_ID" \
-            --file=containers/nginx/"${SERVICE_ID}".Dockerfile
+            --file=images/nginx/"${SERVICE_ID}".Dockerfile
 
 "$ROOT"/scripts/docker_run.py \
       --aws --root --dind -- \
