@@ -1,7 +1,7 @@
 data "aws_iam_policy_document" "travis_permissions" {
   statement {
     actions   = ["sts:AssumeRole"]
-    resources = [var.platform_read_only_role]
+    resources = var.assumable_ci_roles
   }
 
   dynamic "statement" {
