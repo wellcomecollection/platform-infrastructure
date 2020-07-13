@@ -48,6 +48,16 @@ data "aws_iam_policy_document" "ci_permissions" {
 
   statement {
     actions = [
+      "ssm:GetParameters*",
+    ]
+
+    resources = [
+      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/*/images/*",
+    ]
+  }
+
+  statement {
+    actions = [
       "iam:GetUser",
     ]
 
