@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "ci_permissions" {
 
   statement {
     actions = [
-      "ssm:GetParameters*",
+      "ssm:GetParameter*",
     ]
 
     resources = [
