@@ -17,4 +17,6 @@ variable "lib_names" {
   type = list(string)
 }
 
-variable "platform_read_only_role" {}
+variable "assumable_ci_roles" {
+  type = list(string)
+}
