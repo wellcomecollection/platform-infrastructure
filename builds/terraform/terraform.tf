@@ -22,3 +22,15 @@ data "terraform_remote_state" "shared_infra" {
     region = "eu-west-1"
   }
 }
+
+data "terraform_remote_state" "accounts" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts.tfstate"
+    region = "eu-west-1"
+  }
+}

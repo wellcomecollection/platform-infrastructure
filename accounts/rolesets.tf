@@ -61,6 +61,16 @@ module "super_dev_roleset" {
     # CI Roles
     module.aws_account.publisher_role_arn,
 
+    module.aws_account.ci_role_arn,
+    module.workflow_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.catalogue_account.ci_role_arn,
+    module.storage_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.digirati_account.ci_role_arn,
+    module.reporting_account.ci_role_arn,
+    module.digitisation_account.ci_role_arn,
+
     aws_iam_role.s3_scala_releases_read.arn,
     module.s3_releases_scala_sierra_client.role_arn,
     module.s3_releases_scala_catalogue_client.role_arn,
@@ -126,6 +136,16 @@ module "dev_roleset" {
 
     # CI Roles
     module.aws_account.publisher_role_arn,
+
+    module.aws_account.ci_role_arn,
+    module.workflow_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.catalogue_account.ci_role_arn,
+    module.storage_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.digirati_account.ci_role_arn,
+    module.reporting_account.ci_role_arn,
+    module.digitisation_account.ci_role_arn,
 
     module.s3_releases_scala_fixtures.role_arn,
     module.s3_releases_scala_json.role_arn,
