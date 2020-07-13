@@ -1,9 +1,4 @@
-data "aws_iam_policy_document" "travis_permissions" {
-  statement {
-    actions   = ["sts:AssumeRole"]
-    resources = var.assumable_ci_roles
-  }
-
+data "aws_iam_policy_document" "ci_permissions" {
   statement {
     actions = [
       "ecr:*",
@@ -14,15 +9,19 @@ data "aws_iam_policy_document" "travis_permissions" {
     ]
   }
 
-  statement {
-    actions = [
-      "s3:*",
-    ]
+  dynamic "statement" {
+    for_each = var.infra_bucket_arn == "" ? [] : [{}]
 
-    resources = [
-      var.infra_bucket_arn,
-      "${var.infra_bucket_arn}/*",
-    ]
+    content {
+      actions = [
+        "s3:*",
+      ]
+
+      resources = [
+        var.infra_bucket_arn,
+        "${var.infra_bucket_arn}/*",
+      ]
+    }
   }
 
   statement {
@@ -43,7 +42,7 @@ data "aws_iam_policy_document" "travis_permissions" {
     ]
 
     resources = [
-      "arn:aws:ssm:eu-west-1:${local.account_id}:parameter/*",
+      "arn:aws:ssm:eu-west-1:${data.aws_caller_identity.current.account_id}:parameter/*",
     ]
   }
 
@@ -66,10 +65,6 @@ data "aws_iam_policy_document" "travis_permissions" {
       "*",
     ]
   }
-}
-
-locals {
-  account_id = data.aws_caller_identity.current.account_id
 }
 
 data "aws_caller_identity" "current" {}

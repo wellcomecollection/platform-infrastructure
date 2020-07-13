@@ -1,3 +1,7 @@
+locals {
+  sbt_releases_bucket_arn = "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org"
+}
+
 # Parent Platform account
 
 module "aws_account" {
@@ -11,6 +15,9 @@ module "aws_account" {
   principals = [
     local.aws_principal,
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-platform-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "account_federation" {
@@ -40,6 +47,9 @@ module "catalogue_account" {
   principals = [
     local.aws_principal
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-catalogue-infra-delta"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "workflow_account" {
@@ -53,6 +63,9 @@ module "workflow_account" {
   principals = [
     local.aws_principal
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-workflow-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "storage_account" {
@@ -66,19 +79,9 @@ module "storage_account" {
   principals = [
     local.aws_principal
   ]
-}
 
-module "digitisation_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.digitisation
-  }
-
-  prefix = "digitisation"
-  principals = [
-    local.aws_principal
-  ]
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-storage-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "data_account" {
@@ -92,6 +95,9 @@ module "data_account" {
   principals = [
     local.aws_principal
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-datascience-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "reporting_account" {
@@ -105,6 +111,9 @@ module "reporting_account" {
   principals = [
     local.aws_principal
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-reporting-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "experience_account" {
@@ -119,6 +128,24 @@ module "experience_account" {
   principals = [
     local.aws_principal
   ]
+
+  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-experience-infra"
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
+}
+
+module "digitisation_account" {
+  source = "./modules/account/aws"
+
+  providers = {
+    aws = aws.digitisation
+  }
+
+  prefix = "digitisation"
+  principals = [
+    local.aws_principal
+  ]
+
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
 
 module "digirati_account" {
@@ -133,4 +160,6 @@ module "digirati_account" {
   principals = [
     local.aws_principal
   ]
+
+  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
