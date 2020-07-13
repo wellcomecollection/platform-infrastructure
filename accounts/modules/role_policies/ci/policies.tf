@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
 
     resources = [
-      "arn:aws:ssm:eu-west-1:${data.aws_caller_identity.current.account_id}:parameter/*",
+      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/*",
     ]
   }
 
@@ -53,6 +53,16 @@ data "aws_iam_policy_document" "ci_permissions" {
 
     resources = [
       "*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "dynamodb:*",
+    ]
+
+    resources = [
+      "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/wellcome-releases-*",
     ]
   }
 
