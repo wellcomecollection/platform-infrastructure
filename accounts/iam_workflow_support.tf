@@ -93,4 +93,33 @@ data "aws_iam_policy_document" "workflow_support" {
       "*",
     ]
   }
+
+  # Allow workflow-support users to browse the contents of the storage service,
+  # and download files in the digitised/ prefix.
+  #
+  # This is used to copy videos into the Goobi storage bucket for reingest.
+  # See https://wellcome.slack.com/archives/CN56BRQ5B/p1594804248033200
+  statement {
+    actions = [
+      "s3:List*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::wellcomecollection-storage",
+      "arn:aws:s3:::wellcomecollection-storage/*",
+      "arn:aws:s3:::wellcomecollection-storage-staging",
+      "arn:aws:s3:::wellcomecollection-storage-staging/*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "s3:Get*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::wellcomecollection-storage/digitised/*",
+      "arn:aws:s3:::wellcomecollection-storage-staging/digitised/*",
+    ]
+  }
 }
