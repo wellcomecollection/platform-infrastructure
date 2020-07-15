@@ -38,6 +38,18 @@ data "aws_iam_policy_document" "ci_permissions" {
 
   statement {
     actions = [
+      "ecs:List*",
+      "ecs:Describe*",
+      "ecs:UpdateService"
+    ]
+
+    resources = [
+      "*"
+    ]
+  }
+
+  statement {
+    actions = [
       "ssm:PutParameter",
     ]
 
