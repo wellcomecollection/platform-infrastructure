@@ -12,6 +12,7 @@ module "catalogue_repo" {
 
   assumable_ci_roles = [
     local.platform_read_only_role_arn,
+    local.ci_role_arn["platform"],
     local.ci_role_arn["catalogue"]
   ]
 
