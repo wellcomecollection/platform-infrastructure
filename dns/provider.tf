@@ -13,6 +13,6 @@ provider "aws" {
   version = "~> 2.35"
 
   assume_role {
-    role_arn = "arn:aws:iam::250790015188:role/wellcomecollection-assume_role_hosted_zone_update"
+    role_arn = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
   }
 }
