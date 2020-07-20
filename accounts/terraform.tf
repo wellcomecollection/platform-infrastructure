@@ -97,6 +97,7 @@ locals {
     reporting    = "269807742353"
     digitisation = "404315009621"
     workflow     = "299497370133"
+    catalogue    = "756629837203"
     digirati     = "653428163053"
   }
 
