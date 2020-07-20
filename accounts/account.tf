@@ -13,7 +13,7 @@ module "aws_account" {
   prefix = "platform"
 
   principals = [
-    local.aws_principal,
+    local.account_principals["platform"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-platform-infra"
@@ -45,7 +45,8 @@ module "catalogue_account" {
 
   prefix = "catalogue"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["catalogue"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-catalogue-infra-delta"
@@ -61,7 +62,8 @@ module "workflow_account" {
 
   prefix = "workflow"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["workflow"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-workflow-infra"
@@ -77,7 +79,8 @@ module "storage_account" {
 
   prefix = "storage"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["storage"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-storage-infra"
@@ -93,7 +96,8 @@ module "data_account" {
 
   prefix = "data"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["data"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-datascience-infra"
@@ -109,7 +113,8 @@ module "reporting_account" {
 
   prefix = "reporting"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["reporting"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-reporting-infra"
@@ -126,7 +131,8 @@ module "experience_account" {
   prefix = "experience"
 
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["experience"],
   ]
 
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-experience-infra"
@@ -142,7 +148,8 @@ module "digitisation_account" {
 
   prefix = "digitisation"
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["digitisation"],
   ]
 
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
@@ -158,7 +165,8 @@ module "digirati_account" {
   prefix = "digirati"
 
   principals = [
-    local.aws_principal
+    local.account_principals["platform"],
+    local.account_principals["digirati"],
   ]
 
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
