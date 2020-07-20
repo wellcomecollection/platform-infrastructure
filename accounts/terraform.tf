@@ -88,4 +88,18 @@ locals {
 
   account_id    = data.aws_caller_identity.current.account_id
   aws_principal = "arn:aws:iam::${local.account_id}:root"
+
+  account_ids = {
+    platform     = local.account_id
+    storage      = "975596993436"
+    experience   = "130871440101"
+    data         = "964279923020"
+    reporting    = "269807742353"
+    digitisation = "404315009621"
+    workflow     = "299497370133"
+    catalogue    = "756629837203"
+    digirati     = "653428163053"
+  }
+
+  account_principals = {for key, value in local.account_ids: key => "arn:aws:iam::${value}:root"}
 }
