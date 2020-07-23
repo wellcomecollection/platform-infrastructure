@@ -1,7 +1,7 @@
 locals {
   subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
 
-  distro_alias = "iiif${local.subdomain_modifier}.wellcomecollection.org"
+  distro_alias = "iiif-${var.environment}.wellcomecollection.org"
 
   dds_domain   = "dds${local.subdomain_modifier}.dlcs.io"
   iiif_domain  = "iiif${local.subdomain_modifier}.dlcs.io"
