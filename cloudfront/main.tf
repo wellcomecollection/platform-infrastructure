@@ -20,5 +20,5 @@ module "iiif-test" {
 }
 
 locals {
-  acm_cert_arn = "arn:aws:acm:us-east-1:760097843905:certificate/04bb4447-b501-453a-804e-411d3f660a74"
+  acm_cert_arn = "arn:aws:acm:us-east-1:760097843905:certificate/1a749ce8-ebd3-4342-accb-37f692fc8e52"
 }
