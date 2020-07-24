@@ -52,3 +52,12 @@ module "kibana-reporting" {
   origin_domain_name  = "c783b93d8b0b4b11900b5793cb2a1865.eu-west-1.aws.found.io"
   acm_certificate_arn = data.aws_acm_certificate.reporting_wc_org.arn
 }
+
+module "productboard-wellcomecollection" {
+  source = "./productboard"
+
+  alias   = "roadmap.wellcomecollection.org"
+  comment = "productboard (roadmap)"
+
+  acm_certificate_arn = data.aws_acm_certificate.raodmap_wc_org.arn
+}
