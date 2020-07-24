@@ -207,6 +207,10 @@ output "digirati_vpc_private_subnets" {
   value = module.digirati_vpc.private_subnets
 }
 
+output "digirati_cidr_block_private" {
+  value = local.digirati_cidr_block_private
+}
+
 output "digirati_vpc_public_subnets" {
   value = module.digirati_vpc.public_subnets
 }
