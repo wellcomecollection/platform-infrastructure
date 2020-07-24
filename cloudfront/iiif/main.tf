@@ -1,7 +1,7 @@
 locals {
   subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
 
-  distro_alias = "iiif-${var.environment}.wellcomecollection.org"
+  distro_alias = "iiif${local.subdomain_modifier}.wellcomecollection.org"
 
   dds_domain   = "dds${local.subdomain_modifier}.dlcs.io"
   iiif_domain  = "iiif${local.subdomain_modifier}.dlcs.io"
@@ -20,7 +20,11 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     custom_origin_config {
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = ["TLSv1"]
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
 
       http_port = 80
       https_port = 443
@@ -33,7 +37,11 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     custom_origin_config {
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = ["TLSv1"]
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
 
       http_port = 80
       https_port = 443
@@ -46,7 +54,9 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     custom_origin_config {
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = ["TLSv1"]
+      origin_ssl_protocols = [
+        "TLSv1.2",
+      ]
 
       http_port = 80
       https_port = 443
@@ -59,7 +69,11 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     custom_origin_config {
       origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = ["TLSv1"]
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
 
       http_port = 80
       https_port = 443
@@ -98,14 +112,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -120,14 +134,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -142,14 +156,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -164,14 +178,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -186,14 +200,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -208,14 +222,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -230,14 +244,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
@@ -252,14 +266,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers = []
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 
-    min_ttl                = 0
+    min_ttl                = 604800
     default_ttl            = 86400
     max_ttl                = 31536000
 
