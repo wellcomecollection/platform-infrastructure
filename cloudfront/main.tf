@@ -2,21 +2,21 @@ module "iiif-prod" {
   source = "./iiif"
 
   environment = "prod"
-  acm_certificate_arn = local.iiif_acm_cert_arn
+  acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "iiif-stage" {
   source = "./iiif"
 
   environment = "stage"
-  acm_certificate_arn = local.iiif_acm_cert_arn
+  acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "iiif-test" {
   source = "./iiif"
 
   environment = "test"
-  acm_certificate_arn = local.iiif_acm_cert_arn
+  acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "wellcomecollection-prod" {
@@ -33,12 +33,22 @@ module "wellcomecollection-stage" {
   acm_certificate_arn = data.aws_acm_certificate.api_wc_org.arn
 }
 
-locals {
-  iiif_acm_cert_arn = "arn:aws:acm:us-east-1:760097843905:certificate/1a749ce8-ebd3-4342-accb-37f692fc8e52"
+module "kibana-logging" {
+  source = "./kibana"
+
+  alias   = "logging.wellcomecollection.org"
+  comment = "Kibana (logging)"
+
+  origin_domain_name  = "393eaa6b8f93443c851fc957cccdd5cb.eu-west-1.aws.found.io"
+  acm_certificate_arn = data.aws_acm_certificate.logging_wc_org.arn
 }
 
-data "aws_acm_certificate" "api_wc_org" {
-  domain   = "api.wellcomecollection.org"
-  statuses = ["ISSUED"]
-  provider = aws.us_east_1
+module "kibana-reporting" {
+  source = "./kibana"
+
+  alias   = "reporting.wellcomecollection.org"
+  comment = "Kibana (reporting)"
+
+  origin_domain_name  = "c783b93d8b0b4b11900b5793cb2a1865.eu-west-1.aws.found.io"
+  acm_certificate_arn = data.aws_acm_certificate.reporting_wc_org.arn
 }
