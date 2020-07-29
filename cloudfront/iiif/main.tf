@@ -281,6 +281,28 @@ resource "aws_cloudfront_distribution" "iiif" {
   }
 
   ordered_cache_behavior {
+    path_pattern     = "image/s3:*"
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id = "loris"
+
+    forwarded_values {
+      query_string = true
+      headers = []
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    min_ttl                = 604800
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  ordered_cache_behavior {
     path_pattern     = "thumbs/*.*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
