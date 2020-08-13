@@ -23,6 +23,11 @@ module "super_dev_roleset" {
 
     module.workflow_support_role.arn,
 
+    # Digirati
+    module.digirati_account.admin_role_arn,
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
+
     # Storage
     module.storage_account.admin_role_arn,
     module.storage_account.developer_role_arn,
@@ -56,6 +61,16 @@ module "super_dev_roleset" {
     # CI Roles
     module.aws_account.publisher_role_arn,
 
+    module.aws_account.ci_role_arn,
+    module.workflow_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.catalogue_account.ci_role_arn,
+    module.storage_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.digirati_account.ci_role_arn,
+    module.reporting_account.ci_role_arn,
+    module.digitisation_account.ci_role_arn,
+
     aws_iam_role.s3_scala_releases_read.arn,
     module.s3_releases_scala_sierra_client.role_arn,
     module.s3_releases_scala_catalogue_client.role_arn,
@@ -66,8 +81,8 @@ module "super_dev_roleset" {
     module.s3_releases_scala_typesafe.role_arn,
     module.s3_releases_scala_fixtures.role_arn,
 
-    # Route 53 - drupalinfra
-    "arn:aws:iam::250790015188:role/wellcomecollection-assume_role_hosted_zone_update",
+    # Route 53
+    "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
   ]
 }
 
@@ -83,6 +98,10 @@ module "dev_roleset" {
     # Platform
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
+
+    # Digirati
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
 
     # Workflow
     module.workflow_account.developer_role_arn,
@@ -118,6 +137,16 @@ module "dev_roleset" {
     # CI Roles
     module.aws_account.publisher_role_arn,
 
+    module.aws_account.ci_role_arn,
+    module.workflow_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.catalogue_account.ci_role_arn,
+    module.storage_account.ci_role_arn,
+    module.data_account.ci_role_arn,
+    module.digirati_account.ci_role_arn,
+    module.reporting_account.ci_role_arn,
+    module.digitisation_account.ci_role_arn,
+
     module.s3_releases_scala_fixtures.role_arn,
     module.s3_releases_scala_json.role_arn,
     module.s3_releases_scala_messaging.role_arn,
@@ -142,6 +171,10 @@ module "storage_dev_roleset" {
     # Workflow
     module.workflow_account.developer_role_arn,
     module.workflow_account.read_only_role_arn,
+
+    # Digirati
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
 
     # Storage
     module.storage_account.developer_role_arn,
@@ -270,5 +303,30 @@ module "digitisation_admin_roleset" {
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
+  ]
+}
+
+module "digirati_dev_roleset" {
+  source = "./modules/roleset"
+
+  name = "digirati-dev"
+
+  federated_principal = module.account_federation.principal
+  aws_principal       = local.aws_principal
+
+  assumable_role_arns = [
+    # Platform
+    module.aws_account.read_only_role_arn,
+
+    # Digitisation
+    module.digirati_account.admin_role_arn,
+    module.digirati_account.developer_role_arn,
+    module.digirati_account.read_only_role_arn,
+
+    # Workflow
+    module.workflow_account.read_only_role_arn,
+
+    # Storage
+    module.storage_account.read_only_role_arn
   ]
 }

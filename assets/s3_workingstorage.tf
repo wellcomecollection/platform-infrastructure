@@ -33,6 +33,8 @@ resource "aws_s3_bucket" "working_storage" {
 
     enabled = true
   }
+
+  tags = local.default_tags
 }
 
 resource "aws_s3_bucket_policy" "working_storage" {
@@ -44,7 +46,6 @@ locals {
   digitisation_account_id = "404315009621"
   workflow_account_id     = "299497370133"
 }
-
 
 data "aws_iam_policy_document" "working_storage" {
 

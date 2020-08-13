@@ -201,6 +201,24 @@ output "experience_vpc_id" {
   value = module.experience_vpc.vpc_id
 }
 
+# Digirati VPC
+
+output "digirati_vpc_private_subnets" {
+  value = module.digirati_vpc.private_subnets
+}
+
+output "digirati_cidr_block_private" {
+  value = local.digirati_cidr_block_private
+}
+
+output "digirati_vpc_public_subnets" {
+  value = module.digirati_vpc.public_subnets
+}
+
+output "digirati_vpc_id" {
+  value = module.digirati_vpc.vpc_id
+}
+
 # Developer VPC
 
 output "developer_vpc_private_subnets" {

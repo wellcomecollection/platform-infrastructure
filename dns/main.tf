@@ -1,21 +1,17 @@
 data "aws_route53_zone" "weco_zone" {
-  provider = aws.routemaster
+  provider = aws.dns
   name     = "wellcomecollection.org."
-}
-
-locals {
-  weco_hosted_zone_id = data.aws_route53_zone.weco_zone.id
 }
 
 # Third-party services
 resource "aws_route53_record" "docs" {
-  zone_id = local.weco_hosted_zone_id
+  zone_id = data.aws_route53_zone.weco_zone.id
   name    = "docs.wellcomecollection.org"
   type    = "CNAME"
   records = ["hosting.gitbook.com"]
   ttl     = "300"
 
-  provider = aws.routemaster
+  provider = aws.dns
 }
 
 # Redirects
@@ -23,26 +19,20 @@ module "www" {
   source  = "./modules/redirect"
   from    = "www.wellcomecollection.org"
   to      = "wellcomecollection.org"
-  zone_id = local.weco_hosted_zone_id
+  zone_id = data.aws_route53_zone.weco_zone.id
 
   providers = {
-    aws.routemaster = aws.routemaster
-  }
-}
-  
-module "alpha" {
-  source  = "./modules/redirect"
-  from    = "alpha.wellcomecollection.org"
-  to      = "github.com/wellcomecollection/alpha"
-  zone_id = local.weco_hosted_zone_id
-
-  providers = {
-    aws.routemaster = aws.routemaster
+    aws.dns = aws.dns
   }
 }
 
-# We output this for other service to use
-# We don't import it directly from the routemaster stack as we haven't actually provisioned that via terraform properly
-output "weco_hosted_zone_id" {
-  value = local.weco_hosted_zone_id
+# We just create the bucket here instead of using a redirect module
+# as wellcomelibrary.org is externally managed for now
+resource "aws_s3_bucket" "alpha_redirect" {
+  bucket = "alpha.wellcomelibrary.org"
+  acl    = "private"
+
+  website {
+    redirect_all_requests_to = "github.com/wellcomecollection/alpha"
+  }
 }

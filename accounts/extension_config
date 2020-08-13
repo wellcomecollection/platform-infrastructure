@@ -13,23 +13,13 @@ role_arn = arn:aws:iam::760097843905:role/platform-admin
 region = eu-west-1
 color = FF2200
 
-[catalogue-read_only]
-role_arn = arn:aws:iam::756629837203:role/catalogue-read_only
-region = eu-west-1
-color = 00ff00
-
-[catalogue-developer]
-role_arn = arn:aws:iam::756629837203:role/catalogue-developer
-region = eu-west-1
-color = d98000
-
-[catalogue-admin]
-role_arn = arn:aws:iam::756629837203:role/catalogue-admin
-region = eu-west-1
-color = FF2200
-
 [workflow-read_only]
 role_arn = arn:aws:iam::299497370133:role/workflow-read_only
+region = eu-west-1
+color = 00ACB6
+
+[workflow-support]
+role_arn = arn:aws:iam::299497370133:role/workflow-support
 region = eu-west-1
 color = 00ACB6
 
@@ -118,7 +108,37 @@ role_arn = arn:aws:iam::269807742353:role/reporting-admin
 region = eu-west-1
 color = 00d9d9
 
-[routemaster]
-role_arn = arn:aws:iam::250790015188:role/wellcomecollection-assume_role_hosted_zone_update
+[wellcometrust-route53]
+role_arn = arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update
 region = eu-west-1
-color = #dc241f
+color = 00d9d9
+
+[catalogue-read_only]
+role_arn = arn:aws:iam::756629837203:role/catalogue-read_only
+region = eu-west-1
+color = 00ff00
+
+[catalogue-developer]
+role_arn = arn:aws:iam::756629837203:role/catalogue-developer
+region = eu-west-1
+color = d98000
+
+[catalogue-admin]
+role_arn = arn:aws:iam::756629837203:role/catalogue-admin
+region = eu-west-1
+color = FF2200
+
+[digirati-read_only]
+role_arn = arn:aws:iam::653428163053:role/digirati-read_only
+region = eu-west-1
+color = 00ff00
+
+[digirati-developer]
+role_arn = arn:aws:iam::653428163053:role/digirati-developer
+region = eu-west-1
+color = d98000
+
+[digirati-admin]
+role_arn = arn:aws:iam::653428163053:role/digirati-admin
+region = eu-west-1
+color = FF2200

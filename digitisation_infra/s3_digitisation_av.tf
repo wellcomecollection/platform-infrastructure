@@ -10,6 +10,8 @@ resource "aws_s3_bucket" "digitisation_av" {
       storage_class = "STANDARD_IA"
     }
   }
+
+  tags = local.default_tags
 }
 
 

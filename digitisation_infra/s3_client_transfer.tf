@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "client_transfer" {
   bucket = "wellcomecollection-client-transfer-pre2020"
+
+  tags = local.default_tags
 }
 
 resource "aws_s3_bucket_policy" "client_transfer" {

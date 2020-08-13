@@ -20,6 +20,24 @@ output "publisher_role_arn" {
   value = module.aws_account.publisher_role_arn
 }
 
+output "platform_read_only_role_arn" {
+  value = module.aws_account.read_only_role_arn
+}
+
+output "ci_role_arn" {
+  value = {
+    platform: module.aws_account.ci_role_arn,
+    workflow: module.workflow_account.ci_role_arn,
+    data: module.data_account.ci_role_arn,
+    catalogue: module.catalogue_account.ci_role_arn,
+    storage: module.storage_account.ci_role_arn,
+    data: module.data_account.ci_role_arn,
+    digirati: module.digirati_account.ci_role_arn,
+    reporting: module.reporting_account.ci_role_arn,
+    digitisation: module.digitisation_account.ci_role_arn,
+  }
+}
+
 output "s3_releases_scala_catalogue_client" {
   value = module.s3_releases_scala_catalogue_client.role_arn
 }
