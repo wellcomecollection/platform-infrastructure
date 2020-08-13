@@ -1,5 +1,5 @@
 provider "aws" {
-  alias = "routemaster"
+  alias = "dns"
 }
 
 resource "aws_s3_bucket" "redirect" {
@@ -22,5 +22,5 @@ resource "aws_route53_record" "redirect_domain" {
     evaluate_target_health = true
   }
 
-  provider = aws.routemaster
+  provider = aws.dns
 }

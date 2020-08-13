@@ -93,3 +93,22 @@ module "publisher_role_policy" {
   source    = "../../role_policies/publisher"
   role_name = module.publisher_role.name
 }
+
+# CI role
+
+module "ci_role" {
+  source = "../../assumable_role/aws"
+  name   = "${var.prefix}-ci"
+
+  max_session_duration_in_seconds = var.max_session_duration_in_seconds
+
+  principals = var.principals
+}
+
+module "ci_role_policy" {
+  source    = "../../role_policies/ci"
+  role_name = module.ci_role.name
+
+  infra_bucket_arn        = var.infra_bucket_arn
+  sbt_releases_bucket_arn = var.sbt_releases_bucket_arn
+}

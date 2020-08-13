@@ -10,9 +10,6 @@ from here.
 - To manage domains pointing to third-party services held outside of our
   infrastructure.
 - Handling redirects.
-- To expose state data from the Routemaster account so other Terraform
-  provisionings can import that state. i.e. importing the Zone ID as
-  from the output `weco_hosted_zone_id`.
 
 ## Issues
 It's a known issue that the Routemaster account doesn't have the

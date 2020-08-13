@@ -21,3 +21,7 @@ output "read_only_role_arn" {
 output "publisher_role_arn" {
   value = module.publisher_role.arn
 }
+
+output "ci_role_arn" {
+  value = module.ci_role.arn
+}

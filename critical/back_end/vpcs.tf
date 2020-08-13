@@ -26,6 +26,10 @@ locals {
   developer_cidr_block_vpc     = "172.42.0.0/16"
   developer_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
+
+  digirati_cidr_block_vpc     = "172.56.0.0/16"
+  digirati_cidr_block_public  = cidrsubnet(local.digirati_cidr_block_vpc, 1, 0)
+  digirati_cidr_block_private = cidrsubnet(local.digirati_cidr_block_vpc, 1, 1)
 }
 
 module "developer_vpc" {
@@ -187,5 +191,28 @@ module "experience_vpc" {
 
   providers = {
     aws = aws.experience
+  }
+}
+
+# Used by:
+# - iiif-builder
+
+module "digirati_vpc" {
+  source = "./modules/public-private-igw"
+
+  name = "iiif-services"
+
+  cidr_block_vpc = local.digirati_cidr_block_vpc
+
+  public_az_count           = "3"
+  cidr_block_public         = local.digirati_cidr_block_public
+  cidrsubnet_newbits_public = "2"
+
+  private_az_count           = "3"
+  cidr_block_private         = local.digirati_cidr_block_private
+  cidrsubnet_newbits_private = "2"
+
+  providers = {
+    aws = aws.digirati
   }
 }

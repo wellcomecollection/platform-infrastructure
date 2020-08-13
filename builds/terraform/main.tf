@@ -10,10 +10,14 @@ module "catalogue_repo" {
     aws_sns_topic.lambda_pushes.arn,
   ]
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["platform"],
+    local.ci_role_arn["catalogue"]
+  ]
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -30,7 +34,10 @@ module "storage_repo" {
     aws_sns_topic.lambda_pushes.arn,
   ]
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["storage"]
+  ]
 
   providers = {
     aws    = aws.storage
@@ -50,7 +57,10 @@ module "stacks_service_repo" {
     aws_sns_topic.lambda_pushes.arn,
   ]
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["catalogue"]
+  ]
 
   providers = {
     aws    = aws.catalogue
@@ -70,10 +80,13 @@ module "archivematica_infrastructure_repo" {
     aws_sns_topic.lambda_pushes.arn,
   ]
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["workflow"]
+  ]
 
   providers = {
-    aws = aws.workflow
+    aws    = aws.workflow
     github = github.collection
   }
 }
@@ -90,95 +103,39 @@ module "loris_infrastructure_repo" {
     aws_sns_topic.lambda_pushes.arn,
   ]
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["platform"]
+  ]
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
 
-module "scala_json" {
+module "scala_libs" {
   source = "./scala_library"
 
-  name       = "json"
+  name = "libs"
+  lib_names = [
+    "json",
+    "storage",
+    "monitoring",
+    "messaging",
+    "fixtures",
+    "typesafe_app"
+  ]
+
   bucket_arn = aws_s3_bucket.releases.arn
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["platform"]
+  ]
 
   providers = {
-    aws = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_storage" {
-  source = "./scala_library"
-
-  name       = "storage"
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  platform_read_only_role = local.platform_read_only_role
-
-  providers = {
-    aws = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_monitoring" {
-  source = "./scala_library"
-
-  name       = "monitoring"
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  platform_read_only_role = local.platform_read_only_role
-
-  providers = {
-    aws = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_messaging" {
-  source = "./scala_library"
-
-  name       = "messaging"
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  platform_read_only_role = local.platform_read_only_role
-
-  providers = {
-    aws = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_fixtures" {
-  source = "./scala_library"
-
-  name       = "fixtures"
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  platform_read_only_role = local.platform_read_only_role
-
-  providers = {
-    aws = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_typesafe" {
-  source = "./scala_library"
-
-  name       = "typesafe-app"
-  repo_name  = "wellcome-typesafe-app"
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  platform_read_only_role = local.platform_read_only_role
-
-  providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
@@ -186,15 +143,20 @@ module "scala_typesafe" {
 module "scala_sierra" {
   source = "./scala_library"
 
-  name       = "sierra-streams-source"
-  repo_name  = "sierra-streams-source"
+  name = "sierra-streams-source"
+  lib_names = [
+  "sierra-streams-source"]
+  repo_name = "sierra-streams-source"
 
   bucket_arn = aws_s3_bucket.releases.arn
 
-  platform_read_only_role = local.platform_read_only_role
+  assumable_ci_roles = [
+    local.platform_read_only_role_arn,
+    local.ci_role_arn["platform"]
+  ]
 
   providers = {
-    aws = aws.platform
+    aws    = aws.platform
     github = github.collection
   }
 }
