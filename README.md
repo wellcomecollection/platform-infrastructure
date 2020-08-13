@@ -20,3 +20,8 @@ Wellcome Collection common infrastructure.
 
 - **digitisation_infra**: Digital production infrastructure.
 
+
+
+## Third-party code
+
+*   The `nat_instance` module used in `critical/back_end` is based on [int128/terraform-aws-nat-instance](https://github.com/int128/terraform-aws-nat-instance) at commit 1a6398a, used under the Apache licence.

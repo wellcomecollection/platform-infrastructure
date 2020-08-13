@@ -53,7 +53,7 @@ module "developer_vpc" {
 }
 
 module "storage_vpc" {
-  source = "./modules/public-private-igw2"
+  source = "./modules/public-private-igw"
 
   name = "storage-172-30-0-0-16"
 
@@ -66,6 +66,8 @@ module "storage_vpc" {
   private_az_count           = "3"
   cidr_block_private         = local.storage_cidr_block_private
   cidrsubnet_newbits_private = "2"
+
+  use_nat_instances = true
 
   providers = {
     aws = aws.storage

@@ -18,3 +18,9 @@ variable "enable_dns_support" {
 variable "enable_dns_hostnames" {
   default = true
 }
+
+variable "use_nat_instances" {
+  description = "Create a NAT instance in EC2 rather than using Managed NAT Gateway"
+  default     = false
+  type        = bool
+}
