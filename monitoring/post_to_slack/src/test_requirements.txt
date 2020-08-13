@@ -6,6 +6,9 @@
 #
 asn1crypto==0.24.0        # via cryptography
 aws-xray-sdk==0.95        # via moto
+backports.ssl-match-hostname==3.7.0.1  # via docker
+backports.tempfile==1.0   # via moto
+backports.weakref==1.0.post1  # via backports.tempfile
 betamax==0.8.0            # via -r test_requirements.in
 boto3==1.5.22             # via moto
 boto==2.48.0              # via moto
@@ -18,7 +21,11 @@ cryptography==2.3         # via moto
 docker-pycreds==0.2.1     # via docker
 docker==3.0.0             # via moto
 docutils==0.14            # via botocore
+enum34==1.1.10            # via cryptography
+funcsigs==1.0.2           # via mock
+futures==3.3.0            # via s3transfer
 idna==2.6                 # via cryptography, requests
+ipaddress==1.0.23         # via cryptography, docker
 jinja2==2.10              # via moto
 jmespath==0.9.3           # via boto3, botocore
 jsondiff==1.1.1           # via moto
@@ -35,7 +42,7 @@ pyyaml==3.12              # via pyaml
 requests==2.20.0          # via aws-xray-sdk, betamax, docker, moto
 s3transfer==0.1.12        # via boto3
 six==1.11.0               # via cryptography, docker, docker-pycreds, mock, moto, python-dateutil, websocket-client
-urllib3==1.22             # via requests
+urllib3==1.24.2           # via requests
 websocket-client==0.46.0  # via docker
 werkzeug==0.15.3          # via moto
 wrapt==1.10.11            # via aws-xray-sdk
