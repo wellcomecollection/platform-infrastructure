@@ -31,7 +31,7 @@ pyaml==17.12.1            # via moto
 pycparser==2.18           # via cffi
 python-dateutil==2.6.1    # via botocore, moto
 pytz==2017.3              # via moto
-pyyaml==3.12              # via pyaml
+pyyaml==5.1               # via pyaml
 requests==2.20.0          # via aws-xray-sdk, betamax, docker, moto
 s3transfer==0.1.12        # via boto3
 six==1.11.0               # via cryptography, docker, docker-pycreds, mock, moto, python-dateutil, websocket-client
