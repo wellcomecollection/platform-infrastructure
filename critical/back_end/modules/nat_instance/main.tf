@@ -80,7 +80,7 @@ resource "aws_launch_template" "nat_instance" {
     arn = aws_iam_instance_profile.nat_instance.arn
   }
 
-  instance_type = "t3.medium"
+  instance_type = var.instance_type
 
   network_interfaces {
     associate_public_ip_address = true
