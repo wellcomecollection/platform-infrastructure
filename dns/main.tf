@@ -14,6 +14,16 @@ resource "aws_route53_record" "docs" {
   provider = aws.dns
 }
 
+resource "aws_route53_record" "rank" {
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = "rank.wellcomecollection.org"
+  type    = "CNAME"
+  records = ["cname.vercel-dns.com"]
+  ttl     = "300"
+
+  provider = aws.dns
+}
+
 # Redirects
 module "www" {
   source  = "./modules/redirect"
@@ -23,16 +33,5 @@ module "www" {
 
   providers = {
     aws.dns = aws.dns
-  }
-}
-
-# We just create the bucket here instead of using a redirect module
-# as wellcomelibrary.org is externally managed for now
-resource "aws_s3_bucket" "alpha_redirect" {
-  bucket = "alpha.wellcomelibrary.org"
-  acl    = "private"
-
-  website {
-    redirect_all_requests_to = "github.com/wellcomecollection/alpha"
   }
 }
