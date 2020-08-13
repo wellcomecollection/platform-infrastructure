@@ -67,6 +67,8 @@ module "storage_vpc" {
   cidr_block_private         = local.storage_cidr_block_private
   cidrsubnet_newbits_private = "2"
 
+  use_nat_instances = true
+
   providers = {
     aws = aws.storage
   }
