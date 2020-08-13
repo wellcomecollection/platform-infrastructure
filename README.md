@@ -24,4 +24,4 @@ Wellcome Collection common infrastructure.
 
 ## Third-party code
 
-*   The `nat_instance` module used in `critical/back_end` is based on [int128/terraform-aws-nat-instance](https://github.com/int128/terraform-aws-nat-instance) at commit 1a6398a, used under the Apache licence.
+*   The `nat_instance` module used in `critical/back_end` is based on [int128/terraform-aws-nat-instance](https://github.com/int128/terraform-aws-nat-instance/tree/1a6398adbe242fc8d3ca1efe22090ad7fe195a98), used under the Apache licence.
