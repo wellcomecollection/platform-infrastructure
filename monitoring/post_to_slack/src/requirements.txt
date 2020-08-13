@@ -17,5 +17,5 @@ python-dateutil==2.7.3    # via botocore, wellcome-aws-utils
 requests==2.20.0          # via -r requirements.in
 s3transfer==0.1.13        # via boto3
 six==1.11.0               # via python-dateutil
-urllib3==1.22             # via requests
+urllib3==1.24.2           # via requests
 wellcome_aws_utils==2.1.1  # via -r requirements.in
