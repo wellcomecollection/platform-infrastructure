@@ -53,7 +53,7 @@ module "developer_vpc" {
 }
 
 module "storage_vpc" {
-  source = "./modules/public-private-igw"
+  source = "./modules/public-private-igw2"
 
   name = "storage-172-30-0-0-16"
 
