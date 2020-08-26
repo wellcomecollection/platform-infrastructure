@@ -13,7 +13,8 @@ data "aws_iam_policy_document" "ci_permissions" {
     resources = [
       local.platform_read_only_role_arn,
       local.ci_role_arn["platform"],
-      local.ci_role_arn["catalogue"]
+      local.ci_role_arn["catalogue"],
+      local.ci_role_arn["storage"]
     ]
   }
 
