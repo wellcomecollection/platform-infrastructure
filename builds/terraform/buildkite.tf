@@ -60,6 +60,17 @@ data "aws_iam_policy_document" "ci_permissions" {
       "${aws_s3_bucket.releases.arn}/*",
     ]
   }
+
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      aws_s3_bucket.releases.arn,
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:build/*",
+    ]
+  }
 }
 
 locals {
