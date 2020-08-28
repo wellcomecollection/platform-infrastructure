@@ -67,8 +67,7 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
 
     resources = [
-      aws_s3_bucket.releases.arn,
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:build/*",
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
     ]
   }
 }
