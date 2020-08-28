@@ -28,14 +28,25 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
   }
 
-  statement {
-    actions = [
-      "s3:*",
+  dynamic "statement" {
+    for_each = [
+      "json",
+      "storage",
+      "monitoring",
+      "messaging",
+      "fixtures",
+      "typesafe_app"
     ]
-    resources = [
-      local.infra_bucket_arn,
-      "${local.infra_bucket_arn}/*",
-    ]
+
+    content {
+      actions = [
+        "s3:*",
+      ]
+      resources = [
+        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_2.12/*",
+        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
+      ]
+    }
   }
 
   statement {
