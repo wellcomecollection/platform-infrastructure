@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "productboard" {
   comment             = var.comment
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "productboard"
 
