@@ -31,7 +31,7 @@ resource "aws_cloudfront_distribution" "productboard" {
     target_origin_id = "productboard"
 
     forwarded_values {
-      query_string = false
+      query_string = true
 
       headers = ["Host"]
 
