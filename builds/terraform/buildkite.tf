@@ -40,8 +40,9 @@ data "aws_iam_policy_document" "ci_permissions" {
 
     content {
       actions = [
-        "s3:*",
+        "s3:*"
       ]
+
       resources = [
         "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_2.12/*",
         "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
@@ -49,15 +50,46 @@ data "aws_iam_policy_document" "ci_permissions" {
     }
   }
 
+  # Deploy front-end static websites
+  dynamic "statement" {
+    for_each = [
+      "arn:aws:s3:::dash.wellcomecollection.org",
+      "arn:aws:s3:::cardigan.wellcomecollection.org"
+    ]
+
+    content {
+      actions = [
+        "s3:*"
+      ]
+
+      resources = [
+        statement.value,
+        "${statement.value}/*",
+      ]
+    }
+  }
+
+  # Deploy front-end toggles
   statement {
     actions = [
-      "s3:Get*",
-      "s3:List*",
+      "s3:ListObjects",
+      "s3:PutObject",
     ]
 
     resources = [
-      aws_s3_bucket.releases.arn,
-      "${aws_s3_bucket.releases.arn}/*",
+      "arn:aws:s3:::toggles.wellcomecollection.org/toggles.json",
+    ]
+  }
+
+  # Deploy front-end edge lambdas
+  statement {
+    actions = [
+      "s3:ListObjects",
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "arn:aws:s3:::weco-lambdas/edge_lambda_origin.zip",
     ]
   }
 

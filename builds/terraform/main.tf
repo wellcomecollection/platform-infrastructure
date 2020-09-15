@@ -1,50 +1,3 @@
-module "catalogue_repo" {
-  source    = "./platform"
-  repo_name = "catalogue"
-
-  sbt_releases_bucket_arn = aws_s3_bucket.releases.arn
-  infra_bucket_arn        = local.infra_bucket_arn
-
-  publish_topics = [
-    aws_sns_topic.ecr_pushes.arn,
-    aws_sns_topic.lambda_pushes.arn,
-  ]
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["platform"],
-    local.ci_role_arn["catalogue"]
-  ]
-
-  providers = {
-    aws    = aws.platform
-    github = github.collection
-  }
-}
-
-module "storage_repo" {
-  source    = "./platform"
-  repo_name = "storage-service"
-
-  sbt_releases_bucket_arn = aws_s3_bucket.releases.arn
-  infra_bucket_arn        = local.infra_bucket_arn
-
-  publish_topics = [
-    aws_sns_topic.ecr_pushes.arn,
-    aws_sns_topic.lambda_pushes.arn,
-  ]
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["storage"]
-  ]
-
-  providers = {
-    aws    = aws.storage
-    github = github.collection
-  }
-}
-
 module "stacks_service_repo" {
   source    = "./platform"
   repo_name = "stacks-service"
@@ -102,32 +55,6 @@ module "loris_infrastructure_repo" {
     aws_sns_topic.ecr_pushes.arn,
     aws_sns_topic.lambda_pushes.arn,
   ]
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["platform"]
-  ]
-
-  providers = {
-    aws    = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_libs" {
-  source = "./scala_library"
-
-  name = "libs"
-  lib_names = [
-    "json",
-    "storage",
-    "monitoring",
-    "messaging",
-    "fixtures",
-    "typesafe_app"
-  ]
-
-  bucket_arn = aws_s3_bucket.releases.arn
 
   assumable_ci_roles = [
     local.platform_read_only_role_arn,
