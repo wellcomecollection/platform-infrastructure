@@ -83,6 +83,9 @@ module "super_dev_roleset" {
 
     # Route 53
     "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
+
+    # Buildkite
+    "arn:aws:iam::760097843905:role/buildkite-agent",
   ]
 }
 
