@@ -150,6 +150,9 @@ module "dev_roleset" {
     module.reporting_account.ci_role_arn,
     module.digitisation_account.ci_role_arn,
 
+    # Buildkite
+    "arn:aws:iam::760097843905:role/buildkite-agent",
+
     module.s3_releases_scala_fixtures.role_arn,
     module.s3_releases_scala_json.role_arn,
     module.s3_releases_scala_messaging.role_arn,

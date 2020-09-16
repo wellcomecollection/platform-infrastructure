@@ -72,8 +72,8 @@ data "aws_iam_policy_document" "ci_permissions" {
   # Deploy front-end toggles
   statement {
     actions = [
-      "s3:ListObjects",
-      "s3:PutObject",
+      "s3:List*",
+      "s3:Put*",
     ]
 
     resources = [
@@ -84,8 +84,8 @@ data "aws_iam_policy_document" "ci_permissions" {
   # Deploy front-end edge lambdas
   statement {
     actions = [
-      "s3:ListObjects",
-      "s3:PutObject",
+      "s3:List*",
+      "s3:Put*",
     ]
 
     resources = [
