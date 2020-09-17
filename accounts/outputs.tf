@@ -27,6 +27,7 @@ output "platform_read_only_role_arn" {
 output "ci_role_arn" {
   value = {
     platform: module.aws_account.ci_role_arn,
+    experience: module.experience_account.ci_role_arn,
     workflow: module.workflow_account.ci_role_arn,
     data: module.data_account.ci_role_arn,
     catalogue: module.catalogue_account.ci_role_arn,

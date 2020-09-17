@@ -5,6 +5,8 @@ data "aws_iam_role" "buildkite_agent" {
 resource "aws_iam_role_policy" "buildkite_agent" {
   policy = data.aws_iam_policy_document.ci_permissions.json
   role = data.aws_iam_role.buildkite_agent.id
+
+  provider = "aws"
 }
 
 data "aws_iam_policy_document" "ci_permissions" {
@@ -14,10 +16,12 @@ data "aws_iam_policy_document" "ci_permissions" {
       local.platform_read_only_role_arn,
       local.ci_role_arn["platform"],
       local.ci_role_arn["catalogue"],
-      local.ci_role_arn["storage"]
+      local.ci_role_arn["storage"],
+      local.ci_role_arn["experience"]
     ]
   }
 
+  # Deploy images to ECR (platform account)
   statement {
     actions = [
       "ecr:*",
@@ -28,6 +32,18 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
   }
 
+  # Retrieve build secrets
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
+    ]
+  }
+
+  # Publish scala libraries
   dynamic "statement" {
     for_each = [
       "json",
@@ -48,59 +64,6 @@ data "aws_iam_policy_document" "ci_permissions" {
         "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
       ]
     }
-  }
-
-  # Deploy front-end static websites
-  dynamic "statement" {
-    for_each = [
-      "arn:aws:s3:::dash.wellcomecollection.org",
-      "arn:aws:s3:::cardigan.wellcomecollection.org"
-    ]
-
-    content {
-      actions = [
-        "s3:*"
-      ]
-
-      resources = [
-        statement.value,
-        "${statement.value}/*",
-      ]
-    }
-  }
-
-  # Deploy front-end toggles
-  statement {
-    actions = [
-      "s3:List*",
-      "s3:Put*",
-    ]
-
-    resources = [
-      "arn:aws:s3:::toggles.wellcomecollection.org/toggles.json",
-    ]
-  }
-
-  # Deploy front-end edge lambdas
-  statement {
-    actions = [
-      "s3:List*",
-      "s3:Put*",
-    ]
-
-    resources = [
-      "arn:aws:s3:::weco-lambdas/edge_lambda_origin.zip",
-    ]
-  }
-
-  statement {
-    actions = [
-      "secretsmanager:GetSecretValue",
-    ]
-
-    resources = [
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
-    ]
   }
 }
 
