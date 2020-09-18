@@ -70,6 +70,7 @@ module "super_dev_roleset" {
     module.digirati_account.ci_role_arn,
     module.reporting_account.ci_role_arn,
     module.digitisation_account.ci_role_arn,
+    module.experience_account.ci_role_arn,
 
     aws_iam_role.s3_scala_releases_read.arn,
     module.s3_releases_scala_sierra_client.role_arn,
@@ -149,6 +150,7 @@ module "dev_roleset" {
     module.digirati_account.ci_role_arn,
     module.reporting_account.ci_role_arn,
     module.digitisation_account.ci_role_arn,
+    module.experience_account.ci_role_arn,
 
     # Buildkite
     "arn:aws:iam::760097843905:role/buildkite-agent",
