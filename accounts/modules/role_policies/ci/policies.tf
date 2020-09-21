@@ -40,7 +40,8 @@ data "aws_iam_policy_document" "ci_permissions" {
     actions = [
       "ecs:List*",
       "ecs:Describe*",
-      "ecs:UpdateService"
+      "ecs:UpdateService",
+      "ecs:TagResource"
     ]
 
     resources = [
