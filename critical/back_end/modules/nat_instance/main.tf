@@ -122,7 +122,7 @@ resource "aws_autoscaling_group" "nat_instance" {
   name_prefix         = var.name
   desired_capacity    = 1
   min_size            = 1
-  max_size            = 1
+  max_size            = 2
   vpc_zone_identifier = [var.public_subnet]
 
   launch_template {

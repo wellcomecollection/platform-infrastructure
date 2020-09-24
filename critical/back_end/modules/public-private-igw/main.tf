@@ -54,4 +54,6 @@ module "nat_instance" {
   public_subnet                 = module.public_subnets.subnets[0]
   cidr_block_private            = var.cidr_block_private
   private_subnet_route_table_id = module.private_subnets.route_table_id
+
+  instance_type = var.nat_instance_type
 }

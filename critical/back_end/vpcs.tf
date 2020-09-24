@@ -68,6 +68,7 @@ module "storage_vpc" {
   cidrsubnet_newbits_private = "2"
 
   use_nat_instances = true
+  nat_instance_type = "t3.large"
 
   providers = {
     aws = aws.storage
