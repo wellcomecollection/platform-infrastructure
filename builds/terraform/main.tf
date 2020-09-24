@@ -1,89 +1,74 @@
-module "stacks_service_repo" {
-  source    = "./platform"
-  repo_name = "stacks-service"
+data "aws_iam_role" "buildkite_agent" {
+  name = "buildkite-agent"
+}
 
-  sbt_releases_bucket_arn = aws_s3_bucket.releases.arn
-  infra_bucket_arn        = local.infra_bucket_arn
+resource "aws_iam_role_policy" "buildkite_agent" {
+  policy = data.aws_iam_policy_document.ci_permissions.json
+  role = data.aws_iam_role.buildkite_agent.id
 
-  publish_topics = [
-    aws_sns_topic.ecr_pushes.arn,
-    aws_sns_topic.lambda_pushes.arn,
-  ]
+  provider = aws
+}
 
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["catalogue"]
-  ]
+data "aws_iam_policy_document" "ci_permissions" {
+  statement {
+    actions   = ["sts:AssumeRole"]
+    resources = [
+      local.platform_read_only_role_arn,
+      local.ci_role_arn["platform"],
+      local.ci_role_arn["catalogue"],
+      local.ci_role_arn["storage"],
+      local.ci_role_arn["experience"]
+    ]
+  }
 
-  providers = {
-    aws    = aws.catalogue
-    github = github.collection
+  # Deploy images to ECR (platform account)
+  statement {
+    actions = [
+      "ecr:*",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
+  # Retrieve build secrets
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
+    ]
+  }
+
+  # Publish scala libraries
+  dynamic "statement" {
+    for_each = [
+      "json",
+      "storage",
+      "monitoring",
+      "messaging",
+      "fixtures",
+      "typesafe_app"
+    ]
+
+    content {
+      actions = [
+        "s3:*"
+      ]
+
+      resources = [
+        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_2.12/*",
+        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
+      ]
+    }
   }
 }
 
-module "archivematica_infrastructure_repo" {
-  source    = "./platform"
-  repo_name = "archivematica-infrastructure"
-
-  sbt_releases_bucket_arn = aws_s3_bucket.releases.arn
-  infra_bucket_arn        = local.infra_bucket_arn
-
-  publish_topics = [
-    aws_sns_topic.ecr_pushes.arn,
-    aws_sns_topic.lambda_pushes.arn,
-  ]
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["workflow"]
-  ]
-
-  providers = {
-    aws    = aws.workflow
-    github = github.collection
-  }
+locals {
+  account_id = data.aws_caller_identity.current.account_id
 }
 
-module "loris_infrastructure_repo" {
-  source    = "./platform"
-  repo_name = "loris-infrastructure"
-
-  sbt_releases_bucket_arn = aws_s3_bucket.releases.arn
-  infra_bucket_arn        = local.infra_bucket_arn
-
-  publish_topics = [
-    aws_sns_topic.ecr_pushes.arn,
-    aws_sns_topic.lambda_pushes.arn,
-  ]
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["platform"]
-  ]
-
-  providers = {
-    aws    = aws.platform
-    github = github.collection
-  }
-}
-
-module "scala_sierra" {
-  source = "./scala_library"
-
-  name = "sierra-streams-source"
-  lib_names = [
-  "sierra-streams-source"]
-  repo_name = "sierra-streams-source"
-
-  bucket_arn = aws_s3_bucket.releases.arn
-
-  assumable_ci_roles = [
-    local.platform_read_only_role_arn,
-    local.ci_role_arn["platform"]
-  ]
-
-  providers = {
-    aws    = aws.platform
-    github = github.collection
-  }
-}
+data "aws_caller_identity" "current" {}

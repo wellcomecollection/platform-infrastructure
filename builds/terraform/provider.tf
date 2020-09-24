@@ -64,15 +64,3 @@ provider "aws" {
     role_arn = "arn:aws:iam::${local.workflow_account_id}:role/workflow-admin"
   }
 }
-
-provider "github" {
-  token        = var.github_oauth_token
-  organization = "wellcometrust"
-}
-
-provider "github" {
-  alias = "collection"
-
-  token        = var.github_oauth_token
-  organization = "wellcomecollection"
-}
