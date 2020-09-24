@@ -24,8 +24,3 @@ variable "use_nat_instances" {
   default     = false
   type        = bool
 }
-
-variable "nat_instance_type" {
-  default = "t3.medium"
-  type    = string
-}
