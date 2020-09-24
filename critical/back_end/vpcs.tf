@@ -28,8 +28,8 @@ locals {
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
 
   ci_cidr_block_vpc     = "172.43.0.0/16"
-  ci_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
-  ci_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
+  ci_cidr_block_public  = cidrsubnet(local.ci_cidr_block_vpc, 1, 0)
+  ci_cidr_block_private = cidrsubnet(local.ci_cidr_block_vpc, 1, 1)
 
   digirati_cidr_block_vpc     = "172.56.0.0/16"
   digirati_cidr_block_public  = cidrsubnet(local.digirati_cidr_block_vpc, 1, 0)
