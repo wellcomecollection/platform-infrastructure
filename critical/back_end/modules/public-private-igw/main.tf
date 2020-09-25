@@ -36,22 +36,8 @@ module "private_subnets" {
 module "nat" {
   source = "../nat"
 
-  count = var.use_nat_instances ? 0 : 1
-
   name = var.name
 
   subnet_id      = module.public_subnets.subnets[0]
   route_table_id = module.private_subnets.route_table_id
-}
-
-module "nat_instance" {
-  source = "../nat_instance"
-
-  count = var.use_nat_instances ? 1 : 0
-
-  name                          = var.name
-  vpc_id                        = aws_vpc.vpc.id
-  public_subnet                 = module.public_subnets.subnets[0]
-  cidr_block_private            = var.cidr_block_private
-  private_subnet_route_table_id = module.private_subnets.route_table_id
 }

@@ -1,9 +1,0 @@
-[Unit]
-Description = SNAT via ENI eth1
-
-[Service]
-ExecStart = /opt/nat/snat.sh
-Type = oneshot
-
-[Install]
-WantedBy = multi-user.target
