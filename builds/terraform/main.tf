@@ -26,10 +26,10 @@ resource "aws_cloudformation_stack" "buildkite" {
 
     InstanceType            = "r5.large"
     InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = "ci-agent"
+    InstanceRoleName        = local.ci_agent_role_name
 
-    VpcId   = "vpc-0a5a53b1949a23989"                                                      # ci-172-43-0-0-16
-    Subnets = "subnet-017f5da7c9c90971a,subnet-0c9c03f2ca40a6e97,subnet-0e1adc0bbbeae116a" # private subnets
+    VpcId   = local.ci_vpc_id
+    Subnets = join(",", local.ci_vpc_private_subnets)
 
     AssociatePublicIpAddress = true
 
@@ -59,7 +59,7 @@ resource "aws_cloudformation_stack" "buildkite" {
 }
 
 data "aws_iam_role" "ci_agent" {
-  name = "ci-agent"
+  name = local.ci_agent_role_name
 }
 
 resource "aws_iam_role_policy" "ci_agent" {
@@ -69,26 +69,15 @@ resource "aws_iam_role_policy" "ci_agent" {
   provider = aws
 }
 
-data "aws_iam_role" "buildkite_agent" {
-  name = local.buildkite_role_name
-}
-
-resource "aws_iam_role_policy" "buildkite_agent" {
-  policy = data.aws_iam_policy_document.ci_permissions.json
-  role   = data.aws_iam_role.buildkite_agent.id
-
-  provider = aws
-}
-
 data "aws_iam_policy_document" "ci_permissions" {
   statement {
     actions = ["sts:AssumeRole"]
     resources = [
       local.platform_read_only_role_arn,
-      local.ci_role_arn["platform"],
-      local.ci_role_arn["catalogue"],
-      local.ci_role_arn["storage"],
-      local.ci_role_arn["experience"]
+      local.account_ci_role_arn_map["platform"],
+      local.account_ci_role_arn_map["catalogue"],
+      local.account_ci_role_arn_map["storage"],
+      local.account_ci_role_arn_map["experience"]
     ]
   }
 
@@ -114,7 +103,7 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
   }
 
-  # Publish scala libraries
+  # Publish & retrieve scala libraries
   dynamic "statement" {
     for_each = [
       "json",
