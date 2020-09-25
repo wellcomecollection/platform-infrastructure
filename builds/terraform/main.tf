@@ -122,7 +122,8 @@ data "aws_iam_policy_document" "ci_permissions" {
       "monitoring",
       "messaging",
       "fixtures",
-      "typesafe_app"
+      "typesafe_app",
+      "sierra-streams-source"
     ]
 
     content {
