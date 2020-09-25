@@ -47,8 +47,8 @@ module "task" {
   # If creating a new volume, note that the grafana folder on the volume
   # will be owned by the root user.  Grafana runs as user 472 so be sure to ssh
   # into the EC2 instance and change the owner of the directory to 472.
-  efs_volume_name    = "efs"
-  efs_host_path      = "${module.ec2_efs_host.efs_host_path}/grafana"
+  efs_volume_name = "efs"
+  efs_host_path   = "${module.ec2_efs_host.efs_host_path}/grafana"
 
   mount_points = [
     {

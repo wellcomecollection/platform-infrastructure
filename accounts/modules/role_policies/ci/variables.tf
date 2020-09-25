@@ -5,10 +5,10 @@ variable "sbt_releases_bucket_arn" {
   type = string
 }
 variable "infra_bucket_arn" {
-  type = string
+  type    = string
   default = ""
 }
 variable "aws_region" {
-  type = string
+  type    = string
   default = "eu-west-1"
 }

@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = [
+      origin_ssl_protocols = [
         "TLSv1",
         "TLSv1.1",
         "TLSv1.2",
@@ -42,7 +42,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = [
+      origin_ssl_protocols = [
         "TLSv1",
         "TLSv1.1",
         "TLSv1.2",
@@ -60,7 +60,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = [
+      origin_ssl_protocols = [
         "TLSv1",
         "TLSv1.1",
         "TLSv1.2",
@@ -73,9 +73,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     origin_id   = "root"
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "Collection APIs (${var.environment})"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "Collection APIs (${var.environment})"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -105,16 +105,16 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
     forwarded_values {
       query_string = true
-      headers = ["Authorization"]
+      headers      = ["Authorization"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
+    min_ttl     = 0
+    default_ttl = 0
+    max_ttl     = 0
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -127,16 +127,16 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
     forwarded_values {
       query_string = true
-      headers = ["Authorization"]
+      headers      = ["Authorization"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
+    min_ttl     = 0
+    default_ttl = 0
+    max_ttl     = 0
 
     viewer_protocol_policy = "https-only"
   }
@@ -149,21 +149,21 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
     forwarded_values {
       query_string = true
-      headers = ["Authorization"]
+      headers      = ["Authorization"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
+    min_ttl     = 0
+    default_ttl = 0
+    max_ttl     = 0
 
     viewer_protocol_policy = "https-only"
   }
 
-  price_class = "PriceClass_100"
+  price_class         = "PriceClass_100"
   default_root_object = "index.html"
 
   tags = {
@@ -178,7 +178,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
-    ssl_support_method = "sni-only"
+    ssl_support_method  = "sni-only"
   }
 
   restrictions {

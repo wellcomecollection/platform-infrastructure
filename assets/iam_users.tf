@@ -8,7 +8,7 @@ resource "aws_iam_user" "cataloguers_wellcome_images" {
 }
 
 resource "aws_iam_access_key" "cataloguers_wellcome_images" {
-  user    = aws_iam_user.cataloguers_wellcome_images.name
+  user = aws_iam_user.cataloguers_wellcome_images.name
 }
 
 data "aws_iam_policy_document" "allow_miro_access" {

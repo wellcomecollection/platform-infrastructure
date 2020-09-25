@@ -1,6 +1,6 @@
 resource "aws_ecr_repository_policy" "cross_account_policy" {
   repository = var.repo_name
-  policy = data.aws_iam_policy_document.get_images.json
+  policy     = data.aws_iam_policy_document.get_images.json
 }
 
 data "aws_iam_policy_document" "get_images" {
@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "get_images" {
 
     principals {
       identifiers = local.identifiers
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }

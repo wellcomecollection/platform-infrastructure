@@ -1,5 +1,5 @@
 resource "aws_iam_role_policy" "experience_ci" {
-  role = module.experience_account.ci_role_name
+  role   = module.experience_account.ci_role_name
   policy = data.aws_iam_policy_document.experience_ci.json
 
   provider = aws.experience

@@ -38,7 +38,7 @@ module "nat" {
 
   count = var.use_nat_instances ? 0 : 1
 
-  name   = var.name
+  name = var.name
 
   subnet_id      = module.public_subnets.subnets[0]
   route_table_id = module.private_subnets.route_table_id

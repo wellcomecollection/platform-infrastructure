@@ -9,7 +9,7 @@ locals {
 
   cloudfront_errors_topic_arn = data.terraform_remote_state.loris.outputs.cloudfront_errors_topic_arn
 
-  namespace  = "monitoring"
+  namespace = "monitoring"
 
   vpc_id          = data.terraform_remote_state.shared_infra.outputs.monitoring_vpc_delta_id
   private_subnets = data.terraform_remote_state.shared_infra.outputs.monitoring_vpc_delta_private_subnets

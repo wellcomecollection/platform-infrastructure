@@ -25,19 +25,19 @@ module "nginx_apigw" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name  = aws_ecr_repository.nginx_apigw.name
+  repo_name   = aws_ecr_repository.nginx_apigw.name
 }
 
 module "nginx_experience" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name  = aws_ecr_repository.nginx_experience.name
+  repo_name   = aws_ecr_repository.nginx_experience.name
 }
 
 module "fluentbit" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name  = aws_ecr_repository.fluentbit.name
+  repo_name   = aws_ecr_repository.fluentbit.name
 }

@@ -1,7 +1,7 @@
 resource "aws_iam_role" "catalogue_chatbot" {
   assume_role_policy = data.aws_iam_policy_document.catalogue_chatbot_assume_role_policy.json
-  provider = aws.catalogue
-  name = "catalogue-chatbot"
+  provider           = aws.catalogue
+  name               = "catalogue-chatbot"
 }
 
 data "aws_iam_policy_document" "catalogue_chatbot_assume_role_policy" {
@@ -17,8 +17,8 @@ data "aws_iam_policy_document" "catalogue_chatbot_assume_role_policy" {
 }
 
 resource "aws_iam_role_policy" "catalogue_chatbot" {
-  policy = data.aws_iam_policy_document.catalogue_chatbot.json
-  role   = aws_iam_role.catalogue_chatbot.name
+  policy   = data.aws_iam_policy_document.catalogue_chatbot.json
+  role     = aws_iam_role.catalogue_chatbot.name
   provider = aws.catalogue
 }
 

@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "iiif" {
         "TLSv1.2",
       ]
 
-      http_port = 80
+      http_port  = 80
       https_port = 443
     }
   }
@@ -43,7 +43,7 @@ resource "aws_cloudfront_distribution" "iiif" {
         "TLSv1.2",
       ]
 
-      http_port = 80
+      http_port  = 80
       https_port = 443
     }
   }
@@ -58,7 +58,7 @@ resource "aws_cloudfront_distribution" "iiif" {
         "TLSv1.2",
       ]
 
-      http_port = 80
+      http_port  = 80
       https_port = 443
     }
   }
@@ -75,14 +75,14 @@ resource "aws_cloudfront_distribution" "iiif" {
         "TLSv1.2",
       ]
 
-      http_port = 80
+      http_port  = 80
       https_port = 443
     }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "IIIF APIs (${var.environment})"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "IIIF APIs (${var.environment})"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -112,16 +112,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -134,16 +134,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -156,16 +156,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -178,16 +178,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -200,16 +200,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -222,16 +222,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -244,16 +244,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -266,16 +266,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -288,16 +288,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = []
+      headers      = []
 
       cookies {
         forward = "none"
       }
     }
 
-    min_ttl                = 604800
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 604800
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -310,16 +310,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -332,16 +332,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -354,16 +354,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -376,16 +376,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -398,16 +398,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -420,16 +420,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -442,16 +442,16 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
-      headers = ["*"]
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    min_ttl     = 0
+    default_ttl = 86400
+    max_ttl     = 31536000
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -464,7 +464,7 @@ resource "aws_cloudfront_distribution" "iiif" {
 
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
-    ssl_support_method = "sni-only"
+    ssl_support_method  = "sni-only"
   }
 
   restrictions {

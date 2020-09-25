@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "productboard" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = [
+      origin_ssl_protocols = [
         "TLSv1",
         "TLSv1.1",
         "TLSv1.2",
@@ -21,9 +21,9 @@ resource "aws_cloudfront_distribution" "productboard" {
     }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = var.comment
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = var.comment
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]

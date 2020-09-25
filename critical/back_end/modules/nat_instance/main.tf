@@ -7,17 +7,17 @@ resource "aws_security_group" "nat_instance" {
   }
 
   egress {
-    cidr_blocks       = ["0.0.0.0/0"]
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
   }
 
   ingress {
-    cidr_blocks       = [var.cidr_block_private]
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
+    cidr_blocks = [var.cidr_block_private]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
   }
 }
 

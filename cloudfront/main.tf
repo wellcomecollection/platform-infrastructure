@@ -1,35 +1,35 @@
 module "iiif-prod" {
   source = "./iiif"
 
-  environment = "prod"
+  environment         = "prod"
   acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "iiif-stage" {
   source = "./iiif"
 
-  environment = "stage"
+  environment         = "stage"
   acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "iiif-test" {
   source = "./iiif"
 
-  environment = "test"
+  environment         = "test"
   acm_certificate_arn = data.aws_acm_certificate.iiif_wc_org.arn
 }
 
 module "wellcomecollection-prod" {
   source = "./wellcomecollection"
 
-  environment = "prod"
+  environment         = "prod"
   acm_certificate_arn = data.aws_acm_certificate.api_wc_org.arn
 }
 
 module "wellcomecollection-stage" {
   source = "./wellcomecollection"
 
-  environment = "stage"
+  environment         = "stage"
   acm_certificate_arn = data.aws_acm_certificate.api_wc_org.arn
 }
 

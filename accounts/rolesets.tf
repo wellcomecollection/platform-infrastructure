@@ -5,7 +5,7 @@ module "super_dev_roleset" {
 
   federated_principal = module.account_federation.principal
   aws_principal       = local.aws_principal
-  
+
   # 4 hours
   max_session_duration_in_seconds = 4 * 60 * 60
 
@@ -59,8 +59,8 @@ module "super_dev_roleset" {
     module.catalogue_account.admin_role_arn,
 
     # CI Roles
+    local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
-
     module.aws_account.ci_role_arn,
     module.workflow_account.ci_role_arn,
     module.data_account.ci_role_arn,
@@ -84,9 +84,6 @@ module "super_dev_roleset" {
 
     # Route 53
     "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
-
-    # Buildkite
-    "arn:aws:iam::760097843905:role/buildkite-agent",
   ]
 }
 
@@ -139,8 +136,8 @@ module "dev_roleset" {
     aws_iam_role.s3_scala_releases_read.arn,
 
     # CI Roles
+    local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
-
     module.aws_account.ci_role_arn,
     module.workflow_account.ci_role_arn,
     module.data_account.ci_role_arn,
@@ -151,9 +148,6 @@ module "dev_roleset" {
     module.reporting_account.ci_role_arn,
     module.digitisation_account.ci_role_arn,
     module.experience_account.ci_role_arn,
-
-    # Buildkite
-    "arn:aws:iam::760097843905:role/buildkite-agent",
 
     module.s3_releases_scala_fixtures.role_arn,
     module.s3_releases_scala_json.role_arn,

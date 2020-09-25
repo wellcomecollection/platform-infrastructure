@@ -233,6 +233,20 @@ output "developer_vpc_id" {
   value = module.developer_vpc.vpc_id
 }
 
+# CI VPC
+
+output "developer_vpc_private_subnets" {
+  value = module.developer_vpc.private_subnets
+}
+
+output "developer_vpc_public_subnets" {
+  value = module.developer_vpc.public_subnets
+}
+
+output "developer_vpc_id" {
+  value = module.developer_vpc.vpc_id
+}
+
 
 # Cloud health roles
 
