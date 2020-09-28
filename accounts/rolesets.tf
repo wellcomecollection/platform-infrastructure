@@ -44,9 +44,9 @@ module "super_dev_roleset" {
     module.data_account.admin_role_arn,
 
     # Reporting
-    module.reporting_account.developer_role_arn,
-    module.reporting_account.read_only_role_arn,
-    module.reporting_account.admin_role_arn,
+    local.reporting_account_roles["developer_role_arn"],
+    local.reporting_account_roles["read_only_role_arn"],
+    local.reporting_account_roles["admin_role_arn"],
 
     # Digitisation
     local.digitisation_account_roles["developer_role_arn"],
@@ -68,7 +68,7 @@ module "super_dev_roleset" {
     module.storage_account.ci_role_arn,
     module.data_account.ci_role_arn,
     local.digirati_account_roles["ci_role_arn"],
-    module.reporting_account.ci_role_arn,
+    local.reporting_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -121,8 +121,8 @@ module "dev_roleset" {
     module.data_account.read_only_role_arn,
 
     # Reporting
-    module.reporting_account.developer_role_arn,
-    module.reporting_account.read_only_role_arn,
+    local.reporting_account_roles["developer_role_arn"],
+    local.reporting_account_roles["read_only_role_arn"],
 
     # Catalogue
     module.catalogue_account.developer_role_arn,
@@ -145,7 +145,7 @@ module "dev_roleset" {
     module.storage_account.ci_role_arn,
     module.data_account.ci_role_arn,
     local.digirati_account_roles["ci_role_arn"],
-    module.reporting_account.ci_role_arn,
+    local.reporting_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -219,7 +219,7 @@ module "data_analyst_roleset" {
     module.workflow_account.read_only_role_arn,
 
     module.storage_account.read_only_role_arn,
-    module.reporting_account.read_only_role_arn,
+    local.reporting_account_roles["read_only_role_arn"],
     module.data_account.read_only_role_arn,
   ]
 }
@@ -243,8 +243,8 @@ module "data_dev_roleset" {
     module.data_account.read_only_role_arn,
 
     # Reporting
-    module.reporting_account.developer_role_arn,
-    module.reporting_account.read_only_role_arn,
+    local.reporting_account_roles["developer_role_arn"],
+    local.reporting_account_roles["read_only_role_arn"],
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,

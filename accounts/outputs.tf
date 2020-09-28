@@ -32,10 +32,10 @@ output "ci_role_arn" {
     catalogue : module.catalogue_account.ci_role_arn,
     storage : module.storage_account.ci_role_arn,
     data : module.data_account.ci_role_arn,
-    reporting : module.reporting_account.ci_role_arn,
-    digirati     = local.digirati_account_roles["ci_role_arn"],
-    digitisation = local.digitisation_account_roles["ci_role_arn"],
-    experience   = local.experience_account_roles["ci_role_arn"],
+    digirati     = local.digirati_account_roles["ci_role_arn"]
+    digitisation = local.digitisation_account_roles["ci_role_arn"]
+    experience   = local.experience_account_roles["ci_role_arn"]
+    reporting    = local.reporting_account_roles["ci_role_arn"]
   }
 }
 

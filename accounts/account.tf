@@ -103,20 +103,3 @@ module "data_account" {
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-datascience-infra"
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "reporting_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.reporting
-  }
-
-  prefix = "reporting"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["reporting"],
-  ]
-
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-reporting-infra"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}
