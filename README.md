@@ -17,6 +17,3 @@ Wellcome Collection common infrastructure.
 - [monitoring](monitoring/README.md): Grafana platform monitoring stack.
 
 - **photography_backups**: Backup storage for photography (needs cleanup?)
-
-- **digitisation_infra**: Digital production infrastructure.
-

@@ -1,13 +1,15 @@
-# Wellcome - Digital production team
-
 resource "aws_s3_bucket" "client_transfer_bucket" {
   bucket = "wellcomecollection-client-transfer"
   acl    = "private"
+
+  provider = aws.platform
 }
 
 resource "aws_s3_bucket_policy" "client_transfer_read_write" {
   bucket = aws_s3_bucket.client_transfer_bucket.id
   policy = data.aws_iam_policy_document.client_transfer_read_write.json
+
+  provider = aws.platform
 }
 
 data "aws_iam_policy_document" "client_transfer_read_write" {
@@ -28,7 +30,7 @@ data "aws_iam_policy_document" "client_transfer_read_write" {
       type = "AWS"
 
       identifiers = [
-        "arn:aws:iam::404315009621:role/digitisation-developer",
+        module.digitisation_account.developer_role_arn,
       ]
     }
   }
