@@ -34,41 +34,41 @@ data "aws_iam_policy_document" "s3_scala_releases_read" {
 }
 
 module "s3_releases_scala_sierra_client" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "scala-sierra-client"
 }
 
 module "s3_releases_scala_fixtures" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "fixtures"
 }
 
 module "s3_releases_scala_json" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "json"
 }
 
 module "s3_releases_scala_monitoring" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "monitoring"
 }
 
 module "s3_releases_scala_storage" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "storage"
 }
 
 module "s3_releases_scala_messaging" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "messaging"
 }
 
 module "s3_releases_scala_typesafe" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "typesafe-app"
 }
 
 module "s3_releases_scala_catalogue_client" {
-  source = "./modules/s3_scala_releases"
+  source = "../modules/s3_scala_releases"
   name   = "scala-catalogue-client"
 }

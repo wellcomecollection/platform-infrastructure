@@ -1,5 +1,5 @@
 module "super_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "platform-superdev"
 
@@ -87,7 +87,7 @@ module "super_dev_roleset" {
 }
 
 module "dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "platform-dev"
 
@@ -157,7 +157,7 @@ module "dev_roleset" {
 }
 
 module "storage_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "storage-dev"
 
@@ -186,7 +186,7 @@ module "storage_dev_roleset" {
 }
 
 module "workflow_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "workflow-dev"
 
@@ -204,7 +204,7 @@ module "workflow_dev_roleset" {
 }
 
 module "data_analyst_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "data-analyst"
 
@@ -223,7 +223,7 @@ module "data_analyst_roleset" {
 }
 
 module "data_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "data-dev"
 
@@ -250,7 +250,7 @@ module "data_dev_roleset" {
 }
 
 module "digitisation_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "digitisation-dev"
 
@@ -278,7 +278,7 @@ module "digitisation_dev_roleset" {
 }
 
 module "digitisation_admin_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "digitisation-admin"
 
@@ -307,7 +307,7 @@ module "digitisation_admin_roleset" {
 }
 
 module "digirati_dev_roleset" {
-  source = "./modules/roleset"
+  source = "../modules/roleset"
 
   name = "digirati-dev"
 

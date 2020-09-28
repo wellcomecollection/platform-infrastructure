@@ -1,11 +1,7 @@
-locals {
-  sbt_releases_bucket_arn = "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org"
-}
-
 # Parent Platform account
 
 module "aws_account" {
-  source = "./modules/account/aws"
+  source = "../modules/account/aws"
 
   # 4 hours
   max_session_duration_in_seconds = 4 * 60 * 60
@@ -16,12 +12,11 @@ module "aws_account" {
     local.account_principals["platform"],
   ]
 
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-platform-infra"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
+  infra_bucket_arn = "arn:aws:s3:::wellcomecollection-platform-infra"
 }
 
 module "account_federation" {
-  source = "./modules/account/federated"
+  source = "../modules/account/federated"
 
   saml_xml = data.aws_s3_bucket_object.account_federation_saml.body
   pgp_key  = data.template_file.pgp_key.rendered
