@@ -190,15 +190,15 @@ output "catalogue_vpc_id" {
 # Experience VPC
 
 output "experience_vpc_private_subnets" {
-  value = module.experience_vpc.private_subnets
+  value = local.experience_vpcs["experience_vpc_private_subnets"]
 }
 
 output "experience_vpc_public_subnets" {
-  value = module.experience_vpc.public_subnets
+  value = local.experience_vpcs["experience_vpc_public_subnets"]
 }
 
 output "experience_vpc_id" {
-  value = module.experience_vpc.vpc_id
+  value = local.experience_vpcs["experience_vpc_id"]
 }
 
 # Digirati VPC
