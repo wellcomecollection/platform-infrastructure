@@ -130,19 +130,15 @@ output "catalogue_vpc_delta_id" {
 # Storage VPC
 
 output "storage_vpc_private_subnets" {
-  value = module.storage_vpc.private_subnets
+  value = local.storage_vpcs["storage_vpc_private_subnets"]
 }
 
 output "storage_vpc_public_subnets" {
-  value = module.storage_vpc.public_subnets
+  value = local.storage_vpcs["storage_vpc_public_subnets"]
 }
 
 output "storage_vpc_id" {
-  value = module.storage_vpc.vpc_id
-}
-
-output "storage_cidr_block_vpc" {
-  value = local.storage_cidr_block_vpc
+  value = local.storage_vpcs["storage_vpc_id"]
 }
 
 # Monitoring VPC
