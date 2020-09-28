@@ -33,7 +33,7 @@ output "vpc_id" {
 }
 
 locals {
-  vpc_name = var.name == "" ? var.vpc_name : replace("${var.name}-${var.cidr_block}", "/", "-")
+  vpc_name = var.name == "" ? var.vpc_name : replace(replace("${var.name}-${var.cidr_block}", "/", "-"), ".", "-")
 
   cidr_block_public  = cidrsubnet(var.cidr_block, 1, 0)
   cidr_block_private = cidrsubnet(var.cidr_block, 1, 1)

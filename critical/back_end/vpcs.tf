@@ -11,14 +11,6 @@ locals {
   datascience_cidr_block_public  = cidrsubnet(local.datascience_cidr_block_vpc, 1, 0)
   datascience_cidr_block_private = cidrsubnet(local.datascience_cidr_block_vpc, 1, 1)
 
-  catalogue_delta_cidr_block_vpc     = "172.31.0.0/16"
-  catalogue_delta_cidr_block_public  = cidrsubnet(local.catalogue_delta_cidr_block_vpc, 1, 0)
-  catalogue_delta_cidr_block_private = cidrsubnet(local.catalogue_delta_cidr_block_vpc, 1, 1)
-
-  catalogue_cidr_block_vpc     = "172.18.0.0/16"
-  catalogue_cidr_block_public  = cidrsubnet(local.catalogue_cidr_block_vpc, 1, 0)
-  catalogue_cidr_block_private = cidrsubnet(local.catalogue_cidr_block_vpc, 1, 1)
-
   developer_cidr_block_vpc     = "172.42.0.0/16"
   developer_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
@@ -133,56 +125,5 @@ module "datascience_vpc" {
 
   providers = {
     aws = aws.datascience
-  }
-}
-
-# DEPRECATED Catalogue VPC
-# Used by:
-# - Catalogue Pipeline
-# - IIIF Image server (Loris)
-# - Reindexer
-# - Sierra Adapter
-
-module "catalogue_vpc_delta" {
-  source = "./modules/public-private-igw"
-
-  name = "catalogue-172-31-0-0-16"
-
-  cidr_block_vpc = local.catalogue_delta_cidr_block_vpc
-
-  public_az_count           = "3"
-  cidr_block_public         = local.catalogue_delta_cidr_block_public
-  cidrsubnet_newbits_public = "2"
-
-  private_az_count           = "3"
-  cidr_block_private         = local.catalogue_delta_cidr_block_private
-  cidrsubnet_newbits_private = "2"
-
-  providers = {
-    aws = aws.platform
-  }
-}
-
-# Used by:
-# - Item requesting service
-# - Catalogue API
-
-module "catalogue_vpc" {
-  source = "./modules/public-private-igw"
-
-  name = "catalogue-172-18-0-0-16"
-
-  cidr_block_vpc = local.catalogue_cidr_block_vpc
-
-  public_az_count           = "3"
-  cidr_block_public         = local.catalogue_cidr_block_public
-  cidrsubnet_newbits_public = "2"
-
-  private_az_count           = "3"
-  cidr_block_private         = local.catalogue_cidr_block_private
-  cidrsubnet_newbits_private = "2"
-
-  providers = {
-    aws = aws.catalogue
   }
 }

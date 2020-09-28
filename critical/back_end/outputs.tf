@@ -116,15 +116,15 @@ output "inference_calm_reindex_topic_name" {
 # Catalogue VPC
 
 output "catalogue_vpc_delta_private_subnets" {
-  value = module.catalogue_vpc_delta.private_subnets
+  value = local.catalogue_vpcs["catalogue_vpc_delta_private_subnets"]
 }
 
 output "catalogue_vpc_delta_public_subnets" {
-  value = module.catalogue_vpc_delta.public_subnets
+  value = local.catalogue_vpcs["catalogue_vpc_delta_public_subnets"]
 }
 
 output "catalogue_vpc_delta_id" {
-  value = module.catalogue_vpc_delta.vpc_id
+  value = local.catalogue_vpcs["catalogue_vpc_delta_id"]
 }
 
 # Storage VPC
@@ -176,15 +176,15 @@ output "datascience_vpc_id" {
 # Catalogue VPC
 
 output "catalogue_vpc_private_subnets" {
-  value = module.catalogue_vpc.private_subnets
+  value = local.catalogue_vpcs["catalogue_vpc_private_subnets"]
 }
 
 output "catalogue_vpc_public_subnets" {
-  value = module.catalogue_vpc.public_subnets
+  value = local.catalogue_vpcs["catalogue_vpc_public_subnets"]
 }
 
 output "catalogue_vpc_id" {
-  value = module.catalogue_vpc.vpc_id
+  value = local.catalogue_vpcs["catalogue_vpc_id"]
 }
 
 # Experience VPC
