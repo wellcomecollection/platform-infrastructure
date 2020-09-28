@@ -33,22 +33,3 @@ data "aws_s3_bucket_object" "account_federation_saml" {
   bucket = "wellcomecollection-platform-infra"
   key    = "platform-terraform-objects/saml.xml"
 }
-
-# Child Platform Accounts
-
-module "catalogue_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.catalogue
-  }
-
-  prefix = "catalogue"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["catalogue"],
-  ]
-
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-catalogue-infra-delta"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}

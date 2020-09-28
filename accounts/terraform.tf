@@ -83,6 +83,18 @@ data "terraform_remote_state" "digitisation" {
   }
 }
 
+data "terraform_remote_state" "accounts_catalogue" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/catalogue.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 data "terraform_remote_state" "accounts_data" {
   backend = "s3"
 
@@ -178,6 +190,7 @@ locals {
   aws_principal     = "arn:aws:iam::${local.account_id}:root"
   ci_agent_role_arn = data.terraform_remote_state.builds.outputs.ci_role_arn
 
+  catalogue_account_roles    = data.terraform_remote_state.accounts_catalogue.outputs
   data_account_roles         = data.terraform_remote_state.accounts_data.outputs
   digirati_account_roles     = data.terraform_remote_state.accounts_digirati.outputs
   digitisation_account_roles = data.terraform_remote_state.accounts_digitisation.outputs
@@ -188,7 +201,6 @@ locals {
 
   account_ids = {
     platform     = local.account_id
-    catalogue    = "756629837203"
   }
 
   account_principals = { for key, value in local.account_ids : key => "arn:aws:iam::${value}:root" }
