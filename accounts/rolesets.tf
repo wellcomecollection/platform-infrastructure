@@ -34,9 +34,9 @@ module "super_dev_roleset" {
     module.storage_account.read_only_role_arn,
 
     # Experience
-    module.experience_account.admin_role_arn,
-    module.experience_account.developer_role_arn,
-    module.experience_account.read_only_role_arn,
+    local.experience_account_roles["admin_role_arn"],
+    local.experience_account_roles["developer_role_arn"],
+    local.experience_account_roles["read_only_role_arn"],
 
     # Data
     module.data_account.developer_role_arn,
@@ -70,7 +70,7 @@ module "super_dev_roleset" {
     local.digirati_account_roles["ci_role_arn"],
     module.reporting_account.ci_role_arn,
     local.digitisation_account_roles["ci_role_arn"],
-    module.experience_account.ci_role_arn,
+    local.experience_account_roles["ci_role_arn"],
 
     aws_iam_role.s3_scala_releases_read.arn,
     module.s3_releases_scala_sierra_client.role_arn,
@@ -113,8 +113,8 @@ module "dev_roleset" {
     module.storage_account.read_only_role_arn,
 
     # Experience
-    module.experience_account.developer_role_arn,
-    module.experience_account.read_only_role_arn,
+    local.experience_account_roles["developer_role_arn"],
+    local.experience_account_roles["read_only_role_arn"],
 
     # Data
     module.data_account.developer_role_arn,
@@ -147,7 +147,7 @@ module "dev_roleset" {
     local.digirati_account_roles["ci_role_arn"],
     module.reporting_account.ci_role_arn,
     local.digitisation_account_roles["ci_role_arn"],
-    module.experience_account.ci_role_arn,
+    local.experience_account_roles["ci_role_arn"],
 
     module.s3_releases_scala_fixtures.role_arn,
     module.s3_releases_scala_json.role_arn,
@@ -215,7 +215,7 @@ module "data_analyst_roleset" {
 
   assumable_role_arns = [
     module.aws_account.read_only_role_arn,
-    module.experience_account.read_only_role_arn,
+    local.experience_account_roles["read_only_role_arn"],
     module.workflow_account.read_only_role_arn,
 
     module.storage_account.read_only_role_arn,
