@@ -22,67 +22,6 @@ data "terraform_remote_state" "builds" {
   }
 }
 
-data "terraform_remote_state" "storage" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::975596993436:role/storage-read_only"
-
-
-    bucket = "wellcomecollection-storage-infra"
-    key    = "terraform/storage-private.tfstate"
-    region = "eu-west-1"
-  }
-}
-
-data "terraform_remote_state" "experience" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
-
-    bucket = "wellcomecollection-infra"
-    key    = "build-state/terraform-config.tfstate"
-    region = "eu-west-1"
-  }
-}
-
-data "terraform_remote_state" "data" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::964279923020:role/data-read_only"
-
-    bucket = "wellcomecollection-datascience-infra"
-    key    = "terraform/datascience-private.tfstate"
-    region = "eu-west-1"
-  }
-}
-
-data "terraform_remote_state" "reporting" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::269807742353:role/reporting-read_only"
-
-    bucket = "wellcomecollection-reporting-infra"
-    key    = "terraform/reporting-private.tfstate"
-    region = "eu-west-1"
-  }
-}
-
-data "terraform_remote_state" "digitisation" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::404315009621:role/digitisation-read_only"
-
-    bucket = "wellcomedigitisation-infra"
-    key    = "terraform/digitisation-private.tfstate"
-    region = "eu-west-1"
-  }
-}
-
 data "terraform_remote_state" "accounts_catalogue" {
   backend = "s3"
 
@@ -200,7 +139,7 @@ locals {
   workflow_account_roles     = data.terraform_remote_state.accounts_workflow.outputs
 
   account_ids = {
-    platform     = local.account_id
+    platform = local.account_id
   }
 
   account_principals = { for key, value in local.account_ids : key => "arn:aws:iam::${value}:root" }
