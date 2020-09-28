@@ -90,12 +90,7 @@ data "template_file" "pgp_key" {
 }
 
 locals {
-  goobi_role_arn        = "arn:aws:iam::299497370133:role/goobi_task_role"
-  itm_role_arn          = "arn:aws:iam::299497370133:role/itm_task_role"
-  shell_server_role_arn = "arn:aws:iam::299497370133:role/shell_server_task_role"
-
-  intranda_export_bucket = "wellcomecollection-workflow-export-bagit"
-  dds_principal_arn      = "arn:aws:iam::653428163053:user/dlcs-dds"
+  dds_principal_arn = "arn:aws:iam::653428163053:user/dlcs-dds"
 
   account_id        = data.aws_caller_identity.current.account_id
   aws_principal     = "arn:aws:iam::${local.account_id}:root"
