@@ -52,20 +52,3 @@ module "catalogue_account" {
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-catalogue-infra-delta"
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "workflow_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.workflow
-  }
-
-  prefix = "workflow"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["workflow"],
-  ]
-
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-workflow-infra"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}

@@ -17,11 +17,11 @@ module "super_dev_roleset" {
     module.aws_account.read_only_role_arn,
 
     # Workflow
-    module.workflow_account.admin_role_arn,
-    module.workflow_account.developer_role_arn,
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["admin_role_arn"],
+    local.workflow_account_roles["developer_role_arn"],
+    local.workflow_account_roles["read_only_role_arn"],
 
-    module.workflow_support_role.arn,
+    local.workflow_account_roles["workflow_support_role_arn"],
 
     # Digirati
     local.digirati_account_roles["admin_role_arn"],
@@ -62,12 +62,12 @@ module "super_dev_roleset" {
     local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
     module.aws_account.ci_role_arn,
-    module.workflow_account.ci_role_arn,
     module.catalogue_account.ci_role_arn,
     local.data_account_roles["ci_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
     local.reporting_account_roles["ci_role_arn"],
     local.storage_account_roles["ci_role_arn"],
+    local.workflow_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -104,8 +104,8 @@ module "dev_roleset" {
     local.digirati_account_roles["read_only_role_arn"],
 
     # Workflow
-    module.workflow_account.developer_role_arn,
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["developer_role_arn"],
+    local.workflow_account_roles["read_only_role_arn"],
 
     # Storage
     local.storage_account_roles["developer_role_arn"],
@@ -138,12 +138,12 @@ module "dev_roleset" {
     local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
     module.aws_account.ci_role_arn,
-    module.workflow_account.ci_role_arn,
     module.catalogue_account.ci_role_arn,
     local.data_account_roles["ci_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
     local.reporting_account_roles["ci_role_arn"],
     local.storage_account_roles["ci_role_arn"],
+    local.workflow_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -169,8 +169,8 @@ module "storage_dev_roleset" {
     module.aws_account.read_only_role_arn,
 
     # Workflow
-    module.workflow_account.developer_role_arn,
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["developer_role_arn"],
+    local.workflow_account_roles["read_only_role_arn"],
 
     # Digirati
     local.digirati_account_roles["developer_role_arn"],
@@ -195,11 +195,11 @@ module "workflow_dev_roleset" {
 
   assumable_role_arns = [
     # Workflow
-    module.workflow_account.admin_role_arn,
-    module.workflow_account.developer_role_arn,
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["admin_role_arn"],
+    local.workflow_account_roles["developer_role_arn"],
+    local.workflow_account_roles["read_only_role_arn"],
 
-    module.workflow_support_role.arn,
+    local.workflow_account_roles["workflow_support_role_arn"],
   ]
 }
 
@@ -214,7 +214,7 @@ module "data_analyst_roleset" {
   assumable_role_arns = [
     module.aws_account.read_only_role_arn,
     local.experience_account_roles["read_only_role_arn"],
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["read_only_role_arn"],
 
     local.storage_account_roles["read_only_role_arn"],
     local.reporting_account_roles["read_only_role_arn"],
@@ -266,8 +266,8 @@ module "digitisation_dev_roleset" {
     local.digitisation_account_roles["read_only_role_arn"],
 
     # Workflow
-    module.workflow_account.read_only_role_arn,
-    module.workflow_support_role.arn,
+    local.workflow_account_roles["read_only_role_arn"],
+    local.workflow_account_roles["workflow_support_role_arn"],
 
     # Storage
     local.storage_account_roles["read_only_role_arn"],
@@ -295,8 +295,8 @@ module "digitisation_admin_roleset" {
     local.digitisation_account_roles["read_only_role_arn"],
 
     # Workflow
-    module.workflow_account.read_only_role_arn,
-    module.workflow_support_role.arn,
+    local.workflow_account_roles["read_only_role_arn"],
+    local.workflow_account_roles["workflow_support_role_arn"],
 
     # Storage
     local.storage_account_roles["read_only_role_arn"],
@@ -324,7 +324,7 @@ module "digirati_dev_roleset" {
     local.digirati_account_roles["read_only_role_arn"],
 
     # Workflow
-    module.workflow_account.read_only_role_arn,
+    local.workflow_account_roles["read_only_role_arn"],
 
     # Storage
     local.storage_account_roles["read_only_role_arn"]
