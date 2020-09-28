@@ -83,6 +83,18 @@ data "terraform_remote_state" "digitisation" {
   }
 }
 
+data "terraform_remote_state" "accounts_digirati" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/digirati.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 data "template_file" "pgp_key" {
@@ -90,11 +102,11 @@ data "template_file" "pgp_key" {
 }
 
 locals {
-  dds_principal_arn = "arn:aws:iam::653428163053:user/dlcs-dds"
-
   account_id        = data.aws_caller_identity.current.account_id
   aws_principal     = "arn:aws:iam::${local.account_id}:root"
   ci_agent_role_arn = data.terraform_remote_state.builds.outputs.ci_role_arn
+
+  digirati_account_roles = data.terraform_remote_state.accounts_digirati.outputs
 
   account_ids = {
     platform     = local.account_id
@@ -105,7 +117,6 @@ locals {
     digitisation = "404315009621"
     workflow     = "299497370133"
     catalogue    = "756629837203"
-    digirati     = "653428163053"
   }
 
   account_principals = { for key, value in local.account_ids : key => "arn:aws:iam::${value}:root" }

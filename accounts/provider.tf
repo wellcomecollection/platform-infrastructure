@@ -83,14 +83,3 @@ provider "aws" {
     role_arn = "arn:aws:iam::130871440101:role/experience-admin"
   }
 }
-
-provider "aws" {
-  alias = "digirati"
-
-  region  = "eu-west-1"
-  version = "2.35.0"
-
-  assume_role {
-    role_arn = "arn:aws:iam::653428163053:role/digirati-admin"
-  }
-}

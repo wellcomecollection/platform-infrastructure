@@ -154,20 +154,3 @@ module "digitisation_account" {
 
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "digirati_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.digirati
-  }
-
-  prefix = "digirati"
-
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["digirati"],
-  ]
-
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}
