@@ -148,15 +148,15 @@ output "storage_cidr_block_vpc" {
 # Monitoring VPC
 
 output "monitoring_vpc_delta_private_subnets" {
-  value = module.monitoring_vpc_delta.private_subnets
+  value = local.platform_vpcs["monitoring_vpc_delta_private_subnets"]
 }
 
 output "monitoring_vpc_delta_public_subnets" {
-  value = module.monitoring_vpc_delta.public_subnets
+  value = local.platform_vpcs["monitoring_vpc_delta_public_subnets"]
 }
 
 output "monitoring_vpc_delta_id" {
-  value = module.monitoring_vpc_delta.vpc_id
+  value = local.platform_vpcs["monitoring_vpc_delta_id"]
 }
 
 # Data Science VPC

@@ -3,10 +3,6 @@ locals {
   storage_cidr_block_public  = cidrsubnet(local.storage_cidr_block_vpc, 1, 0)
   storage_cidr_block_private = cidrsubnet(local.storage_cidr_block_vpc, 1, 1)
 
-  monitoring_cidr_block_vpc     = "172.28.0.0/16"
-  monitoring_cidr_block_public  = cidrsubnet(local.monitoring_cidr_block_vpc, 1, 0)
-  monitoring_cidr_block_private = cidrsubnet(local.monitoring_cidr_block_vpc, 1, 1)
-
   developer_cidr_block_vpc     = "172.42.0.0/16"
   developer_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
@@ -73,29 +69,5 @@ module "storage_vpc" {
 
   providers = {
     aws = aws.storage
-  }
-}
-
-# Used by:
-# - Grafana service
-# - Various monitoring lambdas
-
-module "monitoring_vpc_delta" {
-  source = "./modules/public-private-igw"
-
-  name = "monitoring-172-28-0-0-16"
-
-  cidr_block_vpc = local.monitoring_cidr_block_vpc
-
-  public_az_count           = "3"
-  cidr_block_public         = local.monitoring_cidr_block_public
-  cidrsubnet_newbits_public = "2"
-
-  private_az_count           = "3"
-  cidr_block_private         = local.monitoring_cidr_block_private
-  cidrsubnet_newbits_private = "2"
-
-  providers = {
-    aws = aws.platform
   }
 }

@@ -65,3 +65,15 @@ output "s3_releases_scala_messaging" {
 output "s3_releases_scala_typesafe" {
   value = module.s3_releases_scala_typesafe.role_arn
 }
+
+output "monitoring_vpc_delta_private_subnets" {
+  value = module.monitoring_vpc_delta.private_subnets
+}
+
+output "monitoring_vpc_delta_public_subnets" {
+  value = module.monitoring_vpc_delta.public_subnets
+}
+
+output "monitoring_vpc_delta_id" {
+  value = module.monitoring_vpc_delta.vpc_id
+}

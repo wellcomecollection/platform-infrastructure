@@ -59,9 +59,22 @@ data "terraform_remote_state" "accounts_experience" {
   }
 }
 
+data "terraform_remote_state" "accounts_platform" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/platform.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 locals {
   catalogue_vpcs   = data.terraform_remote_state.accounts_catalogue.outputs
   datascience_vpcs = data.terraform_remote_state.accounts_data.outputs
   digirati_vpcs    = data.terraform_remote_state.accounts_digirati.outputs
   experience_vpcs  = data.terraform_remote_state.accounts_experience.outputs
+  platform_vpcs    = data.terraform_remote_state.accounts_platform.outputs
 }
