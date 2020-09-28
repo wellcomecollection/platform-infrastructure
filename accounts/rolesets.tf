@@ -29,9 +29,9 @@ module "super_dev_roleset" {
     local.digirati_account_roles["read_only_role_arn"],
 
     # Storage
-    module.storage_account.admin_role_arn,
-    module.storage_account.developer_role_arn,
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["admin_role_arn"],
+    local.storage_account_roles["developer_role_arn"],
+    local.storage_account_roles["read_only_role_arn"],
 
     # Experience
     local.experience_account_roles["admin_role_arn"],
@@ -64,10 +64,10 @@ module "super_dev_roleset" {
     module.aws_account.ci_role_arn,
     module.workflow_account.ci_role_arn,
     module.catalogue_account.ci_role_arn,
-    module.storage_account.ci_role_arn,
     local.data_account_roles["ci_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
     local.reporting_account_roles["ci_role_arn"],
+    local.storage_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -108,8 +108,8 @@ module "dev_roleset" {
     module.workflow_account.read_only_role_arn,
 
     # Storage
-    module.storage_account.developer_role_arn,
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["developer_role_arn"],
+    local.storage_account_roles["read_only_role_arn"],
 
     # Experience
     local.experience_account_roles["developer_role_arn"],
@@ -140,10 +140,10 @@ module "dev_roleset" {
     module.aws_account.ci_role_arn,
     module.workflow_account.ci_role_arn,
     module.catalogue_account.ci_role_arn,
-    module.storage_account.ci_role_arn,
     local.data_account_roles["ci_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
     local.reporting_account_roles["ci_role_arn"],
+    local.storage_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -177,8 +177,8 @@ module "storage_dev_roleset" {
     local.digirati_account_roles["read_only_role_arn"],
 
     # Storage
-    module.storage_account.developer_role_arn,
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["developer_role_arn"],
+    local.storage_account_roles["read_only_role_arn"],
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
@@ -216,7 +216,7 @@ module "data_analyst_roleset" {
     local.experience_account_roles["read_only_role_arn"],
     module.workflow_account.read_only_role_arn,
 
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["read_only_role_arn"],
     local.reporting_account_roles["read_only_role_arn"],
     local.data_account_roles["read_only_role_arn"],
   ]
@@ -270,7 +270,7 @@ module "digitisation_dev_roleset" {
     module.workflow_support_role.arn,
 
     # Storage
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["read_only_role_arn"],
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
@@ -299,7 +299,7 @@ module "digitisation_admin_roleset" {
     module.workflow_support_role.arn,
 
     # Storage
-    module.storage_account.read_only_role_arn,
+    local.storage_account_roles["read_only_role_arn"],
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
@@ -327,6 +327,6 @@ module "digirati_dev_roleset" {
     module.workflow_account.read_only_role_arn,
 
     # Storage
-    module.storage_account.read_only_role_arn
+    local.storage_account_roles["read_only_role_arn"]
   ]
 }

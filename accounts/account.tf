@@ -69,20 +69,3 @@ module "workflow_account" {
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-workflow-infra"
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "storage_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.storage
-  }
-
-  prefix = "storage"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["storage"],
-  ]
-
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-storage-infra"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}
