@@ -48,7 +48,7 @@ output "cidr_block_private" {
 }
 
 module "vpc" {
-  source = "../../../critical/back_end/modules/public-private-igw"
+  source = "./public-private-igw"
 
   name = local.vpc_name
 
