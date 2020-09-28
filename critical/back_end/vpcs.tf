@@ -7,10 +7,6 @@ locals {
   monitoring_cidr_block_public  = cidrsubnet(local.monitoring_cidr_block_vpc, 1, 0)
   monitoring_cidr_block_private = cidrsubnet(local.monitoring_cidr_block_vpc, 1, 1)
 
-  datascience_cidr_block_vpc     = "172.17.0.0/16"
-  datascience_cidr_block_public  = cidrsubnet(local.datascience_cidr_block_vpc, 1, 0)
-  datascience_cidr_block_private = cidrsubnet(local.datascience_cidr_block_vpc, 1, 1)
-
   developer_cidr_block_vpc     = "172.42.0.0/16"
   developer_cidr_block_public  = cidrsubnet(local.developer_cidr_block_vpc, 1, 0)
   developer_cidr_block_private = cidrsubnet(local.developer_cidr_block_vpc, 1, 1)
@@ -101,29 +97,5 @@ module "monitoring_vpc_delta" {
 
   providers = {
     aws = aws.platform
-  }
-}
-
-# Used by:
-# - Data science service
-# - Labs apps & data scientist infra
-
-module "datascience_vpc" {
-  source = "./modules/public-private-igw"
-
-  name = "datascience-172-17-0-0-16"
-
-  cidr_block_vpc = local.datascience_cidr_block_vpc
-
-  public_az_count           = "3"
-  cidr_block_public         = local.datascience_cidr_block_public
-  cidrsubnet_newbits_public = "2"
-
-  private_az_count           = "3"
-  cidr_block_private         = local.datascience_cidr_block_private
-  cidrsubnet_newbits_private = "2"
-
-  providers = {
-    aws = aws.datascience
   }
 }
