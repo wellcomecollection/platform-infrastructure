@@ -232,15 +232,15 @@ output "developer_vpc_id" {
 # CI VPC
 
 output "ci_vpc_private_subnets" {
-  value = module.ci_vpc.private_subnets
+  value = local.platform_vpcs["ci_vpc_private_subnets"]
 }
 
 output "ci_vpc_public_subnets" {
-  value = module.ci_vpc.public_subnets
+  value = local.platform_vpcs["ci_vpc_public_subnets"]
 }
 
 output "ci_vpc_id" {
-  value = module.ci_vpc.vpc_id
+  value = local.platform_vpcs["ci_vpc_id"]
 }
 
 # Cloud health roles

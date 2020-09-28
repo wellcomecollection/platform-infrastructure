@@ -66,6 +66,18 @@ output "s3_releases_scala_typesafe" {
   value = module.s3_releases_scala_typesafe.role_arn
 }
 
+output "ci_vpc_private_subnets" {
+  value = module.ci_vpc.private_subnets
+}
+
+output "ci_vpc_public_subnets" {
+  value = module.ci_vpc.public_subnets
+}
+
+output "ci_vpc_id" {
+  value = module.ci_vpc.vpc_id
+}
+
 output "monitoring_vpc_delta_private_subnets" {
   value = module.monitoring_vpc_delta.private_subnets
 }

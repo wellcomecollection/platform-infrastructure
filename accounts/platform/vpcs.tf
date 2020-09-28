@@ -1,3 +1,10 @@
+module "ci_vpc" {
+  source = "../modules/vpc"
+
+  name       = "ci"
+  cidr_block = "172.43.0.0/16"
+}
+
 # Used by:
 # - Grafana service
 # - Various monitoring lambdas
