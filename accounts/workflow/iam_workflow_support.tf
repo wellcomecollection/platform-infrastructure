@@ -1,27 +1,21 @@
 # Workflow support role
 
 module "workflow_support_role" {
-  source = "./modules/assumable_role/aws"
-
-  providers = {
-    aws = aws.workflow
-  }
+  source = "../modules/assumable_role/aws"
 
   name = "workflow-support"
 
-  principals = [local.aws_principal]
+  principals = [
+    local.account_principals["platform"]
+  ]
 }
 
 resource "aws_iam_role_policy" "workflow_support" {
-  provider = aws.workflow
-
   role   = module.workflow_support_role.name
   policy = data.aws_iam_policy_document.workflow_support.json
 }
 
 data "aws_iam_policy_document" "workflow_support" {
-  provider = aws.workflow
-
   statement {
     actions = [
       "s3:ListBucket",

@@ -27,15 +27,14 @@ output "platform_read_only_role_arn" {
 output "ci_role_arn" {
   value = {
     platform : module.aws_account.ci_role_arn,
-    experience : module.experience_account.ci_role_arn,
-    workflow : module.workflow_account.ci_role_arn,
-    data : module.data_account.ci_role_arn,
-    catalogue : module.catalogue_account.ci_role_arn,
-    storage : module.storage_account.ci_role_arn,
-    data : module.data_account.ci_role_arn,
-    digirati : module.digirati_account.ci_role_arn,
-    reporting : module.reporting_account.ci_role_arn,
-    digitisation : module.digitisation_account.ci_role_arn,
+    catalogue    = local.catalogue_account_roles["ci_role_arn"]
+    data         = local.data_account_roles["ci_role_arn"]
+    digirati     = local.digirati_account_roles["ci_role_arn"]
+    digitisation = local.digitisation_account_roles["ci_role_arn"]
+    experience   = local.experience_account_roles["ci_role_arn"]
+    reporting    = local.reporting_account_roles["ci_role_arn"]
+    storage      = local.storage_account_roles["ci_role_arn"]
+    workflow     = local.workflow_account_roles["ci_role_arn"]
   }
 }
 
