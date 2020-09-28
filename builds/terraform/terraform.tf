@@ -30,7 +30,7 @@ data "terraform_remote_state" "accounts" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts.tfstate"
+    key    = "terraform/platform-infrastructure/accounts/platform.tfstate"
     region = "eu-west-1"
   }
 }
