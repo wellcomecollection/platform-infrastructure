@@ -218,15 +218,15 @@ output "digirati_vpc_id" {
 # Developer VPC
 
 output "developer_vpc_private_subnets" {
-  value = module.developer_vpc.private_subnets
+  value = local.platform_vpcs["developer_vpc_private_subnets"]
 }
 
 output "developer_vpc_public_subnets" {
-  value = module.developer_vpc.public_subnets
+  value = local.platform_vpcs["developer_vpc_public_subnets"]
 }
 
 output "developer_vpc_id" {
-  value = module.developer_vpc.vpc_id
+  value = local.platform_vpcs["developer_vpc_id"]
 }
 
 # CI VPC
