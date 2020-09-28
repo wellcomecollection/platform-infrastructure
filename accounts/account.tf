@@ -86,20 +86,3 @@ module "storage_account" {
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-storage-infra"
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "data_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.data
-  }
-
-  prefix = "data"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["data"],
-  ]
-
-  infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-datascience-infra"
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}
