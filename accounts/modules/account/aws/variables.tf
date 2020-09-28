@@ -13,6 +13,8 @@ variable "infra_bucket_arn" {
   type    = string
   default = ""
 }
+
 variable "sbt_releases_bucket_arn" {
-  type = string
+  type    = string
+  default = "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org"
 }
