@@ -10,8 +10,6 @@ resource "aws_s3_bucket" "digitisation_av" {
       storage_class = "STANDARD_IA"
     }
   }
-
-  tags = local.default_tags
 }
 
 
@@ -34,7 +32,7 @@ data "aws_iam_policy_document" "digitisation_av_readonly" {
 
     principals {
       identifiers = [
-        local.workflow_account_id,
+        local.account_ids["workflow"],
       ]
 
       type = "AWS"
