@@ -138,19 +138,3 @@ module "experience_account" {
   infra_bucket_arn        = "arn:aws:s3:::wellcomecollection-experience-infra"
   sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
 }
-
-module "digitisation_account" {
-  source = "./modules/account/aws"
-
-  providers = {
-    aws = aws.digitisation
-  }
-
-  prefix = "digitisation"
-  principals = [
-    local.account_principals["platform"],
-    local.account_principals["digitisation"],
-  ]
-
-  sbt_releases_bucket_arn = local.sbt_releases_bucket_arn
-}

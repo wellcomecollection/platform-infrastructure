@@ -35,7 +35,7 @@ output "ci_role_arn" {
     data : module.data_account.ci_role_arn,
     digirati : local.digirati_account_roles["ci_role_arn"],
     reporting : module.reporting_account.ci_role_arn,
-    digitisation : module.digitisation_account.ci_role_arn,
+    digitisation : local.digitisation_account_roles["ci_role_arn"],
   }
 }
 

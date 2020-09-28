@@ -49,9 +49,9 @@ module "super_dev_roleset" {
     module.reporting_account.admin_role_arn,
 
     # Digitisation
-    module.digitisation_account.developer_role_arn,
-    module.digitisation_account.read_only_role_arn,
-    module.digitisation_account.admin_role_arn,
+    local.digitisation_account_roles["developer_role_arn"],
+    local.digitisation_account_roles["read_only_role_arn"],
+    local.digitisation_account_roles["admin_role_arn"],
 
     # Catalogue
     module.catalogue_account.developer_role_arn,
@@ -69,7 +69,7 @@ module "super_dev_roleset" {
     module.data_account.ci_role_arn,
     local.digirati_account_roles["ci_role_arn"],
     module.reporting_account.ci_role_arn,
-    module.digitisation_account.ci_role_arn,
+    local.digitisation_account_roles["ci_role_arn"],
     module.experience_account.ci_role_arn,
 
     aws_iam_role.s3_scala_releases_read.arn,
@@ -129,8 +129,8 @@ module "dev_roleset" {
     module.catalogue_account.read_only_role_arn,
 
     # Digitisation
-    module.digitisation_account.developer_role_arn,
-    module.digitisation_account.read_only_role_arn,
+    local.digitisation_account_roles["developer_role_arn"],
+    local.digitisation_account_roles["read_only_role_arn"],
 
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
@@ -146,7 +146,7 @@ module "dev_roleset" {
     module.data_account.ci_role_arn,
     local.digirati_account_roles["ci_role_arn"],
     module.reporting_account.ci_role_arn,
-    module.digitisation_account.ci_role_arn,
+    local.digitisation_account_roles["ci_role_arn"],
     module.experience_account.ci_role_arn,
 
     module.s3_releases_scala_fixtures.role_arn,
@@ -264,8 +264,8 @@ module "digitisation_dev_roleset" {
     module.aws_account.read_only_role_arn,
 
     # Digitisation
-    module.digitisation_account.developer_role_arn,
-    module.digitisation_account.read_only_role_arn,
+    local.digitisation_account_roles["developer_role_arn"],
+    local.digitisation_account_roles["read_only_role_arn"],
 
     # Workflow
     module.workflow_account.read_only_role_arn,
@@ -292,9 +292,9 @@ module "digitisation_admin_roleset" {
     module.aws_account.read_only_role_arn,
 
     # Digitisation
-    module.digitisation_account.admin_role_arn,
-    module.digitisation_account.developer_role_arn,
-    module.digitisation_account.read_only_role_arn,
+    local.digitisation_account_roles["admin_role_arn"],
+    local.digitisation_account_roles["developer_role_arn"],
+    local.digitisation_account_roles["read_only_role_arn"],
 
     # Workflow
     module.workflow_account.read_only_role_arn,
