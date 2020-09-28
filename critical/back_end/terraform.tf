@@ -10,3 +10,19 @@ terraform {
     region         = "eu-west-1"
   }
 }
+
+data "terraform_remote_state" "accounts_digirati" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/digirati.tfstate"
+    region = "eu-west-1"
+  }
+}
+
+locals {
+  digirati_vpcs = data.terraform_remote_state.accounts_digirati.outputs
+}

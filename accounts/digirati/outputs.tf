@@ -26,4 +26,18 @@ output "ci_role_arn" {
   value = module.digirati_account.ci_role_arn
 }
 
+output "digirati_vpc_private_subnets" {
+  value = module.digirati_vpc.private_subnets
+}
 
+output "digirati_cidr_block_private" {
+  value = module.digirati_vpc.cidr_block_private
+}
+
+output "digirati_vpc_public_subnets" {
+  value = module.digirati_vpc.public_subnets
+}
+
+output "digirati_vpc_id" {
+  value = module.digirati_vpc.vpc_id
+}
