@@ -141,20 +141,6 @@ output "storage_vpc_id" {
   value = local.storage_vpcs["storage_vpc_id"]
 }
 
-# Monitoring VPC
-
-output "monitoring_vpc_delta_private_subnets" {
-  value = local.platform_vpcs["monitoring_vpc_delta_private_subnets"]
-}
-
-output "monitoring_vpc_delta_public_subnets" {
-  value = local.platform_vpcs["monitoring_vpc_delta_public_subnets"]
-}
-
-output "monitoring_vpc_delta_id" {
-  value = local.platform_vpcs["monitoring_vpc_delta_id"]
-}
-
 # Data Science VPC
 
 output "datascience_vpc_private_subnets" {
