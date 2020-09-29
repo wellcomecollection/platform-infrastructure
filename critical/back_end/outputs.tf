@@ -113,48 +113,6 @@ output "inference_calm_reindex_topic_name" {
   value = module.inference_calm_reindex_topic.name
 }
 
-# Catalogue VPC
-
-output "catalogue_vpc_delta_private_subnets" {
-  value = local.catalogue_vpcs["catalogue_vpc_delta_private_subnets"]
-}
-
-output "catalogue_vpc_delta_public_subnets" {
-  value = local.catalogue_vpcs["catalogue_vpc_delta_public_subnets"]
-}
-
-output "catalogue_vpc_delta_id" {
-  value = local.catalogue_vpcs["catalogue_vpc_delta_id"]
-}
-
-# Data Science VPC
-
-output "datascience_vpc_private_subnets" {
-  value = local.datascience_vpcs["datascience_vpc_private_subnets"]
-}
-
-output "datascience_vpc_public_subnets" {
-  value = local.datascience_vpcs["datascience_vpc_public_subnets"]
-}
-
-output "datascience_vpc_id" {
-  value = local.datascience_vpcs["datascience_vpc_id"]
-}
-
-# Catalogue VPC
-
-output "catalogue_vpc_private_subnets" {
-  value = local.catalogue_vpcs["catalogue_vpc_private_subnets"]
-}
-
-output "catalogue_vpc_public_subnets" {
-  value = local.catalogue_vpcs["catalogue_vpc_public_subnets"]
-}
-
-output "catalogue_vpc_id" {
-  value = local.catalogue_vpcs["catalogue_vpc_id"]
-}
-
 # Cloud health roles
 
 output "cloudhealth_catalogue_role_arn" {
