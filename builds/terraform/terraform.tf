@@ -23,11 +23,11 @@ data "terraform_remote_state" "shared_infra" {
   }
 }
 
-data "terraform_remote_state" "accounts" {
+data "terraform_remote_state" "accounts_platform" {
   backend = "s3"
 
   config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
     key    = "terraform/platform-infrastructure/accounts/platform.tfstate"
@@ -35,14 +35,9 @@ data "terraform_remote_state" "accounts" {
   }
 }
 
-data "terraform_remote_state" "critical_back_end" {
-  backend = "s3"
+locals {
+  shared_infra = data.terraform_remote_state.shared_infra.outputs
 
-  config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
-
-    bucket         = "wellcomecollection-platform-infra"
-    key            = "terraform/platform-infrastructure/shared.tfstate"
-    region         = "eu-west-1"
-  }
+  platform_accounts = data.terraform_remote_state.accounts_platform.outputs
+  platform_vpcs     = data.terraform_remote_state.accounts_platform.outputs
 }

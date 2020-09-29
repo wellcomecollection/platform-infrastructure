@@ -141,20 +141,6 @@ output "storage_vpc_id" {
   value = local.storage_vpcs["storage_vpc_id"]
 }
 
-# Monitoring VPC
-
-output "monitoring_vpc_delta_private_subnets" {
-  value = local.platform_vpcs["monitoring_vpc_delta_private_subnets"]
-}
-
-output "monitoring_vpc_delta_public_subnets" {
-  value = local.platform_vpcs["monitoring_vpc_delta_public_subnets"]
-}
-
-output "monitoring_vpc_delta_id" {
-  value = local.platform_vpcs["monitoring_vpc_delta_id"]
-}
-
 # Data Science VPC
 
 output "datascience_vpc_private_subnets" {
@@ -213,34 +199,6 @@ output "digirati_vpc_public_subnets" {
 
 output "digirati_vpc_id" {
   value = local.digirati_vpcs["digirati_vpc_id"]
-}
-
-# Developer VPC
-
-output "developer_vpc_private_subnets" {
-  value = local.platform_vpcs["developer_vpc_private_subnets"]
-}
-
-output "developer_vpc_public_subnets" {
-  value = local.platform_vpcs["developer_vpc_public_subnets"]
-}
-
-output "developer_vpc_id" {
-  value = local.platform_vpcs["developer_vpc_id"]
-}
-
-# CI VPC
-
-output "ci_vpc_private_subnets" {
-  value = local.platform_vpcs["ci_vpc_private_subnets"]
-}
-
-output "ci_vpc_public_subnets" {
-  value = local.platform_vpcs["ci_vpc_public_subnets"]
-}
-
-output "ci_vpc_id" {
-  value = local.platform_vpcs["ci_vpc_id"]
 }
 
 # Cloud health roles
