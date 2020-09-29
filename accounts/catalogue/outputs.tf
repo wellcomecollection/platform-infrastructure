@@ -25,3 +25,27 @@ output "publisher_role_arn" {
 output "ci_role_arn" {
   value = module.catalogue_account.ci_role_arn
 }
+
+output "catalogue_vpc_private_subnets" {
+  value = module.catalogue_vpc.private_subnets
+}
+
+output "catalogue_vpc_public_subnets" {
+  value = module.catalogue_vpc.public_subnets
+}
+
+output "catalogue_vpc_id" {
+  value = module.catalogue_vpc.vpc_id
+}
+
+output "catalogue_vpc_delta_private_subnets" {
+  value = module.catalogue_vpc_delta.private_subnets
+}
+
+output "catalogue_vpc_delta_public_subnets" {
+  value = module.catalogue_vpc_delta.public_subnets
+}
+
+output "catalogue_vpc_delta_id" {
+  value = module.catalogue_vpc_delta.vpc_id
+}
