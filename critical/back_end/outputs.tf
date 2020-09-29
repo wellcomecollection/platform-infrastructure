@@ -127,20 +127,6 @@ output "catalogue_vpc_delta_id" {
   value = local.catalogue_vpcs["catalogue_vpc_delta_id"]
 }
 
-# Storage VPC
-
-output "storage_vpc_private_subnets" {
-  value = local.storage_vpcs["storage_vpc_private_subnets"]
-}
-
-output "storage_vpc_public_subnets" {
-  value = local.storage_vpcs["storage_vpc_public_subnets"]
-}
-
-output "storage_vpc_id" {
-  value = local.storage_vpcs["storage_vpc_id"]
-}
-
 # Data Science VPC
 
 output "datascience_vpc_private_subnets" {
