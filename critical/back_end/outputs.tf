@@ -169,20 +169,6 @@ output "catalogue_vpc_id" {
   value = local.catalogue_vpcs["catalogue_vpc_id"]
 }
 
-# Experience VPC
-
-output "experience_vpc_private_subnets" {
-  value = local.experience_vpcs["experience_vpc_private_subnets"]
-}
-
-output "experience_vpc_public_subnets" {
-  value = local.experience_vpcs["experience_vpc_public_subnets"]
-}
-
-output "experience_vpc_id" {
-  value = local.experience_vpcs["experience_vpc_id"]
-}
-
 # Cloud health roles
 
 output "cloudhealth_catalogue_role_arn" {
