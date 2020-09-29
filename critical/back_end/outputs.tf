@@ -113,40 +113,6 @@ output "inference_calm_reindex_topic_name" {
   value = module.inference_calm_reindex_topic.name
 }
 
-# Cloud health roles
-
-output "cloudhealth_catalogue_role_arn" {
-  value = module.cloudhealth-catalogue.role_arn
-}
-
-output "cloudhealth_datascience_role_arn" {
-  value = module.cloudhealth-datascience.role_arn
-}
-
-output "cloudhealth_storage_role_arn" {
-  value = module.cloudhealth-storage.role_arn
-}
-
-output "cloudhealth_platform_role_arn" {
-  value = module.cloudhealth-platform.role_arn
-}
-
-output "cloudhealth_experience_role_arn" {
-  value = module.cloudhealth-experience.role_arn
-}
-
-output "cloudhealth_digitisation_role_arn" {
-  value = module.cloudhealth-digitisation.role_arn
-}
-
-output "cloudhealth_workflow_role_arn" {
-  value = module.cloudhealth-workflow.role_arn
-}
-
-output "cloudhealth_reporting_role_arn" {
-  value = module.cloudhealth-reporting.role_arn
-}
-
 # Shared secrets
 
 output "shared_secrets_logging" {
