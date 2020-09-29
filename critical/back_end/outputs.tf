@@ -127,20 +127,6 @@ output "catalogue_vpc_delta_id" {
   value = local.catalogue_vpcs["catalogue_vpc_delta_id"]
 }
 
-# Data Science VPC
-
-output "datascience_vpc_private_subnets" {
-  value = local.datascience_vpcs["datascience_vpc_private_subnets"]
-}
-
-output "datascience_vpc_public_subnets" {
-  value = local.datascience_vpcs["datascience_vpc_public_subnets"]
-}
-
-output "datascience_vpc_id" {
-  value = local.datascience_vpcs["datascience_vpc_id"]
-}
-
 # Catalogue VPC
 
 output "catalogue_vpc_private_subnets" {
