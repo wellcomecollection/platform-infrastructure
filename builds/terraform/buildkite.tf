@@ -41,8 +41,13 @@ resource "aws_cloudformation_stack" "buildkite" {
     BuildkiteQueue                                            = "default"
     BuildkiteAgentRelease                                     = "stable"
     BuildkiteAgentTimestampLines                              = false
-    BuildkiteTerminateInstanceAfterJob                        = true
     BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
+
+    # We don't have to terminate an agent after a job completes.  We have
+    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
+    # any state left over from previous jobs, so each instance will be "fresh",
+    # but already have a local cache of Docker images and Scala libraries.
+    BuildkiteTerminateInstanceAfterJob = false
 
     EnableExperimentalLambdaBasedAutoscaling = true
     EnableECRPlugin                          = true
@@ -134,3 +139,23 @@ locals {
 }
 
 data "aws_caller_identity" "current" {}
+
+# Upload an agent environment hook to /env in the secrets bucket.
+#
+# This will be downloaded by the agent before the start of each job.
+# The hook cleans up the environment, so any stale state left from a previous
+# job shouldn't pollute the job that's running now.
+#
+# See:
+# https://github.com/buildkite/elastic-ci-stack-for-aws#build-secrets
+# https://buildkite.com/docs/agent/v3/hooks
+locals {
+  buildkite_agent_hook_path = "${path.module}/../buildkite_agent_hook.sh"
+}
+
+resource "aws_s3_bucket_object" "buildkite_agent_hook" {
+  bucket = aws_cloudformation_stack.buildkite.outputs["ManagedSecretsBucket"]
+  key    = "env"
+  source = local.buildkite_agent_hook_path
+  etag   = filemd5(local.buildkite_agent_hook_path)
+}
