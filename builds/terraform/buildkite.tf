@@ -41,8 +41,13 @@ resource "aws_cloudformation_stack" "buildkite" {
     BuildkiteQueue                                            = "default"
     BuildkiteAgentRelease                                     = "stable"
     BuildkiteAgentTimestampLines                              = false
-    BuildkiteTerminateInstanceAfterJob                        = true
     BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
+
+    # We don't have to terminate an agent after a job completes.  We have
+    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
+    # any state left over from previous jobs, so each instance will be "fresh",
+    # but already have a local cache of Docker images and Scala libraries.
+    BuildkiteTerminateInstanceAfterJob = false
 
     EnableExperimentalLambdaBasedAutoscaling = true
     EnableECRPlugin                          = true
