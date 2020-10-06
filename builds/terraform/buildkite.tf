@@ -134,3 +134,14 @@ locals {
 }
 
 data "aws_caller_identity" "current" {}
+
+locals {
+  buildkite_agent_hook_path = "${path.module}/../buildkite_agent_hook.sh"
+}
+
+resource "aws_s3_bucket_object" "buildkite_agent_hook" {
+  bucket = aws_cloudformation_stack.buildkite.outputs["ManagedSecretsBucket"]
+  key    = "env"
+  source = local.buildkite_agent_hook_path
+  etag   = filemd5(local.buildkite_agent_hook_path)
+}
