@@ -12,6 +12,6 @@ echo "These are the containers which are running, probably from a previous job:"
 docker ps
 
 echo "I'm going to stop these containers now, so this job has a clean start."
-docker stop $(docker ps -q) || true
+docker kill $(docker ps -q) || true
 
 echo "Goodbye! The agent hook is finished now!"
