@@ -1,6 +1,6 @@
 locals {
   account_ids = {
-    platform = "760097843905"
+    platform  = "760097843905"
     catalogue = "756629837203"
   }
 

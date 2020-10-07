@@ -144,7 +144,9 @@ if __name__ == "__main__":
         #
         # This avoids us having to recreate the saved searches every time
         # we redeploy in the catalogue.
-        service_name = re.sub(r"([-_])[0-9-]+([-_]?)", "\g<1>*\g<2>", service_name).strip("-")
+        service_name = re.sub(
+            r"([-_])[0-9-]+([-_]?)", r"\g<1>*\g<2>", service_name
+        ).strip("-")
 
         print(f"Creating a saved search for {termcolor.colored(service_name, 'blue')}")
         create_saved_search_for(client, service_name=service_name)
