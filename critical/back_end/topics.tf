@@ -14,7 +14,7 @@ module "gateway_server_error_alarm" {
   source = "./modules/sns"
   name   = "shared_gateway_server_error_alarm"
 
-  cross_account_subscription_ids = ["756629837203"]
+  cross_account_subscription_ids = [local.account_ids["catalogue"]]
 }
 
 module "terraform_apply_topic" {
@@ -29,8 +29,7 @@ module "terraform_apply_topic" {
 module "reporting_miro_reindex_topic" {
   source = "./modules/sns"
   name   = "reporting_miro_reindex_topic"
-  cross_account_subscription_ids = [
-  "269807742353"]
+  cross_account_subscription_ids = [local.account_ids["reporting"]]
 }
 
 module "reporting_sierra_reindex_topic" {
@@ -41,8 +40,7 @@ module "reporting_sierra_reindex_topic" {
 module "reporting_miro_inventory_reindex_topic" {
   source = "./modules/sns"
   name   = "reporting_miro_inventory_reindex_topic"
-  cross_account_subscription_ids = [
-  "269807742353"]
+  cross_account_subscription_ids = [local.account_ids["reporting"]]
 }
 
 ## Catalogue
@@ -73,6 +71,5 @@ module "inference_calm_reindex_topic" {
 module "miro_updates_topic" {
   source = "./modules/sns"
   name   = "vhs_sourcedata_miro_updates_topic"
-  cross_account_subscription_ids = [
-  "269807742353"]
+  cross_account_subscription_ids = [local.account_ids["reporting"]]
 }
