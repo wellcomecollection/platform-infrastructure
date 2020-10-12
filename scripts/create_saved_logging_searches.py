@@ -36,6 +36,7 @@ def get_service_names():
         "arn:aws:iam::756629837203:role/catalogue-read_only",
         "arn:aws:iam::760097843905:role/platform-read_only",
         "arn:aws:iam::975596993436:role/storage-read_only",
+        "arn:aws:iam::299497370133:role/workflow-read_only",
     ]:
         ecs_client = get_aws_client("ecs", role_arn=role_arn)
 
