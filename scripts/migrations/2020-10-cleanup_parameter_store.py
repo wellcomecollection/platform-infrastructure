@@ -37,10 +37,7 @@ def get_parameter_store_entries():
             Names=[param["Name"] for param in page["Parameters"]]
         )
 
-        parameter_values = {
-            param["Name"]: param
-            for param in resp["Parameters"]
-        }
+        parameter_values = {param["Name"]: param for param in resp["Parameters"]}
 
         for param_meta in page["Parameters"]:
             yield param_meta, parameter_values[param_meta["Name"]]
@@ -66,7 +63,7 @@ def delete_parameter_store_entry(param_meta, param_value):
 
     # Print the parameter first, so if we screw up saving it to JSON, we've
     # still got all the critical info.
-    print(termcolor.colored(f"Deleting {param_meta['Name']}:", 'red'))
+    print(termcolor.colored(f"Deleting {param_meta['Name']}:", "red"))
     print(json.dumps(parameter_record))
 
     ssm_client.delete_parameter(Name=param_meta["Name"])
@@ -79,9 +76,8 @@ def delete_parameter_store_entry(param_meta, param_value):
 
 if __name__ == "__main__":
     for param_meta, param_value in get_parameter_store_entries():
-        if (
-            "/images/" not in param_meta["Name"] and
-            not param_meta["Name"].startswith("/releases/")
+        if "/images/" not in param_meta["Name"] and not param_meta["Name"].startswith(
+            "/releases/"
         ):
             continue
 
