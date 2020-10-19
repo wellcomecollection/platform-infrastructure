@@ -79,10 +79,7 @@ def _get_tfstate_location(*, account_name, cluster_name):
         }
 
     try:
-        return {
-            "bucket": tfstate_bucket,
-            "key": tfstate_key,
-        }
+        return {"bucket": tfstate_bucket, "key": tfstate_key}
     except NameError:
         sys.exit(f"Don't know tfstate location for {cluster_name}")
 
