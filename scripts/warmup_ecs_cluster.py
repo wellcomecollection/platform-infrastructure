@@ -76,7 +76,7 @@ def _get_tfstate_location(*, account_name, cluster_name):
         tfstate_key = {
             "storage-staging": "terraform/storage-service/stack_staging.tfstate",
             "storage-prod": "terraform/storage-service/stack_prod.tfstate",
-        }
+        }[cluster_name]
 
     try:
         return {"bucket": tfstate_bucket, "key": tfstate_key}
