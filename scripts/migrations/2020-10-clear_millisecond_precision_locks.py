@@ -32,8 +32,8 @@ def get_items(dynamodb_client, *, table_name):
 
 def has_millisecond_precision_timestamp(item, *, attribute_name):
     return (
-        isinstance(item[attribute_name], decimal.Decimal) and
-        item[attribute_name] > time.time() * 100
+        isinstance(item[attribute_name], decimal.Decimal)
+        and item[attribute_name] > time.time() * 100
     )
 
 
@@ -60,9 +60,11 @@ if __name__ == "__main__":
             ):
                 continue
 
-            outfile.write(json.dumps({"table_name": table_name, "item": item}, cls=DecimalEncoder) + "\n")
+            outfile.write(
+                json.dumps({"table_name": table_name, "item": item}, cls=DecimalEncoder)
+                + "\n"
+            )
 
             dynamodb_client.delete_item(
-                TableName=table_name,
-                Key={kf: item[kf] for kf in key_fields}
+                TableName=table_name, Key={kf: item[kf] for kf in key_fields}
             )
