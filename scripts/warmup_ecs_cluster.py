@@ -151,10 +151,14 @@ def warm_ecs_cluster(*, account_name, role_arn, cluster_name):
         elif tf_min == 0 and curr_min > 0:
             print(click.style(f"cooling", "blue"), display_name)
             new_min_capacity = 0
+        elif tf_min > curr_min:
+            print(click.style("warming", "green"), display_name)
+            new_min_capacity = tf_min
         # If the service is configured to always have at least one service running,
         # and indeed that's the current minimum, there's nothing to do.
         elif tf_min > 0 and curr_min > 0:
             print(click.style("·······", "yellow"), display_name)
+            continue
         else:
             print(
                 click.style("???????", "red"),
