@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file test_requirements.txt test_requirements.in
 #
-asn1crypto==0.24.0        # via cryptography
 aws-xray-sdk==0.95        # via moto
 backports.ssl-match-hostname==3.7.0.1  # via docker
 backports.tempfile==1.0   # via moto
@@ -17,14 +16,14 @@ certifi==2018.1.18        # via requests
 cffi==1.11.4              # via cryptography
 chardet==3.0.4            # via requests
 cookies==2.2.1            # via moto
-cryptography==2.3         # via moto
+cryptography==3.2         # via moto
 docker-pycreds==0.2.1     # via docker
 docker==3.0.0             # via moto
 docutils==0.14            # via botocore
 enum34==1.1.10            # via cryptography
 funcsigs==1.0.2           # via mock
 futures==3.3.0            # via s3transfer
-idna==2.6                 # via cryptography, requests
+idna==2.6                 # via requests
 ipaddress==1.0.23         # via cryptography, docker
 jinja2==2.10              # via moto
 jmespath==0.9.3           # via boto3, botocore
