@@ -24,6 +24,18 @@ resource "aws_route53_record" "rank" {
   provider = aws.dns
 }
 
+# See https://help.shopify.com/en/manual/online-store/os/domains/add-a-domain/using-existing-domains/connecting-domains#set-up-your-existing-domain-to-connect-to-shopify
+
+resource "aws_route53_record" "shop" {
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = "shop.${data.aws_route53_zone.weco_zone.name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["shops.myshopify.com"]
+
+  provider = aws.dns
+}
+
 # Redirects
 module "www" {
   source  = "./modules/redirect"
