@@ -26,7 +26,7 @@ funcsigs==1.0.2           # via mock
 futures==3.3.0            # via s3transfer
 idna==2.6                 # via cryptography, requests
 ipaddress==1.0.23         # via cryptography, docker
-jinja2==2.10              # via moto
+jinja2==2.10.1            # via moto
 jmespath==0.9.3           # via boto3, botocore
 jsondiff==1.1.1           # via moto
 jsonpickle==0.9.5         # via aws-xray-sdk
