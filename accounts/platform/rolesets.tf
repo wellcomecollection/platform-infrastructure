@@ -318,10 +318,11 @@ module "digirati_dev_roleset" {
     # Platform
     module.aws_account.read_only_role_arn,
 
-    # Digitisation
+    # Digirati
     local.digirati_account_roles["admin_role_arn"],
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
+    local.digirati_account_roles["ci_role_arn"],
 
     # Workflow
     local.workflow_account_roles["read_only_role_arn"],
