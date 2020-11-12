@@ -81,6 +81,7 @@ data "aws_iam_policy_document" "ci_permissions" {
       local.platform_read_only_role_arn,
       local.account_ci_role_arn_map["platform"],
       local.account_ci_role_arn_map["catalogue"],
+      local.account_ci_role_arn_map["digirati"],
       local.account_ci_role_arn_map["storage"],
       local.account_ci_role_arn_map["experience"],
       local.account_ci_role_arn_map["workflow"],
