@@ -15,6 +15,11 @@ module "super_dev_roleset" {
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
 
+    # Identity
+    local.identity_account_roles["admin_role_arn"],
+    local.identity_account_roles["developer_role_arn"],
+    local.identity_account_roles["read_only_role_arn"],
+
     # Workflow
     local.workflow_account_roles["admin_role_arn"],
     local.workflow_account_roles["developer_role_arn"],
@@ -66,7 +71,9 @@ module "super_dev_roleset" {
     local.digirati_account_roles["ci_role_arn"],
     local.reporting_account_roles["ci_role_arn"],
     local.storage_account_roles["ci_role_arn"],
+    local.data_account_roles["ci_role_arn"],
     local.workflow_account_roles["ci_role_arn"],
+    local.identity_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
 
@@ -97,6 +104,10 @@ module "dev_roleset" {
     # Platform
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
+
+    # Identity
+    local.identity_account_roles["developer_role_arn"],
+    local.identity_account_roles["read_only_role_arn"],
 
     # Digirati
     local.digirati_account_roles["developer_role_arn"],
@@ -322,6 +333,12 @@ module "digirati_dev_roleset" {
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
+
+    # Identity
+    local.identity_account_roles["admin_role_arn"],
+    local.identity_account_roles["developer_role_arn"],
+    local.identity_account_roles["read_only_role_arn"],
+    local.identity_account_roles["ci_role_arn"],
 
     # Workflow
     local.workflow_account_roles["read_only_role_arn"],
