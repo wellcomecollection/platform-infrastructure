@@ -12,7 +12,6 @@ module "super_dev_roleset" {
   assumable_role_arns = [
     # Platform
     module.aws_account.admin_role_arn,
-
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
 

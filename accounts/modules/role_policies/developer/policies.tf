@@ -32,6 +32,18 @@ data "aws_iam_policy_document" "restrict_destructive_actions" {
       "*",
     ]
   }
+
+  statement {
+    effect = "Deny"
+
+    actions = [
+      "secretsmanager:*",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:*:*:secret:admin/*",
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "iam_user_group_deny" {
