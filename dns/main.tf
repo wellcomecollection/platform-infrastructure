@@ -47,3 +47,26 @@ module "www" {
     aws.dns = aws.dns
   }
 }
+
+resource "aws_route53_zone" "identity" {
+  name = "identity.${data.aws_route53_zone.weco_zone.name}"
+}
+
+resource "aws_route53_record" "identity-ns" {
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = "identity.${data.aws_route53_zone.weco_zone.name}"
+  type    = "NS"
+  ttl     = "300"
+  records = local.temp_ns_records_identity
+
+  provider = aws.dns
+}
+
+locals {
+  temp_ns_records_identity = [
+    "ns-1200.awsdns-22.org",
+    "ns-1588.awsdns-06.co.uk",
+    "ns-344.awsdns-43.com",
+    "ns-599.awsdns-10.net",
+  ]
+}
