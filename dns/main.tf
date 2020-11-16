@@ -48,6 +48,9 @@ module "www" {
   }
 }
 
+# Delegates access to the identity account hosted zone
+# See: https://github.com/wellcomecollection/identity
+
 resource "aws_route53_zone" "identity" {
   name = "identity.${data.aws_route53_zone.weco_zone.name}"
 }
@@ -63,6 +66,7 @@ resource "aws_route53_record" "identity-ns" {
 }
 
 locals {
+  # Awaiting state availability in identity stack
   temp_ns_records_identity = [
     "ns-1200.awsdns-22.org",
     "ns-1588.awsdns-06.co.uk",
