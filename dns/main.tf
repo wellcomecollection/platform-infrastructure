@@ -60,17 +60,7 @@ resource "aws_route53_record" "identity-ns" {
   name    = "identity.${data.aws_route53_zone.weco_zone.name}"
   type    = "NS"
   ttl     = "300"
-  records = local.temp_ns_records_identity
+  records = local.identity_zone_name_servers
 
   provider = aws.dns
-}
-
-locals {
-  # Awaiting state availability in identity stack
-  temp_ns_records_identity = [
-    "ns-1200.awsdns-22.org",
-    "ns-1588.awsdns-06.co.uk",
-    "ns-344.awsdns-43.com",
-    "ns-599.awsdns-10.net",
-  ]
 }
