@@ -113,7 +113,7 @@ def docker_login_to_ecr(ecr_client, *, account_id):
         auth["proxyEndpoint"],
     ]
 
-    proc = subprocess.check_call(cmd)
+    subprocess.check_call(cmd)
 
 
 def create_ecr_repository(ecr_client, *, name):
