@@ -1,7 +1,3 @@
 steps:
   - command: .buildkite/scripts/run_autoformat.py
     label: "autoformat"
-  - command:
-      pip3 install --user boto3 click &&
-      python3 builds/copy_docker_images_to_ecr.py
-    label: "mirror ECR images"
