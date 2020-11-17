@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""
+Docker Hub enforces rate limits for unauthenticated users, and our build system
+will hit those limits.
+
+This script mirrors the images we care about into ECR repositories in
+our AWS accounts, so we're not affected by those rate limits.
+"""
 
 import functools
 import subprocess
@@ -13,7 +20,6 @@ IMAGES = [
 
 ACCOUNTS = {
     "760097843905": "platform",
-    "975596993436": "storage",
 }
 
 
