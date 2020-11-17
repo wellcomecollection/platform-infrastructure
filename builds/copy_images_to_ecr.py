@@ -16,6 +16,8 @@ import click
 
 IMAGES = [
     "hashicorp/terraform:light",
+    "wellcome/flake8:latest",
+    "wellcome/format_python:112",
 ]
 
 ACCOUNTS = {
