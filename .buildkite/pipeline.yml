@@ -1,3 +1,6 @@
 steps:
+  - command: eval $(aws ecr get-login --no-include-email)
+    label: "log in to ECR"
+  - wait
   - command: .buildkite/scripts/run_autoformat.py
     label: "autoformat"
