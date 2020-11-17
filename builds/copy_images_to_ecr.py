@@ -45,13 +45,10 @@ def get_aws_client(resource, *, role_arn):
     )
 
 
-def ensure_ecr_repos_exist(*, account_id, account_name, image_tags):
+def ensure_ecr_repos_exist(ecr_client, *, account_id, account_name, image_tags):
     """
     Ensure we have ECR image repositories that we can mirror images into.
     """
-    role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-publisher"
-    ecr_client = get_aws_client("ecr", role_arn=role_arn)
-
     known_repos = set()
 
     paginator = ecr_client.get_paginator("describe_repositories")
@@ -77,7 +74,12 @@ if __name__ == "__main__":
 
     for account_id, account_name in ACCOUNTS.items():
         print(f"Creating ECR repos in the {account} account")
+
+        role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-publisher"
+        ecr_client = get_aws_client("ecr", role_arn=role_arn)
+
         ensure_ecr_repos_exist(
+            ecr_client,
             account_id=account_id,
             account_name=account_name,
             image_tags=IMAGES
