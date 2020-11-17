@@ -16,11 +16,15 @@ import click
 
 IMAGES = [
     "hashicorp/terraform:light",
+    "library/mysql:5.6",
     "localstack/localstack",
+    "localstack/localstack:0.10.5",
     "peopleperhour/dynamodb",
     "rodolpheche/wiremock",
+    "scality/s3server:mem-latest",
     "s12v/elasticmq",
     "wellcome/build_test_python",
+    "wellcome/fake-sns",
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
     "wellcome/image_builder:23",
