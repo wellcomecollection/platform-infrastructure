@@ -6,6 +6,7 @@ data "aws_iam_policy_document" "ecr_power_user" {
       "ecr:BatchCheckLayerAvailability",
       "ecr:BatchGetImage",
       "ecr:CompleteLayerUpload",
+      "ecr:CreateRepository",
       "ecr:DescribeImages",
       "ecr:DescribeRepositories",
       "ecr:GetAuthorizationToken",
