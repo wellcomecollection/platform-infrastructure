@@ -16,8 +16,13 @@ import click
 
 IMAGES = [
     "hashicorp/terraform:light",
+    "localstack/localstack",
+    "peopleperhour/dynamodb",
+    "rodolpheche/wiremock",
+    "s12v/elasticmq",
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
+    "zenko/cloudserver:8.1.8",
 ]
 
 ACCOUNTS = {
