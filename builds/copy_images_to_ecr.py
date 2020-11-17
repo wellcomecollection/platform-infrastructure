@@ -20,8 +20,14 @@ IMAGES = [
     "peopleperhour/dynamodb",
     "rodolpheche/wiremock",
     "s12v/elasticmq",
+    "wellcome/build_test_python",
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
+    "wellcome/image_builder:23",
+    "wellcome/publish_lambda:130",
+    "wellcome/sbt_wrapper",
+    "wellcome/scalafmt:edge",
+    "wellcome/weco-deploy:5.5.7",
     "zenko/cloudserver:8.1.8",
 ]
 
