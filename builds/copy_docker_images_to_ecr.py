@@ -31,9 +31,7 @@ IMAGES = [
     "zenko/cloudserver:8.1.8",
 ]
 
-ACCOUNTS = {
-    "760097843905": "platform",
-}
+ACCOUNTS = {"760097843905": "platform"}
 
 
 def docker(*args):
@@ -82,7 +80,7 @@ if __name__ == "__main__":
             f"eval $(AWS_PROFILE={account}-dev aws ecr get-login --no-include-email)",
             shell=True,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
         )
 
     for account_id, account_name in ACCOUNTS.items():
@@ -95,7 +93,7 @@ if __name__ == "__main__":
             ecr_client,
             account_id=account_id,
             account_name=account_name,
-            image_tags=IMAGES
+            image_tags=IMAGES,
         )
 
     for image_tag in IMAGES:
