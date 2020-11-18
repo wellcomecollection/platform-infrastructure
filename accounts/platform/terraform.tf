@@ -118,6 +118,18 @@ data "terraform_remote_state" "accounts_workflow" {
   }
 }
 
+data "terraform_remote_state" "accounts_identity" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/identity.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 data "template_file" "pgp_key" {
@@ -137,6 +149,8 @@ locals {
   reporting_account_roles    = data.terraform_remote_state.accounts_reporting.outputs
   storage_account_roles      = data.terraform_remote_state.accounts_storage.outputs
   workflow_account_roles     = data.terraform_remote_state.accounts_workflow.outputs
+  identity_account_roles     = data.terraform_remote_state.accounts_identity.outputs
+
 
   account_ids = {
     platform = local.account_id
