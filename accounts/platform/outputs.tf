@@ -35,6 +35,7 @@ output "ci_role_arn" {
     reporting    = local.reporting_account_roles["ci_role_arn"]
     storage      = local.storage_account_roles["ci_role_arn"]
     workflow     = local.workflow_account_roles["ci_role_arn"]
+    identity     = local.identity_account_roles["ci_role_arn"]
   }
 }
 
