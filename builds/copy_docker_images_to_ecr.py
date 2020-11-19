@@ -45,6 +45,7 @@ IMAGE_TAGS = [
     "localstack/localstack",
     "localstack/localstack:0.10.5",
     "peopleperhour/dynamodb",
+    "python:3.8.3",
     "rodolpheche/wiremock",
     "scality/s3server:mem-latest",
     "s12v/elasticmq",
