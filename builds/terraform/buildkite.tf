@@ -85,6 +85,7 @@ data "aws_iam_policy_document" "ci_permissions" {
       local.account_ci_role_arn_map["storage"],
       local.account_ci_role_arn_map["experience"],
       local.account_ci_role_arn_map["workflow"],
+      local.account_ci_role_arn_map["identity"],
     ]
   }
 
