@@ -39,6 +39,7 @@ from botocore.exceptions import ClientError
 ACCOUNT_ID = "760097843905"
 
 IMAGE_TAGS = [
+    "amazon/aws-cli",
     "hashicorp/terraform:light",
     "library/mysql:5.6",
     "localstack/localstack",
