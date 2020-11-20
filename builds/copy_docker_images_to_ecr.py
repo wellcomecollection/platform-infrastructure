@@ -44,6 +44,8 @@ IMAGE_TAGS = [
     "library/mysql:5.6",
     "localstack/localstack",
     "localstack/localstack:0.10.5",
+    "node:12.18.3",
+    "node:14.14.0",
     "peopleperhour/dynamodb",
     "python:3.7-alpine",
     "python:3.8.3",
