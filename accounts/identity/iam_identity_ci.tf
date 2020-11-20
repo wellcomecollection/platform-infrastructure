@@ -6,19 +6,30 @@ resource "aws_iam_role_policy" "identity_ci" {
 data "aws_iam_policy_document" "identity_ci" {
 
   statement {
-
     effect = "Allow"
-
     actions = [
       "s3:List*",
       "s3:Get*",
       "s3:Put*",
       "s3:Delete*"
     ]
-
     resources = [
       "arn:aws:s3:::identity-dist",
       "arn:aws:s3:::identity-dist/*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:List*",
+      "s3:Get*"
+    ]
+    resources = [
+      "arn:aws:s3:::identity-remote-state",
+      "arn:aws:s3:::identity-remote-state/*",
+      "arn:aws:s3:::identity-static-remote-state",
+      "arn:aws:s3:::identity-static-remote-state/*"
     ]
   }
 }
