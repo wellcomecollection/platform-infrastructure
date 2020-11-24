@@ -4,6 +4,39 @@ resource "aws_iam_role_policy" "identity_ci" {
 }
 
 data "aws_iam_policy_document" "identity_ci" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "lambda:CreateAlias",
+      "lambda:GetFunction",
+      "lambda:CreateFunction",
+      "lambda:DeleteFunction",
+      "lambda:UpdateFunctionCode",
+      "lambda:GetFunctionConfiguration",
+      "lambda:UpdateFunctionConfiguration",
+      "lambda:AddPermission",
+      "lambda:RemovePermission",
+      "lambda:InvokeFunction"
+    ]
+
+    resources = [
+      "arn:aws:lambda:::function:identity-api-*",
+      "arn:aws:lambda:::function:identity-authorizer-*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "apigateway:*"
+    ]
+
+    resources = [
+      "arn:aws:apigateway:::/restapis/*/stages",
+      "arn:aws:apigateway:::/restapis/*/stages/*"
+    ]
+  }
 
   statement {
     effect = "Allow"
