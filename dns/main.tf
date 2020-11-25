@@ -70,7 +70,7 @@ resource "aws_route53_record" "identity-ses-txt" {
   name    = "_amazonses.${data.aws_route53_zone.weco_zone.name}"
   type    = "TXT"
   ttl     = "300"
-  records = [local.identity_ses_txt_verification_record_value]
+  records = local.identity_ses_txt_records
 
   provider = aws.dns
 }
