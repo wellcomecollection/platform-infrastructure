@@ -51,20 +51,6 @@ module "www" {
 # Delegates access to the identity account hosted zone
 # See: https://github.com/wellcomecollection/identity
 
-resource "aws_route53_zone" "identity" {
-  name = "identity.${data.aws_route53_zone.weco_zone.name}"
-}
-
-resource "aws_route53_record" "identity-ns" {
-  zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "identity.${data.aws_route53_zone.weco_zone.name}"
-  type    = "NS"
-  ttl     = "300"
-  records = local.identity_zone_name_servers
-
-  provider = aws.dns
-}
-
 resource "aws_route53_zone" "account" {
   name = "account.${data.aws_route53_zone.weco_zone.name}"
 }
