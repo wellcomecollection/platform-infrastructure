@@ -32,8 +32,7 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
 
     resources = [
-      "arn:aws:apigateway:eu-west-1::/restapis/*/stages",
-      "arn:aws:apigateway:eu-west-1::/restapis/*/stages/*"
+      "arn:aws:apigateway:eu-west-1::*"
     ]
   }
 
