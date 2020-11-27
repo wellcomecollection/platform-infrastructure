@@ -8,21 +8,20 @@ data "aws_iam_policy_document" "identity_ci" {
     effect = "Allow"
 
     actions = [
+      "lambda:AddPermission",
       "lambda:CreateAlias",
-      "lambda:GetFunction",
       "lambda:CreateFunction",
       "lambda:DeleteFunction",
-      "lambda:UpdateFunctionCode",
+      "lambda:GetFunction",
       "lambda:GetFunctionConfiguration",
-      "lambda:UpdateFunctionConfiguration",
-      "lambda:AddPermission",
+      "lambda:InvokeFunction",
       "lambda:RemovePermission",
-      "lambda:InvokeFunction"
+      "lambda:UpdateFunctionCode",
+      "lambda:UpdateFunctionConfiguration",
     ]
 
     resources = [
-      "arn:aws:lambda:::function:identity-api-*",
-      "arn:aws:lambda:::function:identity-authorizer-*"
+      "arn:aws:lambda:eu-west-1:${local.account_ids.identity}:function:*"
     ]
   }
 
@@ -33,8 +32,8 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
 
     resources = [
-      "arn:aws:apigateway:::/restapis/*/stages",
-      "arn:aws:apigateway:::/restapis/*/stages/*"
+      "arn:aws:apigateway:eu-west-1::/restapis/*/stages",
+      "arn:aws:apigateway:eu-west-1::/restapis/*/stages/*"
     ]
   }
 
