@@ -12,10 +12,12 @@ data "aws_iam_policy_document" "identity_ci" {
       "lambda:CreateAlias",
       "lambda:CreateFunction",
       "lambda:DeleteFunction",
+      "lambda:GetAlias",
       "lambda:GetFunction",
       "lambda:GetFunctionConfiguration",
       "lambda:InvokeFunction",
       "lambda:RemovePermission",
+      "lambda:UpdateAlias",
       "lambda:UpdateFunctionCode",
       "lambda:UpdateFunctionConfiguration",
     ]
