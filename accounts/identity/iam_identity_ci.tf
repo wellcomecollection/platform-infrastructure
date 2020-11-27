@@ -21,10 +21,7 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
 
     resources = [
-      "arn:aws:lambda:eu-west-1:770700576653:function:identity-api-stage",
-      "arn:aws:lambda:eu-west-1:770700576653:function:identity-authorizer-stage",
-      "arn:aws:lambda:eu-west-1:770700576653:function:identity-api-prod",
-      "arn:aws:lambda:eu-west-1:770700576653:function:identity-authorizer-prod"
+      "arn:aws:lambda:eu-west-1:${local.account_ids.identity}:function:*"
     ]
   }
 
