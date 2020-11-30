@@ -15,6 +15,7 @@ data "aws_iam_policy_document" "identity_ci" {
       "lambda:GetAlias",
       "lambda:GetFunction",
       "lambda:GetFunctionConfiguration",
+      "lambda:GetPolicy",
       "lambda:InvokeFunction",
       "lambda:RemovePermission",
       "lambda:UpdateAlias",
