@@ -78,4 +78,14 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:s3:::identity-public-swagger-ui-v1-stage/*",
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudfront:CreateInvalidation"
+    ]
+    resources = [
+      "arn:aws:cloudfront::${local.account_ids.identity}:distribution/*",
+    ]
+  }
 }
