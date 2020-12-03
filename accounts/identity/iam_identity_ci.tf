@@ -66,4 +66,16 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:s3:::identity-static-remote-state/*"
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:Get*",
+      "s3:Put*"
+    ]
+    resources = [
+      "arn:aws:s3:::identity-public-swagger-ui-v1-stage",
+      "arn:aws:s3:::identity-public-swagger-ui-v1-stage/*",
+    ]
+  }
 }
