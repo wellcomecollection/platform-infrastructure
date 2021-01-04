@@ -22,7 +22,7 @@ resource "aws_cloudformation_stack" "buildkite" {
 
     RootVolumeSize = 250
     RootVolumeName = "/dev/xvda"
-    RootVolumeType = "gp2"
+    RootVolumeType = "gp3"
 
     InstanceType            = "r5.large"
     InstanceCreationTimeout = "PT5M"
