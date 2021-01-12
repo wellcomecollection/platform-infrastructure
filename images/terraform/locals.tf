@@ -5,7 +5,8 @@ locals {
     "975596993436", // storage_account_id
     "299497370133", // workflow_account_id
     "130871440101", // experience_account_id
-    "653428163053"  // digirati_account_id
+    "653428163053",  // digirati_account_id
+    "770700576653", // identity_account_id
   ]
 
   namespace = "uk.ac.wellcome"
