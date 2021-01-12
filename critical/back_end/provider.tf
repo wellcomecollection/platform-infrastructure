@@ -38,6 +38,26 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias   = "workflow"
+  region  = local.aws_region
+  version = "~> 2.7"
+
+  assume_role {
+    role_arn = "arn:aws:iam::299497370133:role/workflow-developer"
+  }
+}
+
+provider "aws" {
+  alias   = "identity"
+  region  = local.aws_region
+  version = "~> 2.7"
+
+  assume_role {
+    role_arn = "arn:aws:iam::770700576653:role/identity-developer"
+  }
+}
+
+provider "aws" {
   alias = "digirati"
 
   region  = "eu-west-1"
