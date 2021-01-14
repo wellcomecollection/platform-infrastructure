@@ -108,4 +108,14 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:ecs:eu-west-1:${local.account_ids.identity}:service/*",
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:PassRole"
+    ]
+    resources = [
+      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-task-role-stage",
+    ]
+  }
 }
