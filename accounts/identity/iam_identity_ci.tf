@@ -88,4 +88,24 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:cloudfront::${local.account_ids.identity}:distribution/*",
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:RegisterTaskDefinition"
+    ]
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:UpdateService"
+    ]
+    resources = [
+      "arn:aws:ecs:eu-west-1:${local.account_ids.identity}:service/*",
+    ]
+  }
 }
