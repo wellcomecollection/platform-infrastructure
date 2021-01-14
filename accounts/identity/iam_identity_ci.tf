@@ -116,6 +116,7 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
     resources = [
       "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-task-role-stage",
+      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-execution-role-stage"
     ]
   }
 }
