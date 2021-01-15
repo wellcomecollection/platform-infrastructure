@@ -141,6 +141,14 @@ resource "aws_cloudfront_distribution" "iiif" {
       }
     }
 
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_function_association"]
+      }
+    }
+
     min_ttl     = 604800
     default_ttl = 86400
     max_ttl     = 31536000
