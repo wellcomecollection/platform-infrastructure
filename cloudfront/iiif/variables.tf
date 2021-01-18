@@ -14,3 +14,7 @@ variable "dlcs_lambda_associations" {
     lambda_arn = string
   }))
 }
+
+variable "miro_sourced_images_target" {
+  default = "loris"
+}
