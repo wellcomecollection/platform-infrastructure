@@ -33,7 +33,6 @@ import base64
 import subprocess
 
 import boto3
-from botocore.exceptions import ClientError
 
 
 ACCOUNT_ID = "760097843905"
