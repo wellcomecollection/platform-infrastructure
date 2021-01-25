@@ -23,7 +23,7 @@ If you want to use this script to mirror images from Docker Hub to ECR:
 
 Wellcome users: run this script as
 
-    AWS_PROFILE=platform-dev python3 copy_docker_images_to_ecr.py
+    python3 publish_mirrored_images.py
 
 [1]: https://www.docker.com/blog/what-you-need-to-know-about-upcoming-docker-hub-rate-limiting/
 
@@ -37,7 +37,9 @@ from botocore.exceptions import ClientError
 
 
 ACCOUNT_ID = "760097843905"
+PLATFORM_ROLE_ARN = "arn:aws:iam::760097843905:role/platform-developer"
 
+# These repositories must be provisioned in terraform/ecr.tf
 IMAGE_TAGS = [
     "amazon/aws-cli",
     "hashicorp/terraform:light",
@@ -121,17 +123,18 @@ def docker_login_to_ecr(ecr_client, *, account_id):
     subprocess.check_call(cmd)
 
 
-def create_ecr_repository(ecr_client, *, name):
-    """
-    Create a new ECR repository.
-    """
-    try:
-        ecr_client.create_repository(repositoryName=name)
-    except ClientError as err:
-        if err.response["Error"]["Code"] == "RepositoryAlreadyExistsException":
-            pass
-        else:
-            raise
+def get_aws_client(resource, *, role_arn):
+    sts_client = boto3.client("sts")
+    assumed_role_object = sts_client.assume_role(
+        RoleArn=role_arn, RoleSessionName="AssumeRoleSession1"
+    )
+    credentials = assumed_role_object["Credentials"]
+    return boto3.client(
+        resource,
+        aws_access_key_id=credentials["AccessKeyId"],
+        aws_secret_access_key=credentials["SecretAccessKey"],
+        aws_session_token=credentials["SessionToken"],
+    )
 
 
 def docker(*args):
@@ -145,14 +148,6 @@ def mirror_docker_hub_images_to_ecr(ecr_client, *, account_id, image_tags):
     """
     Given the name/tag of images in Docker Hub, mirror those images to ECR.
     """
-    print("Creating all ECR repositories...")
-    existing_repos = get_ecr_repo_names_in_account(ecr_client, account_id=account_id)
-
-    mirrored_repos = set(tag.split(":")[0] for tag in image_tags)
-    missing_repos = mirrored_repos - existing_repos
-
-    for repo_name in missing_repos:
-        ecr_client.create_repository(repositoryName=repo_name)
 
     print("Authenticating Docker with ECR...")
     docker_login_to_ecr(ecr_client, account_id=account_id)
@@ -166,6 +161,7 @@ def mirror_docker_hub_images_to_ecr(ecr_client, *, account_id, image_tags):
 
 
 if __name__ == "__main__":
+    ecr_client = get_aws_client("ecr", role_arn=PLATFORM_ROLE_ARN)
     mirror_docker_hub_images_to_ecr(
-        ecr_client=boto3.client("ecr"), account_id=ACCOUNT_ID, image_tags=IMAGE_TAGS
+        ecr_client=ecr_client, account_id=ACCOUNT_ID, image_tags=IMAGE_TAGS
     )
