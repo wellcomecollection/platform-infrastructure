@@ -51,7 +51,7 @@ resource "aws_ecr_repository" "mirrored_images" {
 }
 
 module "mirrored_images_policy" {
-  source = "./repo_policy"
+  source   = "./repo_policy"
   for_each = toset(local.mirrored_images)
 
   account_ids = local.account_ids
