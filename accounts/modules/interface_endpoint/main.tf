@@ -14,8 +14,8 @@ data "aws_vpc" "selected" {
 }
 
 locals {
-  vpc_name  = lookup(data.aws_vpc.selected.tags, "name", var.vpc_id)
-  vpc_label = split(",", local.vpc_name)[0]
+  vpc_name  = lookup(data.aws_vpc.selected.tags, "Name", var.vpc_id)
+  vpc_label = split("-", local.vpc_name)[0]
 }
 
 data "aws_vpc_endpoint_service" "service" {
@@ -35,6 +35,6 @@ resource "aws_vpc_endpoint" "endpoint" {
   private_dns_enabled = true
 
   tags = {
-    Name = "${local.vpc_label}-${var.service}"
+    Name = "${local.vpc_label}-${var.service}-vpc_endpoint"
   }
 }
