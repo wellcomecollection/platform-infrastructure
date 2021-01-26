@@ -1,6 +1,5 @@
 provider "aws" {
-  region  = "eu-west-1"
-  version = "2.35.0"
+  region = "eu-west-1"
 
   assume_role {
     role_arn = "arn:aws:iam::404315009621:role/digitisation-admin"
@@ -8,8 +7,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  region  = "eu-west-1"
-  version = "2.35.0"
+  region = "eu-west-1"
 
   alias = "platform"
 
