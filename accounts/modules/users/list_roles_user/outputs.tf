@@ -1,9 +1,9 @@
 output "user_id" {
-  value = "${aws_iam_access_key.access_key.id}"
+  value = aws_iam_access_key.access_key.id
 }
 
 output "user_secret" {
-  value = "${aws_iam_access_key.access_key.encrypted_secret}"
+  value = aws_iam_access_key.access_key.encrypted_secret
 }
 
 output "name" {
@@ -11,5 +11,5 @@ output "name" {
 }
 
 output "arn" {
-  value = "${aws_iam_user.user.arn}"
+  value = aws_iam_user.user.arn
 }
