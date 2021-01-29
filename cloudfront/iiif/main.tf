@@ -80,6 +80,24 @@ resource "aws_cloudfront_distribution" "iiif" {
     }
   }
 
+  origin {
+    domain_name = local.dlcs_domain
+    origin_id   = "dlcs_space_8"
+    origin_path = "/iiif-img/wellcome/8"
+
+    custom_origin_config {
+      origin_protocol_policy = "match-viewer"
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
+
+      http_port  = 80
+      https_port = 443
+    }
+  }
+
   enabled         = true
   is_ipv6_enabled = true
   comment         = "IIIF APIs (${var.environment})"
@@ -108,7 +126,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/V00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -116,6 +134,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -130,7 +156,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/L00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -138,6 +164,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -152,7 +186,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/M00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -160,6 +194,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -174,7 +216,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/B00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -182,6 +224,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -196,7 +246,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/N00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -204,6 +254,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -218,7 +276,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/A00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -226,6 +284,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -240,7 +306,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/W00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -248,6 +314,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
@@ -262,7 +336,7 @@ resource "aws_cloudfront_distribution" "iiif" {
     path_pattern     = "image/S00*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "loris"
+    target_origin_id = var.miro_sourced_images_target
 
     forwarded_values {
       query_string = true
@@ -270,6 +344,14 @@ resource "aws_cloudfront_distribution" "iiif" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "lambda_function_association" {
+      for_each = var.dlcs_lambda_associations
+      content {
+        event_type = lambda_function_association.value["event_type"]
+        lambda_arn = lambda_function_association.value["lambda_arn"]
       }
     }
 
