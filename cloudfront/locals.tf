@@ -4,4 +4,6 @@ locals {
   dlcs_path_rewrite_arn_latest = "${local.dlcs_path_rewrite_arn}:${local.dlcs_path_rewrite_latest}"
   dlcs_path_rewrite_arn_stage  = local.dlcs_path_rewrite_arn_latest
   dlcs_path_rewrite_arn_prod   = ""
+
+  edge_lambdas_bucket = data.terraform_remote_state.cloudfront_core.outputs.edge_lambdas_bucket
 }
