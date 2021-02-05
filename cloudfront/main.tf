@@ -13,7 +13,7 @@ module "wellcomecollection-stage" {
 }
 
 module "kibana-logging" {
-  source = "./kibana"
+  source = "./modules/kibana"
 
   alias   = "logging.wellcomecollection.org"
   comment = "Kibana (logging)"
@@ -23,7 +23,7 @@ module "kibana-logging" {
 }
 
 module "kibana-reporting" {
-  source = "./kibana"
+  source = "./modules/kibana"
 
   alias   = "reporting.wellcomecollection.org"
   comment = "Kibana (reporting)"
