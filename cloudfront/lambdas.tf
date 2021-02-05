@@ -5,16 +5,18 @@ resource "aws_lambda_function" "dlcs_path_rewrite" {
   role          = aws_iam_role.edge_lambda_role.arn
   runtime       = "nodejs12.x"
   handler       = "dlcs_path_rewrite.request"
-  filename      = "${path.module}/edge-lambda/dlcs_path_rewrite.zip"
   publish       = true
 
-  source_code_hash = data.archive_file.dlcs_path_rewite.output_base64sha256
+  s3_bucket         = data.aws_s3_bucket_object.dlcs_path_rewrite.bucket
+  s3_key            = data.aws_s3_bucket_object.dlcs_path_rewrite.key
+  s3_object_version = data.aws_s3_bucket_object.dlcs_path_rewrite.version_id
 }
 
-data "archive_file" "dlcs_path_rewite" {
-  type        = "zip"
-  source_file = "${path.module}/edge-lambda/dlcs_path_rewrite.js"
-  output_path = "${path.module}/edge-lambda/dlcs_path_rewrite.zip"
+data "aws_s3_bucket_object" "dlcs_path_rewrite" {
+  provider = aws.us_east_1
+
+  bucket = aws_s3_bucket.edge_lambdas.bucket
+  key    = "iiif/dlcs_path_rewrite.zip"
 }
 
 resource "aws_iam_role" "edge_lambda_role" {

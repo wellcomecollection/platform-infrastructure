@@ -156,5 +156,6 @@ locals {
     platform = local.account_id
   }
 
-  account_principals = { for key, value in local.account_ids : key => "arn:aws:iam::${value}:root" }
+  account_principals  = { for key, value in local.account_ids : key => "arn:aws:iam::${value}:root" }
+  platform_aws_region = "eu-west-1"
 }
