@@ -20,12 +20,24 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
     {
       in: '/image/B0009853/full/1338%2C/0/default.jpg',
       out: '/B0009853/full/1338%2C/0/default.jpg'
+    },
+    {
+      in: '/image/B0009853/full/1338%2C/0/default.png',
+      out: '/B0009853/full/1338%2C/0/default.png'
+    },
+    {
+      in: '/image/B0009853/full/1338%2C/0/gray.jpg',
+      out: '/B0009853/full/1338%2C/0/gray.jpg'
+    },
+    {
+      in: '/image/B0009853/400%2C400%2C200%2C200/1338%2C/0/default.jpg',
+      out: '/B0009853/400%2C400%2C200%2C200/1338%2C/0/default.jpg'
     }
   ]
 }
 
 test.each(rewrite_tests())(
-    'checks that path rewrite is valid',
+    'request path is rewritten: %o',
     (expected:ExpectedRewrite) => {
       const requestCallback = jest.fn((_, request) => request);
       const r = testRequest(expected.in)
