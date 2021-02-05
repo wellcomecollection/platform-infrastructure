@@ -1,5 +1,6 @@
 data "aws_vpc_endpoint_service" "service" {
-  service = var.service
+  service      = var.service
+  service_type = var.service_type
 }
 
 data "aws_vpc" "selected" {
