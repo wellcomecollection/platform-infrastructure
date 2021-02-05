@@ -1,5 +1,7 @@
 # Platform Infrastructure
 
+[![Build status](https://badge.buildkite.com/77ed104b8415c0879a234231e0fa3eebde5adf34f434b9ba9a.svg?branch=master)](https://buildkite.com/wellcomecollection/platform-infrastructure)
+
 Wellcome Collection common infrastructure.
 
 - [accounts](accounts/README.md): AWS account configuration, IAM etc.
