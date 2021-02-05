@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket         = "wellcomecollection-platform-infra"
-    key            = "terraform/platform-infrastructure/cloudfront.tfstate"
+    key            = "terraform/platform-infrastructure/cloudfront/api_wc_org.tfstate"
     dynamodb_table = "terraform-locktable"
 
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
