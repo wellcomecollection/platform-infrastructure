@@ -4,5 +4,5 @@ module "productboard-wellcomecollection" {
   alias   = "roadmap.wellcomecollection.org"
   comment = "productboard (roadmap)"
 
-  acm_certificate_arn = data.aws_acm_certificate.roadmap_wc_org.arn
+  acm_certificate_arn = module.cert.arn
 }
