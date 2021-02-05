@@ -26,12 +26,12 @@ resource "aws_cloudfront_distribution" "productboard" {
   comment         = var.comment
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
+    allowed_methods  = ["GET", "HEAD", "DELETE", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "productboard"
 
     forwarded_values {
-      query_string = false
+      query_string = true
 
       headers = ["Host"]
 

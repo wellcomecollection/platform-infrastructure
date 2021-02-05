@@ -1,7 +1,7 @@
 variable "name" {}
 
 variable "principals" {
-  type = list
+  type = list(any)
 }
 
 variable "max_session_duration_in_seconds" {
