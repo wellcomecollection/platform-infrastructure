@@ -11,12 +11,3 @@ module "wellcomecollection-stage" {
   environment         = "stage"
   acm_certificate_arn = data.aws_acm_certificate.api_wc_org.arn
 }
-
-module "productboard-wellcomecollection" {
-  source = "./productboard"
-
-  alias   = "roadmap.wellcomecollection.org"
-  comment = "productboard (roadmap)"
-
-  acm_certificate_arn = data.aws_acm_certificate.raodmap_wc_org.arn
-}
