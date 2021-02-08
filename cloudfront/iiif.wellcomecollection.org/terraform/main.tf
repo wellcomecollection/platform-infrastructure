@@ -4,7 +4,7 @@ module "iiif-prod" {
   environment         = "prod"
   acm_certificate_arn = module.cert.arn
 
-  origins = local.origins["prod"]
+  origins    = local.origins["prod"]
   behaviours = local.behaviours
 }
 
@@ -25,6 +25,6 @@ module "iiif-test" {
   environment         = "test"
   acm_certificate_arn = module.cert.arn
 
-  origins = local.origins["test"]
+  origins    = local.origins["test"]
   behaviours = local.behaviours
 }

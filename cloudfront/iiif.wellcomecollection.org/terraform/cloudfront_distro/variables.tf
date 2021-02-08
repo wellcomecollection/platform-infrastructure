@@ -8,9 +8,9 @@ variable "acm_certificate_arn" {
 
 variable "origins" {
   type = list(object({
-    origin_name: string
-    domain_name: string
-    origin_path: string
+    origin_name : string
+    domain_name : string
+    origin_path : string
   }))
 }
 

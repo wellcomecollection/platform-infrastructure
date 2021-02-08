@@ -11,34 +11,34 @@ locals {
   ]
 
   wellcome_images_behaviours = [
-  for pattern in local.wellcome_images_path_patterns:
-  {
-    path_pattern = pattern
-    target_origin_id = "loris"
-    headers = []
-    cookies = "none"
-    lambdas = []
-  }
+    for pattern in local.wellcome_images_path_patterns :
+    {
+      path_pattern     = pattern
+      target_origin_id = "loris"
+      headers          = []
+      cookies          = "none"
+      lambdas          = []
+    }
   ]
 
   wellcome_images_stage_behaviours = [
-  for pattern in local.wellcome_images_path_patterns:
-  {
-    path_pattern = pattern
-    target_origin_id = "dlcs_space_8"
-    headers = []
-    cookies = "none"
-    lambdas = [
-      {
-        event_type = "origin-request"
-        lambda_arn = local.dlcs_path_rewrite_arn_latest
-      }
-    ]
-  }
+    for pattern in local.wellcome_images_path_patterns :
+    {
+      path_pattern     = pattern
+      target_origin_id = "dlcs_space_8"
+      headers          = []
+      cookies          = "none"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_latest
+        }
+      ]
+    }
   ]
 
-  
 
-  behaviours = local.wellcome_images_behaviours
+
+  behaviours       = local.wellcome_images_behaviours
   stage_behaviours = local.wellcome_images_stage_behaviours
 }

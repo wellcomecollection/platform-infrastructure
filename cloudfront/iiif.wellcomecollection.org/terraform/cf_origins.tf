@@ -21,33 +21,33 @@ locals {
   }
 
   origins = {
-  for k,v in local.environments:
-  k => [
-    {
-      origin_name : "dds"
-      domain_name : v["dds_domain"]
-      origin_path : null
-    },
-    {
-      origin_name : "dlcs"
-      domain_name: v["dlcs_domain"]
-      origin_path : null
-    },
-    {
-      origin_name : "loris"
-      domain_name: v["loris_domain"]
-      origin_path : null
-    },
-    {
-      origin_name : "iiif"
-      domain_name: v["iiif_domain"]
-      origin_path : null
-    },
-    {
-      origin_name = "dlcs_space_8"
-      domain_name = v["dlcs_domain"]
-      origin_path = "/iiif-img/wellcome/8"
-    }
-  ]
+    for k, v in local.environments :
+    k => [
+      {
+        origin_name : "dds"
+        domain_name : v["dds_domain"]
+        origin_path : null
+      },
+      {
+        origin_name : "dlcs"
+        domain_name : v["dlcs_domain"]
+        origin_path : null
+      },
+      {
+        origin_name : "loris"
+        domain_name : v["loris_domain"]
+        origin_path : null
+      },
+      {
+        origin_name : "iiif"
+        domain_name : v["iiif_domain"]
+        origin_path : null
+      },
+      {
+        origin_name = "dlcs_space_8"
+        domain_name = v["dlcs_domain"]
+        origin_path = "/iiif-img/wellcome/8"
+      }
+    ]
   }
 }
