@@ -6,15 +6,23 @@ variable "acm_certificate_arn" {
   type = string
 }
 
-variable "dlcs_lambda_associations" {
-  default = []
-
+variable "origins" {
   type = list(object({
-    event_type = string
-    lambda_arn = string
+    origin_name: string
+    domain_name: string
+    origin_path: string
   }))
 }
 
-variable "miro_sourced_images_target" {
-  default = "loris"
+variable "behaviours" {
+  type = list(object({
+    path_pattern : string
+    target_origin_id : string
+    headers : list(string)
+    cookies : string
+    lambdas : list(object({
+      event_type : string
+      lambda_arn : string
+    }))
+  }))
 }

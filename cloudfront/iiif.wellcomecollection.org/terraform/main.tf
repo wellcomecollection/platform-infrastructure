@@ -3,6 +3,9 @@ module "iiif-prod" {
 
   environment         = "prod"
   acm_certificate_arn = module.cert.arn
+
+  origins = local.origins["prod"]
+  behaviours = local.behaviours
 }
 
 module "iiif-stage" {
@@ -11,16 +14,9 @@ module "iiif-stage" {
   environment         = "stage"
   acm_certificate_arn = module.cert.arn
 
-  dlcs_lambda_associations = [
-    {
-      event_type = "origin-request"
-      lambda_arn = local.dlcs_path_rewrite_arn_latest
-    }
-  ]
+  origins = local.origins["stage"]
 
-  # Temporary variable to differentiate prod/stage cache behaviour
-  # Defaults to "loris" where unspecified
-  miro_sourced_images_target = "dlcs_space_8"
+  behaviours = local.stage_behaviours
 }
 
 module "iiif-test" {
@@ -28,4 +24,7 @@ module "iiif-test" {
 
   environment         = "test"
   acm_certificate_arn = module.cert.arn
+
+  origins = local.origins["test"]
+  behaviours = local.behaviours
 }

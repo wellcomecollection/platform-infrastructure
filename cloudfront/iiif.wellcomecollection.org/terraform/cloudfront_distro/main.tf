@@ -1,12 +1,6 @@
 locals {
   subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
-
-  distro_alias = "iiif${local.subdomain_modifier}.wellcomecollection.org"
-
-  dds_domain   = "dds${local.subdomain_modifier}.dlcs.io"
-  iiif_domain  = "iiif${local.subdomain_modifier}.dlcs.io"
-  loris_domain = "iiif-origin.wellcomecollection.org"
-  dlcs_domain  = "dlcs.io"
+  distro_alias       = "iiif${local.subdomain_modifier}.wellcomecollection.org"
 }
 
 resource "aws_cloudfront_distribution" "iiif" {
@@ -14,87 +8,24 @@ resource "aws_cloudfront_distribution" "iiif" {
     local.distro_alias
   ]
 
-  origin {
-    domain_name = local.dds_domain
-    origin_id   = "dds"
+  dynamic "origin" {
+    for_each = var.origins
+    content {
+      origin_id   = origin.value["origin_name"]
+      domain_name = origin.value["domain_name"]
+      origin_path = origin.value["origin_path"]
 
-    custom_origin_config {
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
+      custom_origin_config {
+        origin_protocol_policy = "match-viewer"
+        origin_ssl_protocols = [
+          "TLSv1",
+          "TLSv1.1",
+          "TLSv1.2",
+        ]
 
-      http_port  = 80
-      https_port = 443
-    }
-  }
-
-  origin {
-    domain_name = local.dlcs_domain
-    origin_id   = "dlcs"
-
-    custom_origin_config {
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
-
-      http_port  = 80
-      https_port = 443
-    }
-  }
-
-  origin {
-    domain_name = local.loris_domain
-    origin_id   = "loris"
-
-    custom_origin_config {
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [
-        "TLSv1.2",
-      ]
-
-      http_port  = 80
-      https_port = 443
-    }
-  }
-
-  origin {
-    domain_name = local.iiif_domain
-    origin_id   = "iiif"
-
-    custom_origin_config {
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
-
-      http_port  = 80
-      https_port = 443
-    }
-  }
-
-  origin {
-    domain_name = local.dlcs_domain
-    origin_id   = "dlcs_space_8"
-    origin_path = "/iiif-img/wellcome/8"
-
-    custom_origin_config {
-      origin_protocol_policy = "match-viewer"
-      origin_ssl_protocols = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
-
-      http_port  = 80
-      https_port = 443
+        http_port  = 80
+        https_port = 443
+      }
     }
   }
 
@@ -122,244 +53,37 @@ resource "aws_cloudfront_distribution" "iiif" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-  ordered_cache_behavior {
-    path_pattern     = "image/V00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
+  dynamic "ordered_cache_behavior" {
+    for_each = var.behaviours
+    content {
+      path_pattern     = ordered_cache_behavior.value["path_pattern"]
+      allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+      cached_methods   = ["GET", "HEAD", "OPTIONS"]
+      target_origin_id = ordered_cache_behavior.value["target_origin_id"]
 
-    forwarded_values {
-      query_string = true
-      headers      = []
+      forwarded_values {
+        query_string = true
+        headers      = ordered_cache_behavior.value["headers"]
 
-      cookies {
-        forward = "none"
+        cookies {
+          forward = "none"
+        }
       }
-    }
 
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
+      dynamic "lambda_function_association" {
+        for_each = ordered_cache_behavior.value["lambdas"]
+        content {
+          event_type = lambda_function_association.value["event_type"]
+          lambda_arn = lambda_function_association.value["lambda_arn"]
+        }
       }
+
+      min_ttl     = 604800
+      default_ttl = 86400
+      max_ttl     = 31536000
+
+      viewer_protocol_policy = "redirect-to-https"
     }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/L00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/M00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/B00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/N00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/A00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/W00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "image/S00*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = var.miro_sourced_images_target
-
-    forwarded_values {
-      query_string = true
-      headers      = []
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    dynamic "lambda_function_association" {
-      for_each = var.dlcs_lambda_associations
-      content {
-        event_type = lambda_function_association.value["event_type"]
-        lambda_arn = lambda_function_association.value["lambda_arn"]
-      }
-    }
-
-    min_ttl     = 604800
-    default_ttl = 86400
-    max_ttl     = 31536000
-
-    viewer_protocol_policy = "redirect-to-https"
   }
 
   ordered_cache_behavior {
@@ -555,3 +279,4 @@ resource "aws_cloudfront_distribution" "iiif" {
     }
   }
 }
+
