@@ -15,7 +15,7 @@ resource "aws_lambda_function" "dlcs_path_rewrite" {
 data "aws_s3_bucket_object" "dlcs_path_rewrite" {
   provider = aws.us_east_1
 
-  bucket = aws_s3_bucket.edge_lambdas.bucket
+  bucket = local.edge_lambdas_bucket
   key    = "iiif/dlcs_path_rewrite.zip"
 }
 

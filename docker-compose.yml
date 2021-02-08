@@ -2,4 +2,4 @@ version: '3.3'
 services:
   edge_lambdas:
     build:
-      context: ./cloudfront/iiif/edge-lambda
+      context: ./cloudfront/iiif.wc.org/edge-lambda
