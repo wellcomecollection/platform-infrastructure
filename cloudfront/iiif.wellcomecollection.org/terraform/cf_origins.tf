@@ -1,53 +1,160 @@
 locals {
-  environments = {
-    test : {
-      dds_domain : "dds-test.dlcs.io"
-      iiif_domain : "iiif-test.dlcs.io"
-      loris_domain : "iiif-origin.wellcomecollection.org"
-      dlcs_domain : "dlcs.io"
+  prod_origins = [
+    {
+      origin_name : "dds"
+      domain_name : "dds.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "loris"
+      domain_name : "iiif-origin.wellcomecollection.org"
+      origin_path : null
+    },
+    {
+      origin_name : "iiif"
+      domain_name : "iiif.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "dlcs"
+      domain_name : "dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name = "dlcs_wellcome_images"
+      domain_name = "dlcs.io"
+      origin_path = "/iiif-img/wellcome/8"
+    },
+    {
+      origin_name = "dlcs_images"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-img/wellcome/5"
+    },
+    {
+      origin_name = "dlcs_thumbs"
+      domain_name =  "dlcs.io"
+      origin_path = "/thumbs/wellcome/5"
+    },
+    {
+      origin_name = "dlcs_av"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-av/wellcome/5"
+    },
+    {
+      origin_name = "dlcs_pdf"
+      domain_name =  "dlcs.io"
+      origin_path = "/pdf/wellcome/pdf/5"
+    },
+    {
+      origin_name = "dlcs_file"
+      domain_name =  "dlcs.io"
+      origin_path = "/file/wellcome/5"
     }
-    stage : {
-      dds_domain : "dds-stage.dlcs.io"
-      iiif_domain : "iiif-stage.dlcs.io"
-      loris_domain : "iiif-origin.wellcomecollection.org"
-      dlcs_domain : "dlcs.io"
-    }
-    prod : {
-      dds_domain : "dds.dlcs.io"
-      iiif_domain : "iiif.dlcs.io"
-      loris_domain : "iiif-origin.wellcomecollection.org"
-      dlcs_domain : "dlcs.io"
-    }
-  }
+  ]
 
-  origins = {
-    for k, v in local.environments :
-    k => [
-      {
-        origin_name : "dds"
-        domain_name : v["dds_domain"]
-        origin_path : null
-      },
-      {
-        origin_name : "dlcs"
-        domain_name : v["dlcs_domain"]
-        origin_path : null
-      },
-      {
-        origin_name : "loris"
-        domain_name : v["loris_domain"]
-        origin_path : null
-      },
-      {
-        origin_name : "iiif"
-        domain_name : v["iiif_domain"]
-        origin_path : null
-      },
-      {
-        origin_name = "dlcs_space_8"
-        domain_name = v["dlcs_domain"]
-        origin_path = "/iiif-img/wellcome/8"
-      }
-    ]
-  }
+  stage_origins = [
+    {
+      origin_name : "dds"
+      domain_name : "dds-stage.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "iiif"
+      domain_name : "iiif-stage.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "loris"
+      domain_name : "iiif-origin.wellcomecollection.org"
+      origin_path : null
+    },
+    {
+      origin_name : "dlcs"
+      domain_name : "dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name = "dlcs_wellcome_images"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-img/wellcome/8"
+    },
+    {
+      origin_name = "dlcs_images"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-img/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_thumbs"
+      domain_name =  "dlcs.io"
+      origin_path = "/thumbs/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_av"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-av/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_pdf"
+      domain_name =  "dlcs.io"
+      origin_path = "/pdf/wellcome/pdf/6"
+    },
+    {
+      origin_name = "dlcs_file"
+      domain_name =  "dlcs.io"
+      origin_path = "/file/wellcome/6"
+    }
+  ]
+
+  test_origins = [
+    {
+      origin_name : "dds"
+      domain_name : "dds-test.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "iiif"
+      domain_name : "iiif-test.dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name : "loris"
+      domain_name : "iiif-origin.wellcomecollection.org"
+      origin_path : null
+    },
+    {
+      origin_name : "dlcs"
+      domain_name : "dlcs.io"
+      origin_path : null
+    },
+    {
+      origin_name = "dlcs_wellcome_images"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-img/wellcome/8"
+    },
+    {
+      origin_name = "dlcs_images"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-img/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_thumbs"
+      domain_name =  "dlcs.io"
+      origin_path = "/thumbs/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_av"
+      domain_name =  "dlcs.io"
+      origin_path = "/iiif-av/wellcome/6"
+    },
+    {
+      origin_name = "dlcs_pdf"
+      domain_name =  "dlcs.io"
+      origin_path = "/pdf/wellcome/pdf/6"
+    },
+    {
+      origin_name = "dlcs_file"
+      domain_name =  "dlcs.io"
+      origin_path = "/file/wellcome/6"
+    }
+  ]
 }

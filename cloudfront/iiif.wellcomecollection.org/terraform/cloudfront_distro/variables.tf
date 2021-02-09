@@ -6,6 +6,10 @@ variable "acm_certificate_arn" {
   type = string
 }
 
+variable "default_target_origin_id" {
+  type = string
+}
+
 variable "origins" {
   type = list(object({
     origin_name : string
@@ -24,5 +28,8 @@ variable "behaviours" {
       event_type : string
       lambda_arn : string
     }))
+    min_ttl : number
+    default_ttl : number
+    max_ttl : number
   }))
 }

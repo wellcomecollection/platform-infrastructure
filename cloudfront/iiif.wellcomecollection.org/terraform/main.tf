@@ -4,8 +4,10 @@ module "iiif-prod" {
   environment         = "prod"
   acm_certificate_arn = module.cert.arn
 
-  origins    = local.origins["prod"]
-  behaviours = local.behaviours
+  origins    = local.prod_origins
+  behaviours = local.prod_behaviours
+
+  default_target_origin_id = "iiif"
 }
 
 module "iiif-stage" {
@@ -14,9 +16,10 @@ module "iiif-stage" {
   environment         = "stage"
   acm_certificate_arn = module.cert.arn
 
-  origins = local.origins["stage"]
-
+  origins    = local.stage_origins
   behaviours = local.stage_behaviours
+
+  default_target_origin_id = "iiif"
 }
 
 module "iiif-test" {
@@ -25,6 +28,8 @@ module "iiif-test" {
   environment         = "test"
   acm_certificate_arn = module.cert.arn
 
-  origins    = local.origins["test"]
-  behaviours = local.behaviours
+  origins    = local.test_origins
+  behaviours = local.test_behaviours
+
+  default_target_origin_id = "iiif"
 }

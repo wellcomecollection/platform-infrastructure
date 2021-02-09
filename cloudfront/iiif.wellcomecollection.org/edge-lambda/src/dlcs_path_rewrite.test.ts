@@ -7,7 +7,7 @@ interface ExpectedRewrite {
   out: string
 }
 
-const rewrite_tests = (): Array<ExpectedRewrite> => {
+const wellcome_image_rewrite_tests = (): Array<ExpectedRewrite> => {
   return [
     {
       in: '/image/B0009851.jpg/full/1338%2C/0/default.jpg',
@@ -36,8 +36,29 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
   ]
 }
 
-test.each(rewrite_tests())(
-    'request path is rewritten: %o',
+const dlcs_image_rewrite_tests = (): Array<ExpectedRewrite> => {
+  return [
+    {
+      in: '/image/B28573286.JP2/full/1338%2C/0/default.jpg',
+      out: '/B28573286.JP2/full/1338%2C/0/default.jpg'
+    }
+  ]
+}
+
+test.each(wellcome_image_rewrite_tests())(
+    '/image request path is rewritten: %o',
+    (expected:ExpectedRewrite) => {
+      const requestCallback = jest.fn((_, request) => request);
+      const r = testRequest(expected.in)
+
+      origin.request(r, {} as Context, requestCallback);
+
+      expect(r.Records[0].cf.request.uri).toBe(expected.out);
+    }
+);
+
+test.each(dlcs_image_rewrite_tests())(
+    '/av request path is rewritten: %o',
     (expected:ExpectedRewrite) => {
       const requestCallback = jest.fn((_, request) => request);
       const r = testRequest(expected.in)
