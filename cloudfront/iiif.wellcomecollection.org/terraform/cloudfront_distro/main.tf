@@ -78,9 +78,9 @@ resource "aws_cloudfront_distribution" "iiif" {
         }
       }
 
-      min_ttl     = 604800
-      default_ttl = 86400
-      max_ttl     = 31536000
+      min_ttl     = 7 * 24 * 60 * 60
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
 
       viewer_protocol_policy = "redirect-to-https"
     }
@@ -279,4 +279,3 @@ resource "aws_cloudfront_distribution" "iiif" {
     }
   }
 }
-
