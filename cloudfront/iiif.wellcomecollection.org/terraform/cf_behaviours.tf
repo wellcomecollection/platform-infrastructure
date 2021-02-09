@@ -1,13 +1,13 @@
 locals {
   wellcome_images_path_patterns = [
-    "image/V00*",
+    "image/A00*",
+    "image/B00*",
     "image/L00*",
     "image/M00*",
-    "image/B00*",
     "image/N00*",
-    "image/A00*",
-    "image/W00*",
     "image/S00*"
+    "image/V00*",
+    "image/W00*",
   ]
 
   wellcome_images_behaviours = [
