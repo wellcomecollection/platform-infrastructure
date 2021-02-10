@@ -8,4 +8,7 @@ resource "aws_s3_bucket" "edge_lambdas" {
 
   bucket = "wellcomecollection-edge-lambdas"
   acl    = "private"
+  versioning {
+    enabled = true
+  }
 }
