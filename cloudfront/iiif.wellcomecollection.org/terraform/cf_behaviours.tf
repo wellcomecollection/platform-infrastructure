@@ -51,7 +51,7 @@ locals {
       target_origin_id = "dlcs_images"
       headers          = ["*"]
       cookies          = "all"
-      lambdas          = [
+      lambdas = [
         {
           event_type = "origin-request"
           lambda_arn = local.dlcs_path_rewrite_arn_latest
