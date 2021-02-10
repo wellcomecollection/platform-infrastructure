@@ -48,20 +48,6 @@ locals {
   dlcs_images_behaviours = [
     {
       path_pattern     = "image/*"
-      target_origin_id = "dlcs"
-      headers          = ["*"]
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = 0
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
-    }
-  ]
-
-  dlcs_images_behaviours_stage = [
-    {
-      path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
       headers          = ["*"]
       cookies          = "all"
@@ -171,7 +157,7 @@ locals {
 
   stage_behaviours = concat(
     local.wellcome_images_dlcs_behaviours,
-    local.dlcs_images_behaviours_stage,
+    local.dlcs_images_behaviours,
     local.thumbs_behaviours,
     local.av_behaviours,
     local.pdf_behaviours,

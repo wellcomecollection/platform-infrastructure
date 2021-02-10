@@ -11,7 +11,7 @@ resource "aws_cloudfront_distribution" "iiif" {
   dynamic "origin" {
     for_each = var.origins
     content {
-      origin_id   = origin.value["origin_name"]
+      origin_id   = origin.value["origin_id"]
       domain_name = origin.value["domain_name"]
       origin_path = origin.value["origin_path"]
 

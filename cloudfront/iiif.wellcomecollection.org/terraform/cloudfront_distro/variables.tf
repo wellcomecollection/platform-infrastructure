@@ -12,7 +12,7 @@ variable "default_target_origin_id" {
 
 variable "origins" {
   type = list(object({
-    origin_name : string
+    origin_id : string
     domain_name : string
     origin_path : string
   }))
