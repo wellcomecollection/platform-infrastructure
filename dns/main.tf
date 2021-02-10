@@ -1,8 +1,3 @@
-data "aws_route53_zone" "weco_zone" {
-  provider = aws.dns
-  name     = "wellcomecollection.org."
-}
-
 # Third-party services
 resource "aws_route53_record" "docs" {
   zone_id = data.aws_route53_zone.weco_zone.id
@@ -85,4 +80,13 @@ resource "aws_route53_record" "identity-ses-dkim-cname" {
   records = ["${each.value}.dkim.amazonses.com"]
 
   provider = aws.dns
+}
+
+module "stage_wellcomelibrary_org" {
+  source = "./modules/dns_record"
+  domain_name = "stage.wellcomelibrary.org"
+  zone_id = data.aws_route53_zone.wellcomelibrary.id
+  providers = {
+    aws = aws.dns
+  }
 }

@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.9"
+  required_version = ">= 0.14"
 
   backend "s3" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
@@ -8,6 +8,13 @@ terraform {
     key            = "terraform/platform-infrastructure/dns.tfstate"
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
   }
 }
 
