@@ -49,7 +49,7 @@ locals {
     {
       path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
-      headers          = ["*"]
+      headers          = []
       cookies          = "all"
       lambdas = [
         {
@@ -58,7 +58,7 @@ locals {
         }
       ]
 
-      min_ttl     = 0
+      min_ttl     = 7 * 24 * 60 * 60
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
     }
@@ -68,7 +68,7 @@ locals {
     {
       path_pattern     = "thumbs/*.*"
       target_origin_id = "dlcs"
-      headers          = ["*"]
+      headers          = []
       cookies          = "all"
       lambdas          = []
 
@@ -93,7 +93,7 @@ locals {
     {
       path_pattern     = "av/*"
       target_origin_id = "dlcs"
-      headers          = ["*"]
+      headers          = []
       cookies          = "all"
       lambdas          = []
 
@@ -107,7 +107,7 @@ locals {
     {
       path_pattern     = "pdf/*"
       target_origin_id = "dlcs"
-      headers          = ["*"]
+      headers          = []
       cookies          = "all"
       lambdas          = []
 
