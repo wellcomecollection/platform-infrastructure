@@ -56,3 +56,13 @@ module "digirati_logging_secrets" {
 
   secrets = local.logging_secrets
 }
+
+module "identity_logging_secrets" {
+  source = "./modules/secrets/distributed"
+
+  providers = {
+    aws = aws.identity
+  }
+
+  secrets = local.logging_secrets
+}

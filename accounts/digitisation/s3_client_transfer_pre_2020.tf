@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "client_transfer_pre_2020_readonly" {
     ]
 
     resources = [
-      "${aws_s3_bucket.client_transfer_pre_2020.arn}",
+      aws_s3_bucket.client_transfer_pre_2020.arn,
       "${aws_s3_bucket.client_transfer_pre_2020.arn}/*",
     ]
 

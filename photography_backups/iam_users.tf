@@ -4,8 +4,7 @@ resource "aws_iam_user" "photography_backups" {
 }
 
 resource "aws_iam_access_key" "photography_backups" {
-  user    = aws_iam_user.photography_backups.name
-  pgp_key = "keybase:${local.keybase_username}"
+  user = aws_iam_user.photography_backups.name
 }
 
 resource "aws_iam_user_policy" "allow_backups_s3_access" {

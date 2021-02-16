@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "digitisation_av_readonly" {
     ]
 
     resources = [
-      "${aws_s3_bucket.digitisation_av.arn}",
+      aws_s3_bucket.digitisation_av.arn,
       "${aws_s3_bucket.digitisation_av.arn}/*",
     ]
 

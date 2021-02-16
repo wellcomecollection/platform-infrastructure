@@ -66,4 +66,57 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:s3:::identity-static-remote-state/*"
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:Get*",
+      "s3:Put*"
+    ]
+    resources = [
+      "arn:aws:s3:::identity-public-swagger-ui-v1-stage",
+      "arn:aws:s3:::identity-public-swagger-ui-v1-stage/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudfront:CreateInvalidation"
+    ]
+    resources = [
+      "arn:aws:cloudfront::${local.account_ids.identity}:distribution/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:RegisterTaskDefinition"
+    ]
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:UpdateService"
+    ]
+    resources = [
+      "arn:aws:ecs:eu-west-1:${local.account_ids.identity}:service/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:PassRole"
+    ]
+    resources = [
+      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-task-role-stage",
+      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-execution-role-stage"
+    ]
+  }
 }

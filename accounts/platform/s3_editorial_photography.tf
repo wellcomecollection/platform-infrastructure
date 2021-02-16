@@ -56,7 +56,7 @@ data "aws_iam_policy_document" "editorial_photography_bucket_policy" {
 
     resources = [
       "${aws_s3_bucket.editorial_photography.arn}/*",
-      "${aws_s3_bucket.editorial_photography.arn}",
+      aws_s3_bucket.editorial_photography.arn,
     ]
   }
 
@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "editorial_photography_bucket_policy" {
 
     resources = [
       "${aws_s3_bucket.editorial_photography.arn}/*",
-      "${aws_s3_bucket.editorial_photography.arn}",
+      aws_s3_bucket.editorial_photography.arn,
     ]
   }
 
@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "editorial_photography_bucket_policy" {
 
     resources = [
       "${aws_s3_bucket.editorial_photography.arn}/*",
-      "${aws_s3_bucket.editorial_photography.arn}",
+      aws_s3_bucket.editorial_photography.arn,
     ]
   }
 }

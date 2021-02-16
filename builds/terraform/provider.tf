@@ -13,8 +13,7 @@ locals {
 }
 
 provider "aws" {
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.platform_account_id}:role/platform-admin"
@@ -24,8 +23,7 @@ provider "aws" {
 provider "aws" {
   alias = "storage"
 
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.storage_account_id}:role/storage-admin"
@@ -35,8 +33,7 @@ provider "aws" {
 provider "aws" {
   alias = "catalogue"
 
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.catalogue_account_id}:role/catalogue-admin"
@@ -46,8 +43,7 @@ provider "aws" {
 provider "aws" {
   alias = "platform"
 
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.platform_account_id}:role/platform-admin"
@@ -57,8 +53,7 @@ provider "aws" {
 provider "aws" {
   alias = "workflow"
 
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::${local.workflow_account_id}:role/workflow-admin"

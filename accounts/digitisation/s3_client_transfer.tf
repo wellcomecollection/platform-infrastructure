@@ -15,7 +15,7 @@ resource "aws_s3_bucket_policy" "client_transfer_read_write" {
 data "aws_iam_policy_document" "client_transfer_read_write" {
   statement {
     resources = [
-      "${aws_s3_bucket.client_transfer_bucket.arn}",
+      aws_s3_bucket.client_transfer_bucket.arn,
       "${aws_s3_bucket.client_transfer_bucket.arn}/*",
     ]
 
