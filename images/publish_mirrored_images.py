@@ -63,6 +63,7 @@ IMAGE_TAGS = [
     "wellcome/sbt_wrapper",
     "wellcome/scalafmt:edge",
     "wellcome/scalafmt:latest",
+    "wellcome/tox:latest",
     "wellcome/weco-deploy:5.5.3",
     "wellcome/weco-deploy:5.5.7",
     "wellcome/weco-deploy:5.6.4",
