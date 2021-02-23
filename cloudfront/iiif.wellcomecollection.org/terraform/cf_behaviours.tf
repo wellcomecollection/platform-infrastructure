@@ -51,9 +51,9 @@ locals {
       }
     ]
 
-    min_ttl     = 7 * 24 * 60 * 60
-    default_ttl = 24 * 60 * 60
-    max_ttl     = 365 * 24 * 60 * 60
+    min_ttl     = null
+    default_ttl = null
+    max_ttl     = null
   }
   ]
 
@@ -71,9 +71,9 @@ locals {
         }
       ]
 
-      min_ttl     = 7 * 24 * 60 * 60
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
+      min_ttl     = null
+      default_ttl = null
+      max_ttl     = null
     }
   ]
 
@@ -197,7 +197,8 @@ locals {
   ]
 
   prod_behaviours = concat(
-//    local.wellcome_images_loris_behaviours,
+    // TODO: Remove this fallback line when Loris is decommissioned
+    // local.wellcome_images_loris_behaviours,
     local.wellcome_images_dlcs_behaviours_prod,
     local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
@@ -208,8 +209,8 @@ locals {
   )
 
   stage_behaviours = concat(
-    local.wellcome_images_dlcs_behaviours_prod,
-    local.dlcs_images_behaviours_prod,
+    local.wellcome_images_dlcs_behaviours_stage,
+    local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
     local.av_behaviours,
     local.pdf_behaviours,
@@ -218,7 +219,7 @@ locals {
   )
 
   test_behaviours = concat(
-    local.wellcome_images_dlcs_behaviours_prod,
+    local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
     local.av_behaviours,
