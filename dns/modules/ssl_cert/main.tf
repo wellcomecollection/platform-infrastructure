@@ -1,16 +1,8 @@
-variable "domain_name" {
-  type = string
-  description = "The domain name for the DNS record"
-}
-
-variable "zone_id" {
-  type = string
-  description = "The AWS Route53 zone ID"
-}
-
 resource "aws_acm_certificate" "cert" {
-  domain_name       = var.domain_name
+  domain_name       = local.domain_name
   validation_method = "DNS"
+
+  provider = aws.cert
 }
 
 resource "aws_route53_record" "record" {
@@ -27,10 +19,14 @@ resource "aws_route53_record" "record" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = var.zone_id
+  zone_id         = local.zone_id
+
+  provider = aws.dns
 }
 
-resource "aws_acm_certificate_validation" "example" {
+resource "aws_acm_certificate_validation" "cert_validation" {
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [for record in aws_route53_record.record : record.fqdn]
+
+  provider = aws.dns
 }

@@ -5,7 +5,7 @@ terraform {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
 
     bucket         = "wellcomecollection-platform-infra"
-    key            = "terraform/platform-infrastructure/dns.tfstate"
+    key            = "terraform/platform-infrastructure/dns/wellcomelibrary.tfstate"
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
   }
@@ -15,17 +15,5 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.0"
     }
-  }
-}
-
-data "terraform_remote_state" "identity" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::770700576653:role/identity-developer"
-
-    bucket = "identity-static-remote-state"
-    key    = "terraform.tfstate"
-    region = "eu-west-1"
   }
 }

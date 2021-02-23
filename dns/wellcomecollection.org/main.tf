@@ -33,7 +33,7 @@ resource "aws_route53_record" "shop" {
 
 # Redirects
 module "www" {
-  source  = "./modules/redirect"
+  source  = "../modules/redirect"
   from    = "www.wellcomecollection.org"
   to      = "wellcomecollection.org"
   zone_id = data.aws_route53_zone.weco_zone.id
@@ -80,13 +80,4 @@ resource "aws_route53_record" "identity-ses-dkim-cname" {
   records = ["${each.value}.dkim.amazonses.com"]
 
   provider = aws.dns
-}
-
-module "stage_wellcomelibrary_org" {
-  source = "./modules/dns_record"
-  domain_name = "stage.wellcomelibrary.org"
-  zone_id = data.aws_route53_zone.wellcomelibrary.id
-  providers = {
-    aws = aws.dns
-  }
 }
