@@ -10,7 +10,7 @@ locals {
     "image/W00*",
   ]
 
-  wellcome_images_loris_behaviours = [
+  wellcome_images_loris_behaviours = concat([
     for pattern in local.wellcome_images_path_patterns :
     {
       path_pattern     = pattern
@@ -23,9 +23,41 @@ locals {
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
     }
+  ], [
+    {
+      path_pattern     = "image/s3:*"
+      target_origin_id = "loris"
+      headers          = []
+      cookies          = "none"
+      lambdas          = []
+
+      min_ttl     = 7 * 24 * 60 * 60
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    }
+  ])
+
+  wellcome_images_dlcs_behaviours_prod = [
+  for pattern in local.wellcome_images_path_patterns :
+  {
+    path_pattern     = pattern
+    target_origin_id = "dlcs_wellcome_images"
+    headers          = []
+    cookies          = "none"
+    lambdas = [
+      {
+        event_type = "origin-request"
+        lambda_arn = local.dlcs_path_rewrite_arn_prod
+      }
+    ]
+
+    min_ttl     = 7 * 24 * 60 * 60
+    default_ttl = 24 * 60 * 60
+    max_ttl     = 365 * 24 * 60 * 60
+  }
   ]
 
-  wellcome_images_dlcs_behaviours = [
+  wellcome_images_dlcs_behaviours_stage = [
     for pattern in local.wellcome_images_path_patterns :
     {
       path_pattern     = pattern
@@ -35,7 +67,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.dlcs_path_rewrite_arn_latest
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
         }
       ]
 
@@ -45,7 +77,7 @@ locals {
     }
   ]
 
-  dlcs_images_behaviours = [
+  dlcs_images_behaviours_prod = [
     {
       path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
@@ -54,7 +86,26 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.dlcs_path_rewrite_arn_latest
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 7 * 24 * 60 * 60
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    }
+  ]
+
+  dlcs_images_behaviours_stage = [
+    {
+      path_pattern     = "image/*"
+      target_origin_id = "dlcs_images"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
         }
       ]
 
@@ -146,8 +197,9 @@ locals {
   ]
 
   prod_behaviours = concat(
-    local.wellcome_images_loris_behaviours,
-    local.dlcs_images_behaviours,
+//    local.wellcome_images_loris_behaviours,
+    local.wellcome_images_dlcs_behaviours_prod,
+    local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
     local.av_behaviours,
     local.pdf_behaviours,
@@ -156,8 +208,8 @@ locals {
   )
 
   stage_behaviours = concat(
-    local.wellcome_images_dlcs_behaviours,
-    local.dlcs_images_behaviours,
+    local.wellcome_images_dlcs_behaviours_prod,
+    local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
     local.av_behaviours,
     local.pdf_behaviours,
@@ -166,8 +218,8 @@ locals {
   )
 
   test_behaviours = concat(
-    local.wellcome_images_dlcs_behaviours,
-    local.dlcs_images_behaviours,
+    local.wellcome_images_dlcs_behaviours_prod,
+    local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
     local.av_behaviours,
     local.pdf_behaviours,
