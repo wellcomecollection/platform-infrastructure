@@ -11,3 +11,7 @@ variable "ttl" {
   type    = number
   default = 300
 }
+
+variable "zone_id" {
+  type = string
+}

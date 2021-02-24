@@ -12,6 +12,20 @@ resource "aws_s3_bucket" "platform_infra" {
     }
   }
 
+  lifecycle_rule {
+    id      = "expire_old_versions"
+    enabled = true
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_expiration {
+      days = 90
+    }
+  }
+
   lifecycle {
     prevent_destroy = true
   }

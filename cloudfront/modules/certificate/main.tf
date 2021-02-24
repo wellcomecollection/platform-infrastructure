@@ -9,12 +9,6 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
-data "aws_route53_zone" "zone" {
-  provider = aws.dns
-
-  name = "wellcomecollection.org."
-}
-
 resource "aws_route53_record" "cert_validation" {
   provider = aws.dns
 
@@ -32,7 +26,7 @@ resource "aws_route53_record" "cert_validation" {
   type    = each.value.type
   records = [each.value.record]
 
-  zone_id = data.aws_route53_zone.zone.id
+  zone_id = var.zone_id
 
   ttl = var.ttl
 }
