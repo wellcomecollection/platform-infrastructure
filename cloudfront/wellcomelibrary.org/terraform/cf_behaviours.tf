@@ -1,11 +1,16 @@
 locals {
-  example_behaviours = [
+  example_prod_behaviours = [
     {
-      path_pattern     = "example/*"
+      path_pattern     = "foo/*"
       target_origin_id = "example"
       headers          = []
       cookies          = "all"
-      lambdas          = []
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.wellcome_library_redirect_arn_prod
+        }
+      ]
 
       min_ttl     = null
       default_ttl = null
@@ -14,10 +19,10 @@ locals {
   ]
 
   prod_behaviours = concat(
-    local.example_behaviours
+    local.example_prod_behaviours
   )
 
   stage_behaviours = concat(
-    local.example_behaviours
+    local.example_prod_behaviours
   )
 }

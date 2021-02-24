@@ -2,19 +2,36 @@ steps:
   - command: .buildkite/scripts/run_autoformat.py
     label: "autoformat"
 
-  - label: "test edge_lambdas"
+  - label: "test iiif_edge_lambdas"
     plugins:
       - ecr#v2.1.1:
           login: true
       - docker-compose#v3.5.0:
-          run: edge_lambdas
+          run: iiif_edge_lambdas
           command: ["yarn", "test"]
 
-  - label: "deploy edge_lambdas"
+  - label: "test wellcome_library_edge_lambdas"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: wellcome_library_edge_lambdas
+          command: ["yarn", "test"]
+
+  - label: "deploy iiif_edge_lambdas"
     branches: "master"
     plugins:
       - ecr#v2.1.1:
           login: true
       - docker-compose#v3.5.0:
-          run: edge_lambdas
+          run: iiif_edge_lambdas
+          command: [ "yarn", "deploy" ]
+
+  - label: "deploy wellcome_library_edge_lambdas"
+    branches: "master"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: wellcome_library_edge_lambdas
           command: [ "yarn", "deploy" ]
