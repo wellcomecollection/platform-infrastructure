@@ -1,11 +1,6 @@
-locals {
-  subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
-  distro_alias       = "iiif${local.subdomain_modifier}.wellcomecollection.org"
-}
-
-resource "aws_cloudfront_distribution" "iiif" {
+resource "aws_cloudfront_distribution" "distro" {
   aliases = [
-    local.distro_alias
+    var.distro_alias
   ]
 
   dynamic "origin" {
@@ -31,7 +26,7 @@ resource "aws_cloudfront_distribution" "iiif" {
 
   enabled         = true
   is_ipv6_enabled = true
-  comment         = "IIIF APIs (${var.environment})"
+  comment         = "Wellcome Library (${var.distro_alias})"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]

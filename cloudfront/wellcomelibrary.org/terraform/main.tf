@@ -1,7 +1,8 @@
 module "wellcomelibrary-prod" {
   source = "./cloudfront_distro"
 
-  environment         = "prod"
+  distro_alias = "wellcomelibrary.org"
+
   acm_certificate_arn = module.cert.arn
 
   origins    = local.prod_origins
@@ -13,7 +14,8 @@ module "wellcomelibrary-prod" {
 module "wellcomelibrary-stage" {
   source = "./cloudfront_distro"
 
-  environment         = "stage"
+  distro_alias = "stage.wellcomelibrary.org"
+
   acm_certificate_arn = module.cert.arn
 
   origins    = local.stage_origins

@@ -9,6 +9,8 @@ module "cert" {
     aws     = aws.us_east_1
     aws.dns = aws.dns
   }
+
+  subject_alternative_names = ["*.wellcomelibrary.org"]
 }
 
 data "aws_route53_zone" "zone" {

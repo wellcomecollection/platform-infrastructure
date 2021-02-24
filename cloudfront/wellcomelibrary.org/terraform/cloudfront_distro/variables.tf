@@ -1,4 +1,4 @@
-variable "environment" {
+variable "distro_alias" {
   type = string
 }
 
