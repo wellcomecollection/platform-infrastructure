@@ -5,7 +5,7 @@ locals {
       target_origin_id = "example"
       headers          = []
       cookies          = "all"
-      lambdas          = [
+      lambdas = [
         {
           event_type = "origin-request"
           lambda_arn = local.wellcome_library_redirect_arn_prod
