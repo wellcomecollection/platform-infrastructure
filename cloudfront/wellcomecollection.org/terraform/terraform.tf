@@ -5,7 +5,7 @@ terraform {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
 
     bucket         = "wellcomecollection-platform-infra"
-    key            = "terraform/platform-infrastructure/dns/wellcomecollection.tfstate"
+    key            = "terraform/platform-infrastructure/cloudfront/wc_org.tfstate"
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
   }
