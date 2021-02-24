@@ -1,0 +1,30 @@
+{
+  "name": "lambdas",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "12.*.*"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn jest",
+    "build": "tsc -p tsconfig.build.json && (cd dist && zip -r wellcome_library_redirect.zip .)",
+    "deploy": "yarn build && yarn test && node deploy",
+    "dockerLoginLocal": "aws ecr get-login-password --region eu-west-1 --profile platform | docker login --username AWS --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com",
+    "dockerBuildLocal": "yarn dockerLoginLocal && docker build . -t weli_cf_lambdas",
+    "dockerTestLocal": "yarn dockerBuildLocal && docker run weli_cf_lambdas yarn test",
+    "dockerDeployLocal": "yarn dockerTestLocal && docker run weli_cf_lambdas -v ~/.aws:/root/.aws yarn deploy"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.71",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.25",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.0",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.836.0",
+    "tsc": "^1.20150623.0"
+  }
+}

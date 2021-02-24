@@ -1,5 +1,8 @@
 version: '3.3'
 services:
-  edge_lambdas:
+  iiif_edge_lambdas:
     build:
       context: ./cloudfront/iiif.wellcomecollection.org/edge-lambda
+  wellcome_library_edge_lambdas:
+    build:
+      context: ./cloudfront/wellcomelibrary.org/edge-lambda
