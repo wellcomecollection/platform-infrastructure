@@ -23,7 +23,7 @@ locals {
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
     }
-  ], [
+    ], [
     {
       path_pattern     = "image/s3:*"
       target_origin_id = "loris"
@@ -38,23 +38,23 @@ locals {
   ])
 
   wellcome_images_dlcs_behaviours_prod = [
-  for pattern in local.wellcome_images_path_patterns :
-  {
-    path_pattern     = pattern
-    target_origin_id = "dlcs_wellcome_images"
-    headers          = []
-    cookies          = "none"
-    lambdas = [
-      {
-        event_type = "origin-request"
-        lambda_arn = local.dlcs_path_rewrite_arn_prod
-      }
-    ]
+    for pattern in local.wellcome_images_path_patterns :
+    {
+      path_pattern     = pattern
+      target_origin_id = "dlcs_wellcome_images"
+      headers          = []
+      cookies          = "none"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
 
-    min_ttl     = null
-    default_ttl = null
-    max_ttl     = null
-  }
+      min_ttl     = null
+      default_ttl = null
+      max_ttl     = null
+    }
   ]
 
   wellcome_images_dlcs_behaviours_stage = [
