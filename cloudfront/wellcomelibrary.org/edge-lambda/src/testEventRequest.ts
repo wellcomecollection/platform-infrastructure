@@ -3,8 +3,8 @@ import { CloudFrontRequestEvent } from 'aws-lambda';
 // This event structure was sourced from the AWS docs as below.
 // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-event-structure.html#example-origin-request
 const request = (
-    uri: string,
-    querystring?: string
+  uri: string,
+  querystring?: string
 ): CloudFrontRequestEvent => ({
   Records: [
     {
