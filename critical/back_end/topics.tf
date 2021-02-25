@@ -35,6 +35,10 @@ module "reporting_miro_reindex_topic" {
 module "reporting_sierra_reindex_topic" {
   source = "github.com/wellcomecollection/terraform-aws-sns-topic.git?ref=v1.0.0"
   name   = "reporting_sierra_reindex_topic"
+
+  cross_account_subscription_ids = [
+    local.account_ids["reporting"],
+  ]
 }
 
 module "reporting_miro_inventory_reindex_topic" {
