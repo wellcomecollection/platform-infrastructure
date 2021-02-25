@@ -7,7 +7,7 @@ interface ExpectedRewrite {
   out: string;
 }
 
-const rewrite_tests = (): Array<ExpectedRewrite> => {
+const rewriteTests = (): Array<ExpectedRewrite> => {
   return [
     {
       in: '/foo/bat',
@@ -16,7 +16,7 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
   ];
 };
 
-test.each(rewrite_tests())(
+test.each(rewriteTests())(
   'Request path is rewritten: %o',
   (expected: ExpectedRewrite) => {
     const requestCallback = jest.fn((_, request) => request);
