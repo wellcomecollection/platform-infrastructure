@@ -8,7 +8,7 @@ module "wellcomelibrary-prod" {
   origins    = local.prod_origins
   behaviours = local.prod_behaviours
 
-  default_target_origin_id = "example"
+  default_target_origin_id = "origin"
 }
 
 module "wellcomelibrary-stage" {
@@ -21,5 +21,5 @@ module "wellcomelibrary-stage" {
   origins    = local.stage_origins
   behaviours = local.stage_behaviours
 
-  default_target_origin_id = "example"
+  default_target_origin_id = "origin"
 }

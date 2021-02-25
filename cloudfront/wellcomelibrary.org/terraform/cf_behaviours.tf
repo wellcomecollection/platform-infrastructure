@@ -2,7 +2,7 @@ locals {
   example_prod_behaviours = [
     {
       path_pattern     = "foo/*"
-      target_origin_id = "example"
+      target_origin_id = "origin"
       headers          = []
       cookies          = "all"
       lambdas = [
