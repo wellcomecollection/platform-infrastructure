@@ -1,6 +1,11 @@
 import * as origin from './wellcomeLibraryRedirect';
 import testRequest from './testEventRequest';
-import { Context } from 'aws-lambda';
+import {Context} from 'aws-lambda';
+
+import axios from 'axios';
+
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 interface ExpectedRewrite {
   in: string;
@@ -18,12 +23,13 @@ const rewriteTests = (): Array<ExpectedRewrite> => {
 
 test.each(rewriteTests())(
   'Request path is rewritten: %o',
-  (expected: ExpectedRewrite) => {
-    const requestCallback = jest.fn((_, request) => request);
-    const r = testRequest(expected.in);
+  async (expected: ExpectedRewrite) => {
+    const event = testRequest(expected.in);
 
-    origin.request(r, {} as Context, requestCallback);
+    // mockedAxios.get.mockResolvedValueOnce({ data: {} });
 
-    expect(r.Records[0].cf.request.uri).toBe(expected.out);
+    const originRequest = await origin.request(event, {} as Context)
+
+    expect(originRequest.uri).toBe(expected.out);
   }
 );
