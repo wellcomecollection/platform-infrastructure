@@ -9,6 +9,6 @@ export type CatalogueResultsList<Result = Work> = {
     totalResults: number;
     results: Result[];
     pageSize: number;
-    prevPage: string | null;
-    nextPage: string | null;
+    prevPage: string | undefined;
+    nextPage: string | undefined;
 };
