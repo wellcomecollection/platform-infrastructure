@@ -2,7 +2,9 @@ export type GetBNumberResult = string | Error
 
 export function getBnumberFromPath(path: string): GetBNumberResult {
     const splitPath = path.split("/")
-    const bNumberRegexp = /^b[0-9]{8}/
+
+    // Match on paths like b1234567x / b12345678
+    const bNumberRegexp = /^b[0-9]{7}/
 
     if(splitPath.length != 3) {
         return Error(`Path ${path} has the wrong number many elements (expected 3)`)
