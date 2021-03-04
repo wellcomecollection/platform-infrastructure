@@ -1,8 +1,10 @@
 import { CloudFrontRequestHandler } from 'aws-lambda';
 import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
 
-export const request: CloudFrontRequestHandler = (event, context, callback) => {
+export const requestHandler: CloudFrontRequestHandler = (event, context, callback) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
+
+  request.headers['host'] = [{ key: 'host', value: 'wellcomelibrary.org' }];
 
   const fooUri: RegExp = /^\/foo\/.*/;
 

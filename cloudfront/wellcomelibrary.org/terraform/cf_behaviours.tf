@@ -1,5 +1,6 @@
 locals {
-  example_prod_behaviours = [
+  prod_behaviours = []
+  stage_behaviours = [
     {
       path_pattern     = "foo/*"
       target_origin_id = "origin"
@@ -17,12 +18,4 @@ locals {
       max_ttl     = null
     },
   ]
-
-  prod_behaviours = concat(
-    local.example_prod_behaviours
-  )
-
-  stage_behaviours = concat(
-    local.example_prod_behaviours
-  )
 }

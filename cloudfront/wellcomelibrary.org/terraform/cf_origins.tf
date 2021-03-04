@@ -1,17 +1,15 @@
 locals {
+  wellcome_library_origin = {
+    origin_id : "origin"
+    domain_name : "origin.wellcomelibrary.org"
+    origin_path : null
+  }
+
   prod_origins = [
-    {
-      origin_id : "origin"
-      domain_name : "origin.wellcomecollection.org"
-      origin_path : null
-    }
+    local.wellcome_library_origin
   ]
 
   stage_origins = [
-    {
-      origin_id : "origin"
-      domain_name : "origin.wellcomecollection.org"
-      origin_path : null
-    }
+    local.wellcome_library_origin
   ]
 }
