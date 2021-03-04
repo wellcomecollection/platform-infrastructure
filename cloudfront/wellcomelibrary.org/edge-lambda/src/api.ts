@@ -6,7 +6,7 @@ export type GetWorkResult = Work | Error
 const apiBasePath = 'https://api.wellcomecollection.org/catalogue/v2'
 
 type ApiQuery = {
-    query: string
+    query: string[]
     include: Array<string>
 }
 
