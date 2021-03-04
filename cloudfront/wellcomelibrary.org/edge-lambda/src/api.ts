@@ -15,11 +15,8 @@ async function* apiQuery(query: ApiQuery): AsyncGenerator<Work, void, void> {
     const apiResult = await axios.get(url, {params: query}  );
 
     const resultList = apiResult.data as CatalogueResultsList
+
     // const nextPage = resultList.nextPage
-    //
-    // if(resultList.results.length == 0) {
-    //     return Error("No matching Catalogue API results found")
-    // }
 
     for(let i = 0; i < resultList.results.length; i++) {
         yield resultList.results[i];
@@ -35,25 +32,18 @@ export async function getWork(bNumber: string): Promise<GetWorkResult> {
     })
 
     let result = await resultList.next();
+    let work = undefined
 
-    while(result.done) {
+    while(!result.done) {
         const current = result.value
-
+        work = current
 
         result = await resultList.next()
     }
-    // const result = await resultList.next()
-    // result.value
-    //
-    // if(!result.done){
-    //     return result.value
-    // } else {
-    //     return Error("No matching Catalogue API results found")
-    // }
 
-    // if(resultList.results.length == 0) {
-    //     return Error("No matching Catalogue API results found")
-    // }
-    //
-    // return result.value
+    if(work) {
+        return work
+    } else {
+        return Error("No matching Catalogue API results found")
+    }
 }

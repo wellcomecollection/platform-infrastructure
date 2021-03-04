@@ -42,14 +42,56 @@ const rewriteTests = (): Array<ExpectedRewrite> => {
 test.each(rewriteTests())(
     'Request path is rewritten: %o',
     async (expected: ExpectedRewrite) => {
-        const event = testRequest(expected.in);
+        const request = testRequest(expected.in);
 
         if(expected.data) {
             mockedAxios.get.mockResolvedValueOnce({data: expected.data});
         }
 
-        const originRequest = await origin.request(event, {} as Context)
+        const originRequest = await origin.requestHandler(request, {} as Context)
 
         expect(originRequest.uri).toBe(expected.out);
     }
 );
+
+test(`rewrites the host header if it exists`, async () => {
+    const request = testRequest('/', undefined, {
+        host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
+    });
+
+    const originRequest = await origin.requestHandler(request, {} as Context)
+
+    expect(originRequest.headers).toStrictEqual({
+        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+    });
+});
+
+test(`adds the host header if it is missing`, async () => {
+    const request = testRequest('/', undefined);
+
+    const originRequest = await origin.requestHandler(request, {} as Context)
+
+    expect(originRequest.headers).toStrictEqual({
+        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+    });
+});
+
+test(`leaves other headers unmodified`, async () => {
+    const request = testRequest('/', undefined, {
+        host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
+        connection: [{ key: 'connection', value: 'close' }],
+        authorization: [
+            { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
+        ],
+    });
+
+    const originRequest = await origin.requestHandler(request, {} as Context)
+
+    expect(originRequest.headers).toStrictEqual({
+        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+        connection: [{ key: 'connection', value: 'close' }],
+        authorization: [
+            { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
+        ],
+    });
+});

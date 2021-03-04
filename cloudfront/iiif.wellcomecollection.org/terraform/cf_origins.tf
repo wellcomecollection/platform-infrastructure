@@ -20,6 +20,11 @@ locals {
       domain_name : "dlcs.io"
       origin_path : null
     },
+    // We have manually enable Origin Shield for this origin
+    // in order to increase the cache hit ratio.
+    // See: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html
+    // It cannot be enabled with Terraform at time of writing.
+    // See: https://github.com/hashicorp/terraform-provider-aws/issues/15752
     {
       origin_id   = "dlcs_wellcome_images"
       domain_name = "dlcs.io"

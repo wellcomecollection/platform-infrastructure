@@ -1,6 +1,5 @@
 import { CloudFrontRequestEvent, Context } from 'aws-lambda';
 import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
-
 import { getBnumberFromPath } from './paths'
 import { getWork } from './api'
 
@@ -29,9 +28,11 @@ async function rewriteRequestUri(uri: string) {
   }
 }
 
-export const request = async (event: CloudFrontRequestEvent, _: Context) => {
+export const requestHandler = async (event: CloudFrontRequestEvent, _: Context) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
+
   request.uri = await rewriteRequestUri(request.uri);
+  request.headers['host'] = [{ key: 'host', value: 'wellcomelibrary.org' }];
 
   return request;
 };
