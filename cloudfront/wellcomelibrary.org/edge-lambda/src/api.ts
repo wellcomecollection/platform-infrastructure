@@ -11,7 +11,7 @@ type ApiQuery = {
 }
 
 async function* apiQuery(query: ApiQuery): AsyncGenerator<Work, void, void> {
-    const url = apiBasePath + '/works';
+    const url = `${apiBasePath}/works`;
     const apiResult = await axios.get(url, {params: query}  );
 
     const resultList = apiResult.data as CatalogueResultsList
