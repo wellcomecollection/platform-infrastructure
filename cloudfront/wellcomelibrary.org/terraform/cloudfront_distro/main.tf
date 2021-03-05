@@ -41,9 +41,14 @@ resource "aws_cloudfront_distribution" "distro" {
       }
     }
 
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
+    lambda_function_association {
+      event_type = var.default_lambda_function_association_event_type
+      lambda_arn = var.default_lambda_function_association_lambda_arn
+    }
+
+    min_ttl     = null
+    default_ttl = null
+    max_ttl     = null
 
     viewer_protocol_policy = "redirect-to-https"
   }
