@@ -1,5 +1,7 @@
 export type GetBNumberResult = string | Error
 
+
+// TODO: needs tests
 export function getBnumberFromPath(path: string): GetBNumberResult {
     const splitPath = path.split("/")
 

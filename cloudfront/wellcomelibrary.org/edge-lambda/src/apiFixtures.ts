@@ -19,11 +19,44 @@ export const testDataSingleResult = {
     ]
 };
 
-export const testDataMultiPageFirstPage = {
+export const testDataMultipleResults = {
     "@context": "https://api.wellcomecollection.org/catalogue/v2/context.json",
     "type": "ResultList",
     "pageSize": 10, totalPages: 1,
-    "totalResults": 1,
+    "totalResults": 2,
+    "results": [
+        {
+            "id": "k2a8y7q6",
+            "title": "Basic care of cats and kittens / The Cats Protection League.",
+            "alternativeTitles": [],
+            "description": "<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>",
+            "physicalDescription": "1 folded sheet (4 p.) : ill. ; 21 cm.",
+            "workType": {},
+            "thumbnail": {},
+            "availableOnline": true,
+            "availabilities": {},
+            "type": "Work"
+        },
+        {
+            "id": "pk2appa8",
+            "title": "The remonstrance moved in the House of Commons",
+            "alternativeTitles": [],
+            "description": "<p>Large blue box containing seven human souls.</p>",
+            "physicalDescription": "Large blue box, emits continuous screams.",
+            "workType": {},
+            "thumbnail": {},
+            "availableOnline": true,
+            "availabilities": {},
+            "type": "Work"
+        }
+    ]
+};
+
+export const testDataMultiPageFirstPage = {
+    "@context": "https://api.wellcomecollection.org/catalogue/v2/context.json",
+    "type": "ResultList",
+    "pageSize": 1, totalPages: 2,
+    "totalResults": 2,
     "results": [
         {
             "id": "k2a8y7q6",
@@ -44,15 +77,15 @@ export const testDataMultiPageFirstPage = {
 export const testDataMultiPageNextPage = {
     "@context": "https://api.wellcomecollection.org/catalogue/v2/context.json",
     "type": "ResultList",
-    "pageSize": 10, totalPages: 1,
-    "totalResults": 1,
+    "pageSize": 1, totalPages: 2,
+    "totalResults": 2,
     "results": [
         {
-            "id": "k2a8y7q6",
-            "title": "Basic care of cats and kittens / The Cats Protection League.",
+            "id": "pk2appa8",
+            "title": "The remonstrance moved in the House of Commons",
             "alternativeTitles": [],
-            "description": "<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>",
-            "physicalDescription": "1 folded sheet (4 p.) : ill. ; 21 cm.",
+            "description": "<p>Large blue box containing seven human souls.</p>",
+            "physicalDescription": "Large blue box, emits continuous screams.",
             "workType": {},
             "thumbnail": {},
             "availableOnline": true,

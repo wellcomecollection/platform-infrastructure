@@ -1,7 +1,7 @@
 import { CloudFrontRequestEvent, Context } from 'aws-lambda';
 import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
 import { getBnumberFromPath } from './paths'
-import { getWork } from './api'
+import { getWork } from './bnumberToWork'
 
 async function rewriteRequestUri(uri: string) {
   const itemPathRegExp: RegExp = /^\/item\/.*/;

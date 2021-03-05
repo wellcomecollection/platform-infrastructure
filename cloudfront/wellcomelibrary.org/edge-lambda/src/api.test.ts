@@ -1,34 +1,85 @@
 import axios from 'axios';
-import {getWork} from "./api";
-import {testDataMultiPageFirstPage, testDataMultiPageNextPage, testDataNoResults, testDataSingleResult} from './apiFixtures'
-import {Work} from "./catalogue";
+import {apiQuery, Work} from "./api";
+import {testDataMultiPageFirstPage, testDataMultiPageNextPage, testDataMultipleResults, testDataNoResults, testDataSingleResult} from './apiFixtures'
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-test(`returns an Error when none available`, async () => {
+
+test(`returns no results when none available`, async () => {
     mockedAxios.get.mockResolvedValueOnce({data: testDataNoResults});
 
-    const workResults = await getWork('bnumber')
-    expect(workResults).toEqual(Error("No matching Catalogue API results found"))
+    const resultList = apiQuery({
+        query: 'bnumber',
+        include: ['identifiers']
+    })
+
+    let works = [];
+
+    for await (let result of resultList) {
+        works.push(result);
+    }
+
+    expect(works).toEqual([])
 });
 
-test(`returns a Work when one result available`, async () => {
+test(`returns a result when one available`, async () => {
     mockedAxios.get.mockResolvedValueOnce({data: testDataSingleResult});
 
-    const expectedWork = testDataSingleResult.results[0] as Work
+    const resultList = apiQuery({
+        query: 'bnumber',
+        include: ['identifiers']
+    })
 
-    const workResults = await getWork('bnumber')
-    expect(workResults).toEqual(expectedWork)
+    let works = [];
+
+    for await (let result of resultList) {
+        works.push(result);
+    }
+
+    expect(works).toEqual([testDataSingleResult.results[0] as Work])
 });
 
-test(`returns a Work when multiple pages are available`, async () => {
+test(`returns multiple result when available`, async () => {
+    mockedAxios.get.mockResolvedValueOnce({data: testDataMultipleResults});
+
+    const resultList = apiQuery({
+        query: 'bnumber',
+        include: ['identifiers']
+    })
+
+    let works = [];
+    for await (let result of resultList) {
+        works.push(result);
+    }
+
+    const expectedResults = []
+    for await (let result of testDataMultipleResults.results) {
+        expectedResults.push(result as Work);
+    }
+
+    expect(works).toEqual(expectedResults)
+});
+
+test(`returns multiple result across pages`, async () => {
     mockedAxios.get
         .mockResolvedValueOnce({data: testDataMultiPageFirstPage})
         .mockResolvedValueOnce({data: testDataMultiPageNextPage})
 
-    const expectedWork = testDataSingleResult.results[0] as Work
+    const resultList = apiQuery({
+        query: 'bnumber',
+        include: ['identifiers']
+    })
 
-    const workResults = await getWork('b12062789')
-    expect(workResults).toEqual(expectedWork)
+    let works = [];
+    for await (let result of resultList) {
+        works.push(result);
+    }
+
+    const expectedResults = [
+        testDataMultiPageFirstPage.results[0] as Work,
+        testDataMultiPageNextPage.results[0] as Work,
+    ]
+
+    expect(works).toEqual(expectedResults)
 });
