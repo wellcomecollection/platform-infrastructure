@@ -28,7 +28,7 @@ resource "aws_route53_record" "prod-cloudfront" {
     evaluate_target_health = false
     // This is a fixed value for CloudFront distributions, see:
     // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html
-    zone_id                = "Z2FDTNDATAQYW2"
+    zone_id = "Z2FDTNDATAQYW2"
   }
 
   set_identifier = "cloudfront"
