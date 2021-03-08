@@ -5,7 +5,7 @@ import {CloudFrontResultResponse} from "aws-lambda/common/cloudfront";
 
 function expectedRedirect(uri: string): CloudFrontResultResponse {
     return {
-        status: '301',
+        status: '302',
         statusDescription: `Redirecting to ${uri}`,
         headers: {
             location: [{

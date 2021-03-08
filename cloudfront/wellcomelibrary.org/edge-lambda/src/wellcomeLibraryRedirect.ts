@@ -11,7 +11,7 @@ export const requestHandler: CloudFrontRequestHandler = (event, context, callbac
 
     if (requestHost.startsWith('www.')) {
       const rootRequestHost = requestHost.replace('www.','');
-      return redirect(`https://${rootRequestHost}${request.uri}`);
+      return Promise.resolve(redirect(`https://${rootRequestHost}${request.uri}`));
     }
   }
 

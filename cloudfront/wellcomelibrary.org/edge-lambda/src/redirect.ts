@@ -1,8 +1,8 @@
 import {CloudFrontResultResponse} from "aws-lambda/common/cloudfront";
 
-export async function redirect(uri: string){
+export function redirect(uri: string){
     return {
-        status: '301',
+        status: '302',
         statusDescription: `Redirecting to ${uri}`,
         headers: {
             location: [{
