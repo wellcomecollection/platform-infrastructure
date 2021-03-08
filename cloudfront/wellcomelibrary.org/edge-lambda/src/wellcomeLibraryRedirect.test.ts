@@ -1,43 +1,45 @@
 import * as origin from './wellcomeLibraryRedirect';
 import testRequest from './testEventRequest';
-import { Context } from 'aws-lambda';
+import {Context} from 'aws-lambda';
+import {CloudFrontResultResponse} from "aws-lambda/common/cloudfront";
 
-interface ExpectedRewrite {
-  in: string;
-  out: string;
+function expectedRedirect(uri: string): CloudFrontResultResponse {
+    return {
+        status: '302',
+        statusDescription: `Redirecting to ${uri}`,
+        headers: {
+            location: [{
+                key: 'Location',
+                value: uri
+            }]
+        }
+    } as CloudFrontResultResponse;
 }
 
-const rewriteTests = (): Array<ExpectedRewrite> => {
-  return [
-    {
-      in: '/foo/bat',
-      out: '/bar/bat',
-    },
-  ];
-};
-
-test.each(rewriteTests())(
-  'Request path is rewritten: %o',
-  (expected: ExpectedRewrite) => {
+test(`redirects www. to root`, () => {
     const requestCallback = jest.fn((_, request) => request);
-    const r = testRequest(expected.in);
 
-    origin.requestHandler(r, {} as Context, requestCallback);
+    const request = testRequest('/foo', undefined, {
+        host: [{key: 'host', value: 'www.wellcomelibrary.org'}],
+    });
 
-    expect(r.Records[0].cf.request.uri).toBe(expected.out);
-  }
-);
+    const resultPromise = origin.requestHandler(request, {} as Context, requestCallback);
+
+    return expect(resultPromise).resolves.toEqual(
+        expectedRedirect('https://wellcomelibrary.org/foo')
+    );
+});
 
 test(`rewrites the host header if it exists`, () => {
     const requestCallback = jest.fn((_, request) => request);
     const request = testRequest('/', undefined, {
-        host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
+        host: [{key: 'host', value: 'notwellcomelibrary.org'}],
     });
 
     origin.requestHandler(request, {} as Context, requestCallback);
 
     expect(request.Records[0].cf.request.headers).toStrictEqual({
-        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+        host: [{key: 'host', value: 'wellcomelibrary.org'}],
     });
 });
 
@@ -48,27 +50,27 @@ test(`adds the host header if it is missing`, () => {
     origin.requestHandler(request, {} as Context, requestCallback);
 
     expect(request.Records[0].cf.request.headers).toStrictEqual({
-        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+        host: [{key: 'host', value: 'wellcomelibrary.org'}],
     });
 });
 
 test(`leaves other headers unmodified`, () => {
     const requestCallback = jest.fn((_, request) => request);
     const request = testRequest('/', undefined, {
-        host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
-        connection: [{ key: 'connection', value: 'close' }],
+        host: [{key: 'host', value: 'notwellcomelibrary.org'}],
+        connection: [{key: 'connection', value: 'close'}],
         authorization: [
-            { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
+            {key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
         ],
     });
 
     origin.requestHandler(request, {} as Context, requestCallback);
 
     expect(request.Records[0].cf.request.headers).toStrictEqual({
-        host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-        connection: [{ key: 'connection', value: 'close' }],
+        host: [{key: 'host', value: 'wellcomelibrary.org'}],
+        connection: [{key: 'connection', value: 'close'}],
         authorization: [
-            { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
+            {key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l'},
         ],
     });
 });
