@@ -1,5 +1,5 @@
-variable "distro_alias" {
-  type = string
+variable "distro_alternative_names" {
+  type = list(string)
 }
 
 variable "acm_certificate_arn" {
