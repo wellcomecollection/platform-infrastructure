@@ -24,8 +24,10 @@ resource "aws_route53_record" "prod-cloudfront" {
   }
 
   alias {
-    name                   = "d2cksn8op995w4.cloudfront.net"
+    name                   = module.wellcomelibrary-prod.distro_domain_name
     evaluate_target_health = false
+    // This is a fixed value for CloudFront distributions, see:
+    // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html
     zone_id                = "Z2FDTNDATAQYW2"
   }
 
