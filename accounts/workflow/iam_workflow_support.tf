@@ -113,6 +113,7 @@ data "aws_iam_policy_document" "workflow_support" {
 
     resources = [
       "arn:aws:s3:::wellcomecollection-storage/digitised/*",
+      "arn:aws:s3:::wellcomecollection-storage/miro/*",
       "arn:aws:s3:::wellcomecollection-storage-staging/digitised/*",
     ]
   }
