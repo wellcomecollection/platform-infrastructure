@@ -85,6 +85,34 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
       in: '/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.webm#identity',
       out: '/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.webm#identity'
     },
+    // DLCS Thumbs paths
+    {
+      in: '/thumbs/2/5/b29348109_0002_0074.jp2/full/!200,200/0/default.jpg',
+      out: '/2/5/b29348109_0002_0074.jp2/full/!200,200/0/default.jpg'
+    },
+    {
+      in: '/thumbs/2/5/b29348109_0002_0074.jp2/info.json',
+      out: '/2/5/b29348109_0002_0074.jp2/info.json'
+    },
+    {
+      in: '/thumbs/2/5/b29348109_0002_0074.jp2',
+      out: '/2/5/b29348109_0002_0074.jp2'
+    },
+    // DLCS PDF paths
+    {
+      in: '/pdf/b18031511',
+      out: '/b18031511'
+    },
+    // DLCS File paths
+    {
+      in: '/file/b21320962_National%20primary%20science%20survey.pdf',
+      out: '/b21320962_National%20primary%20science%20survey.pdf'
+    },
+    // DLCS auth paths
+    {
+      in: '/auth/fromcas?token=xyz',
+      out: '/fromcas?token=xyz'
+    }
   ]
 }
 
