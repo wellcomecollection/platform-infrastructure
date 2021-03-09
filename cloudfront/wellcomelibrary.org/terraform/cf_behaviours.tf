@@ -1,4 +1,4 @@
 locals {
-  prod_behaviours = []
+  prod_behaviours  = []
   stage_behaviours = []
 }
