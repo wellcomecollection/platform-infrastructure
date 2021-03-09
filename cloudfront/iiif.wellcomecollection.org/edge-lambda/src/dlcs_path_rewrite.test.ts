@@ -67,7 +67,24 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
     {
       in: '/image/b17548779_0001.jp2/full/1338%2C/0/default.jpg',
       out: '/b17548779_0001.jp2/full/1338%2C/0/default.jpg'
-    }
+    },
+    {
+      in: '/image/b17548779_0001.jp2/info.json',
+      out: '/b17548779_0001.jp2/info.json'
+    },
+    {
+      in: '/image/b17548779_0001.jp2',
+      out: '/b17548779_0001.jp2'
+    },
+    // DLCS AV paths
+    {
+      in: '/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.mp4',
+      out: '/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.mp4'
+    },
+    {
+      in: '/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.webm#identity',
+      out: '/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/full/full/max/max/0/default.webm#identity'
+    },
   ]
 }
 

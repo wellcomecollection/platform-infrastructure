@@ -1,6 +1,11 @@
 locals {
   prod_origins = [
     {
+      origin_id : "dashboard"
+      domain_name : "dash-stage.wellcomecollection.digirati.io"
+      origin_path : null
+    },
+    {
       origin_id : "dds"
       domain_name : "dds.dlcs.io"
       origin_path : null
@@ -54,18 +59,23 @@ locals {
       origin_id   = "dlcs_file"
       domain_name = "dlcs.io"
       origin_path = "/file/wellcome/5"
+    },
+    {
+      origin_id   = "pdf_cover"
+      domain_name = "pdf.wellcomecollection.digirati.io"
+      origin_path = null
     }
   ]
 
   stage_origins = [
     {
-      origin_id : "dds"
-      domain_name : "dds-stage.dlcs.io"
+      origin_id : "dashboard"
+      domain_name : "dash-stage.wellcomecollection.digirati.io"
       origin_path : null
     },
     {
       origin_id : "iiif"
-      domain_name : "iiif-stage.dlcs.io"
+      domain_name : "dds-stage.wellcomecollection.digirati.io"
       origin_path : null
     },
     {
@@ -107,18 +117,23 @@ locals {
       origin_id   = "dlcs_file"
       domain_name = "dlcs.io"
       origin_path = "/file/wellcome/6"
+    },
+    {
+      origin_id   = "pdf_cover"
+      domain_name = "pdf-stage.wellcomecollection.digirati.io"
+      origin_path = null
     }
   ]
 
   test_origins = [
     {
-      origin_id : "dds"
-      domain_name : "dds-test.dlcs.io"
+      origin_id : "dashboard"
+      domain_name : "dash-test.wellcomecollection.digirati.io"
       origin_path : null
     },
     {
       origin_id : "iiif"
-      domain_name : "iiif-test.dlcs.io"
+      domain_name : "dds-test.wellcomecollection.digirati.io"
       origin_path : null
     },
     {
@@ -160,6 +175,11 @@ locals {
       origin_id   = "dlcs_file"
       domain_name = "dlcs.io"
       origin_path = "/file/wellcome/6"
+    },
+    {
+      origin_id   = "pdf_cover"
+      domain_name = "pdf-stage.wellcomecollection.digirati.io"
+      origin_path = null
     }
   ]
 }

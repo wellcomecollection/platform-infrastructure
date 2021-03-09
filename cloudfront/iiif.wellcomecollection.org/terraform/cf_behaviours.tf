@@ -117,17 +117,6 @@ locals {
 
   thumbs_behaviours = [
     {
-      path_pattern     = "thumbs/*.*"
-      target_origin_id = "dlcs"
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = 0
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
-    },
-    {
       path_pattern     = "thumbs/b*"
       target_origin_id = "iiif"
       headers          = ["*"]
@@ -137,16 +126,51 @@ locals {
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
-    }
-  ]
-
-  av_behaviours = [
+    },
     {
-      path_pattern     = "av/*"
-      target_origin_id = "dlcs"
+      path_pattern     = "thumbs/*.*"
+      target_origin_id = "dlcs_thumbs"
       headers          = []
       cookies          = "all"
       lambdas          = []
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    }
+  ]
+
+  av_behaviours_prod = [
+    {
+      path_pattern     = "av/*"
+      target_origin_id = "dlcs_av"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  av_behaviours_stage = [
+    {
+      path_pattern     = "av/*"
+      target_origin_id = "dlcs_av"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
+        }
+      ]
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
@@ -157,8 +181,36 @@ locals {
   pdf_behaviours = [
     {
       path_pattern     = "pdf/*"
-      target_origin_id = "dlcs"
+      target_origin_id = "dlcs_pdf"
       headers          = []
+      cookies          = "all"
+      lambdas          = []
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  file_behaviours = [
+    {
+      path_pattern     = "file/*"
+      target_origin_id = "dlcs_file"
+      headers          = []
+      cookies          = "all"
+      lambdas          = []
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  auth_behaviours = [
+    {
+      path_pattern     = "auth/*"
+      target_origin_id = "dlcs"
+      headers          = ["Authorization"]
       cookies          = "all"
       lambdas          = []
 
@@ -171,7 +223,7 @@ locals {
   dash_behaviours = [
     {
       path_pattern     = "dash/*"
-      target_origin_id = "dds"
+      target_origin_id = "dashboard"
       headers          = ["*"]
       cookies          = "all"
       lambdas          = []
@@ -196,35 +248,58 @@ locals {
     },
   ]
 
+  pdf_cover_behaviours = [
+    {
+      path_pattern     = "pdf-cover/*"
+      target_origin_id = "pdf_cover"
+      headers          = []
+      cookies          = "none"
+      lambdas          = []
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
   prod_behaviours = concat(
     // TODO: Remove this fallback line when Loris is decommissioned
     // local.wellcome_images_loris_behaviours,
     local.wellcome_images_dlcs_behaviours_prod,
     local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
-    local.av_behaviours,
+    local.av_behaviours_prod,
     local.pdf_behaviours,
+    local.file_behaviours,
+    local.auth_behaviours,
     local.dash_behaviours,
     local.text_behaviours,
+    local.pdf_cover_behaviours,
   )
 
   stage_behaviours = concat(
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
-    local.av_behaviours,
+    local.av_behaviours_stage,
     local.pdf_behaviours,
+    local.file_behaviours,
+    local.auth_behaviours,
     local.dash_behaviours,
     local.text_behaviours,
+    local.pdf_cover_behaviours,
   )
 
   test_behaviours = concat(
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
-    local.av_behaviours,
+    local.av_behaviours_stage,
     local.pdf_behaviours,
+    local.file_behaviours,
+    local.auth_behaviours,
     local.dash_behaviours,
     local.text_behaviours,
+    local.pdf_cover_behaviours,
   )
 }
