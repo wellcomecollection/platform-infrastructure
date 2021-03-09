@@ -160,7 +160,7 @@ locals {
           lambda_arn = local.dlcs_path_rewrite_arn_stage
         }
       ]
-      
+
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
@@ -217,7 +217,7 @@ locals {
           lambda_arn = local.dlcs_path_rewrite_arn_prod
         }
       ]
-      
+
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
@@ -236,7 +236,7 @@ locals {
           lambda_arn = local.dlcs_path_rewrite_arn_stage
         }
       ]
-      
+
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
