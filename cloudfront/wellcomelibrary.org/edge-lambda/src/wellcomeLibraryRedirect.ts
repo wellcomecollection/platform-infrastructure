@@ -42,6 +42,10 @@ export const requestHandler = async (event: CloudFrontRequestEvent, _: Context) 
     }
   }
 
+  // TODO: Work out if we want to split this into 2 lambdas - one for the base host rewrite
+  // and one per path!
+  // TODO: tests for paths.js (and any other modules)
+
   const requestRedirect = await rewriteRequestUri(request.uri);
 
   if(requestRedirect) {
