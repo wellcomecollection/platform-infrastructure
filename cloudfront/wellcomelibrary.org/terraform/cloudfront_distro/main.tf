@@ -1,7 +1,5 @@
 resource "aws_cloudfront_distribution" "distro" {
-  aliases = [
-    var.distro_alias
-  ]
+  aliases = var.distro_alternative_names
 
   dynamic "origin" {
     for_each = var.origins
@@ -26,7 +24,7 @@ resource "aws_cloudfront_distribution" "distro" {
 
   enabled         = true
   is_ipv6_enabled = true
-  comment         = "Wellcome Library (${var.distro_alias})"
+  comment         = "Wellcome Library (${var.distro_alternative_names[0]})"
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -35,15 +33,21 @@ resource "aws_cloudfront_distribution" "distro" {
 
     forwarded_values {
       query_string = true
+      headers      = ["Host"]
 
       cookies {
         forward = "all"
       }
     }
 
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
+    lambda_function_association {
+      event_type = var.default_lambda_function_association_event_type
+      lambda_arn = var.default_lambda_function_association_lambda_arn
+    }
+
+    min_ttl     = null
+    default_ttl = null
+    max_ttl     = null
 
     viewer_protocol_policy = "redirect-to-https"
   }

@@ -1,5 +1,5 @@
-variable "distro_alias" {
-  type = string
+variable "distro_alternative_names" {
+  type = list(string)
 }
 
 variable "acm_certificate_arn" {
@@ -7,6 +7,13 @@ variable "acm_certificate_arn" {
 }
 
 variable "default_target_origin_id" {
+  type = string
+}
+
+variable "default_lambda_function_association_event_type" {
+  type = string
+}
+variable "default_lambda_function_association_lambda_arn" {
   type = string
 }
 
