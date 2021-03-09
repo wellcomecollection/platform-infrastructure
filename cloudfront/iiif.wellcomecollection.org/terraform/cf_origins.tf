@@ -57,7 +57,7 @@ locals {
     },
     {
       origin_id   = "pdf_cover"
-      domain_name = "pdf.wellcomecollection.digirati.io"
+      domain_name = "pdf.dlcs.io"
       origin_path = null
     }
   ]

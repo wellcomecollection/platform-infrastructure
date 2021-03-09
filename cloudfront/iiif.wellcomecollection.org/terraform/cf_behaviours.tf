@@ -100,7 +100,7 @@ locals {
     {
       path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
-      headers          = ["Host"]
+      headers          = []
       cookies          = "all"
       lambdas = [
         {
@@ -253,7 +253,7 @@ locals {
       path_pattern     = "pdf-cover/*"
       target_origin_id = "pdf_cover"
       headers          = []
-      cookies          = null
+      cookies          = "all"
       lambdas          = []
 
       min_ttl     = 0
