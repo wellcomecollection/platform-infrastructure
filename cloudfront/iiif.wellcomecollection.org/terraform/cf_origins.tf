@@ -1,6 +1,11 @@
 locals {
   prod_origins = [
     {
+      origin_id : "dashboard"
+      domain_name : "dash-stage.wellcomecollection.digirati.io"
+      origin_path : null
+    },
+    {
       origin_id : "dds"
       domain_name : "dds.dlcs.io"
       origin_path : null
@@ -57,7 +62,7 @@ locals {
     },
     {
       origin_id   = "pdf_cover"
-      domain_name = "pdf.dlcs.io"
+      domain_name = "pdf.wellcomecollection.digirati.io"
       origin_path = null
     }
   ]
