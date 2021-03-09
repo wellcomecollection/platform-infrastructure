@@ -10,6 +10,10 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
     const oldWellcomeImagesUri: RegExp = /^\/image\/[ABLNMSVW]00.+(?:\.jpg)\/.+/
     const dlcsImagesUri: RegExp = /^\/image\/.+/
     const dlcsAVUri: RegExp = /^\/av\/.+/
+    const dlcsThumbsUri: RegExp = /^\/thumbs\/.+/
+    const dlcsPdfUri: RegExp = /^\/pdf\/.+/
+    const dlcsFileUri: RegExp = /^\/file\/.+/
+    const dlcsAuthUri: RegExp = /^\/auth\/.+/
 
     const rewriteRequestUri: (uri: string) => string = (uri: string) => {
         if(uri.match(oldWellcomeImagesUri)) {
@@ -25,6 +29,18 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
         } else if(uri.match(dlcsAVUri)) {
             return uri
                 .replace('/av', '')
+        } else if(uri.match(dlcsThumbsUri)) {
+            return uri
+                .replace('/thumbs', '')
+        } else if(uri.match(dlcsPdfUri)) {
+            return uri
+                .replace('/pdf', '')
+        } else if(uri.match(dlcsFileUri)) {
+            return uri
+                .replace('/file', '')
+        } else if(uri.match(dlcsAuthUri)) {
+            return uri
+                .replace('/auth', '')
         } else {
             return uri
         }

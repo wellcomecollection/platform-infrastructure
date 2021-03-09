@@ -117,22 +117,49 @@ locals {
 
   thumbs_behaviours = [
     {
-      path_pattern     = "thumbs/b*"
+      path_pattern     = "thumb/*"
       target_origin_id = "iiif"
       headers          = ["*"]
-      cookies          = "all"
+      cookies          = "none"
       lambdas          = []
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
       max_ttl     = 365 * 24 * 60 * 60
-    },
+    }
+  ]
+
+  dlcs_thumbs_behaviours_prod = [
     {
-      path_pattern     = "thumbs/*.*"
+      path_pattern     = "thumbs/*"
       target_origin_id = "dlcs_thumbs"
       headers          = []
-      cookies          = "all"
-      lambdas          = []
+      cookies          = "none"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    }
+  ]
+
+  dlcs_thumbs_behaviours_stage = [
+    {
+      path_pattern     = "thumbs/*"
+      target_origin_id = "dlcs_thumbs"
+      headers          = []
+      cookies          = "none"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
+        }
+      ]
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
@@ -178,13 +205,18 @@ locals {
     },
   ]
 
-  pdf_behaviours = [
+  pdf_behaviours_prod = [
     {
       path_pattern     = "pdf/*"
       target_origin_id = "dlcs_pdf"
       headers          = []
       cookies          = "all"
-      lambdas          = []
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
@@ -192,13 +224,37 @@ locals {
     },
   ]
 
-  file_behaviours = [
+  pdf_behaviours_stage = [
+    {
+      path_pattern     = "pdf/*"
+      target_origin_id = "dlcs_pdf"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  file_behaviours_prod = [
     {
       path_pattern     = "file/*"
       target_origin_id = "dlcs_file"
       headers          = []
       cookies          = "all"
-      lambdas          = []
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
@@ -206,13 +262,56 @@ locals {
     },
   ]
 
-  auth_behaviours = [
+  file_behaviours_stage = [
+    {
+      path_pattern     = "file/*"
+      target_origin_id = "dlcs_file"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  auth_behaviours_prod = [
     {
       path_pattern     = "auth/*"
-      target_origin_id = "dlcs"
+      target_origin_id = "dlcs_auth"
       headers          = ["Authorization"]
       cookies          = "all"
-      lambdas          = []
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 24 * 60 * 60
+      max_ttl     = 365 * 24 * 60 * 60
+    },
+  ]
+
+  auth_behaviours_stage = [
+    {
+      path_pattern     = "auth/*"
+      target_origin_id = "dlcs_auth"
+      headers          = ["Authorization"]
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_stage
+        }
+      ]
 
       min_ttl     = 0
       default_ttl = 24 * 60 * 60
@@ -266,10 +365,11 @@ locals {
     local.wellcome_images_dlcs_behaviours_prod,
     local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
+    local.dlcs_thumbs_behaviours_prod,
     local.av_behaviours_prod,
-    local.pdf_behaviours,
-    local.file_behaviours,
-    local.auth_behaviours,
+    local.pdf_behaviours_prod,
+    local.file_behaviours_prod,
+    local.auth_behaviours_prod,
     local.dash_behaviours,
     local.text_behaviours,
     local.pdf_cover_behaviours,
@@ -279,10 +379,11 @@ locals {
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
+    local.dlcs_thumbs_behaviours_stage,
     local.av_behaviours_stage,
-    local.pdf_behaviours,
-    local.file_behaviours,
-    local.auth_behaviours,
+    local.pdf_behaviours_stage,
+    local.file_behaviours_stage,
+    local.auth_behaviours_stage,
     local.dash_behaviours,
     local.text_behaviours,
     local.pdf_cover_behaviours,
@@ -292,10 +393,11 @@ locals {
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
     local.thumbs_behaviours,
+    local.dlcs_thumbs_behaviours_stage,
     local.av_behaviours_stage,
-    local.pdf_behaviours,
-    local.file_behaviours,
-    local.auth_behaviours,
+    local.pdf_behaviours_stage,
+    local.file_behaviours_stage,
+    local.auth_behaviours_stage,
     local.dash_behaviours,
     local.text_behaviours,
     local.pdf_cover_behaviours,

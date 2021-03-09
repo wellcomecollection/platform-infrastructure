@@ -10,7 +10,7 @@ module "dashboard_origin_set" {
   id     = "dashboard"
 
   prod = {
-    domain_name : "dash-stage.wellcomecollection.digirati.io"
+    domain_name : "dds.dlcs.io"
     origin_path : null
   }
   stage = {
@@ -191,6 +191,24 @@ module "dlcs_pdf_cover_origin_set" {
   }
 }
 
+module "dlcs_auth_origin_set" {
+  source = "./origin_sets"
+  id     = "dlcs_auth"
+
+  prod = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/2"
+  }
+  stage = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/2"
+  }
+  test = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/2"
+  }
+}
+
 locals {
 
   prod_origins = [
@@ -203,7 +221,8 @@ locals {
     module.dlcs_av_origin_set.origins["prod"],
     module.dlcs_pdf_origin_set.origins["prod"],
     module.dlcs_file_origin_set.origins["prod"],
-    module.dlcs_pdf_cover_origin_set.origins["prod"]
+    module.dlcs_pdf_cover_origin_set.origins["prod"],
+    module.dlcs_auth_origin_set.origins["prod"]
   ]
 
   stage_origins = [
@@ -216,7 +235,8 @@ locals {
     module.dlcs_av_origin_set.origins["stage"],
     module.dlcs_pdf_origin_set.origins["stage"],
     module.dlcs_file_origin_set.origins["stage"],
-    module.dlcs_pdf_cover_origin_set.origins["stage"]
+    module.dlcs_pdf_cover_origin_set.origins["stage"],
+    module.dlcs_auth_origin_set.origins["stage"]
   ]
 
   test_origins = [
@@ -229,6 +249,7 @@ locals {
     module.dlcs_av_origin_set.origins["test"],
     module.dlcs_pdf_origin_set.origins["test"],
     module.dlcs_file_origin_set.origins["test"],
-    module.dlcs_pdf_cover_origin_set.origins["test"]
+    module.dlcs_pdf_cover_origin_set.origins["test"],
+    module.dlcs_auth_origin_set.origins["test"]
   ]
 }
