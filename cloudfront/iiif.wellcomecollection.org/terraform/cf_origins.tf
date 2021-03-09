@@ -7,7 +7,7 @@
 
 module "dashboard_origin_set" {
   source = "./origin_sets"
-  id = "dashboard"
+  id     = "dashboard"
 
   prod = {
     domain_name : "dash-stage.wellcomecollection.digirati.io"
@@ -25,7 +25,7 @@ module "dashboard_origin_set" {
 
 module "iiif_origin_set" {
   source = "./origin_sets"
-  id = "iiif"
+  id     = "iiif"
 
   prod = {
     domain_name : "iiif.dlcs.io"
@@ -43,7 +43,7 @@ module "iiif_origin_set" {
 
 module "dlcs_origin_set" {
   source = "./origin_sets"
-  id = "dlcs"
+  id     = "dlcs"
 
   prod = {
     domain_name : "dlcs.io"
@@ -64,7 +64,7 @@ module "dlcs_origin_set" {
 module "dlcs_wellcome_images_origin_set" {
   // Origin Shield is enabled in prod for this origin
   source = "./origin_sets"
-  id = "dlcs_wellcome_images"
+  id     = "dlcs_wellcome_images"
 
   prod = {
     domain_name : "dlcs.io"
@@ -85,7 +85,7 @@ module "dlcs_wellcome_images_origin_set" {
 module "dlcs_images_origin_set" {
   // Origin Shield is enabled in prod for this origin
   source = "./origin_sets"
-  id = "dlcs_images"
+  id     = "dlcs_images"
 
   prod = {
     domain_name : "dlcs.io"
@@ -103,7 +103,7 @@ module "dlcs_images_origin_set" {
 
 module "dlcs_thumbs_origin_set" {
   source = "./origin_sets"
-  id = "dlcs_thumbs"
+  id     = "dlcs_thumbs"
 
   prod = {
     domain_name : "dlcs.io"
@@ -121,7 +121,7 @@ module "dlcs_thumbs_origin_set" {
 
 module "dlcs_av_origin_set" {
   source = "./origin_sets"
-  id = "dlcs_av"
+  id     = "dlcs_av"
 
   prod = {
     domain_name : "dlcs.io"
@@ -139,7 +139,7 @@ module "dlcs_av_origin_set" {
 
 module "dlcs_pdf_origin_set" {
   source = "./origin_sets"
-  id = "dlcs_pdf"
+  id     = "dlcs_pdf"
 
   prod = {
     domain_name : "dlcs.io"
@@ -157,7 +157,7 @@ module "dlcs_pdf_origin_set" {
 
 module "dlcs_file_origin_set" {
   source = "./origin_sets"
-  id = "dlcs_file"
+  id     = "dlcs_file"
 
   prod = {
     domain_name : "dlcs.io"
@@ -175,7 +175,7 @@ module "dlcs_file_origin_set" {
 
 module "dlcs_pdf_cover_origin_set" {
   source = "./origin_sets"
-  id = "pdf_cover"
+  id     = "pdf_cover"
 
   prod = {
     domain_name : "pdf.wellcomecollection.digirati.io"
