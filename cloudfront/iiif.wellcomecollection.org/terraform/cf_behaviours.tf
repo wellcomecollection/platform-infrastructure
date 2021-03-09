@@ -130,7 +130,7 @@ locals {
     {
       path_pattern     = "thumbs/*.*"
       target_origin_id = "dlcs_thumbs"
-      headers          = ["Host"]
+      headers          = []
       cookies          = "all"
       lambdas          = []
 
@@ -144,7 +144,7 @@ locals {
     {
       path_pattern     = "av/*"
       target_origin_id = "dlcs_av"
-      headers          = ["Host"]
+      headers          = []
       cookies          = "all"
       lambdas = [
         {
@@ -163,7 +163,7 @@ locals {
     {
       path_pattern     = "av/*"
       target_origin_id = "dlcs_av"
-      headers          = ["Host"]
+      headers          = []
       cookies          = "all"
       lambdas = [
         {
