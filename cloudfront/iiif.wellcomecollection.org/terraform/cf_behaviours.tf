@@ -253,7 +253,7 @@ locals {
       path_pattern     = "pdf-cover/*"
       target_origin_id = "pdf_cover"
       headers          = []
-      cookies          = "all"
+      cookies          = "none"
       lambdas          = []
 
       min_ttl     = 0
