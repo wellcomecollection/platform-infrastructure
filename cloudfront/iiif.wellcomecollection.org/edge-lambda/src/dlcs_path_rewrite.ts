@@ -9,6 +9,7 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
     const newWellcomeImagesUri: RegExp = /^\/image\/[ABLNMSVW]00.+/
     const oldWellcomeImagesUri: RegExp = /^\/image\/[ABLNMSVW]00.+(?:\.jpg)\/.+/
     const dlcsImagesUri: RegExp = /^\/image\/.+/
+    const dlcsAVUri: RegExp = /^\/av\/.+/
 
     const rewriteRequestUri: (uri: string) => string = (uri: string) => {
         if(uri.match(oldWellcomeImagesUri)) {
@@ -21,6 +22,9 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
         } else if(uri.match(dlcsImagesUri)) {
             return uri
                 .replace('/image', '')
+        } else if(uri.match(dlcsAVUri)) {
+            return uri
+                .replace('/av', '')
         } else {
             return uri
         }
