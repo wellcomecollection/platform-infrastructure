@@ -263,8 +263,6 @@ locals {
   ]
 
   prod_behaviours = concat(
-    // TODO: Remove this fallback line when Loris is decommissioned
-    // local.wellcome_images_loris_behaviours,
     local.wellcome_images_dlcs_behaviours_prod,
     local.dlcs_images_behaviours_prod,
     local.thumbs_behaviours,
