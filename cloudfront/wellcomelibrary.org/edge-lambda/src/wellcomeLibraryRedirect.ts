@@ -5,14 +5,15 @@ import {
 } from 'aws-lambda/common/cloudfront';
 import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
-import { redirect } from './redirect';
+import { createRedirect } from './createRedirect';
+import { redirectToRoot } from './redirectToRoot';
 
 async function rewriteRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const wellcomeCollectionHost = 'https://wellcomecollection.org';
-  const notFoundRedirect = redirect(
+  const notFoundRedirect = createRedirect(
     `${wellcomeCollectionHost}/works/not-found`
   );
 
@@ -32,7 +33,7 @@ async function rewriteRequestUri(
       return notFoundRedirect;
     }
 
-    return redirect(`${wellcomeCollectionHost}/works/${work.id}`);
+    return createRedirect(`${wellcomeCollectionHost}/works/${work.id}`);
   }
 }
 
@@ -42,21 +43,10 @@ export const requestHandler = async (
 ) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
 
-  // Redirect www. -> to root
-  if (request.headers.host && request.headers.host.length === 1) {
-    const requestHost = request.headers.host[0].value;
-
-    if (requestHost.startsWith('www.')) {
-      const rootRequestHost = requestHost.replace('www.', '');
-      return Promise.resolve(
-        redirect(`https://${rootRequestHost}${request.uri}`)
-      );
-    }
+  const rootRedirect = redirectToRoot(request);
+  if (rootRedirect) {
+    return rootRedirect;
   }
-
-  // TODO: Work out if we want to split this into 2 lambdas - one for the base host rewrite
-  // and one per path!
-  // TODO: tests for paths.js (and any other modules)
 
   const requestRedirect = await rewriteRequestUri(request.uri);
 
@@ -64,6 +54,8 @@ export const requestHandler = async (
     return requestRedirect;
   }
 
+  // If we've matched nothing so far then set the host header for Wellcome Library
+  // In future we may want to redirect to wellcomecollection.org if we find no match
   request.headers.host = [{ key: 'host', value: 'wellcomelibrary.org' }];
 
   return request;

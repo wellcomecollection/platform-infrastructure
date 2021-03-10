@@ -13,7 +13,7 @@ module "wellcomelibrary-prod" {
 
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
-  default_lambda_function_association_lambda_arn = local.wellcome_library_redirect_arn_prod
+  default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_prod
 }
 
 module "wellcomelibrary-stage" {
@@ -30,5 +30,5 @@ module "wellcomelibrary-stage" {
 
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
-  default_lambda_function_association_lambda_arn = local.wellcome_library_redirect_arn_stage
+  default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_stage
 }

@@ -1,4 +1,3 @@
-// TODO: Account for multiple results by looking for matching sierra entry
 import { apiQuery, GetWorkResult, Identifier } from './api';
 
 export async function getWork(bNumber: string): Promise<GetWorkResult> {
