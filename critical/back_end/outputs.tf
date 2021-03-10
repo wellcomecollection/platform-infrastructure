@@ -118,3 +118,25 @@ output "inference_calm_reindex_topic_name" {
 output "shared_secrets_logging" {
   value = local.logging_secrets
 }
+
+# Elastic Cloud
+
+output "ec_traffic_filter_public_internet_id" {
+  value = ec_deployment_traffic_filter.public_internet.id
+}
+
+output "ec_platform_privatelink_sg_id" {
+  value = module.platform_privatelink.security_group_id
+}
+
+output "ec_catalogue_privatelink_sg_id" {
+  value = module.catalogue_privatelink.security_group_id
+}
+
+output "ec_platform_privatelink_traffic_filter_id" {
+  value = module.platform_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_catalogue_privatelink_traffic_filter_id" {
+  value = module.catalogue_privatelink.traffic_filter_vpce_id
+}
