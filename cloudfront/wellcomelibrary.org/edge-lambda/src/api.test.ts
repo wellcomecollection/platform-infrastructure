@@ -1,85 +1,92 @@
 import axios from 'axios';
-import {apiQuery, Work} from "./api";
-import {testDataMultiPageFirstPage, testDataMultiPageNextPage, testDataMultipleResults, testDataNoResults, testDataSingleResult} from './apiFixtures'
+import { jest, test, expect } from '@jest/globals';
+
+import { apiQuery, Work } from './api';
+import {
+  testDataMultiPageFirstPage,
+  testDataMultiPageNextPage,
+  testDataMultipleResults,
+  testDataNoResults,
+  testDataSingleResult,
+} from './apiFixtures';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+test('returns no results when none available', async () => {
+  mockedAxios.get.mockResolvedValueOnce({ data: testDataNoResults });
 
-test(`returns no results when none available`, async () => {
-    mockedAxios.get.mockResolvedValueOnce({data: testDataNoResults});
+  const resultList = apiQuery({
+    query: 'bnumber',
+    include: ['identifiers'],
+  });
 
-    const resultList = apiQuery({
-        query: 'bnumber',
-        include: ['identifiers']
-    })
+  const works = [];
 
-    let works = [];
+  for await (const result of resultList) {
+    works.push(result);
+  }
 
-    for await (let result of resultList) {
-        works.push(result);
-    }
-
-    expect(works).toEqual([])
+  expect(works).toEqual([]);
 });
 
-test(`returns a result when one available`, async () => {
-    mockedAxios.get.mockResolvedValueOnce({data: testDataSingleResult});
+test('returns a result when one available', async () => {
+  mockedAxios.get.mockResolvedValueOnce({ data: testDataSingleResult });
 
-    const resultList = apiQuery({
-        query: 'bnumber',
-        include: ['identifiers']
-    })
+  const resultList = apiQuery({
+    query: 'bnumber',
+    include: ['identifiers'],
+  });
 
-    let works = [];
+  const works = [];
 
-    for await (let result of resultList) {
-        works.push(result);
-    }
+  for await (const result of resultList) {
+    works.push(result);
+  }
 
-    expect(works).toEqual([testDataSingleResult.results[0] as Work])
+  expect(works).toEqual([testDataSingleResult.results[0] as Work]);
 });
 
-test(`returns multiple result when available`, async () => {
-    mockedAxios.get.mockResolvedValueOnce({data: testDataMultipleResults});
+test('returns multiple result when available', async () => {
+  mockedAxios.get.mockResolvedValueOnce({ data: testDataMultipleResults });
 
-    const resultList = apiQuery({
-        query: 'bnumber',
-        include: ['identifiers']
-    })
+  const resultList = apiQuery({
+    query: 'bnumber',
+    include: ['identifiers'],
+  });
 
-    let works = [];
-    for await (let result of resultList) {
-        works.push(result);
-    }
+  const works = [];
+  for await (const result of resultList) {
+    works.push(result);
+  }
 
-    const expectedResults = []
-    for await (let result of testDataMultipleResults.results) {
-        expectedResults.push(result as Work);
-    }
+  const expectedResults = [];
+  for await (const result of testDataMultipleResults.results) {
+    expectedResults.push(result as Work);
+  }
 
-    expect(works).toEqual(expectedResults)
+  expect(works).toEqual(expectedResults);
 });
 
-test(`returns multiple result across pages`, async () => {
-    mockedAxios.get
-        .mockResolvedValueOnce({data: testDataMultiPageFirstPage})
-        .mockResolvedValueOnce({data: testDataMultiPageNextPage})
+test('returns multiple result across pages', async () => {
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: testDataMultiPageFirstPage })
+    .mockResolvedValueOnce({ data: testDataMultiPageNextPage });
 
-    const resultList = apiQuery({
-        query: 'bnumber',
-        include: ['identifiers']
-    })
+  const resultList = apiQuery({
+    query: 'bnumber',
+    include: ['identifiers'],
+  });
 
-    let works = [];
-    for await (let result of resultList) {
-        works.push(result);
-    }
+  const works = [];
+  for await (const result of resultList) {
+    works.push(result);
+  }
 
-    const expectedResults = [
-        testDataMultiPageFirstPage.results[0] as Work,
-        testDataMultiPageNextPage.results[0] as Work,
-    ]
+  const expectedResults = [
+    testDataMultiPageFirstPage.results[0] as Work,
+    testDataMultiPageNextPage.results[0] as Work,
+  ];
 
-    expect(works).toEqual(expectedResults)
+  expect(works).toEqual(expectedResults);
 });

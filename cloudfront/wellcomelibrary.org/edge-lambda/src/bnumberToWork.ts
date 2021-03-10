@@ -1,21 +1,21 @@
 // TODO: Account for multiple results by looking for matching sierra entry
-import {apiQuery, GetWorkResult} from "./api";
+import { apiQuery, GetWorkResult } from './api';
 
 export async function getWork(bNumber: string): Promise<GetWorkResult> {
-    const resultList = apiQuery({
-        query: bNumber,
-        include: ['identifiers']
-    })
+  const resultList = apiQuery({
+    query: bNumber,
+    include: ['identifiers'],
+  });
 
-    let work = undefined
+  let work;
 
-    for await (let result of resultList) {
-        work = result
-    }
+  for await (const result of resultList) {
+    work = result;
+  }
 
-    if(work) {
-        return work
-    } else {
-        return Error("No matching Catalogue API results found")
-    }
+  if (work) {
+    return work;
+  } else {
+    return Error('No matching Catalogue API results found');
+  }
 }

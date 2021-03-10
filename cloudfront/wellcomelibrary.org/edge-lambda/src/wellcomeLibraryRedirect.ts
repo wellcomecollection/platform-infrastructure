@@ -1,19 +1,26 @@
 import { CloudFrontRequestEvent, Context } from 'aws-lambda';
-import { CloudFrontRequest, CloudFrontResultResponse } from 'aws-lambda/common/cloudfront';
+import {
+  CloudFrontRequest,
+  CloudFrontResultResponse,
+} from 'aws-lambda/common/cloudfront';
 import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
-import { redirect } from "./redirect";
+import { redirect } from './redirect';
 
-async function rewriteRequestUri(uri: string): Promise<undefined | CloudFrontResultResponse> {
+async function rewriteRequestUri(
+  uri: string
+): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
-  const wellcomeCollectionHost = 'https://wellcomecollection.org'
-  const notFoundRedirect = redirect(`${wellcomeCollectionHost}/works/not-found`)
+  const wellcomeCollectionHost = 'https://wellcomecollection.org';
+  const notFoundRedirect = redirect(
+    `${wellcomeCollectionHost}/works/not-found`
+  );
 
   if (uri.match(itemPathRegExp)) {
     // Try and find b-number in item path
     const bNumberResult = getBnumberFromPath(uri);
 
-    if(bNumberResult instanceof Error) {
+    if (bNumberResult instanceof Error) {
       return notFoundRedirect;
     }
 
@@ -21,24 +28,29 @@ async function rewriteRequestUri(uri: string): Promise<undefined | CloudFrontRes
     const bNumber = bNumberResult;
     const work = await getWork(bNumber);
 
-    if(work instanceof Error) {
-        return notFoundRedirect;
+    if (work instanceof Error) {
+      return notFoundRedirect;
     }
 
     return redirect(`${wellcomeCollectionHost}/works/${work.id}`);
   }
 }
 
-export const requestHandler = async (event: CloudFrontRequestEvent, _: Context) => {
+export const requestHandler = async (
+  event: CloudFrontRequestEvent,
+  _: Context
+) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
 
   // Redirect www. -> to root
-  if(request.headers.host && request.headers.host.length == 1) {
-    const requestHost =  request.headers.host[0].value
+  if (request.headers.host && request.headers.host.length === 1) {
+    const requestHost = request.headers.host[0].value;
 
     if (requestHost.startsWith('www.')) {
-      const rootRequestHost = requestHost.replace('www.','');
-      return Promise.resolve(redirect(`https://${rootRequestHost}${request.uri}`));
+      const rootRequestHost = requestHost.replace('www.', '');
+      return Promise.resolve(
+        redirect(`https://${rootRequestHost}${request.uri}`)
+      );
     }
   }
 
@@ -48,11 +60,11 @@ export const requestHandler = async (event: CloudFrontRequestEvent, _: Context) 
 
   const requestRedirect = await rewriteRequestUri(request.uri);
 
-  if(requestRedirect) {
-      return requestRedirect;
+  if (requestRedirect) {
+    return requestRedirect;
   }
 
-  request.headers['host'] = [{ key: 'host', value: 'wellcomelibrary.org' }];
+  request.headers.host = [{ key: 'host', value: 'wellcomelibrary.org' }];
 
   return request;
 };

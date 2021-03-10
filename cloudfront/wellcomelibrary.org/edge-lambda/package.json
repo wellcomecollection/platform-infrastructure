@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "test": "yarn jest",
+    "lint": "eslint src/**/*.ts --fix",
     "build": "tsc -p tsconfig.build.json && yarn bundle",
     "bundle": "cp package.json dist && pushd dist && yarn install --production && zip -r wellcome_library_redirect.zip . && popd",
     "deploy": "yarn build && yarn test && node deploy",
@@ -20,6 +21,16 @@
     "@types/aws-lambda": "^8.10.71",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.25",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-standard": "^5.0.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.0",
@@ -27,6 +38,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.836.0",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "eslint-plugin-jest": "^24.2.1"
   }
 }
