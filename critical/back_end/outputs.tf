@@ -121,7 +121,7 @@ output "shared_secrets_logging" {
 
 # Elastic Cloud
 
-output "ec_traffic_filter_public_internet_id" {
+output "ec_public_internet_traffic_filter_id" {
   value = ec_deployment_traffic_filter.public_internet.id
 }
 
