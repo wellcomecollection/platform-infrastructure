@@ -15,9 +15,11 @@ resource "aws_cloudfront_distribution" "iiif" {
       domain_name = origin.value["domain_name"]
       origin_path = origin.value["origin_path"]
 
-      custom_header = {
-        name  = "X-Forwarded-Host"
-        value = local.distro_alias
+      dynamic "custom_header" {
+        for_each = origin.value["forward_host"] ? [] : [1]
+        content {
+          name  = "X-Forwarded-Host"
+          value = local.distro_alias
       }
 
       custom_origin_config {
