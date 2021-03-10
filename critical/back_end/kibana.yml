@@ -1,0 +1,3 @@
+xpack.security.authProviders: [oidc, basic]
+xpack.security.authc.oidc.realm: "cloud-oidc"
+server.xsrf.whitelist: [/api/security/v1/oidc]

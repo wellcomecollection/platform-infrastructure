@@ -1,0 +1,17 @@
+xpack:
+  security:
+    authc:
+      realms:
+        oidc:
+          cloud-oidc:
+            order: 2
+            rp.client_id: "${client_id}"
+            rp.response_type: "code"
+            rp.redirect_uri: "https://logging.wellcomecollection.org/api/security/v1/oidc"
+            op.issuer: "https://login.microsoftonline.com/${tenant_id}/v2.0"
+            op.authorization_endpoint: "https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/authorize"
+            op.token_endpoint: "https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token"
+            op.userinfo_endpoint: "https://graph.microsoft.com/oidc/userinfo"
+            op.jwkset_path: "https://login.microsoftonline.com/common/discovery/v2.0/keys"
+            claims.principal: "sub"
+            claims.groups: "groups"
