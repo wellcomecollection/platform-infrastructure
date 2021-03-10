@@ -27,12 +27,13 @@ module "platform_privatelink" {
     aws = aws.platform
   }
 
+  traffic_filter_name = "ec_allow_vpc_endpoint"
+
   vpc_id     = local.catalogue_vpcs["catalogue_vpc_delta_id"]
   subnet_ids = local.catalogue_vpcs["catalogue_vpc_delta_private_subnets"]
 
-  service_name        = local.ec_eu_west_1_service_name
-  ec_vpce_domain      = local.catalogue_pipeline_ec_vpce_domain
-  traffic_filter_name = "ec_allow_vpc_endpoint"
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
 }
 
 module "catalogue_privatelink" {
@@ -42,10 +43,108 @@ module "catalogue_privatelink" {
     aws = aws.catalogue
   }
 
+  traffic_filter_name = "ec_allow_catalogue_vpc_endpoint"
+
   vpc_id     = local.catalogue_vpcs["catalogue_vpc_id"]
   subnet_ids = local.catalogue_vpcs["catalogue_vpc_private_subnets"]
 
-  service_name        = local.ec_eu_west_1_service_name
-  ec_vpce_domain      = local.catalogue_pipeline_ec_vpce_domain
-  traffic_filter_name = "ec_allow_catalogue_vpc_endpoint"
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
 }
+
+module "storage_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.storage
+  }
+
+  traffic_filter_name = "storage"
+
+  vpc_id     = local.storage_vpcs["storage_vpc_id"]
+  subnet_ids = local.storage_vpcs["storage_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "experience_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.experience
+  }
+
+  traffic_filter_name = "experience"
+
+  vpc_id     = local.experience_vpcs["experience_vpc_id"]
+  subnet_ids = local.experience_vpcs["experience_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "digirati_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.digirati
+  }
+
+  traffic_filter_name = "digirati"
+
+  vpc_id     = local.digirati_vpcs["digirati_vpc_id"]
+  subnet_ids = local.digirati_vpcs["digirati_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "identity_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.identity
+  }
+
+  traffic_filter_name = "identity"
+
+  vpc_id     = local.identity_vpcs["identity_vpc_id"]
+  subnet_ids = local.identity_vpcs["identity_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "workflow_prod_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.workflow
+  }
+
+  traffic_filter_name = "workflow_prod"
+
+  vpc_id     = local.workflow_prod_vpcs["vpc_id"]
+  subnet_ids = local.workflow_prod_vpcs["private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "workflow_stage_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.workflow
+  }
+
+  traffic_filter_name = "workflow_stage"
+
+  vpc_id     = local.workflow_stage_vpcs["vpc_id"]
+  subnet_ids = local.workflow_stage_vpcs["private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+

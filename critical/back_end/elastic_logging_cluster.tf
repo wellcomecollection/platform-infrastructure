@@ -1,5 +1,5 @@
 resource "ec_deployment" "logging" {
-  name = "logging"
+  name = "logging-delta"
 
   region                 = "eu-west-1"
   version                = "7.11.2"
@@ -9,6 +9,12 @@ resource "ec_deployment" "logging" {
     ec_deployment_traffic_filter.public_internet.id,
     module.platform_privatelink.traffic_filter_vpce_id,
     module.catalogue_privatelink.traffic_filter_vpce_id,
+    module.storage_privatelink.traffic_filter_vpce_id,
+    module.experience_privatelink.traffic_filter_vpce_id,
+    module.digirati_privatelink.traffic_filter_vpce_id,
+    module.identity_privatelink.traffic_filter_vpce_id,
+    module.workflow_prod_privatelink.traffic_filter_vpce_id,
+    module.workflow_stage_privatelink.traffic_filter_vpce_id,
   ]
 
   elasticsearch {
@@ -16,26 +22,12 @@ resource "ec_deployment" "logging" {
       zone_count = 3
       size       = "8g"
     }
-
-    config {
-      user_settings_yaml = templatefile(
-        "${path.module}/logging_elasticsearch.yml",
-        {
-          client_id = "2e5c6629-558e-4202-b802-f66674acf939",
-          tenant_id = "3b7a675a-1fc8-4983-a100-cc52b7647737"
-        }
-      )
-    }
   }
 
   kibana {
     topology {
       zone_count = 1
       size       = "2g"
-    }
-
-    config {
-      user_settings_yaml = file("${path.module}/kibana.yml")
     }
   }
 
