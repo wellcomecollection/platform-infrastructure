@@ -152,7 +152,7 @@ locals {
     {
       path_pattern     = "thumbs/*"
       target_origin_id = "dlcs_thumbs"
-      headers          = ["X-Forwarded-Host"]
+      headers          = []
       cookies          = "none"
       lambdas = [
         {
