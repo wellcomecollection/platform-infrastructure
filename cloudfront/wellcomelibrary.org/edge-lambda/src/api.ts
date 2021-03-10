@@ -2,18 +2,18 @@ import axios from 'axios';
 
 const apiBasePath = 'https://api.wellcomecollection.org/catalogue/v2';
 
-type ApiQuery = {
+export type ApiQuery = {
   query: string;
   include: string[];
 };
 
-type IdentifierType = {
+export type IdentifierType = {
   id: string;
   label: string;
   type: 'IdentifierType';
 };
 
-type Identifier = {
+export type Identifier = {
   value: string;
   identifierType: IdentifierType;
   type: 'Identifier';

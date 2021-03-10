@@ -6,7 +6,7 @@ import {
   testDataNoResults,
   testDataSingleResult,
 } from './apiFixtures';
-import { Work } from './api';
+import { Work, CatalogueResultsList, Identifier } from './api';
 import { getWork } from './bnumberToWork';
 
 jest.mock('axios');
@@ -28,13 +28,86 @@ test('returns a Work when one result available', async () => {
   expect(workResults).toEqual(expectedWork);
 });
 
-// TODO: Fix this
-test('returns the first Work with a "sierra-identifier" identifier', async () => {
-  mockedAxios.get
-    .mockResolvedValueOnce({ data: testDataMultiPageFirstPage })
-    .mockResolvedValueOnce({ data: testDataMultiPageNextPage });
+const includesSierraIdentifiers = [
+  {
+    identifierType: {
+      id: 'sierra-system-number',
+      label: 'Sierra system number',
+      type: 'IdentifierType',
+    },
+    value: 'b12062789',
+    type: 'Identifier',
+  } as Identifier,
 
-  const expectedWork = testDataMultiPageNextPage.results[0] as Work;
+  {
+    identifierType: {
+      id: 'sierra-identifier',
+      label: 'Sierra identifier',
+      type: 'IdentifierType',
+    },
+    value: '1206278',
+    type: 'Identifier',
+  } as Identifier,
+];
+
+const excludesSierraIdentifiers = [
+  {
+    identifierType: {
+      id: 'regular-lottery-ticket',
+      label: 'Regular lottery numbers',
+      type: 'IdentifierType',
+    },
+    value: '1234567890',
+    type: 'Identifier',
+  } as Identifier,
+];
+
+function addIdentifiersToPage(
+  identifiers: Identifier[],
+  resultList: CatalogueResultsList
+) {
+  const firstResult = resultList.results[0];
+  const resultWithIdentifiers = Object.assign(firstResult, {
+    identifiers: identifiers,
+  });
+  return Object.assign(resultList, { results: [resultWithIdentifiers] });
+}
+
+test('returns the last work when no identifiers', async () => {
+  const firstPageWithoutSierraIdentifiers = addIdentifiersToPage(
+    excludesSierraIdentifiers,
+    testDataMultiPageFirstPage as CatalogueResultsList
+  );
+  const nextPageWithoutSierraIdentifiers = addIdentifiersToPage(
+    excludesSierraIdentifiers,
+    testDataMultiPageNextPage as CatalogueResultsList
+  );
+
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: firstPageWithoutSierraIdentifiers })
+    .mockResolvedValueOnce({ data: nextPageWithoutSierraIdentifiers });
+
+  const expectedWork = nextPageWithoutSierraIdentifiers.results[0] as Work;
+
+  const workResults = await getWork('bnumber');
+  expect(workResults).toEqual(expectedWork);
+});
+
+test('returns the first Work with a "sierra-identifier" identifier', async () => {
+  const firstPageWithSierraIdentifiers = addIdentifiersToPage(
+    includesSierraIdentifiers,
+    testDataMultiPageFirstPage as CatalogueResultsList
+  );
+  const nextPageWithoutSierraIdentifiers = addIdentifiersToPage(
+    excludesSierraIdentifiers,
+    testDataMultiPageNextPage as CatalogueResultsList
+  );
+
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: firstPageWithSierraIdentifiers })
+    .mockResolvedValueOnce({ data: nextPageWithoutSierraIdentifiers });
+
+  const expectedWork = firstPageWithSierraIdentifiers.results[0] as Work;
 
   const workResults = await getWork('bnumber');
   expect(workResults).toEqual(expectedWork);

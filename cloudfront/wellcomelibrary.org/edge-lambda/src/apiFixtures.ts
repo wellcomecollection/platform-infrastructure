@@ -90,17 +90,18 @@ export const testDataMultiPageNextPage = {
   results: [
     {
       id: 'pk2appa8',
-      title: 'The remonstrance moved in the House of Commons',
+      title: 'Box we found in the basement last Tuesday',
       alternativeTitles: [],
       description: '<p>Large blue box containing seven human souls.</p>',
       physicalDescription: 'Large blue box, emits continuous screams.',
       workType: {},
       thumbnail: {},
-      availableOnline: true,
+      availableOnline: false,
       availabilities: {},
       type: 'Work',
     },
   ],
+  nextPage: undefined,
   prevPage:
     'https://api.wellcomecollection.org/catalogue/v2/works?include=identifiers&page=1&query=b12062789',
 };
