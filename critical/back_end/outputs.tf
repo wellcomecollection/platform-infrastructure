@@ -118,3 +118,77 @@ output "inference_calm_reindex_topic_name" {
 output "shared_secrets_logging" {
   value = local.logging_secrets
 }
+
+# Elastic Cloud
+
+output "ec_public_internet_traffic_filter_id" {
+  value = ec_deployment_traffic_filter.public_internet.id
+}
+
+output "ec_platform_privatelink_sg_id" {
+  value = module.platform_privatelink.security_group_id
+}
+
+output "ec_catalogue_privatelink_sg_id" {
+  value = module.catalogue_privatelink.security_group_id
+}
+
+output "ec_storage_privatelink_sg_id" {
+  value = module.storage_privatelink.security_group_id
+}
+
+output "ec_experience_privatelink_sg_id" {
+  value = module.experience_privatelink.security_group_id
+}
+
+output "ec_digirati_privatelink_sg_id" {
+  value = module.digirati_privatelink.security_group_id
+}
+
+output "ec_identity_privatelink_sg_id" {
+  value = module.identity_privatelink.security_group_id
+}
+
+output "ec_workflow_stage_privatelink_sg_id" {
+  value = module.workflow_stage_privatelink.security_group_id
+}
+
+output "ec_workflow_prod_privatelink_sg_id" {
+  value = module.workflow_prod_privatelink.security_group_id
+}
+
+output "ec_platform_privatelink_traffic_filter_id" {
+  value = module.platform_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_catalogue_privatelink_traffic_filter_id" {
+  value = module.catalogue_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_storage_privatelink_traffic_filter_id" {
+  value = module.storage_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_experience_privatelink_traffic_filter_id" {
+  value = module.experience_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_digirati_privatelink_traffic_filter_id" {
+  value = module.digirati_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_identity_privatelink_traffic_filter_id" {
+  value = module.identity_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_workflow_stage_privatelink_traffic_filter_id" {
+  value = module.workflow_stage_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_workflow_prod_privatelink_traffic_filter_id" {
+  value = module.workflow_prod_privatelink.traffic_filter_vpce_id
+}
+
+output "logging_kibana_endpoint" {
+  value = local.logging_kibana_endpoint
+}

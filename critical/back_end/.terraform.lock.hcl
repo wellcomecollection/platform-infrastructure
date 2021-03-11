@@ -1,6 +1,14 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/elastic/ec" {
+  version     = "0.1.0-beta"
+  constraints = "0.1.0-beta"
+  hashes = [
+    "h1:FeIlgFFtDoVwNJ5sIBWCmuURRopyXXX9DqC7s0AwubQ=",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/aws" {
   version = "2.35.0"
   hashes = [

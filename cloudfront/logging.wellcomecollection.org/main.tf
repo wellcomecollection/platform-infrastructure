@@ -4,6 +4,6 @@ module "kibana-logging" {
   alias   = "logging.wellcomecollection.org"
   comment = "Kibana (logging)"
 
-  origin_domain_name  = "393eaa6b8f93443c851fc957cccdd5cb.eu-west-1.aws.found.io"
+  origin_domain_name  = data.terraform_remote_state.infra_critical.outputs.logging_kibana_endpoint
   acm_certificate_arn = module.cert.arn
 }
