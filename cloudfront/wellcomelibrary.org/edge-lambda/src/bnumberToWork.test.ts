@@ -68,10 +68,12 @@ function addIdentifiersToPage(
 ) {
   return {
     ...resultList,
-    results: [{
-      ...resultList.results[0],
-      identifiers: identifiers
-    }]
+    results: [
+      {
+        ...resultList.results[0],
+        identifiers: identifiers,
+      },
+    ],
   };
 }
 

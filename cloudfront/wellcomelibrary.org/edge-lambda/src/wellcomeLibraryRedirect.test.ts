@@ -4,7 +4,6 @@ import { Context } from 'aws-lambda';
 import { testDataNoResults, testDataSingleResult } from './apiFixtures';
 import { expectedPassthru, expectedRedirect } from './testHelpers';
 import {
-  CloudFrontHeaders,
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
