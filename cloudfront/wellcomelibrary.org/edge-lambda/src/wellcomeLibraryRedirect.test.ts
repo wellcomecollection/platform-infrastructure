@@ -41,7 +41,7 @@ const redirectHeaders = {
   host: [{ key: 'host', value: 'wellcomelibrary.org' }],
 } as CloudFrontHeaders;
 
-const rewriteTests = (): Array<ExpectedRewrite> => {
+const rewriteTests = (): ExpectedRewrite[] => {
   return [
     {
       in: '/item/b21293302',

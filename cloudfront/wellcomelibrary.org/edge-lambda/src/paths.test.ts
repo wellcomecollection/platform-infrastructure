@@ -5,7 +5,7 @@ type ExpectedPath = {
   in: string;
   out: string | Error;
 };
-const pathTests = (): Array<ExpectedPath> => {
+const pathTests = (): ExpectedPath[] => {
   return [
     {
       in: '/item/b21293302',
