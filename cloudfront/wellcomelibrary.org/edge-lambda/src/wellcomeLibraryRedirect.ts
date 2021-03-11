@@ -12,6 +12,8 @@ async function rewriteRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
+  const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
+
   const wellcomeCollectionHost = 'https://wellcomecollection.org';
   const notFoundRedirect = createRedirect(
     `${wellcomeCollectionHost}/works/not-found`
@@ -36,6 +38,8 @@ async function rewriteRequestUri(
     }
 
     return createRedirect(`${wellcomeCollectionHost}/works/${work.id}`);
+  } else if(uri.match(eventsPathRegExp)) {
+    return createRedirect(`${wellcomeCollectionHost}/whats-on`);
   }
 }
 

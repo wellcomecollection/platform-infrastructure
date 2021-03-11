@@ -28,11 +28,12 @@ test('redirects www. to root', () => {
 type ExpectedRewrite = {
   in: string;
   out: CloudFrontResultResponse | CloudFrontRequest;
-  data: any;
+  data?: any;
 };
 
 const rewriteTests = (): ExpectedRewrite[] => {
   return [
+    // Item page tests
     {
       in: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
@@ -46,12 +47,19 @@ const rewriteTests = (): ExpectedRewrite[] => {
     {
       in: '/item/not-bnumber',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
-      data: {},
     },
     {
       in: '/not-item',
       out: expectedPassthru('/not-item'),
-      data: {},
+    },
+    // Events pages redirect
+    {
+      in: '/events',
+      out: expectedRedirect('https://wellcomecollection.org/whats-on'),
+    },
+    {
+      in: '/events/any-thing',
+      out: expectedRedirect('https://wellcomecollection.org/whats-on'),
     },
   ];
 };
