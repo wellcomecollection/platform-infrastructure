@@ -14,13 +14,12 @@ export async function getWork(bNumber: string): Promise<GetWorkResult> {
     if (result.identifiers) {
       const identifiers: Identifier[] = result.identifiers;
       // If the work has a sierra-identifier identifier, that
-      // preferentially identifiers the work as being sourced
+      // preferentially indicates the work as being sourced
       // from Sierra, so use that work if we see it.
-      const filteredIdentifier = identifiers.filter(
+      const hasSierraId = identifiers.some(
         (thing) => thing.identifierType.id === 'sierra-identifier'
       );
-
-      if (filteredIdentifier.length >= 1) {
+      if (hasSierraId) {
         break;
       }
     }
