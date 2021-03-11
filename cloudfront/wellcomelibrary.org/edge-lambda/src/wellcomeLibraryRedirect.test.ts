@@ -29,42 +29,29 @@ test('redirects www. to root', () => {
 type ExpectedRewrite = {
   in: string;
   out: CloudFrontResultResponse | CloudFrontRequest;
-  headers: CloudFrontHeaders;
   data: any;
 };
-
-const hostWellcomeLibraryHeaders = {
-  host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-} as CloudFrontHeaders;
-
-const redirectHeaders = {
-  host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-} as CloudFrontHeaders;
 
 const rewriteTests = (): ExpectedRewrite[] => {
   return [
     {
       in: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
-      headers: hostWellcomeLibraryHeaders,
       data: testDataSingleResult,
     },
     {
       in: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
-      headers: hostWellcomeLibraryHeaders,
       data: testDataNoResults,
     },
     {
       in: '/item/not-bnumber',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
-      headers: hostWellcomeLibraryHeaders,
       data: {},
     },
     {
       in: '/not-item',
       out: expectedPassthru('/not-item'),
-      headers: redirectHeaders,
       data: {},
     },
   ];
@@ -82,7 +69,6 @@ test.each(rewriteTests())(
     const originRequest = await origin.requestHandler(request, {} as Context);
 
     expect(originRequest).toStrictEqual(expected.out);
-    expect(originRequest.headers).toStrictEqual(true);
   }
 );
 
