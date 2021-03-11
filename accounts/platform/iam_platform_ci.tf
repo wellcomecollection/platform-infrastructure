@@ -20,4 +20,15 @@ data "aws_iam_policy_document" "platform_ci" {
       ]
     }
   }
+
+  statement {
+    actions = [
+      "s3:Put*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/internal_model_2.12/*",
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/internal_model_typesafe_2.12/*",
+    ]
+  }
 }

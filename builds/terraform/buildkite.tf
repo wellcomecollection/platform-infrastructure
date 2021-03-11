@@ -120,7 +120,9 @@ data "aws_iam_policy_document" "ci_permissions" {
       "messaging",
       "fixtures",
       "typesafe_app",
-      "sierra-streams-source"
+      "sierra-streams-source",
+      "elasticsearch",
+      "elasticsearch-typesafe"
     ]
 
     content {
