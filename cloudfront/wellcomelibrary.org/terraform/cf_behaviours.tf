@@ -2,7 +2,7 @@ locals {
   prod_behaviours = []
   stage_behaviours = [
     {
-      path_pattern     = "foo/*"
+      path_pattern     = "item/*"
       target_origin_id = "origin"
       headers          = []
       cookies          = "all"
