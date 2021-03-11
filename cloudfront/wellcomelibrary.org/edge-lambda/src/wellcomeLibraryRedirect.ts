@@ -22,6 +22,7 @@ async function rewriteRequestUri(
     const bNumberResult = getBnumberFromPath(uri);
 
     if (bNumberResult instanceof Error) {
+      console.error(bNumberResult);
       return notFoundRedirect;
     }
 
@@ -30,6 +31,7 @@ async function rewriteRequestUri(
     const work = await getWork(bNumber);
 
     if (work instanceof Error) {
+      console.error(work);
       return notFoundRedirect;
     }
 
