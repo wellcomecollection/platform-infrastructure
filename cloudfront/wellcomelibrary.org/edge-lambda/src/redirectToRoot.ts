@@ -2,7 +2,7 @@ import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
 import { createRedirect } from './createRedirect';
 
 export function redirectToRoot(request: CloudFrontRequest) {
-  if (request.headers.host && request.headers.host.length === 1) {
+  if (request.headers.host?.length === 1) {
     const requestHost = request.headers.host[0].value;
 
     if (requestHost.startsWith('www.')) {
