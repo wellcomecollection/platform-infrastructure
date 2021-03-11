@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "wellcome_library_passthru" {
   provider = aws.us_east_1
 
-  function_name = "cf_edge_wellcome_library_redirect"
+  function_name = "cf_edge_wellcome_library_passthru"
   role          = aws_iam_role.edge_lambda_role.arn
   runtime       = "nodejs12.x"
   handler       = "wellcomeLibraryPassthru.requestHandler"
