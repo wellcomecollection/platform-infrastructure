@@ -1,3 +1,16 @@
-xpack.security.authProviders: [oidc, basic]
-xpack.security.authc.oidc.realm: "cloud-oidc"
-server.xsrf.whitelist: [/api/security/v1/oidc]
+# Note that the syntax for user settings can change between major versions.
+# You might need to update these user settings before performing a major version upgrade.
+#
+# Use OpenStreetMap for tiles:
+# tilemap:
+#   options.maxZoom: 18
+#   url: http://a.tile.openstreetmap.org/{z}/{x}/{y}.png
+#
+# To learn more, see the documentation.
+xpack.security.authc.providers:
+  oidc.cloud-oidc:
+    order: 0
+    realm: cloud-oidc
+    description: "Log in with Azure"
+  basic.basic1:
+    order: 1

@@ -29,6 +29,10 @@ resource "ec_deployment" "logging" {
       zone_count = 1
       size       = "2g"
     }
+
+    config {
+      user_settings_yaml = file("${path.module}/kibana.yml")
+    }
   }
 
   apm {
@@ -40,14 +44,21 @@ resource "ec_deployment" "logging" {
 }
 
 locals {
-  catalogue_elastic_id     = ec_deployment.logging.elasticsearch[0].resource_id
-  catalogue_elastic_region = ec_deployment.logging.elasticsearch[0].region
+  logging_elastic_id     = ec_deployment.logging.elasticsearch[0].resource_id
+  logging_elastic_region = ec_deployment.logging.elasticsearch[0].region
+
+  logging_kibana_id       = ec_deployment.logging.kibana[0].resource_id
+  logging_kibana_region   = ec_deployment.logging.kibana[0].region
+  logging_kibana_endpoint = "${local.logging_kibana_id}.${local.logging_kibana_region}.aws.found.io"
 }
 
 module "host_secrets" {
   source = "./modules/secrets/secret"
 
   key_value_map = {
-    "shared/logging/es_host" = "${local.catalogue_elastic_id}.vpce.${local.catalogue_elastic_region}.aws.elastic-cloud.com"
+    "shared/logging/es_host" = "${local.logging_elastic_id}.${local.logging_elastic_region}.aws.found.io"
+
+    # See https://www.elastic.co/guide/en/cloud/current/ec-traffic-filtering-vpc.html
+    "shared/logging/es_host_private" = "${local.logging_elastic_id}.vpce.${local.logging_elastic_region}.aws.elastic-cloud.com"
   }
 }

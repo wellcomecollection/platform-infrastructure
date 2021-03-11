@@ -147,4 +147,3 @@ module "workflow_stage_privatelink" {
   service_name   = local.ec_eu_west_1_service_name
   ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
 }
-
