@@ -2,9 +2,20 @@ provider "aws" {
   region = local.aws_region
 
   assume_role {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    role_arn = "arn:aws:iam::760097843905:role/platform-admin"
   }
 }
+
+provider "aws" {
+  alias  = "platform"
+  region = local.aws_region
+
+  assume_role {
+    role_arn = "arn:aws:iam::760097843905:role/platform-admin"
+  }
+}
+
+provider "ec" {}
 
 provider "aws" {
   alias  = "storage"
