@@ -66,11 +66,13 @@ function addIdentifiersToPage(
   identifiers: Identifier[],
   resultList: CatalogueResultsList
 ) {
-  const firstResult = resultList.results[0];
-  const resultWithIdentifiers = Object.assign(firstResult, {
-    identifiers: identifiers,
-  });
-  return Object.assign(resultList, { results: [resultWithIdentifiers] });
+  return {
+    ...resultList,
+    results: [{
+      ...resultList.results[0],
+      identifiers: identifiers
+    }]
+  };
 }
 
 test('returns the last work when no identifiers', async () => {
