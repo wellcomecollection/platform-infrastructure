@@ -15,6 +15,7 @@ variable "origins" {
     origin_id : string
     domain_name : string
     origin_path : string
+    forward_host : bool
   }))
 }
 

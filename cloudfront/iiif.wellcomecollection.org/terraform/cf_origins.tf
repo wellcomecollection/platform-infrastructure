@@ -105,6 +105,8 @@ module "dlcs_thumbs_origin_set" {
   source = "./origin_sets"
   id     = "dlcs_thumbs"
 
+  forward_host = true
+
   prod = {
     domain_name : "dlcs.io"
     origin_path : "/thumbs/wellcome/5"
