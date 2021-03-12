@@ -81,6 +81,7 @@ locals {
     "wellcome/sbt_wrapper",
     "wellcome/scalafmt",
     "wellcome/tox",
+    "wellcome/typesafe_config_base",
     "wellcome/weco-deploy",
     "zenko/cloudserver",
   ]

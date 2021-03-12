@@ -64,6 +64,7 @@ IMAGE_TAGS = [
     "wellcome/scalafmt:edge",
     "wellcome/scalafmt:latest",
     "wellcome/tox:latest",
+    "wellcome/typesafe_config_base:104",
     "wellcome/weco-deploy:5.5.3",
     "wellcome/weco-deploy:5.5.7",
     "wellcome/weco-deploy:5.6.4",
