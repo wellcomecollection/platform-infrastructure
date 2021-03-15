@@ -7,39 +7,65 @@ import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
 import { createRedirect } from './createRedirect';
 import { redirectToRoot } from './redirectToRoot';
+import {wlgorpLookup} from "./wlgorpLookup";
+
+const wellcomeCollectionHost = 'https://wellcomecollection.org';
+const notFoundRedirect = createRedirect(
+    new URL(`${wellcomeCollectionHost}/works/not-found`)
+);
+
+async function getWorksRedirect(uri: string): Promise<CloudFrontResultResponse> {
+  // Try and find b-number in item path
+  const bNumberResult = getBnumberFromPath(uri);
+
+  if (bNumberResult instanceof Error) {
+    console.error(bNumberResult);
+    return notFoundRedirect;
+  }
+
+  // Find corresponding work id
+  const bNumber = bNumberResult;
+  const work = await getWork(bNumber);
+
+  if (work instanceof Error) {
+    console.error(work);
+    return notFoundRedirect;
+  }
+
+  return createRedirect(new URL(`${wellcomeCollectionHost}/works/${work.id}`));
+}
+
+function createServerError(error: Error) {
+  return {
+    status: '500',
+    statusDescription: error.message,
+  } as CloudFrontResultResponse;
+}
+
+async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
+  const apiRedirectUri = await wlgorpLookup(uri);
+
+  if (apiRedirectUri instanceof Error) {
+    console.error(apiRedirectUri);
+    return createServerError(apiRedirectUri);
+  }
+
+  return createRedirect(apiRedirectUri, true);
+}
 
 async function rewriteRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
-
-  const wellcomeCollectionHost = 'https://wellcomecollection.org';
-  const notFoundRedirect = createRedirect(
-    `${wellcomeCollectionHost}/works/not-found`
-  );
+  const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices|goobipdf)\/.*/;
 
   if (uri.match(itemPathRegExp)) {
-    // Try and find b-number in item path
-    const bNumberResult = getBnumberFromPath(uri);
-
-    if (bNumberResult instanceof Error) {
-      console.error(bNumberResult);
-      return notFoundRedirect;
-    }
-
-    // Find corresponding work id
-    const bNumber = bNumberResult;
-    const work = await getWork(bNumber);
-
-    if (work instanceof Error) {
-      console.error(work);
-      return notFoundRedirect;
-    }
-
-    return createRedirect(`${wellcomeCollectionHost}/works/${work.id}`);
+    return getWorksRedirect(uri);
   } else if(uri.match(eventsPathRegExp)) {
-    return createRedirect(`${wellcomeCollectionHost}/whats-on`);
+    return createRedirect(new URL(`${wellcomeCollectionHost}/whats-on`));
+  } else if(uri.match(apiPathRegExp)) {
+    return getApiRedirects(uri);
   }
 }
 
