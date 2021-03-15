@@ -8,7 +8,7 @@ export function createRedirect(url: URL, cors: boolean = false) {
         value: url.toString(),
       },
     ],
-  }
+  };
 
   const corsHeaders = {
     'access-control-allow-origin': [
@@ -16,10 +16,12 @@ export function createRedirect(url: URL, cors: boolean = false) {
         key: 'Access-Control-Allow-Origin',
         value: '*',
       },
-    ]
-  }
+    ],
+  };
 
-  const headers = cors ? {...locationHeaders, ...corsHeaders} : locationHeaders;
+  const headers = cors
+    ? { ...locationHeaders, ...corsHeaders }
+    : locationHeaders;
 
   return {
     status: '302',

@@ -1,20 +1,23 @@
 import * as origin from './wellcomeLibraryRedirect';
 import testRequest from './testEventRequest';
 import { Context } from 'aws-lambda';
-import { testDataNoResults, testDataSingleResult } from './catalogueApiFixtures';
+import {
+  testDataNoResults,
+  testDataSingleResult,
+} from './catalogueApiFixtures';
 import {
   axios404,
   axiosNoResponse,
   expectedCORSRedirect,
   expectedPassthru,
   expectedRedirect,
-  expectedServerError
+  expectedServerError,
 } from './testHelpers';
 import {
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
-import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios from 'axios';
 import { expect, jest, test } from '@jest/globals';
 
 jest.mock('axios');
@@ -72,23 +75,31 @@ const rewriteTests = (): ExpectedRewrite[] => {
     // API uris redirect
     {
       in: '/iiif/collection/b18031900',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/presentation/v2/b18031900'),
+      out: expectedCORSRedirect(
+        'https://iiif.wellcomecollection.org/presentation/v2/b18031900'
+      ),
       data: 'https://iiif.wellcomecollection.org/presentation/v2/b18031900',
     },
     {
       in: '/iiif/collection/b18031900',
-      out: expectedServerError('Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'),
-      error: axios404
+      out: expectedServerError(
+        'Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'
+      ),
+      error: axios404,
     },
     {
       in: '/iiif/collection/b18031900',
-      out: expectedServerError('No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'),
-      error: axiosNoResponse
+      out: expectedServerError(
+        'No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'
+      ),
+      error: axiosNoResponse,
     },
     {
       in: '/iiif/collection/error',
-      out: expectedServerError('Unknown error from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/error: Error: nope'),
-      error: Error('nope')
+      out: expectedServerError(
+        'Unknown error from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/error: Error: nope'
+      ),
+      error: Error('nope'),
     },
     {
       in: '/iiif/collection/not-available',
@@ -97,8 +108,11 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       in: '/service/alto/b28047345/0?image=400',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2'),
-      data: 'https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2',
+      out: expectedCORSRedirect(
+        'https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2'
+      ),
+      data:
+        'https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2',
     },
     {
       in: '/ddsconf/foo',
@@ -130,7 +144,7 @@ test.each(rewriteTests())(
 
     if (expected.error) {
       mockedAxios.get.mockImplementation(async () => {
-        return Promise.reject(expected.error)
+        return Promise.reject(expected.error);
       });
     }
 

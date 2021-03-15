@@ -2,7 +2,7 @@ import {
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
-import {AxiosError, AxiosResponse} from "axios";
+import { AxiosError, AxiosResponse } from 'axios';
 
 export function expectedRedirect(uri: string): CloudFrontResultResponse {
   return {
@@ -19,7 +19,9 @@ export function expectedRedirect(uri: string): CloudFrontResultResponse {
   } as CloudFrontResultResponse;
 }
 
-export function expectedServerError(description: string): CloudFrontResultResponse {
+export function expectedServerError(
+  description: string
+): CloudFrontResultResponse {
   return {
     status: '500',
     statusDescription: description,
@@ -42,7 +44,7 @@ export function expectedCORSRedirect(uri: string): CloudFrontResultResponse {
           key: 'Access-Control-Allow-Origin',
           value: '*',
         },
-      ]
+      ],
     },
   } as CloudFrontResultResponse;
 }
@@ -68,7 +70,7 @@ export const axios404 = {
   config: {},
   code: '404',
   request: {
-    url: 'http://www.example.com'
+    url: 'http://www.example.com',
   },
   response: {
     data: 'Not found',
@@ -76,12 +78,12 @@ export const axios404 = {
     statusText: 'Not found',
     headers: {},
     config: {},
-  } as AxiosResponse
-} as AxiosError
+  } as AxiosResponse,
+} as AxiosError;
 
 export const axiosNoResponse = {
   request: {
-    url: 'http://www.example.com'
+    url: 'http://www.example.com',
   },
   config: {},
-} as AxiosError
+} as AxiosError;

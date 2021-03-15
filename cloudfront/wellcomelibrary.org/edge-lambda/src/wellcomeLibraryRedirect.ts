@@ -7,14 +7,16 @@ import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
 import { createRedirect } from './createRedirect';
 import { redirectToRoot } from './redirectToRoot';
-import {wlgorpLookup} from "./wlgorpLookup";
+import { wlgorpLookup } from './wlgorpLookup';
 
 const wellcomeCollectionHost = 'https://wellcomecollection.org';
 const notFoundRedirect = createRedirect(
-    new URL(`${wellcomeCollectionHost}/works/not-found`)
+  new URL(`${wellcomeCollectionHost}/works/not-found`)
 );
 
-async function getWorksRedirect(uri: string): Promise<CloudFrontResultResponse> {
+async function getWorksRedirect(
+  uri: string
+): Promise<CloudFrontResultResponse> {
   // Try and find b-number in item path
   const bNumberResult = getBnumberFromPath(uri);
 
@@ -62,9 +64,9 @@ async function rewriteRequestUri(
 
   if (uri.match(itemPathRegExp)) {
     return getWorksRedirect(uri);
-  } else if(uri.match(eventsPathRegExp)) {
+  } else if (uri.match(eventsPathRegExp)) {
     return createRedirect(new URL(`${wellcomeCollectionHost}/whats-on`));
-  } else if(uri.match(apiPathRegExp)) {
+  } else if (uri.match(apiPathRegExp)) {
     return getApiRedirects(uri);
   }
 }
