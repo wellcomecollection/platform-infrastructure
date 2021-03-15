@@ -9,6 +9,7 @@ import {
 } from 'aws-lambda/common/cloudfront';
 import axios from 'axios';
 import { expect, jest, test } from '@jest/globals';
+import {readStaticRedirects} from "./staticRedirects";
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -60,6 +61,13 @@ const rewriteTests = (): ExpectedRewrite[] => {
     {
       in: '/events/any-thing',
       out: expectedRedirect('https://wellcomecollection.org/whats-on'),
+    },
+    // Static redirects
+    // TODO: Optional trailing slash!
+    // TODO: Decide which examples to test (all?)
+    {
+      in: '/using-the-library/',
+      out: expectedRedirect('https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'),
     },
   ];
 };
@@ -120,3 +128,9 @@ test('leaves other headers unmodified', async () => {
     ],
   });
 });
+
+// test('flarp', async () => {
+//   const foo = await readStaticRedirects()
+//
+//   expect(foo).toBe(true)
+// });

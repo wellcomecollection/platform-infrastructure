@@ -7,12 +7,14 @@ import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
 import { createRedirect } from './createRedirect';
 import { redirectToRoot } from './redirectToRoot';
+import {readStaticRedirects} from "./staticRedirects";
 
 async function rewriteRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
+  const staticRedirects = await readStaticRedirects()
 
   const wellcomeCollectionHost = 'https://wellcomecollection.org';
   const notFoundRedirect = createRedirect(
@@ -40,6 +42,8 @@ async function rewriteRequestUri(
     return createRedirect(`${wellcomeCollectionHost}/works/${work.id}`);
   } else if(uri.match(eventsPathRegExp)) {
     return createRedirect(`${wellcomeCollectionHost}/whats-on`);
+  } else if(uri in staticRedirects) {
+    return createRedirect(staticRedirects[uri]);
   }
 }
 
