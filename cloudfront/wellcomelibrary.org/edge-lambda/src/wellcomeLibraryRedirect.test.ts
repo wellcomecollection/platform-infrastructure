@@ -120,20 +120,15 @@ const rewriteTests = (): ExpectedRewrite[] => {
       data: 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/dds-static/foo',
+      in: '/dds-static/login',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/annoservices/foo',
+      in: '/annoservices/search/b28047345?q=butterfly',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
-    },
-    {
-      in: '/goobipdf/foo',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      data: 'https://iiif.wellcomecollection.org/bar/bat',
-    },
+    }
   ];
 };
 

@@ -80,22 +80,6 @@ locals {
       default_ttl = null
       max_ttl     = null
     },
-    {
-      path_pattern     = "goobipdf/*"
-      target_origin_id = "origin"
-      headers          = []
-      cookies          = "all"
-      lambdas = [
-        {
-          event_type = "origin-request"
-          lambda_arn = local.wellcome_library_redirect_arn_stage
-        }
-      ]
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
   ]
 
   events_behaviours = [

@@ -60,7 +60,7 @@ async function rewriteRequestUri(
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
-  const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices|goobipdf)\/.*/;
+  const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
 
   if (uri.match(itemPathRegExp)) {
     return getWorksRedirect(uri);
