@@ -15,7 +15,7 @@ test('returns a valid redirect', async () => {
   expect(lookupResult).toStrictEqual(expectedRedirect);
 });
 
-test('strips trialing slashes', async () => {
+test('strips trailing slashes', async () => {
   const lookupResult:
     | CloudFrontResultResponse
     | undefined = lookupStaticRedirect({ '/foo': '/bar' }, '/foo/');
