@@ -74,23 +74,23 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     // API uris redirect
     {
-      in: '/iiif/collection/b18031900',
+      in: '/iiif/collection/happy-path',
       out: expectedCORSRedirect(
-        'https://iiif.wellcomecollection.org/presentation/v2/b18031900'
+        'https://iiif.wellcomecollection.org/presentation/v2/happy-path'
       ),
-      data: 'https://iiif.wellcomecollection.org/presentation/v2/b18031900',
+      data: 'https://iiif.wellcomecollection.org/presentation/v2/happy-path',
     },
     {
-      in: '/iiif/collection/b18031900',
+      in: '/iiif/collection/not-found',
       out: expectedServerError(
-        'Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'
+        'Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/not-found'
       ),
       error: axios404,
     },
     {
-      in: '/iiif/collection/b18031900',
+      in: '/iiif/collection/no-response',
       out: expectedServerError(
-        'No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/b18031900'
+        'No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/no-response'
       ),
       error: axiosNoResponse,
     },
@@ -102,30 +102,30 @@ const rewriteTests = (): ExpectedRewrite[] => {
       error: Error('nope'),
     },
     {
-      in: '/iiif/collection/not-available',
+      in: '/iiif/collection/invalid-url',
       out: expectedServerError('Invalid URL: not_a_url'),
       data: 'not_a_url',
     },
     {
-      in: '/service/alto/b28047345/0?image=400',
+      in: '/service/alto/happy-path/0?image=400',
       out: expectedCORSRedirect(
-        'https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2'
+        'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2'
       ),
       data:
-        'https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2',
+        'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2',
     },
     {
-      in: '/ddsconf/foo',
+      in: '/ddsconf/happy-path',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/dds-static/login',
+      in: '/dds-static/happy-path',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/annoservices/search/b28047345?q=butterfly',
+      in: '/annoservices/search/happy-path?q=butterfly',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
     }
