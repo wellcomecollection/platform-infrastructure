@@ -4,7 +4,7 @@ import { CloudFrontResultResponse } from 'aws-lambda';
 
 test('returns a valid redirect', async () => {
   const redirect: CloudFrontResultResponse = createRedirect(
-    'https://www.example.com'
+    new URL('https://www.example.com')
   );
 
   // Temporary redirect should be updated to permanent when redirections are stable
