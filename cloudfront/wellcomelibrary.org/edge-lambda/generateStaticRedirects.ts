@@ -1,52 +1,22 @@
-import * as csv from '@fast-csv/parse';
 import * as path from 'path';
 import * as fs from 'fs';
 
 import rawStaticRedirects from './src/staticRedirects.json';
 import assert from 'assert';
+import { readStaticRedirects } from './src/readStaticRedirects';
+
 const existingRedirects = rawStaticRedirects as Record<string, string>;
-
-type RedirectRow = {
-  libraryUrl: string;
-  collectionUrl: string;
-};
-
-export function readStaticRedirects(): Promise<Record<string, string>> {
-  const fileLocation = path.resolve(__dirname, 'redirects.csv');
-  const options = {
-    skipLines: 1,
-    headers: [undefined, 'libraryUrl', 'collectionUrl', undefined, undefined],
-  };
-
-  return new Promise((resolve, reject) => {
-    const redirects: Record<string, string> = {};
-
-    csv
-      .parseFile<RedirectRow, RedirectRow>(fileLocation, options)
-      .on('error', reject)
-      .on('data', (row: RedirectRow) => {
-        const lookupKey = row.libraryUrl
-          // Remove hostname
-          .replace('wellcomelibrary.org', '')
-          // Strip trailing slash
-          .replace(/\/$/, '');
-        redirects[lookupKey] = row.collectionUrl;
-      })
-      .on('end', () => {
-        resolve(redirects);
-      });
-  });
-}
+const fileLocation = path.resolve(__dirname, 'redirects.csv');
 
 async function generateRedirects() {
-  const redirectsData = await readStaticRedirects();
+  const redirectsData = await readStaticRedirects(fileLocation);
   const redirectsJson = JSON.stringify(redirectsData, null, 2);
 
   fs.writeFileSync('src/staticRedirects.json', redirectsJson);
 }
 
 async function verifyRedirects() {
-  const generatedRedirects = await readStaticRedirects();
+  const generatedRedirects = await readStaticRedirects(fileLocation);
 
   assert(
     JSON.stringify(generatedRedirects) === JSON.stringify(existingRedirects),
