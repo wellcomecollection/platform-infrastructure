@@ -14,7 +14,7 @@ test('returns a valid redirect', async () => {
     location: [
       {
         key: 'Location',
-        value: 'https://www.example.com',
+        value: 'https://www.example.com/',
       },
     ],
   });

@@ -5,7 +5,7 @@ export async function safeGet<T>(
   config?: AxiosRequestConfig
 ): Promise<Error | T> {
   const apiResult: AxiosResponse<any> | Error = await axios
-    .get(url, config)
+    .get<T>(url, config)
     .catch((error) => {
       // Log underlying error here, we don't want to expose it to callers.
       console.error(`GET from URL ${url}, with config ${config}`, error);
