@@ -8,7 +8,7 @@ export async function safeGet<T>(
     .get(url, config)
     .catch((error) => {
       // Log underlying error here, we don't want to expose it to callers.
-      console.error(error);
+      console.error(`GET from URL ${url}, with config ${config}`, error);
 
       if (error.response) {
         return Error(`Got ${error.response.status} from ${url}`);
