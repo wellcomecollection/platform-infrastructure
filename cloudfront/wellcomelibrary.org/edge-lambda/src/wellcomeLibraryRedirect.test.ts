@@ -9,7 +9,9 @@ import {
 } from 'aws-lambda/common/cloudfront';
 import axios from 'axios';
 import { expect, jest, test } from '@jest/globals';
-import {readStaticRedirects} from "./staticRedirects";
+
+import rawStaticRedirects from './staticRedirects.json';
+const staticRedirects = rawStaticRedirects as Record<string, string>;
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -62,17 +64,47 @@ const rewriteTests = (): ExpectedRewrite[] => {
       in: '/events/any-thing',
       out: expectedRedirect('https://wellcomecollection.org/whats-on'),
     },
-    // Static redirects
-    // TODO: Optional trailing slash!
-    // TODO: Decide which examples to test (all?)
+    // Static redirects (complementary to staticRedirectTests)
     {
       in: '/using-the-library/',
-      out: expectedRedirect('https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'),
+      out: expectedRedirect(
+        'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'
+      ),
+    },
+    {
+      in: '/using-the-library',
+      out: expectedRedirect(
+        'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'
+      ),
     },
   ];
 };
 
 test.each(rewriteTests())(
+  'Request path is rewritten: %o',
+  async (expected: ExpectedRewrite) => {
+    const request = testRequest(expected.in);
+
+    if (expected.data) {
+      mockedAxios.get.mockResolvedValueOnce({ data: expected.data });
+    }
+
+    const originRequest = await origin.requestHandler(request, {} as Context);
+
+    expect(originRequest).toStrictEqual(expected.out);
+  }
+);
+
+const staticRedirectTests = Object.entries(staticRedirects).map(
+  ([path, redirect]) => {
+    return {
+      in: path,
+      out: expectedRedirect(redirect),
+    };
+  }
+);
+
+test.each(staticRedirectTests)(
   'Request path is rewritten: %o',
   async (expected: ExpectedRewrite) => {
     const request = testRequest(expected.in);

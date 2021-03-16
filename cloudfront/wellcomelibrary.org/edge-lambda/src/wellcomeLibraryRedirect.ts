@@ -7,21 +7,26 @@ import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
 import { createRedirect } from './createRedirect';
 import { redirectToRoot } from './redirectToRoot';
-import {readStaticRedirects} from "./staticRedirects";
+import { lookupStaticRedirect } from './lookupStaticRedirect';
+
+import rawStaticRedirects from './staticRedirects.json';
+const staticRedirects = rawStaticRedirects as Record<string, string>;
 
 async function rewriteRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
-  const staticRedirects = await readStaticRedirects()
 
   const wellcomeCollectionHost = 'https://wellcomecollection.org';
   const notFoundRedirect = createRedirect(
     `${wellcomeCollectionHost}/works/not-found`
   );
+  const staticRedirect = lookupStaticRedirect(staticRedirects, uri);
 
-  if (uri.match(itemPathRegExp)) {
+  if (staticRedirect) {
+    return staticRedirect;
+  } else if (uri.match(itemPathRegExp)) {
     // Try and find b-number in item path
     const bNumberResult = getBnumberFromPath(uri);
 
@@ -40,10 +45,8 @@ async function rewriteRequestUri(
     }
 
     return createRedirect(`${wellcomeCollectionHost}/works/${work.id}`);
-  } else if(uri.match(eventsPathRegExp)) {
+  } else if (uri.match(eventsPathRegExp)) {
     return createRedirect(`${wellcomeCollectionHost}/whats-on`);
-  } else if(uri in staticRedirects) {
-    return createRedirect(staticRedirects[uri]);
   }
 }
 

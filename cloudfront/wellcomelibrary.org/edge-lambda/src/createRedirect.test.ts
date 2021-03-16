@@ -2,7 +2,7 @@ import { expect, test } from '@jest/globals';
 import { createRedirect } from './createRedirect';
 import { CloudFrontResultResponse } from 'aws-lambda';
 
-test('returns a valid redirect', async () => {
+test('returns a valid redirect', () => {
   const redirect: CloudFrontResultResponse = createRedirect(
     'https://www.example.com'
   );

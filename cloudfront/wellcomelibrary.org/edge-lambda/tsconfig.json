@@ -15,7 +15,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
-    "noEmit": true
+    "noEmit": true,
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts"]
