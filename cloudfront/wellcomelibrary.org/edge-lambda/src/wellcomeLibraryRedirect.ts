@@ -7,7 +7,7 @@ import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
 import { createRedirect } from './createRedirect';
 import { redirectToRoot } from './redirectToRoot';
-import { wlgorpLookup } from './wlgorpLookup';
+import { wlorgpLookup } from './wlorgpLookup';
 
 const wellcomeCollectionHost = 'https://wellcomecollection.org';
 const notFoundRedirect = createRedirect(
@@ -45,7 +45,7 @@ function createServerError(error: Error) {
 }
 
 async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
-  const apiRedirectUri = await wlgorpLookup(uri);
+  const apiRedirectUri = await wlorgpLookup(uri);
 
   if (apiRedirectUri instanceof Error) {
     console.error(apiRedirectUri);

@@ -10,7 +10,7 @@ function validateUrl(url: string): Error | URL {
   }
 }
 
-export async function wlgorpLookup(lookupUri: string): Promise<Error | URL> {
+export async function wlorgpLookup(lookupUri: string): Promise<Error | URL> {
   const url = `${apiBasePath}${lookupUri}`;
 
   const lookupUrl = await safeGet<string>(url);

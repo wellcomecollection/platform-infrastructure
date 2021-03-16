@@ -128,7 +128,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
       in: '/annoservices/search/happy-path?q=butterfly',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       data: 'https://iiif.wellcomecollection.org/bar/bat',
-    }
+    },
   ];
 };
 
