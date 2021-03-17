@@ -1,11 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-import rawStaticRedirects from './src/staticRedirects.json';
 import assert from 'assert';
 import { readStaticRedirects } from './src/readStaticRedirects';
 
-const existingRedirects = rawStaticRedirects as Record<string, string>;
 const fileLocation = path.resolve(__dirname, 'redirects.csv');
 
 async function generateRedirects() {
@@ -16,6 +14,11 @@ async function generateRedirects() {
 }
 
 async function verifyRedirects() {
+  const jsonFileLocation = path.resolve(__dirname, './src/staticRedirects.json');
+  const jsonData = fs.readFileSync(jsonFileLocation, 'utf8');
+  const rawStaticRedirects = JSON.parse(jsonData);
+
+  const existingRedirects = rawStaticRedirects as Record<string, string>;
   const generatedRedirects = await readStaticRedirects(fileLocation);
 
   assert(
