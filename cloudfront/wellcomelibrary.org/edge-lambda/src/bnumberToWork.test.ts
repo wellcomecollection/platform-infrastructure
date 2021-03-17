@@ -5,8 +5,8 @@ import {
   testDataMultiPageNextPage,
   testDataNoResults,
   testDataSingleResult,
-} from './apiFixtures';
-import { Work, CatalogueResultsList, Identifier } from './api';
+} from './catalogueApiFixtures';
+import { Work, CatalogueResultsList, Identifier } from './catalogueApi';
 import { getWork } from './bnumberToWork';
 
 jest.mock('axios');

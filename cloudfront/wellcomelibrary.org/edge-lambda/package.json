@@ -7,7 +7,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "yarn jest",
+    "test": "yarn jest --silent",
+    "testDev": "yarn jest",
     "lint": "eslint src/**/*.ts --fix",
     "build": "tsc -p tsconfig.build.json && yarn bundle",
     "bundle": "cp package.json dist && cd dist && yarn install --production && zip -r wellcome_library_redirect.zip . && cd ..",

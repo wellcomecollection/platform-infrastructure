@@ -7,7 +7,9 @@ export function redirectToRoot(request: CloudFrontRequest) {
 
     if (requestHost.startsWith('www.')) {
       const rootRequestHost = requestHost.replace('www.', '');
-      return createRedirect(`https://${rootRequestHost}${request.uri}`);
+      return createRedirect(
+        new URL(`https://${rootRequestHost}${request.uri}`)
+      );
     }
   }
 }
