@@ -160,9 +160,3 @@ test('leaves other headers unmodified', async () => {
     ],
   });
 });
-
-// test('flarp', async () => {
-//   const foo = await readStaticRedirects()
-//
-//   expect(foo).toBe(true)
-// });

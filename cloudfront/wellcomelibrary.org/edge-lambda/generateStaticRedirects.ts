@@ -14,7 +14,10 @@ async function generateRedirects() {
 }
 
 async function verifyRedirects() {
-  const jsonFileLocation = path.resolve(__dirname, './src/staticRedirects.json');
+  const jsonFileLocation = path.resolve(
+    __dirname,
+    './src/staticRedirects.json'
+  );
   const jsonData = fs.readFileSync(jsonFileLocation, 'utf8');
   const rawStaticRedirects = JSON.parse(jsonData);
 
