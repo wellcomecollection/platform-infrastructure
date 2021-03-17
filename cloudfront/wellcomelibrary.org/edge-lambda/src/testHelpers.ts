@@ -2,6 +2,7 @@ import {
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export function expectedRedirect(uri: string): CloudFrontResultResponse {
   return {
@@ -12,6 +13,36 @@ export function expectedRedirect(uri: string): CloudFrontResultResponse {
         {
           key: 'Location',
           value: uri,
+        },
+      ],
+    },
+  } as CloudFrontResultResponse;
+}
+
+export function expectedServerError(
+  description: string
+): CloudFrontResultResponse {
+  return {
+    status: '500',
+    statusDescription: description,
+  } as CloudFrontResultResponse;
+}
+
+export function expectedCORSRedirect(uri: string): CloudFrontResultResponse {
+  return {
+    status: '302',
+    statusDescription: `Redirecting to ${uri}`,
+    headers: {
+      location: [
+        {
+          key: 'Location',
+          value: uri,
+        },
+      ],
+      'access-control-allow-origin': [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: '*',
         },
       ],
     },
@@ -34,3 +65,25 @@ export function expectedPassthru(uri: string): CloudFrontRequest {
     uri: uri,
   } as CloudFrontRequest;
 }
+
+export const axios404 = {
+  config: {},
+  code: '404',
+  request: {
+    url: 'http://www.example.com',
+  },
+  response: {
+    data: 'Not found',
+    status: 404,
+    statusText: 'Not found',
+    headers: {},
+    config: {},
+  } as AxiosResponse,
+} as AxiosError;
+
+export const axiosNoResponse = {
+  request: {
+    url: 'http://www.example.com',
+  },
+  config: {},
+} as AxiosError;

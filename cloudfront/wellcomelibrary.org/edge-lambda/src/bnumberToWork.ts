@@ -1,4 +1,4 @@
-import { apiQuery, GetWorkResult, Identifier } from './api';
+import { apiQuery, GetWorkResult, Identifier } from './catalogueApi';
 
 export async function getWork(bNumber: string): Promise<GetWorkResult> {
   const resultList = apiQuery({

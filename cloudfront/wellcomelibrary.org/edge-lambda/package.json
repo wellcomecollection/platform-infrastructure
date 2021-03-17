@@ -7,7 +7,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "yarn jest && yarn verifyStaticRedirects",
+    "test": "yarn jest --silent && yarn verifyStaticRedirects",
     "lint": "eslint src/**/*.ts --fix && eslint *.ts --fix",
     "build": "ts-node generateStaticRedirects.ts && tsc -p tsconfig.build.json && yarn bundle ",
     "bundle": "cp package.json dist && cd dist && yarn install --production && zip -r wellcome_library_redirect.zip . && cd ..",

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { jest, test, expect } from '@jest/globals';
 
-import { apiQuery, Work } from './api';
+import { apiQuery, Work } from './catalogueApi';
 import {
   testDataMultiPageFirstPage,
   testDataMultiPageNextPage,
   testDataMultipleResults,
   testDataNoResults,
   testDataSingleResult,
-} from './apiFixtures';
+} from './catalogueApiFixtures';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

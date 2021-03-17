@@ -1,5 +1,5 @@
 import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
-import { createRedirect } from './createRedirect';
+import { createRedirect } from './redirectHelpers';
 
 export function redirectToRoot(request: CloudFrontRequest) {
   if (request.headers.host?.length === 1) {
@@ -7,7 +7,9 @@ export function redirectToRoot(request: CloudFrontRequest) {
 
     if (requestHost.startsWith('www.')) {
       const rootRequestHost = requestHost.replace('www.', '');
-      return createRedirect(`https://${rootRequestHost}${request.uri}`);
+      return createRedirect(
+        new URL(`https://${rootRequestHost}${request.uri}`)
+      );
     }
   }
 }

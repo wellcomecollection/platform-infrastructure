@@ -3,12 +3,17 @@ import { lookupStaticRedirect } from './lookupStaticRedirect';
 import { CloudFrontResultResponse } from 'aws-lambda';
 
 test('returns a valid redirect', async () => {
-  const lookupResult = lookupStaticRedirect({ '/foo': '/bar' }, '/foo');
+  const lookupResult = lookupStaticRedirect(
+    { '/foo': 'http://www.example.com/bar' },
+    '/foo'
+  );
 
   const expectedRedirect = {
-    headers: { location: [{ key: 'Location', value: '/bar' }] },
+    headers: {
+      location: [{ key: 'Location', value: 'http://www.example.com/bar' }],
+    },
     status: '302',
-    statusDescription: 'Redirecting to /bar',
+    statusDescription: 'Redirecting to http://www.example.com/bar',
   } as CloudFrontResultResponse;
 
   // Temporary redirect should be updated to permanent when redirections are stable
@@ -18,12 +23,17 @@ test('returns a valid redirect', async () => {
 test('strips trailing slashes', async () => {
   const lookupResult:
     | CloudFrontResultResponse
-    | undefined = lookupStaticRedirect({ '/foo': '/bar' }, '/foo/');
+    | undefined = lookupStaticRedirect(
+    { '/foo': 'http://www.example.com/bar' },
+    '/foo/'
+  );
 
   const expectedRedirect = {
-    headers: { location: [{ key: 'Location', value: '/bar' }] },
+    headers: {
+      location: [{ key: 'Location', value: 'http://www.example.com/bar' }],
+    },
     status: '302',
-    statusDescription: 'Redirecting to /bar',
+    statusDescription: 'Redirecting to http://www.example.com/bar',
   } as CloudFrontResultResponse;
 
   // Temporary redirect should be updated to permanent when redirections are stable
@@ -31,7 +41,10 @@ test('strips trailing slashes', async () => {
 });
 
 test('returns undefined when no redirect available', async () => {
-  const lookupResult = lookupStaticRedirect({ '/foo': '/bar' }, '/baz');
+  const lookupResult = lookupStaticRedirect(
+    { '/foo': 'http://www.example.com/bar' },
+    '/baz'
+  );
 
   // Temporary redirect should be updated to permanent when redirections are stable
   expect(lookupResult).toBe(undefined);

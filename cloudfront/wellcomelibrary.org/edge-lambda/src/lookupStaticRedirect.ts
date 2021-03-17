@@ -1,5 +1,5 @@
 import { CloudFrontResultResponse } from 'aws-lambda';
-import { createRedirect } from './createRedirect';
+import { createRedirect } from './redirectHelpers';
 
 export function lookupStaticRedirect(
   staticRedirects: Record<string, string>,
@@ -8,6 +8,6 @@ export function lookupStaticRedirect(
   // Strip trailing slash
   const cleanUri = uri.replace(/\/$/, '');
   if (cleanUri in staticRedirects) {
-    return createRedirect(staticRedirects[cleanUri]);
+    return createRedirect(new URL(staticRedirects[cleanUri]));
   }
 }
