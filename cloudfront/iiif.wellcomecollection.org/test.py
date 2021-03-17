@@ -59,7 +59,7 @@ def validate_auth(info_json, regex):
 
 
 def validate_redirect(uri, redirect_to):
-    r = requests.get(uri)
+    r = requests.get(uri + "?cacheBust=" + str(uuid.uuid1()), allow_redirects=False)
 
     if r.status_code != 302:
         click.echo(click.style(f"Request to '{uri}' wasn't a redirect", fg="red"))
@@ -151,7 +151,7 @@ def run_checks(env_suffix=""):
     # validate login attempts redirect to correct location
     # auth_behaviours
     auth_redirects = {
-        f"https://iiif{env_suffix}.wellcomecollection.org/auth/clinicallogin": "https://iiif{env_suffix}.wellcomecollection.org/roleprovider/dlcslogin",  # wc.org
+        f"https://iiif{env_suffix}.wellcomecollection.org/auth/clinicallogin": f"https://iiif{env_suffix}.wellcomecollection.org/roleprovider/dlcslogin",  # wc.org
         "https://dlcs.io/auth/2/clinicallogin": "https://wellcomelibrary.org/iiif/dlcslogin",  # current
     }
 
