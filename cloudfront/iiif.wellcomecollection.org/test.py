@@ -1,10 +1,12 @@
 import click
 import requests
 import re
+import uuid
 
 
 def get_json(uri, expected_status=200):
     r = requests.get(uri)
+    r = requests.get(uri + "?cacheBust=" + str(uuid.uuid1()))
 
     if r.status_code != expected_status:
         print(f"Request to '{uri}' unexpected status: {r.status_code}")
