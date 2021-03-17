@@ -91,7 +91,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_redirect_arn_stage
+          lambda_arn = local.wellcome_library_redirect_arn_prod
         }
       ]
 
@@ -107,7 +107,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_redirect_arn_stage
+          lambda_arn = local.wellcome_library_redirect_arn_prod
         }
       ]
 
@@ -155,7 +155,10 @@ locals {
     }
   ]
 
-  prod_behaviours = local.events_behaviours
+  prod_behaviours = concat(
+    local.events_behaviours,
+    local.static_redirects_behaviours
+  )
 
   stage_behaviours = concat(
     local.static_redirects_behaviours,
