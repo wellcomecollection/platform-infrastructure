@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import click
 import requests
 import re
@@ -162,11 +164,15 @@ def run_checks(env_suffix=""):
         validate_redirect(url, expected)
 
 
-# stage
-# run_checks("-stage")
+@click.command()
+@click.option('--env', default='prod', help='Environment to check (stage|test|prod)')
+def check_iiif(env):
+    if env == 'stage':
+        run_checks("-stage")
+    elif env == 'test':
+        run_checks("-test")
+    else:
+        run_checks()
 
-# test
-run_checks("-test")
-
-# prod
-# run_checks()
+if __name__ == '__main__':
+    check_iiif()
