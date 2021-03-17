@@ -1,5 +1,5 @@
 import { CloudFrontRequest } from 'aws-lambda/common/cloudfront';
-import { createRedirect } from './createRedirect';
+import { createRedirect } from './redirectHelpers';
 
 export function redirectToRoot(request: CloudFrontRequest) {
   if (request.headers.host?.length === 1) {

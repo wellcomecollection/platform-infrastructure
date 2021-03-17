@@ -5,14 +5,18 @@ import {
 } from 'aws-lambda/common/cloudfront';
 import { getBnumberFromPath } from './paths';
 import { getWork } from './bnumberToWork';
-import { createRedirect } from './createRedirect';
+import {
+  createRedirect,
+  wellcomeCollectionNotFoundRedirect,
+  wellcomeCollectionRedirect,
+  createServerError,
+} from './redirectHelpers';
 import { redirectToRoot } from './redirectToRoot';
+import { lookupStaticRedirect } from './lookupStaticRedirect';
 import { wlorgpLookup } from './wlorgpLookup';
 
-const wellcomeCollectionHost = 'https://wellcomecollection.org';
-const notFoundRedirect = createRedirect(
-  new URL(`${wellcomeCollectionHost}/works/not-found`)
-);
+import rawStaticRedirects from './staticRedirects.json';
+const staticRedirects = rawStaticRedirects as Record<string, string>;
 
 async function getWorksRedirect(
   uri: string
@@ -22,26 +26,18 @@ async function getWorksRedirect(
 
   if (bNumberResult instanceof Error) {
     console.error(bNumberResult);
-    return notFoundRedirect;
+    return wellcomeCollectionNotFoundRedirect;
   }
 
   // Find corresponding work id
-  const bNumber = bNumberResult;
-  const work = await getWork(bNumber);
+  const work = await getWork(bNumberResult);
 
   if (work instanceof Error) {
     console.error(work);
-    return notFoundRedirect;
+    return wellcomeCollectionNotFoundRedirect;
   }
 
-  return createRedirect(new URL(`${wellcomeCollectionHost}/works/${work.id}`));
-}
-
-function createServerError(error: Error) {
-  return {
-    status: '500',
-    statusDescription: error.message,
-  } as CloudFrontResultResponse;
+  return wellcomeCollectionRedirect(`/works/${work.id}`);
 }
 
 async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
@@ -55,17 +51,20 @@ async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
   return createRedirect(apiRedirectUri, true);
 }
 
-async function rewriteRequestUri(
+async function redirectRequestUri(
   uri: string
 ): Promise<undefined | CloudFrontResultResponse> {
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
+  const staticRedirect = lookupStaticRedirect(staticRedirects, uri);
 
-  if (uri.match(itemPathRegExp)) {
+  if (staticRedirect) {
+    return staticRedirect;
+  } else if (uri.match(itemPathRegExp)) {
     return getWorksRedirect(uri);
   } else if (uri.match(eventsPathRegExp)) {
-    return createRedirect(new URL(`${wellcomeCollectionHost}/whats-on`));
+    return wellcomeCollectionRedirect('/whats-on');
   } else if (uri.match(apiPathRegExp)) {
     return getApiRedirects(uri);
   }
@@ -82,7 +81,7 @@ export const requestHandler = async (
     return rootRedirect;
   }
 
-  const requestRedirect = await rewriteRequestUri(request.uri);
+  const requestRedirect = await redirectRequestUri(request.uri);
 
   if (requestRedirect) {
     return requestRedirect;
