@@ -80,6 +80,9 @@ locals {
       default_ttl = null
       max_ttl     = null
     },
+  ]
+
+  static_redirects_behaviours = [
     {
       path_pattern     = "collections*"
       target_origin_id = "origin"
@@ -155,6 +158,7 @@ locals {
   prod_behaviours = local.events_behaviours
 
   stage_behaviours = concat(
+    local.static_redirects_behaviours,
     local.events_behaviours,
     local.items_behaviours,
     local.api_behaviours
