@@ -34,7 +34,6 @@ def validate_id(infojson, expected):
 
 def validate_auth(info_json, regex):
     p = re.compile(regex)
-    all_matching = True
 
     def validate_service(json):
         if not json:
@@ -50,14 +49,12 @@ def validate_auth(info_json, regex):
                         f"Id fail - expected '{regex}' but found '{info_id}'", fg="red"
                     )
                 )
-                all_matching = False
             else:
                 click.echo(click.style(f"Found '{info_id}'", fg="green"))
 
             validate_service(s)
 
     validate_service(info_json)
-    return all_matching
 
 
 def validate_redirect(uri, redirect_to):
@@ -142,10 +139,10 @@ def run_checks(env_suffix=""):
         info_json = get_json(url, expected_status=401)
         validate_id(info_json, expected)
 
-        auth_pattern = "https:\/\/dlcs.io\/auth\/2\/.*"
+        auth_pattern = "https://dlcs.io/auth/2/.*"
         if url.startswith("https://iiif"):
             auth_pattern = (
-                f"https:\/\/iiif{env_suffix}.wellcomecollection.org\/auth\/[ltc].*"
+                f"https://iiif{env_suffix}.wellcomecollection.org/auth/[ltc].*"
             )
 
         validate_auth(info_json, auth_pattern)
