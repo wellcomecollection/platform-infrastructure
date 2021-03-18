@@ -84,7 +84,7 @@ locals {
       target_origin_id = "dlcs_wellcome_thumbs"
       headers          = []
       cookies          = "none"
-      lambdas = []
+      lambdas          = []
 
       min_ttl     = null
       default_ttl = null
@@ -99,7 +99,7 @@ locals {
       target_origin_id = "dlcs_wellcome_thumbs"
       headers          = []
       cookies          = "none"
-      lambdas = []
+      lambdas          = []
 
       min_ttl     = null
       default_ttl = null

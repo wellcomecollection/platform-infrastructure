@@ -13,7 +13,8 @@ def get_json(uri, expected_status=200):
     if r.status_code != expected_status:
         click.echo(
             click.style(
-                f"Status code fail - expected '{expected_status}' but got '{r.status_code}'", fg="red"
+                f"Status code fail - expected '{expected_status}' but got '{r.status_code}'",
+                fg="red",
             )
         )
         return {}
@@ -125,7 +126,9 @@ def run_checks(env_suffix=""):
     click.echo(click.style(f"Validating thumbs correct", fg="white", bold=True))
     for url, expected in (i for i in id_checks.items() if "av/" not in i[0]):
         url = url.replace("/image/", "/thumbs/").replace("/iiif-img/", "/thumbs/")
-        expected = expected.replace("/image/", "/thumbs/").replace("/iiif-img/", "/thumbs/")
+        expected = expected.replace("/image/", "/thumbs/").replace(
+            "/iiif-img/", "/thumbs/"
+        )
 
         click.echo(click.style(f"Checking: {url}", fg="white", underline=True))
         info_json = get_json(url)
