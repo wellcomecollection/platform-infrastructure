@@ -66,6 +66,8 @@ module "dlcs_wellcome_images_origin_set" {
   source = "./origin_sets"
   id     = "dlcs_wellcome_images"
 
+  forward_host = true
+
   prod = {
     domain_name : "dlcs.io"
     origin_path : "/iiif-img/wellcome/8"
@@ -86,6 +88,8 @@ module "dlcs_images_origin_set" {
   // Origin Shield is enabled in prod for this origin
   source = "./origin_sets"
   id     = "dlcs_images"
+
+  forward_host = true
 
   prod = {
     domain_name : "dlcs.io"
@@ -124,6 +128,8 @@ module "dlcs_thumbs_origin_set" {
 module "dlcs_av_origin_set" {
   source = "./origin_sets"
   id     = "dlcs_av"
+
+  forward_host = true
 
   prod = {
     domain_name : "dlcs.io"
@@ -196,6 +202,8 @@ module "dlcs_pdf_cover_origin_set" {
 module "dlcs_auth_origin_set" {
   source = "./origin_sets"
   id     = "dlcs_auth"
+
+  forward_host = true
 
   prod = {
     domain_name : "dlcs.io"
