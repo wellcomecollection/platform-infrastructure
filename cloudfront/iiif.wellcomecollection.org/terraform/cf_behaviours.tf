@@ -77,22 +77,7 @@ locals {
     }
   ]
 
-  wellcome_thumbs_dlcs_behaviours_prod = [
-    for pattern in local.wellcome_images_path_patterns :
-    {
-      path_pattern     = "thumbs/${pattern}"
-      target_origin_id = "dlcs_wellcome_thumbs"
-      headers          = []
-      cookies          = "none"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    }
-  ]
-
-  wellcome_thumbs_dlcs_behaviours_stage = [
+  wellcome_thumbs_dlcs_behaviours = [
     for pattern in local.wellcome_images_path_patterns :
     {
       path_pattern     = "thumbs/${pattern}"
@@ -394,7 +379,7 @@ locals {
   prod_behaviours = concat(
     local.wellcome_images_dlcs_behaviours_prod,
     local.dlcs_images_behaviours_prod,
-    local.wellcome_thumbs_dlcs_behaviours_prod,
+    local.wellcome_thumbs_dlcs_behaviours,
     local.thumbs_behaviours,
     local.dlcs_thumbs_behaviours_prod,
     local.av_behaviours_prod,
@@ -409,7 +394,7 @@ locals {
   stage_behaviours = concat(
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
-    local.wellcome_thumbs_dlcs_behaviours_stage,
+    local.wellcome_thumbs_dlcs_behaviours,
     local.thumbs_behaviours,
     local.dlcs_thumbs_behaviours_stage,
     local.av_behaviours_stage,
@@ -424,7 +409,7 @@ locals {
   test_behaviours = concat(
     local.wellcome_images_dlcs_behaviours_stage,
     local.dlcs_images_behaviours_stage,
-    local.wellcome_thumbs_dlcs_behaviours_stage,
+    local.wellcome_thumbs_dlcs_behaviours,
     local.thumbs_behaviours,
     local.dlcs_thumbs_behaviours_stage,
     local.av_behaviours_stage,
