@@ -105,6 +105,27 @@ module "dlcs_images_origin_set" {
   }
 }
 
+// Corresponding to DLCS "Space 8"
+module "dlcs_wellcome_thumbs_origin_set" {
+  source = "./origin_sets"
+  id     = "dlcs_wellcome_thumbs"
+
+  forward_host = true
+
+  prod = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
+  }
+  stage = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
+  }
+  test = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
+  }
+}
+
 module "dlcs_thumbs_origin_set" {
   source = "./origin_sets"
   id     = "dlcs_thumbs"
