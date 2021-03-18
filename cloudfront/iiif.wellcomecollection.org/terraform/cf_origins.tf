@@ -10,7 +10,7 @@ module "dashboard_origin_set" {
   id     = "dashboard"
 
   prod = {
-    domain_name : "dds.dlcs.io"
+    domain_name : "dash.wellcomecollection.digirati.io"
     origin_path : null
   }
   stage = {
@@ -28,7 +28,7 @@ module "iiif_origin_set" {
   id     = "iiif"
 
   prod = {
-    domain_name : "iiif.dlcs.io"
+    domain_name : "dds.wellcomecollection.digirati.io"
     origin_path : null
   }
   stage = {
