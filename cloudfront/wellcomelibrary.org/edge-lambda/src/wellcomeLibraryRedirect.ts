@@ -70,40 +70,20 @@ async function redirectRequestUri(
   }
 }
 
-//TODO: You need to import blog.stage.wellcomelibrary.org to DNS!
-export function redirectToBlog(request: CloudFrontRequest) {
-  if (request.headers.host?.length === 1) {
-    const requestHost = request.headers.host[0].value;
-
-    if (requestHost.startsWith('blog.')) {
-      const blogHost = "https://blog.wellcomelibrary.org";
-      const waybackPrefix = "https://wayback.archive-it.org/16107-test/20210301160111/"
-
-      console.log(`${waybackPrefix}${blogHost}${request.uri}`)
-
-      return createRedirect(
-          new URL(`${waybackPrefix}${blogHost}${request.uri}`)
-      );
-    }
-  }
-}
-
-
 export const requestHandler = async (
   event: CloudFrontRequestEvent,
   _: Context
 ) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
 
-  // TODO: Check on subdomain then do thing
+  if (request.headers.host?.length === 1) {
+    const requestHost = request.headers.host[0].value;
+    console.log(requestHost);
+  }
+
   const rootRedirect = redirectToRoot(request);
   if (rootRedirect) {
     return rootRedirect;
-  }
-
-  const blogRedirect = redirectToBlog(request);
-  if (blogRedirect) {
-    return blogRedirect;
   }
 
   const requestRedirect = await redirectRequestUri(request.uri);

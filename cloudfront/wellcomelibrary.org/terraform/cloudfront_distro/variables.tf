@@ -39,4 +39,6 @@ variable "behaviours" {
     default_ttl : number
     max_ttl : number
   }))
+
+  default = []
 }
