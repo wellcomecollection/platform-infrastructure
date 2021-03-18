@@ -165,14 +165,15 @@ def run_checks(env_suffix=""):
 
 
 @click.command()
-@click.option('--env', default='prod', help='Environment to check (stage|test|prod)')
+@click.option("--env", default="prod", help="Environment to check (stage|test|prod)")
 def check_iiif(env):
-    if env == 'stage':
+    if env == "stage":
         run_checks("-stage")
-    elif env == 'test':
+    elif env == "test":
         run_checks("-test")
     else:
         run_checks()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     check_iiif()
