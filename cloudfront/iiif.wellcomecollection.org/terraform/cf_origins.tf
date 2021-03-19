@@ -10,7 +10,7 @@ module "dashboard_origin_set" {
   id     = "dashboard"
 
   prod = {
-    domain_name : "dds.dlcs.io"
+    domain_name : "dash.wellcomecollection.digirati.io"
     origin_path : null
   }
   stage = {
@@ -28,7 +28,7 @@ module "iiif_origin_set" {
   id     = "iiif"
 
   prod = {
-    domain_name : "iiif.dlcs.io"
+    domain_name : "dds.wellcomecollection.digirati.io"
     origin_path : null
   }
   stage = {
@@ -102,6 +102,27 @@ module "dlcs_images_origin_set" {
   test = {
     domain_name : "dlcs.io"
     origin_path : "/iiif-img/wellcome/6"
+  }
+}
+
+// Corresponding to DLCS "Space 8"
+module "dlcs_wellcome_thumbs_origin_set" {
+  source = "./origin_sets"
+  id     = "dlcs_wellcome_thumbs"
+
+  forward_host = true
+
+  prod = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
+  }
+  stage = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
+  }
+  test = {
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/8"
   }
 }
 
@@ -226,6 +247,7 @@ locals {
     module.iiif_origin_set.origins["prod"],
     module.dlcs_origin_set.origins["prod"],
     module.dlcs_wellcome_images_origin_set.origins["prod"],
+    module.dlcs_wellcome_thumbs_origin_set.origins["prod"],
     module.dlcs_images_origin_set.origins["prod"],
     module.dlcs_thumbs_origin_set.origins["prod"],
     module.dlcs_av_origin_set.origins["prod"],
@@ -240,6 +262,7 @@ locals {
     module.iiif_origin_set.origins["stage"],
     module.dlcs_origin_set.origins["stage"],
     module.dlcs_wellcome_images_origin_set.origins["stage"],
+    module.dlcs_wellcome_thumbs_origin_set.origins["stage"],
     module.dlcs_images_origin_set.origins["stage"],
     module.dlcs_thumbs_origin_set.origins["stage"],
     module.dlcs_av_origin_set.origins["stage"],
@@ -254,6 +277,7 @@ locals {
     module.iiif_origin_set.origins["test"],
     module.dlcs_origin_set.origins["test"],
     module.dlcs_wellcome_images_origin_set.origins["test"],
+    module.dlcs_wellcome_thumbs_origin_set.origins["test"],
     module.dlcs_images_origin_set.origins["test"],
     module.dlcs_thumbs_origin_set.origins["test"],
     module.dlcs_av_origin_set.origins["test"],
