@@ -10,33 +10,6 @@ locals {
     "W00*",
   ]
 
-  wellcome_images_loris_behaviours = concat([
-    for pattern in local.wellcome_images_path_patterns :
-    {
-      path_pattern     = "image/${pattern}"
-      target_origin_id = "loris"
-      headers          = []
-      cookies          = "none"
-      lambdas          = []
-
-      min_ttl     = 7 * 24 * 60 * 60
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
-    }
-    ], [
-    {
-      path_pattern     = "image/s3:*"
-      target_origin_id = "loris"
-      headers          = []
-      cookies          = "none"
-      lambdas          = []
-
-      min_ttl     = 7 * 24 * 60 * 60
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
-    }
-  ])
-
   wellcome_images_dlcs_behaviours_prod = [
     for pattern in local.wellcome_images_path_patterns :
     {
