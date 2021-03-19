@@ -18,9 +18,8 @@
     "dockerDeployLocal": "yarn dockerTestLocal && docker run weli_cf_lambdas -v ~/.aws:/root/.aws yarn deploy",
     "generateStaticRedirects": "ts-node generateStaticRedirects.ts",
     "verifyStaticRedirects": "ts-node generateStaticRedirects.ts verify",
-    "testStaticRedirectsStage": "ts-node generateStaticRedirects.ts test stage",
-    "testStaticRedirectsProd": "ts-node generateStaticRedirects.ts test",
-    "testRedirects": "ts-node testRedirects.ts"
+    "testRedirects": "ts-node testRedirects.ts",
+    "testRedirectsStage": "ts-node testRedirects.ts stage"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.71",
