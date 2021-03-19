@@ -38,6 +38,16 @@ module "wellcomelibrary_blog-stage" {
 
 // TODO: import blog.wellcomelibrary.org state (et al)
 
+resource "aws_route53_record" "blog-prod" {
+  zone_id = data.aws_route53_zone.zone.id
+  name    = "blog.wellcomelibrary.org"
+  type    = "CNAME"
+  records = ["bloglibrary.wpengine.com"]
+  ttl     = "300"
+
+  provider = aws.dns
+}
+
 resource "aws_route53_record" "blog-stage" {
   zone_id = data.aws_route53_zone.zone.id
   name    = "blog.stage.wellcomelibrary.org"
