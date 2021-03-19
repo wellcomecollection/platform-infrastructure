@@ -36,8 +36,6 @@ module "wellcomelibrary_blog-stage" {
   default_lambda_function_association_lambda_arn = local.wellcome_library_blog_redirect_arn_stage
 }
 
-// TODO: import blog.wellcomelibrary.org state (et al)
-
 resource "aws_route53_record" "blog-prod" {
   zone_id = data.aws_route53_zone.zone.id
   name    = "blog.wellcomelibrary.org"

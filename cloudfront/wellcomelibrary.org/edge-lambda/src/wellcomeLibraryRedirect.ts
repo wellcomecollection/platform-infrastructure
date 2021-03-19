@@ -76,11 +76,6 @@ export const requestHandler = async (
 ) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
 
-  if (request.headers.host?.length === 1) {
-    const requestHost = request.headers.host[0].value;
-    console.log(requestHost);
-  }
-
   const rootRedirect = redirectToRoot(request);
   if (rootRedirect) {
     return rootRedirect;
