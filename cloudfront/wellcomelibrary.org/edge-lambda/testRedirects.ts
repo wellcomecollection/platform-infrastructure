@@ -15,43 +15,52 @@ type HostEnvs = {
 
 type EnvId = 'stage' | 'prod';
 
-type RedirectTestSet = (env: EnvId) => RedirectTest
+type RedirectTestSet = (env: EnvId) => RedirectTest;
 
 type RedirectResult = {
-  error: undefined | Error,
-  fromPath: string
-  from: string,
-  to: string,
-}
+  error: undefined | Error;
+  fromPath: string;
+  from: string;
+  to: string;
+};
 
 type ResultSet = {
   host: string;
-  results: RedirectResult[]
-}
+  results: RedirectResult[];
+};
 
 async function testRedirects(tests: RedirectTest) {
-  const testResults =  await Promise.all(Object.entries(tests.pathTests).map(async ([fromPath, to]) => {
-    const from = `${tests.host}${fromPath}`;
+  const testResults = await Promise.all(
+    Object.entries(tests.pathTests).map(async ([fromPath, to]) => {
+      const from = `${tests.host}${fromPath}`;
 
-    let redirectResult: RedirectResult
+      const redirectResult: RedirectResult = {
+        to: to,
+        fromPath: fromPath,
+        from: from,
+        error: undefined,
+      };
 
-    try {
-      const axiosResponse = await axios.get(from);
-      const responseUrl = axiosResponse.request.res.responseUrl;
-      const testResult = responseUrl !== to ? Error(`${from}: ${responseUrl} !== ${to}`) : undefined;
+      try {
+        const axiosResponse = await axios.get(from);
+        const responseUrl = axiosResponse.request.res.responseUrl;
 
-      redirectResult = { to: to, fromPath: fromPath, from: from, error: testResult }
-    } catch (e) {
-      redirectResult = { to: to, fromPath: fromPath, from: from, error: e}
-    }
+        redirectResult.error =
+          responseUrl !== to
+            ? Error(`${from}: ${responseUrl} !== ${to}`)
+            : undefined;
+      } catch (e) {
+        redirectResult.error = e;
+      }
 
-    return redirectResult
-  }));
+      return redirectResult;
+    })
+  );
 
   return {
     host: tests.host,
-    results: testResults
-  } as ResultSet
+    results: testResults,
+  } as ResultSet;
 }
 
 // Blog tests
@@ -74,7 +83,7 @@ const getBlogTests: RedirectTestSet = (env: EnvId) => {
     host: host,
     pathTests: blogRedirectPaths,
   };
-}
+};
 
 // Apex tests
 const getApexTests: RedirectTestSet = (env: EnvId) => {
@@ -98,27 +107,25 @@ const getApexTests: RedirectTestSet = (env: EnvId) => {
     host: host,
     pathTests: apexStaticRedirectPaths,
   };
-}
+};
 
-const testSets: RedirectTestSet[] = [
-  getBlogTests,
-  getApexTests
-]
+const testSets: RedirectTestSet[] = [getBlogTests, getApexTests];
 
 const displayResultSet = (resultSet: ResultSet) => {
-  console.log(chalk.blue.underline.bold(`\n${resultSet.host}`))
-  resultSet.results.forEach(result => {
-    if(result.error) {
+  console.log(chalk.blue.underline.bold(`\n${resultSet.host}`));
+  resultSet.results.forEach((result) => {
+    if (result.error) {
       console.error(chalk.red(`✘ ${result.from}: ${result.error}`));
     } else {
       console.info(chalk.green(`✓ ${result.fromPath}`));
     }
-  })
-}
+  });
+};
 
-const runTests = async (env: EnvId) => testSets
-      .map(getTests => getTests(env))
-      .map(async tests => await testRedirects(tests))
-      .forEach(async resultsSet => displayResultSet(await resultsSet))
+const runTests = async (env: EnvId) =>
+  testSets
+    .map((getTests) => getTests(env))
+    .map(async tests => await testRedirects(tests))
+    .forEach(async resultsSet => displayResultSet(await resultsSet));
 
 runTests(process.argv[2] as EnvId);
