@@ -15,7 +15,7 @@ locals {
     {
       path_pattern     = "image/${pattern}"
       target_origin_id = "dlcs_wellcome_images"
-      headers          = []
+      headers          = ["Authorization"]
       cookies          = "none"
       lambdas = [
         {
@@ -35,7 +35,7 @@ locals {
     {
       path_pattern     = "image/${pattern}"
       target_origin_id = "dlcs_wellcome_images"
-      headers          = []
+      headers          = ["Authorization"]
       cookies          = "none"
       lambdas = [
         {
@@ -94,7 +94,7 @@ locals {
     {
       path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
-      headers          = []
+      headers          = ["Authorization"]
       cookies          = "all"
       lambdas = [
         {
@@ -113,7 +113,7 @@ locals {
     {
       path_pattern     = "image/*"
       target_origin_id = "dlcs_images"
-      headers          = []
+      headers          = ["Authorization"]
       cookies          = "all"
       lambdas = [
         {
