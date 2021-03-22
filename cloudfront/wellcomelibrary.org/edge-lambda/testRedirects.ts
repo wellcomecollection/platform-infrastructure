@@ -34,12 +34,11 @@ async function testRedirects(tests: RedirectTest) {
     Object.entries(tests.pathTests).map(async ([fromPath, to]) => {
       const from = `${tests.host}${fromPath}`;
 
-      const redirectResult: RedirectResult = {
+      const redirectResult = {
         to: to,
         fromPath: fromPath,
         from: from,
-        error: undefined,
-      };
+      } as RedirectResult;
 
       try {
         const axiosResponse = await axios.get(from);
