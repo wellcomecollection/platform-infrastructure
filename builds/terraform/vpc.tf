@@ -5,8 +5,7 @@ module "ecr_dkr_vpc_endpoint" {
   vpc_id  = local.ci_vpc_id
 
   security_group_ids = [
-    # buildkite-elastic
-    "sg-0b5a4d52331945b7e",
+    aws_security_group.buildkite.id,
   ]
 
   subnet_ids = local.ci_vpc_private_subnets
@@ -19,8 +18,7 @@ module "ecr_api_vpc_endpoint" {
   vpc_id  = local.ci_vpc_id
 
   security_group_ids = [
-    # buildkite-elastic
-    "sg-0b5a4d52331945b7e",
+    aws_security_group.buildkite.id,
   ]
 
   subnet_ids = local.ci_vpc_private_subnets

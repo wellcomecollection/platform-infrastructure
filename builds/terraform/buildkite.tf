@@ -28,8 +28,9 @@ resource "aws_cloudformation_stack" "buildkite" {
     InstanceCreationTimeout = "PT5M"
     InstanceRoleName        = local.ci_agent_role_name
 
-    VpcId   = local.ci_vpc_id
-    Subnets = join(",", local.ci_vpc_private_subnets)
+    VpcId           = local.ci_vpc_id
+    Subnets         = join(",", local.ci_vpc_private_subnets)
+    SecurityGroupId = aws_security_group.buildkite.id
 
     AssociatePublicIpAddress = true
 
