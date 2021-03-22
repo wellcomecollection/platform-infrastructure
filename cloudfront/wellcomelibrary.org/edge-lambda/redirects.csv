@@ -1,28 +1,95 @@
 libraryPageTitle,libraryUrl,collectionUrl,collectionPageTitle,section
-finding medical archives elsewhere,wellcomelibrary.org/collections/about-the-collections/archives-and-manuscripts/finding-medical-archives-elsewhere/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,
-Using the library,wellcomelibrary.org/using-the-library/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm,The Library ,Using the Library 
-joining the library,wellcomelibrary.org/using-the-library/joining-the-library/,https://wellcomecollection.org/pages/X_2eexEAACQAZLBi,Library Membership ,Using the Library 
-visiting the library,wellcomelibrary.org/using-the-library/visiting-the-library/,https://wellcomecollection.org/visit-us,Visit Us ,Using the Library 
-how to find us,wellcomelibrary.org/using-the-library/visiting-the-library/how-to-find-us/,https://wellcomecollection.org/pages/WwabUiAAAHQXGNHB,Getting here,Using the Library 
-food drink and cloakroom,wellcomelibrary.org/using-the-library/visiting-the-library/food-drink-and-cloakroom/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sm0,Storing your belongings ,Using the Library 
-access for visitors with disabilities,wellcomelibrary.org/using-the-library/visiting-the-library/access-for-visitors-with-disabilities/,https://wellcomecollection.org/access,Accessibility ,Using the Library 
-opening hours,wellcomelibrary.org/using-the-library/visiting-the-library/opening-hours/,https://wellcomecollection.org/opening-times,Opening times,Using the Library 
-booking a tour or visit,wellcomelibrary.org/using-the-library/visiting-the-library/booking-a-tour-or-visit/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma,Daily guided tours or discussions ,Using the Library 
-services and facilities,wellcomelibrary.org/using-the-library/services-and-facilities/,https://wellcomecollection.org/pages/YCAVKxIAACIAV1oF,Library Services ,Using the Library 
-copying and imaging,wellcomelibrary.org/using-the-library/services-and-facilities/copying-and-imaging/,https://wellcomecollection.org/pages/YBGdERMAAB8AjXKe,Copying and Photography ,Using the Library 
-computers printing and wifi,wellcomelibrary.org/using-the-library/services-and-facilities/computers-printing-and-wifi/,https://wellcomecollection.org/pages/YBGcehMAAB4AjW_c,Computes and WiFi,Using the Library 
-study rooms,wellcomelibrary.org/using-the-library/services-and-facilities/study-rooms/,https://wellcomecollection.org/pages/YBGczxMAACAAjXFz,Study Rooms ,Using the Library 
-inter library loans,wellcomelibrary.org/using-the-library/services-and-facilities/interlibrary-loans/,https://wellcomecollection.org/pages/YCUJ1hUAACcAUi5L,Inter-library Loans ,Using the Library 
-how to use the library,wellcomelibrary.org/using-the-library/how-to/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-which search tool should I use,wellcomelibrary.org/using-the-library/how-to/which-search-tool/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-searching all catalogues,wellcomelibrary.org/using-the-library/how-to/searching-all-catalogues/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-searching by subject,wellcomelibrary.org/using-the-library/how-to/searching-by-subject/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-searching the library catalogue,wellcomelibrary.org/using-the-library/how-to/searching-the-library-catalogue/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-finding materials in the library,wellcomelibrary.org/using-the-library/how-to/finding-materials-in-the-library/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Using the Library 
-request and delivery,wellcomelibrary.org/using-the-library/how-to/request-and-delivery/,https://wellcomecollection.org/pages/YCAVKxIAACIAV1oF,Library Services ,Using the Library 
-finding early printed books online,wellcomelibrary.org/using-the-library/how-to/finding-early-printed-books/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-RSS feeds,wellcomelibrary.org/using-the-library/how-to/rss-feeds/,https://wellcomecollection.org/collections,Collections ,Using the Library 
+Using the library,wellcomelibrary.org/using-the-library/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm,The Library ,Using the Library
+joining the library,wellcomelibrary.org/using-the-library/joining-the-library/,https://wellcomecollection.org/pages/X_2eexEAACQAZLBi,Library Membership ,Using the Library
+visiting the library,wellcomelibrary.org/using-the-library/visiting-the-library/,https://wellcomecollection.org/visit-us,Visit Us ,Using the Library
+how to find us,wellcomelibrary.org/using-the-library/visiting-the-library/how-to-find-us/,https://wellcomecollection.org/pages/WwabUiAAAHQXGNHB,Getting here,Using the Library
+food drink and cloakroom,wellcomelibrary.org/using-the-library/visiting-the-library/food-drink-and-cloakroom/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sm0,Storing your belongings ,Using the Library
+access for visitors with disabilities,wellcomelibrary.org/using-the-library/visiting-the-library/access-for-visitors-with-disabilities/,https://wellcomecollection.org/access,Accessibility ,Using the Library
+opening hours,wellcomelibrary.org/using-the-library/visiting-the-library/opening-hours/,https://wellcomecollection.org/opening-times,Opening times,Using the Library
+booking a tour or visit,wellcomelibrary.org/using-the-library/visiting-the-library/booking-a-tour-or-visit/,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma,Daily guided tours or discussions ,Using the Library
+services and facilities,wellcomelibrary.org/using-the-library/services-and-facilities/,https://wellcomecollection.org/pages/YCAVKxIAACIAV1oF,Library Services ,Using the Library
+copying and imaging,wellcomelibrary.org/using-the-library/services-and-facilities/copying-and-imaging/,https://wellcomecollection.org/pages/YBGdERMAAB8AjXKe,Copying and Photography ,Using the Library
+computers printing and wifi,wellcomelibrary.org/using-the-library/services-and-facilities/computers-printing-and-wifi/,https://wellcomecollection.org/pages/YBGcehMAAB4AjW_c,Computes and WiFi,Using the Library
+study rooms,wellcomelibrary.org/using-the-library/services-and-facilities/study-rooms/,https://wellcomecollection.org/pages/YBGczxMAACAAjXFz,Study Rooms ,Using the Library
+inter library loans,wellcomelibrary.org/using-the-library/services-and-facilities/interlibrary-loans/,https://wellcomecollection.org/pages/YCUJ1hUAACcAUi5L,Inter-library Loans ,Using the Library
+how to use the library,wellcomelibrary.org/using-the-library/how-to/,https://wellcomecollection.org/collections,Collections ,Using the Library
+which search tool should I use,wellcomelibrary.org/using-the-library/how-to/which-search-tool/,https://wellcomecollection.org/collections,Collections ,Using the Library
+searching all catalogues,wellcomelibrary.org/using-the-library/how-to/searching-all-catalogues/,https://wellcomecollection.org/collections,Collections ,Using the Library
+searching by subject,wellcomelibrary.org/using-the-library/how-to/searching-by-subject/,https://wellcomecollection.org/collections,Collections ,Using the Library
+searching the library catalogue,wellcomelibrary.org/using-the-library/how-to/searching-the-library-catalogue/,https://wellcomecollection.org/collections,Collections ,Using the Library
+finding materials in the library,wellcomelibrary.org/using-the-library/how-to/finding-materials-in-the-library/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Using the Library
+request and delivery,wellcomelibrary.org/using-the-library/how-to/request-and-delivery/,https://wellcomecollection.org/pages/YCAVKxIAACIAV1oF,Library Services ,Using the Library
+finding early printed books online,wellcomelibrary.org/using-the-library/how-to/finding-early-printed-books/,https://wellcomecollection.org/collections,Collections ,Using the Library
+RSS feeds,wellcomelibrary.org/using-the-library/how-to/rss-feeds/,https://wellcomecollection.org/collections,Collections ,Using the Library
 browser widgets,wellcomelibrary.org/using-the-library/how-to/browser-widgets/,https://wellcomecollection.org/collections,Collections ,Using the Library
 electronic resources feedback form,wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/e-resources-feedback,https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm,The Library ,Using the Library
-library catalogue endnote filter,wellcomelibrary.org/using-the-library/how-to/EndNote-filter/,https://wellcomecollection.org/collections,Collections ,Using the Library 
-library catalogue access via Z39.50,wellcomelibrary.org/using-the-library/how-to/z3950/,https://developers.wellcomecollection.org/,Developers,Using the Library 
+library catalogue endnote filter,wellcomelibrary.org/using-the-library/how-to/EndNote-filter/,https://wellcomecollection.org/collections,Collections ,Using the Library
+library catalogue access via Z39.50,wellcomelibrary.org/using-the-library/how-to/z3950/,https://developers.wellcomecollection.org/,Developers,Collections
+collections,wellcomelibrary.org/collections/,https://wellcomecollection.org/collections,Collections section,Collections
+about the collections,wellcomelibrary.org/collections/about-the-collections/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collection?,Collections
+archives and manuscripts,wellcomelibrary.org/collections/about-the-collections/archives-and-manuscripts/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collection?,Collections
+finding medical archives elsewhere,wellcomelibrary.org/collections/about-the-collections/archives-and-manuscripts/finding-medical-archives-elsewhere/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+history of medicine collection,wellcomelibrary.org/collections/about-the-collections/history-of-medicine-collection/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+medical collection,wellcomelibrary.org/collections/about-the-collections/medical-collection/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+rare books,wellcomelibrary.org/collections/about-the-collections/medical-collection/rare-books/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+ephemera,wellcomelibrary.org/collections/about-the-collections/medical-collection/ephemera/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+art collection,wellcomelibrary.org/collections/about-the-collections/art-collection/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+asian collection,wellcomelibrary.org/collections/about-the-collections/asian-collection/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+moving image and sound,wellcomelibrary.org/collections/about-the-collections/moving-image-and-sound-collection/,https://wellcomecollection.org/pages/YE99nRAAACMAb7YE,What's in the Collections?,Collections
+Subject Guides,https://wellcomelibrary.org/collections/subject-guides/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+Introduction to popular science resources,https://wellcomelibrary.org/collections/subject-guides/introduction-to-popular-science-resources/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+Biography and family history,https://wellcomelibrary.org/collections/subject-guides/biography-and-family-history/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+Biography and family history: general resources,https://wellcomelibrary.org/collections/subject-guides/biography-and-family-history/biography-and-family-history-general-resources/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+"Biography and family history: doctors, physicians, surgeons and apothecaries",https://wellcomelibrary.org/collections/subject-guides/biography-and-family-history/biography-and-family-history-doctors-physicians-surgeons-and-apothecaries/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+Introduction to mortality statistics in England and Wales: 17th-20th century,https://wellcomelibrary.org/collections/subject-guides/introduction-to-mortality-statistics-in-england-and-wales/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ,Accessing the collections,Collections
+browse by topic,wellcomelibrary.org/collections/browse/topics/,https://wellcomecollection.org/collections,Collections section,Collections
+browse by genre,wellcomelibrary.org/collections/browse/genres/,https://wellcomecollection.org/collections,Collections section,Collections
+browse by author,wellcomelibrary.org/collections/browse/authors/,https://wellcomecollection.org/collections,Collections section,Collections
+browse by digital collection,wellcomelibrary.org/collections/browse/collections/,https://wellcomecollection.org/collections,Collections section,Collections
+browse digitised content,wellcomelibrary.org/collections/browse/,https://wellcomecollection.org/collections,Collections section,Collections
+Reading Room,https://wellcomelibrary.org/collections/digital-collections/reading-room/,https://wellcomecollection.org/pages/Wvlk4yAAAB8A3ufp,The Reading Room,Collections
+biomedical images,wellcomelibrary.org/collections/about-the-collections/biomedical-images/,https://wellcomecollection.org/collections,Collections section,Collections
+alcohol and drugs,wellcomelibrary.org/collections/archive-guides/alcohol-and-drugs/,https://wellcomecollection.org/collections,Collections section,Collections
+anatomy and physiology,wellcomelibrary.org/collections/archive-guides/anatomy-and-physiology/,https://wellcomecollection.org/collections,Collections section,Collections
+animals,wellcomelibrary.org/collections/archive-guides/animals/,https://wellcomecollection.org/collections,Collections section,Collections
+alternative medicine,wellcomelibrary.org/collections/archive-guides/alternative-medicine/,https://wellcomecollection.org/collections,Collections section,Collections
+diseases and disorders,wellcomelibrary.org/collections/archive-guides/diseases-and-disorders/,https://wellcomecollection.org/collections,Collections section,Collections
+food and medicine,wellcomelibrary.org/collections/archive-guides/food-and-medicine/,https://wellcomecollection.org/collections,Collections section,Collections
+health professions,wellcomelibrary.org/collections/archive-guides/health-professions/,https://wellcomecollection.org/collections,Collections section,Collections
+heredity and genetics,wellcomelibrary.org/collections/archive-guides/heredity-and-genetics/,https://wellcomecollection.org/collections,Collections section,Collections
+hospitals,wellcomelibrary.org/collections/archive-guides/hospitals/,https://wellcomecollection.org/collections,Collections section,Collections
+local history,wellcomelibrary.org/collections/archive-guides/local-history/,https://wellcomecollection.org/collections,Collections section,Collections
+locations and travel,wellcomelibrary.org/collections/archive-guides/locations-and-travel/,https://wellcomecollection.org/collections,Collections section,Collections
+maternity and child welfare,wellcomelibrary.org/collections/archive-guides/maternity-and-child-welfare/,https://wellcomecollection.org/collections,Collections section,Collections
+medical imaging,wellcomelibrary.org/collections/archive-guides/medical-imaging/,https://wellcomecollection.org/collections,Collections section,Collections
+mental health and psychiatry,wellcomelibrary.org/collections/archive-guides/mental-health-and-psychiatry/,https://wellcomecollection.org/collections,Collections section,Collections
+public health,wellcomelibrary.org/collections/archive-guides/public-health/,https://wellcomecollection.org/collections,Collections section,Collections
+sex and sexual health,wellcomelibrary.org/collections/archive-guides/sex-and-sexual-health/,https://wellcomecollection.org/collections,Collections section,Collections
+society and culture,wellcomelibrary.org/collections/archive-guides/society-and-culture/,https://wellcomecollection.org/collections,Collections section,Collections
+treatment and therapy,wellcomelibrary.org/collections/archive-guides/treatment-and-therapy/,https://wellcomecollection.org/collections,Collections section,Collections
+war and medicine,wellcomelibrary.org/collections/archive-guides/war-and-medicine/,https://wellcomecollection.org/collections,Collections section,Collections
+digital collections,wellcomelibrary.org/collections/digital-collections/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+aids posters,wellcomelibrary.org/collections/digital-collections/aids-posters/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+arabic manuscripts,wellcomelibrary.org/collections/digital-collections/arabic-manuscripts/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+film and sound,wellcomelibrary.org/collections/digital-collections/film-and-sound/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+recipe books,wellcomelibrary.org/collections/digital-collections/recipe-books/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+the royal army medical corps,wellcomelibrary.org/collections/digital-collections/royal-army-medical-corps/,https://wellcomecollection.org/works/xqc9qs4x,archive catalogue page,Collections
+sexology,wellcomelibrary.org/collections/digital-collections/sexology/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+john thomson photographs,wellcomelibrary.org/collections/digital-collections/john-thomson-photographs/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+research newsletter,wellcomelibrary.org/using-the-library/research-newsletter,https://wellcomecollection.org/pages/YBmCmhMAAB4Ar0G1,Events for researchers,Collections
+UK medical heritage library,wellcomelibrary.org/collections/digital-collections/uk-medical-heritage-library/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+Mental healthcare,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/,https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ#digital-collections,Accessing our collections,Collections
+The Retreat,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/the-retreat/,https://wellcomecollection.org/works/w333gb7j,archive catalogue page,Collections
+Gartnaval Royal Hospital,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/gartnavel-royal-hospital/,https://wellcomecollection.org/works/pk2ufbnt,archive catalogue page,Collections
+St Luke's Hospital,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/crichton-royal-hospital/,https://wellcomecollection.org/works/dsmuyu47,archive catalogue page,Collections
+Crichton Royal Hospital,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/st-lukes-hospital/,https://wellcomecollection.org/works/utmcnmq8,archive catalogue page,Collections
+Holloway Sanatorium,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/holloway-sanatorium/,https://wellcomecollection.org/works/kkhfh4k2,archive catalogue page,Collections
+Ticehurst House Hospital,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/ticehurst-house-hospital/,https://wellcomecollection.org/works/xysguff2,archive catalogue page,Collections
+Camberwell House Asylum,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/camberwell-house/,https://wellcomecollection.org/works/efdzut67,archive catalogue page,Collections
+Manor House Asylum,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/manor-house-asylum/,https://wellcomecollection.org/works/fxgn6573,archive catalogue page,Collections
+William Walters Sargent,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/william-sargant/,https://wellcomecollection.org/works/hgnrtrt6,archive catalogue page,Collections
+George Shuttleworth,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/george-shuttleworth/,https://wellcomecollection.org/works/asapyeue,archive catalogue page,Collections
+Rudolf Karl Freudenberg,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/Rudolf-Karl-Freudenberg/,https://wellcomecollection.org/works/t8phnu78,archive catalogue page,Collections
+Robina Addis,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/robina-addis/,https://wellcomecollection.org/works/yef8epmt,archive catalogue page,Collections
+James Adam,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/james-adam/,https://wellcomecollection.org/works/wn4hvzzv,archive catalogue page,Collections
+Mental After Care Association,https://wellcomelibrary.org/collections/digital-collections/mental-healthcare/mental-after-care-association/,https://wellcomecollection.org/works/n9845w4v,archive catalogue page,Collections
