@@ -82,6 +82,7 @@ def validate_redirect(uri, redirect_to):
 
     return True
 
+
 def validate_cors_headers(uri, origin):
     headers = {"Origin": origin} if origin else {}
     r = requests.get(uri + "?ccc=asd", headers=headers)
@@ -89,8 +90,7 @@ def validate_cors_headers(uri, origin):
     if r.status_code != 200:
         click.echo(
             click.style(
-                f"Status code fail - expected 200 but got '{r.status_code}'",
-                fg="red",
+                f"Status code fail - expected 200 but got '{r.status_code}'", fg="red"
             )
         )
         return
@@ -106,13 +106,12 @@ def validate_cors_headers(uri, origin):
             )
             return
     elif "Access-Control-Allow-Origin" in r.headers:
-            click.echo(
-                click.style(
-                    f"'Access-Control-Allow-Origin' header not expected but found",
-                    fg="red",
-                )
+        click.echo(
+            click.style(
+                f"'Access-Control-Allow-Origin' header not expected but found", fg="red"
             )
-            return
+        )
+        return
 
     click.echo(click.style(f"Request to '{uri}' has expected CORS.", fg="green"))
 
@@ -216,9 +215,12 @@ def run_checks(env_suffix=""):
     origins = ["", "https://test.example.com"]
     for origin in origins:
         url = f"https://iiif{env_suffix}.wellcomecollection.org/presentation/b19582183"
-        click.echo(click.style(f"Checking: {url} with origin {origin}", fg="white", underline=True))
+        click.echo(
+            click.style(
+                f"Checking: {url} with origin {origin}", fg="white", underline=True
+            )
+        )
         validate_cors_headers(url, origin)
-
 
 
 @click.command()
