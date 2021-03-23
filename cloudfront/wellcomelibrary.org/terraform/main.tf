@@ -21,7 +21,7 @@ module "wellcomelibrary-stage" {
 
   distro_alternative_names = [
     "stage.wellcomelibrary.org",
-    "www.stage.wellcomelibrary.org"
+    "www.stage.wellcomelibrary.org",
   ]
   acm_certificate_arn = module.cert-stage.arn
 

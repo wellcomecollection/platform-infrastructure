@@ -117,6 +117,41 @@ locals {
     },
   ]
 
+  static_redirects_behaviours_stage = [
+    {
+      path_pattern     = "collections*"
+      target_origin_id = "origin"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.wellcome_library_redirect_arn_stage
+        }
+      ]
+
+      min_ttl     = null
+      default_ttl = null
+      max_ttl     = null
+    },
+    {
+      path_pattern     = "using-the-library*"
+      target_origin_id = "origin"
+      headers          = []
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.wellcome_library_redirect_arn_stage
+        }
+      ]
+
+      min_ttl     = null
+      default_ttl = null
+      max_ttl     = null
+    },
+  ]
+
   events_behaviours = [
     {
       path_pattern     = "events*"
@@ -161,8 +196,8 @@ locals {
   )
 
   stage_behaviours = concat(
-    local.static_redirects_behaviours,
     local.events_behaviours,
+    local.static_redirects_behaviours_stage,
     local.items_behaviours,
     local.api_behaviours
   )
