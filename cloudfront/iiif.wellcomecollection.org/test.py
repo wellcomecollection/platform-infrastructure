@@ -7,7 +7,6 @@ import uuid
 
 
 def get_json(uri, expected_status=200):
-    r = requests.get(uri)
     r = requests.get(uri + "?cacheBust=" + str(uuid.uuid1()))
 
     if r.status_code != expected_status:
@@ -82,6 +81,39 @@ def validate_redirect(uri, redirect_to):
         return False
 
     return True
+
+
+def validate_cors_headers(uri, origin):
+    headers = {"Origin": origin} if origin else {}
+    r = requests.get(uri + "?ccc=asd", headers=headers)
+
+    if r.status_code != 200:
+        click.echo(
+            click.style(
+                f"Status code fail - expected 200 but got '{r.status_code}'", fg="red"
+            )
+        )
+        return
+
+    if origin:
+        h = r.headers.get("Access-Control-Allow-Origin", None)
+        if not h:
+            click.echo(
+                click.style(
+                    f"'Access-Control-Allow-Origin' header expected but not found",
+                    fg="red",
+                )
+            )
+            return
+    elif "Access-Control-Allow-Origin" in r.headers:
+        click.echo(
+            click.style(
+                f"'Access-Control-Allow-Origin' header not expected but found", fg="red"
+            )
+        )
+        return
+
+    click.echo(click.style(f"Request to '{uri}' has expected CORS.", fg="green"))
 
 
 def run_checks(env_suffix=""):
@@ -177,6 +209,18 @@ def run_checks(env_suffix=""):
     for url, expected in auth_redirects.items():
         click.echo(click.style(f"Checking: {url}", fg="white", underline=True))
         validate_redirect(url, expected)
+
+    click.echo()
+    click.echo(click.style(f"Validating CORS caching", fg="white", bold=True))
+    origins = ["", "https://test.example.com"]
+    for origin in origins:
+        url = f"https://iiif{env_suffix}.wellcomecollection.org/presentation/b19582183"
+        click.echo(
+            click.style(
+                f"Checking: {url} with origin {origin}", fg="white", underline=True
+            )
+        )
+        validate_cors_headers(url, origin)
 
 
 @click.command()

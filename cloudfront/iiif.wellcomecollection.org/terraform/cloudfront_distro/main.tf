@@ -49,6 +49,7 @@ resource "aws_cloudfront_distribution" "iiif" {
 
     forwarded_values {
       query_string = true
+      headers      = ["Origin"]
 
       cookies {
         forward = "all"
