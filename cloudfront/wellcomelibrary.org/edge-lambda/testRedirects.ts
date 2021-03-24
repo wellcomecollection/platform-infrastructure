@@ -29,19 +29,19 @@ type ResultSet = {
 };
 
 type RedirectTestSet = {
-  displayName: string
+  displayName: string;
   fileLocation: string;
   fileHostPrefix: string;
   headers: CsvHeader[];
   envs: HostEnvs;
-  results?: ResultSet
+  results?: ResultSet;
 };
 
 async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
   const host =
     env === 'stage' ? redirectTestSet.envs.stage : redirectTestSet.envs.prod;
 
-  if(!host) {
+  if (!host) {
     return redirectTestSet;
   }
 
@@ -66,7 +66,7 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
         const responseUrl = axiosResponse.request.res.responseUrl;
 
         redirectResult.error =
-          responseUrl != to
+          responseUrl !== to
             ? Error(`Response: ${responseUrl}\nExpected: ${to}`)
             : undefined;
       } catch (e) {
@@ -80,7 +80,7 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
   redirectTestSet.results = {
     host: host,
     results: testResults,
-  }
+  };
 
   return redirectTestSet;
 }
@@ -88,8 +88,8 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
 const displayResultSet = (redirectTestSet: RedirectTestSet) => {
   console.log(chalk.blue.underline.bold(`\n${redirectTestSet.displayName}`));
 
-  if(redirectTestSet.results) {
-    const resultSet = redirectTestSet.results
+  if (redirectTestSet.results) {
+    const resultSet = redirectTestSet.results;
     console.log(chalk.blue.bold(`${resultSet.host}`));
 
     resultSet.results.forEach((result) => {
@@ -100,10 +100,10 @@ const displayResultSet = (redirectTestSet: RedirectTestSet) => {
       }
     });
   } else {
-    console.info('No results')
+    console.info('No results');
   }
 
-  return redirectTestSet
+  return redirectTestSet;
 };
 
 const itemTestSet = {
@@ -139,24 +139,26 @@ const apexTestSet = {
   },
 };
 
-const testSets: RedirectTestSet[] = [itemTestSet,blogTestSet,apexTestSet];
+const testSets: RedirectTestSet[] = [itemTestSet, blogTestSet, apexTestSet];
 
 const runTests = async (envId: EnvId) => {
-  const testResults = await Promise.all(testSets
+  const testResults = await Promise.all(
+    testSets
       .map(async (testSet) => await testRedirects(envId, testSet))
       .map(async (resultsSet) => displayResultSet(await resultsSet))
   );
 
-  const foundErrors = testResults.filter(testSet =>
-    testSet.results && testSet.results.results.find(result => result.error)
-  )
+  const foundErrors = testResults.filter(
+    (testSet) =>
+      testSet.results && testSet.results.results.find((result) => result.error)
+  );
 
-  if(foundErrors.length >= 1) {
+  if (foundErrors.length >= 1) {
     console.error(chalk.red(`\nFound failed redirects! ✘✘✘`));
-    process.exit(1)
+    process.exit(1);
   } else {
     console.log(chalk.greenBright(`\nAll redirections successful ✓✓✓`));
   }
-}
+};
 
 runTests(process.argv[2] as EnvId);

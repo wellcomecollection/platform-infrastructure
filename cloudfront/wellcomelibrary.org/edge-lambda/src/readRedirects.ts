@@ -43,7 +43,6 @@ export function readRedirects(
             // Ensure slash prefix
             .replace(/^\/?/, '/');
 
-
           if (lookupKey in redirects) {
             throw Error(
               `Cannot parse CSV into redirects, duplicate paths exist for ${lookupKey}!`
