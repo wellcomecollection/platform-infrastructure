@@ -2,12 +2,27 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import assert from 'assert';
-import { readStaticRedirects } from './src/readStaticRedirects';
+import { readRedirects } from './src/readRedirects';
 
-const fileLocation = path.resolve(__dirname, 'redirects.csv');
+export const staticRedirectFileLocation = path.resolve(
+  __dirname,
+  'staticRedirects.csv'
+);
+export const staticRedirectHeaders = [
+  undefined,
+  'sourceUrl',
+  'targetUrl',
+  undefined,
+  undefined,
+];
+export const staticRedirectsHost = 'wellcomelibrary.org';
 
 async function generateRedirects() {
-  const redirectsData = await readStaticRedirects(fileLocation);
+  const redirectsData = await readRedirects(
+    staticRedirectFileLocation,
+    staticRedirectsHost,
+    staticRedirectHeaders
+  );
   const redirectsJson = JSON.stringify(redirectsData, null, 2);
 
   fs.writeFileSync('src/staticRedirects.json', redirectsJson);
@@ -22,7 +37,11 @@ async function verifyRedirects() {
   const rawStaticRedirects = JSON.parse(jsonData);
 
   const existingRedirects = rawStaticRedirects as Record<string, string>;
-  const generatedRedirects = await readStaticRedirects(fileLocation);
+  const generatedRedirects = await readRedirects(
+    staticRedirectFileLocation,
+    staticRedirectsHost,
+    staticRedirectHeaders
+  );
 
   assert(
     JSON.stringify(generatedRedirects) === JSON.stringify(existingRedirects),

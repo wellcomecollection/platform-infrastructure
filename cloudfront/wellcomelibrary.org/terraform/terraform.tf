@@ -6,7 +6,8 @@ terraform {
     key            = "terraform/platform-infrastructure/cloudfront/wl.org.tfstate"
     dynamodb_table = "terraform-locktable"
 
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    profile = "platform"
+    #role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
     region   = "eu-west-1"
   }
 }

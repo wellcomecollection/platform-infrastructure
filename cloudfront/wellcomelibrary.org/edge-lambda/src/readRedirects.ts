@@ -1,17 +1,24 @@
 import * as csv from '@fast-csv/parse';
+import { ParserOptionsArgs } from '@fast-csv/parse';
 
 type RedirectRow = {
-  libraryUrl: string;
-  collectionUrl: string;
+  sourceUrl: string;
+  targetUrl: string;
 };
 
-export function readStaticRedirects(
-  fileLocation: string
+export type CsvHeader = undefined | string;
+
+export function readRedirects(
+  fileLocation: string,
+  hostPrefix: string,
+  headers: CsvHeader[]
 ): Promise<Record<string, string>> {
   const options = {
     skipLines: 1,
-    headers: [undefined, 'libraryUrl', 'collectionUrl', undefined, undefined],
-  };
+    headers: headers,
+    strictColumnHandling: true,
+    discardUnmappedColumns: true,
+  } as ParserOptionsArgs;
 
   return new Promise((resolve, reject) => {
     const redirects: Record<string, string> = {};
@@ -20,14 +27,22 @@ export function readStaticRedirects(
       .parseFile<RedirectRow, RedirectRow>(fileLocation, options)
       .on('error', reject)
       .on('data', (row: RedirectRow) => {
-        if (row.libraryUrl) {
-          const lookupKey = row.libraryUrl
+        if (row.sourceUrl) {
+          if (!row.sourceUrl.startsWith(hostPrefix)) {
+            throw Error(
+              `Source row does not start with expected prefix: ${hostPrefix} (${row.sourceUrl})`
+            );
+          }
+
+          const lookupKey = row.sourceUrl
+            .trim()
             // Remove hostname
-            .replace('wellcomelibrary.org', '')
+            .replace(hostPrefix, '')
             // Strip slash suffix
             .replace(/\/$/, '')
             // Ensure slash prefix
             .replace(/^\/?/, '/');
+
 
           if (lookupKey in redirects) {
             throw Error(
@@ -36,7 +51,7 @@ export function readStaticRedirects(
           }
 
           if (lookupKey) {
-            redirects[lookupKey] = row.collectionUrl;
+            redirects[lookupKey] = row.targetUrl.trim();
           }
         }
       })

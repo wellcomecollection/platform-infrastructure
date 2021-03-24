@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals';
-import { lookupStaticRedirect } from './lookupStaticRedirect';
+import { lookupRedirect } from './lookupRedirect';
 import { CloudFrontResultResponse } from 'aws-lambda';
 
 test('returns a valid redirect', async () => {
-  const lookupResult = lookupStaticRedirect(
+  const lookupResult = lookupRedirect(
     { '/foo': 'http://www.example.com/bar' },
     '/foo'
   );
@@ -21,9 +21,7 @@ test('returns a valid redirect', async () => {
 });
 
 test('strips trailing slashes', async () => {
-  const lookupResult:
-    | CloudFrontResultResponse
-    | undefined = lookupStaticRedirect(
+  const lookupResult: CloudFrontResultResponse | undefined = lookupRedirect(
     { '/foo': 'http://www.example.com/bar' },
     '/foo/'
   );
@@ -41,7 +39,7 @@ test('strips trailing slashes', async () => {
 });
 
 test('returns undefined when no redirect available', async () => {
-  const lookupResult = lookupStaticRedirect(
+  const lookupResult = lookupRedirect(
     { '/foo': 'http://www.example.com/bar' },
     '/baz'
   );

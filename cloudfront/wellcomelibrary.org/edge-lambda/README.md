@@ -12,6 +12,6 @@ There are a number of redirection patterns implemented here, including:
 
 ## Static redirects
 
-This folder contains the file [redirects.csv](redirects.csv), which lists the static redirects.
+This folder contains the file [staticRedirects.csv](staticRedirects.csv), which lists the static redirects.
 
 If you update the CSV you will need to run `yarn generateStaticRedirects` and commit the resulting `./src/staticRedirects.json`.
