@@ -2,6 +2,15 @@ import { expect, test } from '@jest/globals';
 import { readRedirects } from './readRedirects';
 import path from 'path';
 
+const expectedRedirectHeaders = [
+  undefined,
+  'sourceUrl',
+  'targetUrl',
+  undefined,
+  undefined,
+];
+const expectedHostPrefix = 'wellcomelibrary.org';
+
 test('parses redirects from a CSV', async () => {
   const fileLocation = path.resolve(
     __dirname,
@@ -13,8 +22,11 @@ test('parses redirects from a CSV', async () => {
     '/': 'https://wellcomecollection.org/',
   };
 
-  const expectedHostPrefix = 'wellcomelibrary.org';
-  const staticRedirects = await readRedirects(fileLocation, expectedHostPrefix);
+  const staticRedirects = await readRedirects(
+    fileLocation,
+    expectedHostPrefix,
+    expectedRedirectHeaders
+  );
 
   expect(staticRedirects).toStrictEqual(expectedRedirects);
 });
@@ -29,9 +41,9 @@ test('fails parsing if duplicate records exist', async () => {
   );
   const expectedHostPrefix = 'wellcomelibrary.org';
 
-  await expect(readRedirects(fileLocation, expectedHostPrefix)).rejects.toThrow(
-    expectedError
-  );
+  await expect(
+    readRedirects(fileLocation, expectedHostPrefix, expectedRedirectHeaders)
+  ).rejects.toThrow(expectedError);
 });
 
 test('fails parsing if unexpected hostPrefix found', async () => {
@@ -44,7 +56,7 @@ test('fails parsing if unexpected hostPrefix found', async () => {
   );
   const expectedHostPrefix = 'wellcomelibrary.org';
 
-  await expect(readRedirects(fileLocation, expectedHostPrefix)).rejects.toThrow(
-    expectedError
-  );
+  await expect(
+    readRedirects(fileLocation, expectedHostPrefix, expectedRedirectHeaders)
+  ).rejects.toThrow(expectedError);
 });
