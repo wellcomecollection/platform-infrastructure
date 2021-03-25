@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import chalk from 'chalk';
 
 import { readRedirects } from './src/readRedirects';
@@ -7,14 +7,20 @@ import {
   staticRedirectHeaders,
   staticRedirectsHost,
 } from './staticRedirects';
+import {axiosNoResponse} from "./src/testHelpers";
 
 type CsvHeader = string | undefined;
-type EnvId = 'stage' | 'prod';
+
+type ResponseCheck = Error |undefined
 
 type HostEnvs = {
   prod?: string;
   stage?: string;
 };
+type EnvId = keyof HostEnvs;
+
+const prod: EnvId = 'prod';
+const stage: EnvId = 'stage';
 
 type RedirectResult = {
   error?: Error;
@@ -35,11 +41,20 @@ type RedirectTestSet = {
   headers: CsvHeader[];
   envs: HostEnvs;
   results?: ResultSet;
+  checkResponse: (response: AxiosResponse<any>, toUrl: string) => ResponseCheck
 };
 
 async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
-  const host =
-    env === 'stage' ? redirectTestSet.envs.stage : redirectTestSet.envs.prod;
+  let host: string | undefined;
+
+  switch (env) {
+    case prod:
+      host = redirectTestSet.envs.prod;
+      break;
+    case stage:
+      host = redirectTestSet.envs.stage;
+      break;
+  }
 
   if (!host) {
     return redirectTestSet;
@@ -62,13 +77,7 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
       } as RedirectResult;
 
       try {
-        const axiosResponse = await axios.get(from);
-        const responseUrl = axiosResponse.request.res.responseUrl;
-
-        redirectResult.error =
-          responseUrl !== to
-            ? Error(`Response: ${responseUrl}\nExpected: ${to}`)
-            : undefined;
+        redirectResult.error = redirectTestSet.checkResponse(await axios.get(from), to)
       } catch (e) {
         redirectResult.error = e;
       }
@@ -106,6 +115,27 @@ const displayResultSet = (redirectTestSet: RedirectTestSet) => {
   return redirectTestSet;
 };
 
+const checkMatchingUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
+  const responseUrl = axiosResponse.request.res.responseUrl;
+
+  if(responseUrl !== toUrl) {
+    return Error(`Response: ${responseUrl}\nExpected: ${toUrl}`)
+  }
+}
+
+const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
+  const responseUrl = `${axiosResponse.request.res.responseUrl}`;
+  const wayBackBaseUrl = 'https://wayback.archive-it.org/16107'
+
+  if(!responseUrl.startsWith(wayBackBaseUrl)) {
+    return Error(`Response: ${responseUrl} must start with ${wayBackBaseUrl}`)
+  }
+
+  if(!responseUrl.endsWith(toUrl)) {
+    return Error(`Response: ${responseUrl} must end with ${toUrl}`)
+  }
+}
+
 const itemTestSet = {
   displayName: 'Item pages',
   fileLocation: 'itemRedirects.csv',
@@ -115,6 +145,7 @@ const itemTestSet = {
     stage: 'http://stage.wellcomelibrary.org',
     // prod: 'http://wellcomelibrary.org',
   },
+  checkResponse: checkMatchingUrl
 };
 
 const blogTestSet = {
@@ -126,6 +157,7 @@ const blogTestSet = {
     stage: 'http://blog.stage.wellcomelibrary.org/',
     // prod: 'http://blog.wellcomelibrary.org/',
   },
+  checkResponse: checkMatchingBlogUrl
 };
 
 const apexTestSet = {
@@ -137,6 +169,7 @@ const apexTestSet = {
     stage: 'http://stage.wellcomelibrary.org',
     prod: 'http://wellcomelibrary.org',
   },
+  checkResponse: checkMatchingUrl
 };
 
 const testSets: RedirectTestSet[] = [itemTestSet, blogTestSet, apexTestSet];
