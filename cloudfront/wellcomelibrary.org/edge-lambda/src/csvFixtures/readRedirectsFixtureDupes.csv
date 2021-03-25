@@ -1,4 +1,4 @@
-libraryPageTitle,libraryUrl,collectionUrl,collectionPageTitle,section
+libraryPageTitle,sourceUrl,targetUrl,collectionPageTitle,section
 some title,wellcomelibrary.org/foo,https://wellcomecollection.org/bar,Accessing the collections,
 some title,wellcomelibrary.org/dupe,https://wellcomecollection.org/bat,Accessing the collections,
 some title,wellcomelibrary.org/dupe,https://wellcomecollection.org/bar,Accessing the collections,

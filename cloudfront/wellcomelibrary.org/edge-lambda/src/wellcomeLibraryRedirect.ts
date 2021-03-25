@@ -12,7 +12,7 @@ import {
   createServerError,
 } from './redirectHelpers';
 import { redirectToRoot } from './redirectToRoot';
-import { lookupStaticRedirect } from './lookupStaticRedirect';
+import { lookupRedirect } from './lookupRedirect';
 import { wlorgpLookup } from './wlorgpLookup';
 
 import rawStaticRedirects from './staticRedirects.json';
@@ -57,7 +57,7 @@ async function redirectRequestUri(
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
-  const staticRedirect = lookupStaticRedirect(staticRedirects, uri);
+  const staticRedirect = lookupRedirect(staticRedirects, uri);
 
   if (staticRedirect) {
     return staticRedirect;

@@ -1,24 +1,28 @@
-import path from 'path';
-import fs from 'fs';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import chalk from 'chalk';
 
-type RedirectTest = {
-  host: string;
-  pathTests: Record<string, string>;
-};
+import { readRedirects } from './src/readRedirects';
+import {
+  staticRedirectFileLocation,
+  staticRedirectHeaders,
+  staticRedirectsHost,
+} from './staticRedirects';
+
+type CsvHeader = string | undefined;
+
+type ResponseCheck = Error | undefined;
 
 type HostEnvs = {
-  prod: string;
-  stage: string;
+  prod?: string;
+  stage?: string;
 };
+type EnvId = keyof HostEnvs;
 
-type EnvId = 'stage' | 'prod';
-
-type RedirectTestSet = (env: EnvId) => RedirectTest;
+const prod: EnvId = 'prod';
+const stage: EnvId = 'stage';
 
 type RedirectResult = {
-  error: undefined | Error;
+  error?: Error;
   fromPath: string;
   from: string;
   to: string;
@@ -29,10 +33,41 @@ type ResultSet = {
   results: RedirectResult[];
 };
 
-async function testRedirects(tests: RedirectTest) {
+type RedirectTestSet = {
+  displayName: string;
+  fileLocation: string;
+  fileHostPrefix: string;
+  headers: CsvHeader[];
+  envs: HostEnvs;
+  results?: ResultSet;
+  checkResponse: (response: AxiosResponse<any>, toUrl: string) => ResponseCheck;
+};
+
+async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
+  let host: string | undefined;
+
+  switch (env) {
+    case prod:
+      host = redirectTestSet.envs.prod;
+      break;
+    case stage:
+      host = redirectTestSet.envs.stage;
+      break;
+  }
+
+  if (!host) {
+    return redirectTestSet;
+  }
+
+  const pathTests: Record<string, string> = await readRedirects(
+    redirectTestSet.fileLocation,
+    redirectTestSet.fileHostPrefix,
+    redirectTestSet.headers
+  );
+
   const testResults = await Promise.all(
-    Object.entries(tests.pathTests).map(async ([fromPath, to]) => {
-      const from = `${tests.host}${fromPath}`;
+    Object.entries(pathTests).map(async ([fromPath, to]) => {
+      const from = `${host}${fromPath}`;
 
       const redirectResult = {
         to: to,
@@ -41,13 +76,10 @@ async function testRedirects(tests: RedirectTest) {
       } as RedirectResult;
 
       try {
-        const axiosResponse = await axios.get(from);
-        const responseUrl = axiosResponse.request.res.responseUrl;
-
-        redirectResult.error =
-          responseUrl !== to
-            ? Error(`${from}: ${responseUrl} !== ${to}`)
-            : undefined;
+        redirectResult.error = redirectTestSet.checkResponse(
+          await axios.get(from),
+          to
+        );
       } catch (e) {
         redirectResult.error = e;
       }
@@ -56,75 +88,112 @@ async function testRedirects(tests: RedirectTest) {
     })
   );
 
-  return {
-    host: tests.host,
+  redirectTestSet.results = {
+    host: host,
     results: testResults,
-  } as ResultSet;
+  };
+
+  return redirectTestSet;
 }
 
-// Blog tests
-const getBlogTests: RedirectTestSet = (env: EnvId) => {
-  const blogEnvs: HostEnvs = {
+const displayResultSet = (redirectTestSet: RedirectTestSet) => {
+  console.log(chalk.blue.underline.bold(`\n${redirectTestSet.displayName}`));
+
+  if (redirectTestSet.results) {
+    const resultSet = redirectTestSet.results;
+    console.log(chalk.blue.bold(`${resultSet.host}`));
+
+    resultSet.results.forEach((result) => {
+      if (result.error) {
+        console.error(chalk.red(`✘ ${result.from}\n${result.error}`));
+      } else {
+        console.info(chalk.green(`✓ ${result.fromPath}`));
+      }
+    });
+  } else {
+    console.info('No results');
+  }
+
+  return redirectTestSet;
+};
+
+const checkMatchingUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
+  const responseUrl = axiosResponse.request.res.responseUrl;
+
+  if (responseUrl !== toUrl) {
+    return Error(`Response: ${responseUrl}\nExpected: ${toUrl}`);
+  }
+};
+
+const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
+  const responseUrl = `${axiosResponse.request.res.responseUrl}`;
+  const wayBackBaseUrl = 'https://wayback.archive-it.org/16107';
+
+  if (!responseUrl.startsWith(wayBackBaseUrl)) {
+    return Error(`Response: ${responseUrl} must start with ${wayBackBaseUrl}`);
+  }
+
+  if (!responseUrl.endsWith(toUrl)) {
+    return Error(`Response: ${responseUrl} must end with ${toUrl}`);
+  }
+};
+
+const itemTestSet = {
+  displayName: 'Item pages',
+  fileLocation: 'itemRedirects.csv',
+  fileHostPrefix: 'wellcomelibrary.org',
+  headers: staticRedirectHeaders,
+  envs: {
+    stage: 'http://stage.wellcomelibrary.org',
+    // prod: 'http://wellcomelibrary.org',
+  },
+  checkResponse: checkMatchingUrl,
+};
+
+const blogTestSet = {
+  displayName: 'Library blog',
+  fileLocation: 'blogRedirects.csv',
+  fileHostPrefix: 'blog.wellcomelibrary.org',
+  headers: ['sourceUrl', 'targetUrl'],
+  envs: {
     stage: 'http://blog.stage.wellcomelibrary.org/',
     prod: 'http://blog.wellcomelibrary.org/',
-  };
-
-  const host = env === 'stage' ? blogEnvs.stage : blogEnvs.prod;
-
-  const blogRedirectPaths = {
-    '/2018/05/goodbye-from-wellcome-library-blog/':
-      'https://wayback.archive-it.org/16107-test/20210302041159/http://blog.wellcomelibrary.org/2018/05/goodbye-from-wellcome-library-blog/',
-    '/':
-      'https://wayback.archive-it.org/16107-test/20210301155649/http://blog.wellcomelibrary.org/',
-  };
-
-  return {
-    host: host,
-    pathTests: blogRedirectPaths,
-  };
+  },
+  checkResponse: checkMatchingBlogUrl,
 };
 
-// Apex tests
-const getApexTests: RedirectTestSet = (env: EnvId) => {
-  const apexEnvs: HostEnvs = {
+const apexTestSet = {
+  displayName: 'Apex (Content management) pages',
+  fileLocation: staticRedirectFileLocation,
+  fileHostPrefix: staticRedirectsHost,
+  headers: staticRedirectHeaders,
+  envs: {
     stage: 'http://stage.wellcomelibrary.org',
     prod: 'http://wellcomelibrary.org',
-  };
+  },
+  checkResponse: checkMatchingUrl,
+};
 
-  const host = env === 'stage' ? apexEnvs.stage : apexEnvs.prod;
+const testSets: RedirectTestSet[] = [itemTestSet, blogTestSet, apexTestSet];
 
-  const jsonFileLocation = path.resolve(
-    __dirname,
-    './src/staticRedirects.json'
+const runTests = async (envId: EnvId) => {
+  const testResults = await Promise.all(
+    testSets
+      .map(async (testSet) => await testRedirects(envId, testSet))
+      .map(async (resultsSet) => displayResultSet(await resultsSet))
   );
-  const jsonData = fs.readFileSync(jsonFileLocation, 'utf8');
-  const rawStaticRedirects = JSON.parse(jsonData);
 
-  const apexStaticRedirectPaths = rawStaticRedirects as Record<string, string>;
+  const foundErrors = testResults.filter(
+    (testSet) =>
+      testSet.results && testSet.results.results.find((result) => result.error)
+  );
 
-  return {
-    host: host,
-    pathTests: apexStaticRedirectPaths,
-  };
+  if (foundErrors.length >= 1) {
+    console.error(chalk.red(`\nFound failed redirects! ✘✘✘`));
+    process.exit(1);
+  } else {
+    console.log(chalk.greenBright(`\nAll redirections successful ✓✓✓`));
+  }
 };
-
-const testSets: RedirectTestSet[] = [getBlogTests, getApexTests];
-
-const displayResultSet = (resultSet: ResultSet) => {
-  console.log(chalk.blue.underline.bold(`\n${resultSet.host}`));
-  resultSet.results.forEach((result) => {
-    if (result.error) {
-      console.error(chalk.red(`✘ ${result.from}: ${result.error}`));
-    } else {
-      console.info(chalk.green(`✓ ${result.fromPath}`));
-    }
-  });
-};
-
-const runTests = async (env: EnvId) =>
-  testSets
-    .map((getTests) => getTests(env))
-    .map(async tests => await testRedirects(tests))
-    .forEach(async resultsSet => displayResultSet(await resultsSet));
 
 runTests(process.argv[2] as EnvId);

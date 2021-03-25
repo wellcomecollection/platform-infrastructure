@@ -1,0 +1,6 @@
+libraryPageTitle,sourceUrl,targetUrl,collectionPageTitle,section
+some title,wellcomelibrary.org/trailing-slash/,https://wellcomecollection.org/trailing-slash,Accessing the collections,
+some title,wellcomelibrary.org/no-trailing-slash,https://wellcomecollection.org/no-trailing-slash,Accessing the collections,
+some title,wellcomelibrary.org,https://wellcomecollection.org/,Accessing the collections,
+
+

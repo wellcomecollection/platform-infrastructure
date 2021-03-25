@@ -3,8 +3,7 @@ import { createRedirect, createServerError } from './redirectHelpers';
 import { CloudFrontRequestEvent, Context } from 'aws-lambda';
 
 export const blogHost = 'https://blog.wellcomelibrary.org';
-export const waybackPrefix =
-  'https://wayback.archive-it.org/16107-test/20210301160111/';
+export const waybackPrefix = 'https://wayback.archive-it.org/16107/';
 
 export const requestHandler = async (
   event: CloudFrontRequestEvent,
