@@ -1,0 +1,14 @@
+sourceUrl,targetUrl
+wellcomelibrary.org/iiif/b28047345/manifest,https://iiif.wellcomecollection.org/presentation/v2/b28047345
+wellcomelibrary.org/iiif/collection/b18031511,https://iiif.wellcomecollection.org/presentation/v2/b18031511
+wellcomelibrary.org/iiif/b18031511-2/manifest,https://iiif.wellcomecollection.org/presentation/v2/b18031511_0003
+wellcomelibrary.org/item/b18031511,https://wellcomecollection.org/works/ysmqsfhg
+wellcomelibrary.org/annoservices/search/b28047345,https://iiif.wellcomecollection.org/search/v0/b28047345
+wellcomelibrary.org/annoservices/autocomplete/b28047345,https://iiif.wellcomecollection.org/search/autocomplete/v1/b28047345
+wellcomelibrary.org/service/fulltext/b28047345/0?raw=true,https://iiif.wellcomecollection.org/text/v1/b28047345
+wellcomelibrary.org/service/fulltext/b18031511/3?raw=true,https://iiif.wellcomecollection.org/text/v1/b18031511_0004
+wellcomelibrary.org/service/alto/b29350542/2?image=100,https://iiif.wellcomecollection.org/text/alto/b29350542_0003/b29350542_0003_0101.jp2
+wellcomelibrary.org/service/alto/b28047345/0?image=400,https://iiif.wellcomecollection.org/text/alto/b28047345/b28047345_0403.jp2
+wellcomelibrary.org/iiif/b28047345/contentAsText/53,https://iiif.wellcomecollection.org/annotations/v2/b28047345/b28047345_0056.jp2/line
+wellcomelibrary.org/iiif/b28047345/images,https://iiif.wellcomecollection.org/annotations/v2/b28047345/images
+wellcomelibrary.org/iiif/b28047345/allcontent,https://iiif.wellcomecollection.org/annotations/v2/b28047345/all/line
