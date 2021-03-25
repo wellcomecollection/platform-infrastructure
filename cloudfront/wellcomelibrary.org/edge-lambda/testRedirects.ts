@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import chalk from 'chalk';
 
 import { readRedirects } from './src/readRedirects';
@@ -7,11 +7,10 @@ import {
   staticRedirectHeaders,
   staticRedirectsHost,
 } from './staticRedirects';
-import {axiosNoResponse} from "./src/testHelpers";
 
 type CsvHeader = string | undefined;
 
-type ResponseCheck = Error |undefined
+type ResponseCheck = Error | undefined;
 
 type HostEnvs = {
   prod?: string;
@@ -41,7 +40,7 @@ type RedirectTestSet = {
   headers: CsvHeader[];
   envs: HostEnvs;
   results?: ResultSet;
-  checkResponse: (response: AxiosResponse<any>, toUrl: string) => ResponseCheck
+  checkResponse: (response: AxiosResponse<any>, toUrl: string) => ResponseCheck;
 };
 
 async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
@@ -77,7 +76,10 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
       } as RedirectResult;
 
       try {
-        redirectResult.error = redirectTestSet.checkResponse(await axios.get(from), to)
+        redirectResult.error = redirectTestSet.checkResponse(
+          await axios.get(from),
+          to
+        );
       } catch (e) {
         redirectResult.error = e;
       }
@@ -118,23 +120,23 @@ const displayResultSet = (redirectTestSet: RedirectTestSet) => {
 const checkMatchingUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
   const responseUrl = axiosResponse.request.res.responseUrl;
 
-  if(responseUrl !== toUrl) {
-    return Error(`Response: ${responseUrl}\nExpected: ${toUrl}`)
+  if (responseUrl !== toUrl) {
+    return Error(`Response: ${responseUrl}\nExpected: ${toUrl}`);
   }
-}
+};
 
 const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
   const responseUrl = `${axiosResponse.request.res.responseUrl}`;
-  const wayBackBaseUrl = 'https://wayback.archive-it.org/16107'
+  const wayBackBaseUrl = 'https://wayback.archive-it.org/16107';
 
-  if(!responseUrl.startsWith(wayBackBaseUrl)) {
-    return Error(`Response: ${responseUrl} must start with ${wayBackBaseUrl}`)
+  if (!responseUrl.startsWith(wayBackBaseUrl)) {
+    return Error(`Response: ${responseUrl} must start with ${wayBackBaseUrl}`);
   }
 
-  if(!responseUrl.endsWith(toUrl)) {
-    return Error(`Response: ${responseUrl} must end with ${toUrl}`)
+  if (!responseUrl.endsWith(toUrl)) {
+    return Error(`Response: ${responseUrl} must end with ${toUrl}`);
   }
-}
+};
 
 const itemTestSet = {
   displayName: 'Item pages',
@@ -145,7 +147,7 @@ const itemTestSet = {
     stage: 'http://stage.wellcomelibrary.org',
     // prod: 'http://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl
+  checkResponse: checkMatchingUrl,
 };
 
 const blogTestSet = {
@@ -155,9 +157,9 @@ const blogTestSet = {
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
     stage: 'http://blog.stage.wellcomelibrary.org/',
-    // prod: 'http://blog.wellcomelibrary.org/',
+    prod: 'http://blog.wellcomelibrary.org/',
   },
-  checkResponse: checkMatchingBlogUrl
+  checkResponse: checkMatchingBlogUrl,
 };
 
 const apexTestSet = {
@@ -169,7 +171,7 @@ const apexTestSet = {
     stage: 'http://stage.wellcomelibrary.org',
     prod: 'http://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl
+  checkResponse: checkMatchingUrl,
 };
 
 const testSets: RedirectTestSet[] = [itemTestSet, blogTestSet, apexTestSet];
