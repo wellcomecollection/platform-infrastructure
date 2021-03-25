@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY rewrite_tests.py .
 
-ENTRYPOINT rewrite_tests.py
+ENTRYPOINT ["python", "./rewrite_tests.py"]
