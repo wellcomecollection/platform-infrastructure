@@ -52,8 +52,13 @@ async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
 }
 
 async function redirectRequestUri(
-  uri: string
+  request: CloudFrontRequest
 ): Promise<undefined | CloudFrontResultResponse> {
+  let uri = request.uri;
+  if (request.querystring) {
+    uri = `${uri}?${request.querystring}`;
+  }
+
   const itemPathRegExp: RegExp = /^\/item\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
@@ -81,7 +86,7 @@ export const requestHandler = async (
     return rootRedirect;
   }
 
-  const requestRedirect = await redirectRequestUri(request.uri);
+  const requestRedirect = await redirectRequestUri(request);
 
   if (requestRedirect) {
     return requestRedirect;
