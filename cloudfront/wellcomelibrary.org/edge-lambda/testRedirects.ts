@@ -138,14 +138,26 @@ const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
   }
 };
 
+const apiTestSet = {
+  displayName: 'Library API',
+  fileLocation: 'apiRedirects.csv',
+  fileHostPrefix: 'wellcomelibrary.org',
+  headers: ['sourceUrl', 'targetUrl'],
+  envs: {
+    stage: 'https://stage.wellcomelibrary.org',
+    // prod: 'https://wellcomelibrary.org',
+  },
+  checkResponse: checkMatchingUrl,
+};
+
 const itemTestSet = {
   displayName: 'Item pages',
   fileLocation: 'itemRedirects.csv',
   fileHostPrefix: 'wellcomelibrary.org',
   headers: staticRedirectHeaders,
   envs: {
-    stage: 'http://stage.wellcomelibrary.org',
-    // prod: 'http://wellcomelibrary.org',
+    stage: 'https://stage.wellcomelibrary.org',
+    // prod: 'https://wellcomelibrary.org',
   },
   checkResponse: checkMatchingUrl,
 };
@@ -156,8 +168,8 @@ const blogTestSet = {
   fileHostPrefix: 'blog.wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
-    stage: 'http://blog.stage.wellcomelibrary.org/',
-    prod: 'http://blog.wellcomelibrary.org/',
+    stage: 'https://blog.stage.wellcomelibrary.org/',
+    prod: 'https://blog.wellcomelibrary.org/',
   },
   checkResponse: checkMatchingBlogUrl,
 };
@@ -168,13 +180,18 @@ const apexTestSet = {
   fileHostPrefix: staticRedirectsHost,
   headers: staticRedirectHeaders,
   envs: {
-    stage: 'http://stage.wellcomelibrary.org',
-    prod: 'http://wellcomelibrary.org',
+    stage: 'https://stage.wellcomelibrary.org',
+    prod: 'https://wellcomelibrary.org',
   },
   checkResponse: checkMatchingUrl,
 };
 
-const testSets: RedirectTestSet[] = [itemTestSet, blogTestSet, apexTestSet];
+const testSets: RedirectTestSet[] = [
+  apiTestSet,
+  itemTestSet,
+  blogTestSet,
+  apexTestSet,
+];
 
 const runTests = async (envId: EnvId) => {
   const testResults = await Promise.all(

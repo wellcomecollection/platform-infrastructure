@@ -17,7 +17,7 @@ import {
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { expect, jest, test } from '@jest/globals';
 
 import rawStaticRedirects from './staticRedirects.json';
@@ -38,10 +38,13 @@ test('redirects www. to root', () => {
   );
 });
 
+type GenerateData = (uri?: string) => any;
+
 type ExpectedRewrite = {
-  in: string;
+  uri: string;
+  queryString?: string;
   out: CloudFrontResultResponse | CloudFrontRequest;
-  data?: any;
+  generateData?: GenerateData;
   error?: Error;
 };
 
@@ -49,101 +52,110 @@ const rewriteTests = (): ExpectedRewrite[] => {
   return [
     // Item page tests
     {
-      in: '/item/b21293302',
+      uri: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
-      data: testDataSingleResult,
+      generateData: () => testDataSingleResult,
     },
     {
-      in: '/item/b21293302',
+      uri: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
-      data: testDataNoResults,
+      generateData: () => testDataNoResults,
     },
     {
-      in: '/item/not-bnumber',
+      uri: '/item/not-bnumber',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
     },
     {
-      in: '/not-item',
+      uri: '/not-item',
       out: expectedPassthru('/not-item'),
     },
     // Events pages redirect
     {
-      in: '/events',
+      uri: '/events',
       out: expectedRedirect('https://wellcomecollection.org/whats-on'),
     },
     {
-      in: '/events/any-thing',
+      uri: '/events/any-thing',
       out: expectedRedirect('https://wellcomecollection.org/whats-on'),
     },
     // Static redirects (complementary to staticRedirectTests)
     {
-      in: '/using-the-library/',
+      uri: '/using-the-library/',
       out: expectedRedirect(
         'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'
       ),
     },
     {
-      in: '/using-the-library',
+      uri: '/using-the-library',
       out: expectedRedirect(
         'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm'
       ),
     },
     // API uris redirect
     {
-      in: '/iiif/collection/happy-path',
+      uri: '/iiif/collection/happy-path',
       out: expectedCORSRedirect(
         'https://iiif.wellcomecollection.org/presentation/v2/happy-path'
       ),
-      data: 'https://iiif.wellcomecollection.org/presentation/v2/happy-path',
+      generateData: () =>
+        'https://iiif.wellcomecollection.org/presentation/v2/happy-path',
     },
     {
-      in: '/iiif/collection/not-found',
+      uri: '/iiif/collection/not-found',
       out: expectedServerError(
         'Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/not-found'
       ),
       error: axios404,
     },
     {
-      in: '/iiif/collection/no-response',
+      uri: '/iiif/collection/no-response',
       out: expectedServerError(
         'No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/no-response'
       ),
       error: axiosNoResponse,
     },
     {
-      in: '/iiif/collection/error',
+      uri: '/iiif/collection/error',
       out: expectedServerError(
         'Unknown error from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/error: Error: nope'
       ),
       error: Error('nope'),
     },
     {
-      in: '/iiif/collection/invalid-url',
+      uri: '/iiif/collection/invalid-url',
       out: expectedServerError('Invalid URL: not_a_url'),
-      data: 'not_a_url',
+      generateData: () => 'not_a_url',
     },
     {
-      in: '/service/alto/happy-path/0?image=400',
+      uri: '/service/alto/happy-path/0',
+      queryString: 'image=400',
       out: expectedCORSRedirect(
         'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2'
       ),
-      data:
-        'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2',
+      generateData: (url) => {
+        // Simulate doing a lookup with a query string
+        if (url?.endsWith('/service/alto/happy-path/0?image=400')) {
+          return 'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2';
+        } else {
+          return 'https://example.com/badpath';
+        }
+      },
     },
     {
-      in: '/ddsconf/happy-path',
+      uri: '/ddsconf/happy-path',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      data: 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/dds-static/happy-path',
+      uri: '/dds-static/happy-path',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      data: 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
-      in: '/annoservices/search/happy-path?q=butterfly',
+      uri: '/annoservices/search/happy-path',
+      queryString: 'q=butterfly',
       out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      data: 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
   ];
 };
@@ -151,7 +163,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
 test.each(rewriteTests())(
   'Request path is rewritten: %o',
   async (expected: ExpectedRewrite) => {
-    const request = testRequest(expected.in);
+    const request = testRequest(expected.uri, expected.queryString);
 
     if (expected.error) {
       mockedAxios.get.mockImplementation(async () => {
@@ -159,8 +171,20 @@ test.each(rewriteTests())(
       });
     }
 
-    if (expected.data) {
-      mockedAxios.get.mockResolvedValueOnce({ data: expected.data });
+    if (expected.generateData) {
+      mockedAxios.get.mockImplementationOnce(
+        async (url: string, config?: AxiosRequestConfig) => {
+          const dataGenerator = expected.generateData as GenerateData;
+
+          return {
+            data: dataGenerator(url),
+            status: 200,
+            statusText: 'OK',
+            headers: {},
+            config: {},
+          } as AxiosResponse;
+        }
+      );
     }
 
     const originRequest = await origin.requestHandler(request, {} as Context);
@@ -172,19 +196,19 @@ test.each(rewriteTests())(
 const staticRedirectTests = Object.entries(staticRedirects).map(
   ([path, redirect]) => {
     return {
-      in: path,
+      uri: path,
       out: expectedRedirect(redirect),
-    };
+    } as ExpectedRewrite;
   }
 );
 
 test.each(staticRedirectTests)(
   'Request path is rewritten: %o',
   async (expected: ExpectedRewrite) => {
-    const request = testRequest(expected.in);
+    const request = testRequest(expected.uri);
 
-    if (expected.data) {
-      mockedAxios.get.mockResolvedValueOnce({ data: expected.data });
+    if (expected.generateData) {
+      mockedAxios.get.mockResolvedValueOnce({ data: expected.generateData });
     }
 
     const originRequest = await origin.requestHandler(request, {} as Context);

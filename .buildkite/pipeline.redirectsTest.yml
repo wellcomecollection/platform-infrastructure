@@ -1,4 +1,27 @@
 steps:
+  - label: "IIIF TEST Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: iiif_tests
+          command: ["--env", "test"]
+
+  - label: "IIIF STAGE Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: iiif_tests
+          command: ["--env", "stage"]
+
+  - label: "IIIF PROD Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: iiif_tests
+
   - label: "Wellcome Library STAGE Redirects"
     plugins:
       - ecr#v2.1.1:
