@@ -48,7 +48,7 @@ async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
     return createServerError(apiRedirectUri);
   }
 
-  return createRedirect(apiRedirectUri, true);
+  return createRedirect(apiRedirectUri);
 }
 
 async function redirectRequestUri(

@@ -4,21 +4,6 @@ import {
 } from 'aws-lambda/common/cloudfront';
 import { AxiosError, AxiosResponse } from 'axios';
 
-export function expectedRedirect(uri: string): CloudFrontResultResponse {
-  return {
-    status: '302',
-    statusDescription: `Redirecting to ${uri}`,
-    headers: {
-      location: [
-        {
-          key: 'Location',
-          value: uri,
-        },
-      ],
-    },
-  } as CloudFrontResultResponse;
-}
-
 export function expectedServerError(
   description: string
 ): CloudFrontResultResponse {
@@ -28,7 +13,7 @@ export function expectedServerError(
   } as CloudFrontResultResponse;
 }
 
-export function expectedCORSRedirect(uri: string): CloudFrontResultResponse {
+export function expectedRedirect(uri: string): CloudFrontResultResponse {
   return {
     status: '302',
     statusDescription: `Redirecting to ${uri}`,

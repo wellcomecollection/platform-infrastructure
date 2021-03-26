@@ -6,15 +6,12 @@ export const wellcomeCollectionNotFoundRedirect = createRedirect(
   new URL(`${wellcomeCollectionHost}/works/not-found`)
 );
 
-export function wellcomeCollectionRedirect(
-  path: string,
-  cors: boolean = false
-) {
+export function wellcomeCollectionRedirect(path: string) {
   const wellcomeCollectionUrl = new URL(`${wellcomeCollectionHost}${path}`);
-  return createRedirect(wellcomeCollectionUrl, cors);
+  return createRedirect(wellcomeCollectionUrl);
 }
 
-export function createRedirect(url: URL, cors: boolean = false) {
+export function createRedirect(url: URL) {
   const locationHeaders = {
     location: [
       {
@@ -33,9 +30,7 @@ export function createRedirect(url: URL, cors: boolean = false) {
     ],
   };
 
-  const headers = cors
-    ? { ...locationHeaders, ...corsHeaders }
-    : locationHeaders;
+  const headers = { ...locationHeaders, ...corsHeaders };
 
   return {
     status: '302',

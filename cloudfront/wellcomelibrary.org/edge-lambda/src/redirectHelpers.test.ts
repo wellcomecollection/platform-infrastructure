@@ -17,5 +17,11 @@ test('returns a valid redirect', () => {
         value: 'https://www.example.com/',
       },
     ],
+    'access-control-allow-origin': [
+      {
+        key: 'Access-Control-Allow-Origin',
+        value: '*',
+      },
+    ],
   });
 });

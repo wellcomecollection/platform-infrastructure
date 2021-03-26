@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals';
 import { redirectToRoot } from './redirectToRoot';
 import { createCloudFrontRequest } from './testEventRequest';
-import { expectedCORSRedirect } from './testHelpers';
+import { expectedRedirect } from './testHelpers';
 
 test('http requests are redirected to https', () => {
   const request = createCloudFrontRequest('/foo', undefined, {
@@ -14,7 +14,7 @@ test('http requests are redirected to https', () => {
   const redirectResult = redirectToRoot(request);
 
   expect(redirectResult).toEqual(
-    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+    expectedRedirect('https://wellcomelibrary.org/foo')
   );
 });
 
@@ -29,7 +29,7 @@ test('redirects www. to root', () => {
   const redirectResult = redirectToRoot(request);
 
   expect(redirectResult).toEqual(
-    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+    expectedRedirect('https://wellcomelibrary.org/foo')
   );
 });
 
@@ -44,7 +44,7 @@ test('redirects http AND www. to root/https together', () => {
   const redirectResult = redirectToRoot(request);
 
   expect(redirectResult).toEqual(
-    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+    expectedRedirect('https://wellcomelibrary.org/foo')
   );
 });
 

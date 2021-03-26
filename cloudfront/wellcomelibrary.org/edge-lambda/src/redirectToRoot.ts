@@ -27,16 +27,12 @@ export function redirectToRoot(request: CloudFrontRequest) {
     if (isWww) {
       const rootRequestHost = requestHost.replace('www.', '');
       return createRedirect(
-        new URL(`https://${rootRequestHost}${request.uri}`),
-        true
+        new URL(`https://${rootRequestHost}${request.uri}`)
       );
     }
 
     if (isHttp) {
-      return createRedirect(
-        new URL(`https://${requestHost}${request.uri}`),
-        true
-      );
+      return createRedirect(new URL(`https://${requestHost}${request.uri}`));
     }
   }
 }

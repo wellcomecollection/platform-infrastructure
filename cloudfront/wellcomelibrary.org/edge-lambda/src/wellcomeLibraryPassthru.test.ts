@@ -2,7 +2,7 @@ import { expect, test } from '@jest/globals';
 import testRequest from './testEventRequest';
 import * as origin from './wellcomeLibraryPassthru';
 import { Context } from 'aws-lambda';
-import { expectedCORSRedirect } from './testHelpers';
+import { expectedRedirect } from './testHelpers';
 
 test('redirects www. to root', () => {
   const request = testRequest('/foo', undefined, {
@@ -15,7 +15,7 @@ test('redirects www. to root', () => {
   const resultPromise = origin.requestHandler(request, {} as Context);
 
   return expect(resultPromise).resolves.toEqual(
-    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+    expectedRedirect('https://wellcomelibrary.org/foo')
   );
 });
 
@@ -30,7 +30,7 @@ test('http requests are redirected to https', () => {
   const resultPromise = origin.requestHandler(request, {} as Context);
 
   return expect(resultPromise).resolves.toEqual(
-    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+    expectedRedirect('https://wellcomelibrary.org/foo')
   );
 });
 

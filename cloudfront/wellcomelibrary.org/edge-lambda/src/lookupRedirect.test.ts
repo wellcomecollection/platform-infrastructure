@@ -11,6 +11,12 @@ test('returns a valid redirect', async () => {
   const expectedRedirect = {
     headers: {
       location: [{ key: 'Location', value: 'http://www.example.com/bar' }],
+      'access-control-allow-origin': [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: '*',
+        },
+      ],
     },
     status: '302',
     statusDescription: 'Redirecting to http://www.example.com/bar',
@@ -29,6 +35,12 @@ test('strips trailing slashes', async () => {
   const expectedRedirect = {
     headers: {
       location: [{ key: 'Location', value: 'http://www.example.com/bar' }],
+      'access-control-allow-origin': [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: '*',
+        },
+      ],
     },
     status: '302',
     statusDescription: 'Redirecting to http://www.example.com/bar',
