@@ -62,7 +62,7 @@ resource "aws_cloudfront_distribution" "distro" {
 
       forwarded_values {
         query_string = true
-        headers      = concat(
+        headers = concat(
           ordered_cache_behavior.value["headers"],
           var.default_forwarded_headers
         )
