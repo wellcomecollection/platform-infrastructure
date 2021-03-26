@@ -14,7 +14,7 @@ Wellcome Collection common infrastructure.
 
 - [critical](critical/README.md): Shared infrastructure for all projects, split into user_facing (api/cognito) and back_end (logs, shared config, networking).
 
-- [dns](dns/README.md): Managing the infrastructure for Wellcome Collection's DNS.
+- [cloudfront](cloudfront/README.md): Managing the infrastructure for Wellcome Collection's CloudFront distributions & DNS.
 
 - [monitoring](monitoring/README.md): Grafana platform monitoring stack.
 
