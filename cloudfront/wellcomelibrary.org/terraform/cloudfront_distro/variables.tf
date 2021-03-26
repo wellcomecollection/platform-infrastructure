@@ -48,3 +48,7 @@ variable "behaviours" {
 
   default = []
 }
+
+variable "default_viewer_protocol_policy" {
+  default = "redirect-to-https"
+}

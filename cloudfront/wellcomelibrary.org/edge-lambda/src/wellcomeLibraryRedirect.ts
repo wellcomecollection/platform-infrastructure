@@ -80,8 +80,8 @@ export const requestHandler = async (
   _: Context
 ) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
-
   const rootRedirect = redirectToRoot(request);
+
   if (rootRedirect) {
     return rootRedirect;
   }

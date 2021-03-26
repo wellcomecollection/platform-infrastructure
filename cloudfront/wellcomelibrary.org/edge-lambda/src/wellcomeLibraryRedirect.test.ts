@@ -29,12 +29,30 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 test('redirects www. to root', () => {
   const request = testRequest('/foo', undefined, {
     host: [{ key: 'host', value: 'www.wellcomelibrary.org' }],
+    'cloudfront-forwarded-proto': [
+      { key: 'cloudfront-forwarded-proto', value: 'https' },
+    ],
   });
 
   const resultPromise = origin.requestHandler(request, {} as Context);
 
   return expect(resultPromise).resolves.toEqual(
-    expectedRedirect('https://wellcomelibrary.org/foo')
+    expectedCORSRedirect('https://wellcomelibrary.org/foo')
+  );
+});
+
+test('http requests are redirected to https', () => {
+  const request = testRequest('/foo', undefined, {
+    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+    'cloudfront-forwarded-proto': [
+      { key: 'cloudfront-forwarded-proto', value: 'http' },
+    ],
+  });
+
+  const resultPromise = origin.requestHandler(request, {} as Context);
+
+  return expect(resultPromise).resolves.toEqual(
+    expectedCORSRedirect('https://wellcomelibrary.org/foo')
   );
 });
 

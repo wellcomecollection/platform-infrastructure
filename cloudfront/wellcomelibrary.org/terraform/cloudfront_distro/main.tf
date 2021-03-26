@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "distro" {
     default_ttl = null
     max_ttl     = null
 
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = var.default_viewer_protocol_policy
   }
 
   dynamic "ordered_cache_behavior" {
