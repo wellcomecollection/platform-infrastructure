@@ -33,7 +33,7 @@ resource "aws_cloudfront_distribution" "distro" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Host"]
+      headers      = var.default_forwarded_headers
 
       cookies {
         forward = "all"
@@ -62,7 +62,10 @@ resource "aws_cloudfront_distribution" "distro" {
 
       forwarded_values {
         query_string = true
-        headers      = ordered_cache_behavior.value["headers"]
+        headers      = concat(
+          ordered_cache_behavior.value["headers"],
+          var.default_forwarded_headers
+        )
 
         cookies {
           forward = ordered_cache_behavior.value["cookies"]

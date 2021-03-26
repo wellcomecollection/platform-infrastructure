@@ -15,6 +15,7 @@ module "wellcomelibrary_blog-prod" {
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
   default_lambda_function_association_lambda_arn = local.wellcome_library_blog_redirect_arn_prod
+  default_forwarded_headers = ["Host"]
 }
 
 module "wellcomelibrary_blog-stage" {
@@ -34,6 +35,7 @@ module "wellcomelibrary_blog-stage" {
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
   default_lambda_function_association_lambda_arn = local.wellcome_library_blog_redirect_arn_stage
+  default_forwarded_headers = ["Host"]
 }
 
 resource "aws_route53_record" "blog-prod" {

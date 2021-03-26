@@ -13,8 +13,14 @@ variable "default_target_origin_id" {
 variable "default_lambda_function_association_event_type" {
   type = string
 }
+
 variable "default_lambda_function_association_lambda_arn" {
   type = string
+}
+
+variable "default_forwarded_headers" {
+  type = list(string)
+  default = []
 }
 
 variable "origins" {
