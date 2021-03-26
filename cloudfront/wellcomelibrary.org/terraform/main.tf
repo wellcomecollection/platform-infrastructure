@@ -36,6 +36,6 @@ module "wellcomelibrary-stage" {
 
   // For a description of CloudFront-Forwarded-Proto see:
   // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-cloudfront-headers.html
-  default_forwarded_headers = ["Host", "CloudFront-Forwarded-Proto"]
+  default_forwarded_headers      = ["Host", "CloudFront-Forwarded-Proto"]
   default_viewer_protocol_policy = "allow-all"
 }
