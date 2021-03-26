@@ -19,7 +19,7 @@ variable "default_lambda_function_association_lambda_arn" {
 }
 
 variable "default_forwarded_headers" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
