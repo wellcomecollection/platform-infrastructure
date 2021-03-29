@@ -43,20 +43,21 @@ def validate_auth(info_json, regex):
         if not json:
             return
 
-        service = json.get("service", [])
+        service_description = json.get("service",[])
 
-        for s in service:
-            info_id = s.get("@id", None)
-            if not p.match(info_id):
-                click.echo(
-                    click.style(
-                        f"Id fail - expected '{regex}' but found '{info_id}'", fg="red"
+        if "service" in service_description:
+            for service in service_description["service"]:
+                info_id = service.get("@id", None)
+                if not p.match(info_id):
+                    click.echo(
+                        click.style(
+                            f"Id fail - expected '{regex}' but found '{info_id}'", fg="red"
+                        )
                     )
-                )
-            else:
-                click.echo(click.style(f"Found '{info_id}'", fg="green"))
+                else:
+                    click.echo(click.style(f"Found '{info_id}'", fg="green"))
 
-            validate_service(s)
+                validate_service(service)
 
     validate_service(info_json)
 
