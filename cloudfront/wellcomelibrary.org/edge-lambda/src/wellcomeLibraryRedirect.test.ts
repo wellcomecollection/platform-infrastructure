@@ -8,7 +8,6 @@ import {
 import {
   axios404,
   axiosNoResponse,
-  expectedCORSRedirect,
   expectedPassthru,
   expectedRedirect,
   expectedServerError,
@@ -29,6 +28,24 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 test('redirects www. to root', () => {
   const request = testRequest('/foo', undefined, {
     host: [{ key: 'host', value: 'www.wellcomelibrary.org' }],
+    'cloudfront-forwarded-proto': [
+      { key: 'cloudfront-forwarded-proto', value: 'https' },
+    ],
+  });
+
+  const resultPromise = origin.requestHandler(request, {} as Context);
+
+  return expect(resultPromise).resolves.toEqual(
+    expectedRedirect('https://wellcomelibrary.org/foo')
+  );
+});
+
+test('http requests are redirected to https', () => {
+  const request = testRequest('/foo', undefined, {
+    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+    'cloudfront-forwarded-proto': [
+      { key: 'cloudfront-forwarded-proto', value: 'http' },
+    ],
   });
 
   const resultPromise = origin.requestHandler(request, {} as Context);
@@ -94,7 +111,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
     // API uris redirect
     {
       uri: '/iiif/collection/happy-path',
-      out: expectedCORSRedirect(
+      out: expectedRedirect(
         'https://iiif.wellcomecollection.org/presentation/v2/happy-path'
       ),
       generateData: () =>
@@ -129,7 +146,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
     {
       uri: '/service/alto/happy-path/0',
       queryString: 'image=400',
-      out: expectedCORSRedirect(
+      out: expectedRedirect(
         'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2'
       ),
       generateData: (url) => {
@@ -143,18 +160,18 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/ddsconf/happy-path',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
+      out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
       uri: '/dds-static/happy-path',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
+      out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
     {
       uri: '/annoservices/search/happy-path',
       queryString: 'q=butterfly',
-      out: expectedCORSRedirect('https://iiif.wellcomecollection.org/bar/bat'),
+      out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
     },
   ];

@@ -48,7 +48,7 @@ async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
     return createServerError(apiRedirectUri);
   }
 
-  return createRedirect(apiRedirectUri, true);
+  return createRedirect(apiRedirectUri);
 }
 
 async function redirectRequestUri(
@@ -80,8 +80,8 @@ export const requestHandler = async (
   _: Context
 ) => {
   const request: CloudFrontRequest = event.Records[0].cf.request;
-
   const rootRedirect = redirectToRoot(request);
+
   if (rootRedirect) {
     return rootRedirect;
   }

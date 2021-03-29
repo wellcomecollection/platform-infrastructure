@@ -33,7 +33,7 @@ resource "aws_cloudfront_distribution" "distro" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Host"]
+      headers      = var.default_forwarded_headers
 
       cookies {
         forward = "all"
@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "distro" {
     default_ttl = null
     max_ttl     = null
 
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = var.default_viewer_protocol_policy
   }
 
   dynamic "ordered_cache_behavior" {
@@ -62,7 +62,10 @@ resource "aws_cloudfront_distribution" "distro" {
 
       forwarded_values {
         query_string = true
-        headers      = ordered_cache_behavior.value["headers"]
+        headers = concat(
+          ordered_cache_behavior.value["headers"],
+          var.default_forwarded_headers
+        )
 
         cookies {
           forward = ordered_cache_behavior.value["cookies"]
@@ -81,7 +84,7 @@ resource "aws_cloudfront_distribution" "distro" {
       default_ttl = ordered_cache_behavior.value["default_ttl"]
       max_ttl     = ordered_cache_behavior.value["max_ttl"]
 
-      viewer_protocol_policy = "redirect-to-https"
+      viewer_protocol_policy = var.default_viewer_protocol_policy
     }
   }
 
