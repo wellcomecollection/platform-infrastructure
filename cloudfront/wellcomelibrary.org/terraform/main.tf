@@ -16,6 +16,7 @@ module "wellcomelibrary-prod" {
   default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_prod
 
   default_forwarded_headers = ["Host"]
+  default_viewer_protocol_policy = "allow-all"
 }
 
 module "wellcomelibrary-stage" {
