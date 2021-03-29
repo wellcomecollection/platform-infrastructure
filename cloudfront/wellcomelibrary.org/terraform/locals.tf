@@ -4,14 +4,14 @@ locals {
   wellcome_library_redirect_arn_latest = "${local.wellcome_library_redirect_arn}:${local.wellcome_library_redirect_latest}"
   wellcome_library_redirect_arn_stage  = local.wellcome_library_redirect_arn_latest
   # This should be set manually when a stable prod deploy is established.
-  wellcome_library_redirect_arn_prod = "${local.wellcome_library_redirect_arn}:35"
+  wellcome_library_redirect_arn_prod = "${local.wellcome_library_redirect_arn}:44"
 
   wellcome_library_passthru_arn        = aws_lambda_function.wellcome_library_passthru.arn
   wellcome_library_passthru_latest     = aws_lambda_function.wellcome_library_passthru.version
   wellcome_library_passthru_arn_latest = "${local.wellcome_library_passthru_arn}:${local.wellcome_library_passthru_latest}"
   wellcome_library_passthru_arn_stage  = local.wellcome_library_passthru_arn_latest
   # This should be set manually when a stable prod deploy is established.
-  wellcome_library_passthru_arn_prod = "${local.wellcome_library_passthru_arn}:1"
+  wellcome_library_passthru_arn_prod = "${local.wellcome_library_passthru_arn}:26"
 
   wellcome_library_blog_redirect_arn        = aws_lambda_function.wellcome_library_blog_redirect.arn
   wellcome_library_blog_redirect_latest     = aws_lambda_function.wellcome_library_blog_redirect.version

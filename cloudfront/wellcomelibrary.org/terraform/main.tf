@@ -32,7 +32,7 @@ module "wellcomelibrary-stage" {
 
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
-  default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_stage
+  default_lambda_function_association_lambda_arn = local.wellcome_library_redirect_arn_stage
 
   // For a description of CloudFront-Forwarded-Proto see:
   // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-cloudfront-headers.html

@@ -212,9 +212,11 @@ test.each(rewriteTests())(
 
 const staticRedirectTests = Object.entries(staticRedirects).map(
   ([path, redirect]) => {
+    // Ensure URLs come out with consistent parsing
+    const urlRedirect = new URL(redirect)
     return {
       uri: path,
-      out: expectedRedirect(redirect),
+      out: expectedRedirect(urlRedirect.toString()),
     } as ExpectedRewrite;
   }
 );
@@ -235,7 +237,7 @@ test.each(staticRedirectTests)(
 );
 
 test('rewrites the host header if it exists', async () => {
-  const request = testRequest('/', undefined, {
+  const request = testRequest('/unspecifiedPath', undefined, {
     host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
   });
 
@@ -247,7 +249,7 @@ test('rewrites the host header if it exists', async () => {
 });
 
 test('adds the host header if it is missing', async () => {
-  const request = testRequest('/', undefined);
+  const request = testRequest('/unspecifiedPath', undefined);
 
   const originRequest = await origin.requestHandler(request, {} as Context);
 
@@ -257,7 +259,7 @@ test('adds the host header if it is missing', async () => {
 });
 
 test('leaves other headers unmodified', async () => {
-  const request = testRequest('/', undefined, {
+  const request = testRequest('/unspecifiedPath', undefined, {
     host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
     connection: [{ key: 'connection', value: 'close' }],
     authorization: [
