@@ -28,18 +28,16 @@ module "wellcomelibrary_dserve-stage" {
   ]
   acm_certificate_arn = module.cert-stage.arn
 
-  // TODO:
-  // - Must direct to HTTP
-  // - Must have archives.wellcomelibrary.org header
   origins = [{
     origin_id : "origin"
     domain_name : "archives.origin.wellcomelibrary.org"
     origin_path : null
+    origin_protocol_policy: "http-only"
   }]
 
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
-  default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_prod
+  default_lambda_function_association_lambda_arn = local.wellcome_library_archive_redirect_arn_prod
   default_forwarded_headers                      = ["Host"]
 }
 
