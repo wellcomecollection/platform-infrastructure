@@ -1,7 +1,30 @@
 data "aws_iam_policy_document" "ci_permissions" {
   statement {
     actions = [
-      "ecr:*",
+      # This list of actions is based on an example from the AWS docs,
+      # with some read-only actions added based on the IAM Visual Editor.
+      # https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGet*",
+      "ecr:Describe*",
+      "ecr:Get*",
+      "ecr:List*",
+      "ecr:TagResource",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr-public:BatchCheckLayerAvailability",
+      "ecr-public:Describe*",
+      "ecr-public:Get*",
+      "ecr-public:List*",
+      "ecr-public:TagResource",
+      "ecr-public:PutImage",
+      "ecr-public:InitiateLayerUpload",
+      "ecr-public:UploadLayerPart",
+      "ecr-public:CompleteLayerUpload",
+      # This is required for uploading to public repositories; see https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-policy-examples.html
+      "sts:GetServiceBearerToken",
     ]
 
     resources = [
