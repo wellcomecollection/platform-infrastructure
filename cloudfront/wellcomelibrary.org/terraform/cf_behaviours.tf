@@ -8,7 +8,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -24,7 +24,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -40,7 +40,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -56,7 +56,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -72,7 +72,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -91,7 +91,7 @@ locals {
       lambdas = [
         {
           event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_stage
+          lambda_arn = local.wellcome_library_passthru_arn_prod
         }
       ]
 
@@ -106,8 +106,5 @@ locals {
     local.items_behaviours
   )
 
-  stage_behaviours = concat(
-    local.api_behaviours,
-    local.items_behaviours
-  )
+  stage_behaviours = []
 }

@@ -213,7 +213,7 @@ test.each(rewriteTests())(
 const staticRedirectTests = Object.entries(staticRedirects).map(
   ([path, redirect]) => {
     // Ensure URLs come out with consistent parsing
-    const urlRedirect = new URL(redirect)
+    const urlRedirect = new URL(redirect);
     return {
       uri: path,
       out: expectedRedirect(urlRedirect.toString()),

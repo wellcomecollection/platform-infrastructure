@@ -9,7 +9,7 @@ export function lookupRedirect(
   const cleanUri = uri.replace(/\/$/, '');
 
   // If path is at base, redirect to wellcomecollection.org
-  if(uri === '/' || uri === '') {
+  if (uri === '/' || uri === '') {
     return createRedirect(new URL('https://wellcomecollection.org/'));
   }
 
