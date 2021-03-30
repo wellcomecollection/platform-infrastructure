@@ -65,8 +65,8 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
     redirectTestSet.headers
   );
 
-  const testResults = await Promise.all(
-    Object.entries(pathTests).map(async ([fromPath, to]) => {
+  const eventuallyResults = Object.entries(pathTests).map(
+    async ([fromPath, to]) => {
       const from = `${host}${fromPath}`;
 
       const redirectResult = {
@@ -85,8 +85,10 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
       }
 
       return redirectResult;
-    })
+    }
   );
+
+  const testResults = await Promise.all(eventuallyResults);
 
   redirectTestSet.results = {
     host: host,
