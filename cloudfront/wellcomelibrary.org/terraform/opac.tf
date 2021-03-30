@@ -32,7 +32,7 @@ module "wellcomelibrary_opac-stage" {
     origin_id : "origin"
     domain_name : "catalogue.origin.wellcomelibrary.org"
     origin_path : null
-    origin_protocol_policy: "match-viewer"
+    origin_protocol_policy : "match-viewer"
   }]
 
   default_target_origin_id                       = "origin"

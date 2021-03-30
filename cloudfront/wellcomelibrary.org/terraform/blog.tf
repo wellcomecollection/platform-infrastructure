@@ -10,7 +10,7 @@ module "wellcomelibrary_blog-prod" {
     origin_id : "origin"
     domain_name : "origin.wellcomelibrary.org"
     origin_path : null
-    origin_protocol_policy: "match-viewer"
+    origin_protocol_policy : "match-viewer"
   }]
 
   default_target_origin_id                       = "origin"
@@ -31,7 +31,7 @@ module "wellcomelibrary_blog-stage" {
     origin_id : "origin"
     domain_name : "origin.wellcomelibrary.org"
     origin_path : null
-    origin_protocol_policy: "match-viewer"
+    origin_protocol_policy : "match-viewer"
   }]
 
   default_target_origin_id                       = "origin"

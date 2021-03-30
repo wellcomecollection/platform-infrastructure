@@ -28,7 +28,7 @@ variable "origins" {
     origin_id : string
     domain_name : string
     origin_path : string
-    origin_protocol_policy: string
+    origin_protocol_policy : string
   }))
 }
 

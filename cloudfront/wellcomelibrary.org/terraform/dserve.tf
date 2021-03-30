@@ -32,7 +32,7 @@ module "wellcomelibrary_dserve-stage" {
     origin_id : "origin"
     domain_name : "archives.origin.wellcomelibrary.org"
     origin_path : null
-    origin_protocol_policy: "http-only"
+    origin_protocol_policy : "http-only"
   }]
 
   default_target_origin_id                       = "origin"
