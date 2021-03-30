@@ -65,26 +65,28 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
     redirectTestSet.headers
   );
 
-  const eventuallyResults = Object.entries(pathTests).map(async ([fromPath, to]) => {
-    const from = `${host}${fromPath}`;
+  const eventuallyResults = Object.entries(pathTests).map(
+    async ([fromPath, to]) => {
+      const from = `${host}${fromPath}`;
 
-    const redirectResult = {
-      to: to,
-      fromPath: fromPath,
-      from: from,
-    } as RedirectResult;
+      const redirectResult = {
+        to: to,
+        fromPath: fromPath,
+        from: from,
+      } as RedirectResult;
 
-    try {
-      redirectResult.error = redirectTestSet.checkResponse(
+      try {
+        redirectResult.error = redirectTestSet.checkResponse(
           await axios.get(from),
           to
-      );
-    } catch (e) {
-      redirectResult.error = e;
-    }
+        );
+      } catch (e) {
+        redirectResult.error = e;
+      }
 
-    return redirectResult;
-  })
+      return redirectResult;
+    }
+  );
 
   const testResults = await Promise.all(eventuallyResults);
 
