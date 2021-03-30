@@ -52,8 +52,7 @@ def validate_auth(info_json, regex):
             if not p.match(info_id):
                 click.echo(
                     click.style(
-                        f"Id fail - expected '{regex}' but found '{info_id}'",
-                        fg="red",
+                        f"Id fail - expected '{regex}' but found '{info_id}'", fg="red"
                     )
                 )
             else:
