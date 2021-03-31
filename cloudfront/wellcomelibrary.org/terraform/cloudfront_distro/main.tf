@@ -9,7 +9,7 @@ resource "aws_cloudfront_distribution" "distro" {
       origin_path = origin.value["origin_path"]
 
       custom_origin_config {
-        origin_protocol_policy = "match-viewer"
+        origin_protocol_policy = origin.value["origin_protocol_policy"]
         origin_ssl_protocols = [
           "TLSv1",
           "TLSv1.1",
