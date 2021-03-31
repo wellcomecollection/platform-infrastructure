@@ -12,6 +12,20 @@ resource "aws_lambda_function" "wellcome_library_passthru" {
   s3_object_version = data.aws_s3_bucket_object.wellcome_library_redirect.version_id
 }
 
+resource "aws_lambda_function" "wellcome_library_encore_redirect" {
+  provider = aws.us_east_1
+
+  function_name = "cf_edge_wellcome_library_encore_redirect"
+  role          = aws_iam_role.edge_lambda_role.arn
+  runtime       = "nodejs12.x"
+  handler       = "wellcomeLibraryencoreRedirect.requestHandler"
+  publish       = true
+
+  s3_bucket         = data.aws_s3_bucket_object.wellcome_library_redirect.bucket
+  s3_key            = data.aws_s3_bucket_object.wellcome_library_redirect.key
+  s3_object_version = data.aws_s3_bucket_object.wellcome_library_redirect.version_id
+}
+
 resource "aws_lambda_function" "wellcome_library_archive_redirect" {
   provider = aws.us_east_1
 

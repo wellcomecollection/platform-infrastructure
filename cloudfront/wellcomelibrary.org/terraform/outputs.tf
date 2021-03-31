@@ -2,6 +2,14 @@ output "wellcome_library_redirect_arn_latest" {
   value = local.wellcome_library_redirect_arn_latest
 }
 
+output "wellcome_library_archive_redirect_arn_latest" {
+  value = local.wellcome_library_archive_redirect_arn_latest
+}
+
+output "wellcome_library_encore_redirect_arn_latest" {
+  value = local.wellcome_library_encore_redirect_arn_latest
+}
+
 output "wellcome_library_blog_redirect_arn_latest" {
   value = local.wellcome_library_blog_redirect_arn_latest
 }
