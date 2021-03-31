@@ -7,6 +7,7 @@ locals {
   stacks_domain    = "stacks.api${local.subdomain_modifier}.wellcomecollection.org"
   storage_domain   = "storage.api${local.subdomain_modifier}.wellcomecollection.org"
   root_s3_domain   = "wellcomecollection-public-api.s3.amazonaws.com"
+  text_domain      = "dds${local.subdomain_modifier}.wellcomecollection.digirati.io"
 }
 
 resource "aws_cloudfront_distribution" "wellcomecollection" {
@@ -71,6 +72,24 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   origin {
     domain_name = local.root_s3_domain
     origin_id   = "root"
+  }
+
+  origin {
+    domain_name = local.text_domain
+    origin_id   = "text_api"
+
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_keepalive_timeout = 5
+      origin_read_timeout      = 30
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
+    }
   }
 
   enabled         = true
@@ -161,6 +180,28 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     max_ttl     = 0
 
     viewer_protocol_policy = "https-only"
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "/text/*"
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "text_api"
+
+    forwarded_values {
+      query_string = true
+      headers      = []
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    min_ttl     = 0
+    default_ttl = 24 * 60 * 60
+    max_ttl     = 365 * 24 * 60 * 60
+
+    viewer_protocol_policy = "redirect-to-https"
   }
 
   price_class         = "PriceClass_100"
