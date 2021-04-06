@@ -67,7 +67,6 @@ data "aws_iam_policy_document" "workflow_support" {
     ]
 
     resources = [
-      "arn:aws:s3:::wellcomecollection-assets-workingstorage/miro/*",
       "arn:aws:s3:::wellcomecollection-assets-workingstorage/preservica/*",
     ]
   }
