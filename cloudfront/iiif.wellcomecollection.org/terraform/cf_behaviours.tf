@@ -346,20 +346,6 @@ locals {
     },
   ]
 
-  text_behaviours = [
-    {
-      path_pattern     = "text/v1*"
-      target_origin_id = "iiif"
-      headers          = ["*"]
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = 0
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
-    },
-  ]
-
   pdf_cover_behaviours = [
     {
       path_pattern     = "pdf-cover/*"
@@ -385,7 +371,6 @@ locals {
     local.file_behaviours_prod,
     local.auth_behaviours_prod,
     local.dash_behaviours,
-    local.text_behaviours,
     local.pdf_cover_behaviours,
   )
 
@@ -400,7 +385,6 @@ locals {
     local.file_behaviours_stage,
     local.auth_behaviours_stage,
     local.dash_behaviours,
-    local.text_behaviours,
     local.pdf_cover_behaviours,
   )
 
@@ -415,7 +399,6 @@ locals {
     local.file_behaviours_stage,
     local.auth_behaviours_stage,
     local.dash_behaviours,
-    local.text_behaviours,
     local.pdf_cover_behaviours,
   )
 }
