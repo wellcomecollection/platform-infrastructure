@@ -18,10 +18,7 @@ def get_url(uri, expected_status=200):
         )
     else:
         click.echo(
-            click.style(
-                f"Status code as expected - '{r.status_code}'",
-                fg="green",
-            )
+            click.style(f"Status code as expected - '{r.status_code}'", fg="green")
         )
 
 
@@ -29,7 +26,7 @@ def run_checks(env_suffix=""):
     urls_to_check = [
         f"https://api{env_suffix}.wellcomecollection.org/text/v1/b28957556",
         f"https://api{env_suffix}.wellcomecollection.org/text/v1/b28957556.zip",
-        f"https://api{env_suffix}.wellcomecollection.org/text/alto/b28957556/b28957556_0001.jp2"
+        f"https://api{env_suffix}.wellcomecollection.org/text/alto/b28957556/b28957556_0001.jp2",
     ]
 
     # validate 200 response for above
