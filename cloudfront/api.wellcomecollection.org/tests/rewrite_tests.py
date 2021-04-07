@@ -30,6 +30,7 @@ def run_checks(env_suffix=""):
         f"https://api{env_suffix}.wellcomecollection.org/catalogue/v2/works",
         f"https://api{env_suffix}.wellcomecollection.org/catalogue/v2/works/tsayk6g3",
         f"https://api{env_suffix}.wellcomecollection.org/storage/v1/context.json",
+        f"https://api{env_suffix}.wellcomecollection.org/stacks/v1/context.json",
         f"https://api{env_suffix}.wellcomecollection.org"
     ]
 

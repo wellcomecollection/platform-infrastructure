@@ -22,6 +22,21 @@ steps:
       - docker-compose#v3.5.0:
           run: iiif_tests
 
+  - label: "Catalogue STAGE Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: catalogue_tests
+          command: ["--env", "stage"]
+
+  - label: "Catalogue PROD Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: catalogue_tests
+
   - label: "Wellcome Library STAGE Redirects"
     plugins:
       - ecr#v2.1.1:
