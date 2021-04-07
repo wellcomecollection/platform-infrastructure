@@ -31,6 +31,10 @@ resource "aws_s3_bucket" "working_storage" {
       days = 30
     }
 
+    expiration {
+      expired_object_delete_marker = true
+    }
+
     enabled = true
   }
 
