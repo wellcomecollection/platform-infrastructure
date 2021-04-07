@@ -2,7 +2,6 @@
 
 import click
 import requests
-import re
 import uuid
 
 
