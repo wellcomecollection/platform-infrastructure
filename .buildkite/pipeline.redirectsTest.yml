@@ -6,6 +6,8 @@ steps:
       - docker-compose#v3.5.0:
           run: iiif_tests
           command: ["--env", "test"]
+    retry:
+      automatic: true
 
   - label: "IIIF STAGE Redirects"
     plugins:
@@ -14,6 +16,8 @@ steps:
       - docker-compose#v3.5.0:
           run: iiif_tests
           command: ["--env", "stage"]
+    retry:
+      automatic: true
 
   - label: "IIIF PROD Redirects"
     plugins:
@@ -21,6 +25,27 @@ steps:
           login: true
       - docker-compose#v3.5.0:
           run: iiif_tests
+    retry:
+      automatic: true
+
+  - label: "Catalogue STAGE Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: catalogue_tests
+          command: ["--env", "stage"]
+    retry:
+      automatic: true
+
+  - label: "Catalogue PROD Redirects"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: catalogue_tests
+    retry:
+      automatic: true
 
   - label: "Wellcome Library STAGE Redirects"
     plugins:
@@ -29,6 +54,8 @@ steps:
       - docker-compose#v3.5.0:
           run: wellcome_library_edge_lambdas
           command: ["yarn", "testRedirectsStage"]
+    retry:
+      automatic: true
 
   - label: "Wellcome Library PROD Redirects"
     plugins:
@@ -37,3 +64,5 @@ steps:
       - docker-compose#v3.5.0:
           run: wellcome_library_edge_lambdas
           command: ["yarn", "testRedirects"]
+    retry:
+      automatic: true

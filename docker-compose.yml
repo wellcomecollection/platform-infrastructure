@@ -6,6 +6,9 @@ services:
   iiif_tests:
     build:
       context: ./cloudfront/iiif.wellcomecollection.org/tests
+  catalogue_tests:
+    build:
+      context: ./cloudfront/api.wellcomecollection.org/tests
   wellcome_library_edge_lambdas:
     build:
       context: ./cloudfront/wellcomelibrary.org/edge-lambda
