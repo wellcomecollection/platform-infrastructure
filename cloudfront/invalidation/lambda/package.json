@@ -1,0 +1,17 @@
+{
+  "name": "lambdas",
+  "version": "1.0.0",
+  "description": "Lambda for handling CloudFront invalidation requests",
+  "main": "index.js",
+  "engines": {
+    "node": "12.*.*"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@aws-sdk/types": "^3.10.0",
+    "@types/aws-lambda": "^8.10.73"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.881.0"
+  }
+}
