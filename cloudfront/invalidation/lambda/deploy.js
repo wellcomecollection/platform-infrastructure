@@ -1,6 +1,6 @@
-const zipLocation = 'dist/cloudfront_invalidate.zip'
-const s3Bucket = 'wellcomecollection-edge-lambdas' // TODO - which bucket?
-const s3Key = 'invalidation/cloudfront_invalidate.zip'
+const zipLocation = 'dist/sns_handler.zip'
+const s3Bucket = 'wellcomecollection-platform-infra'
+const s3Key = 'lambdas/cloudfront_invalidation/sns_handler.zip'
 const roleArn = 'arn:aws:iam::760097843905:role/platform-ci'
 
 const AWS = require('aws-sdk');

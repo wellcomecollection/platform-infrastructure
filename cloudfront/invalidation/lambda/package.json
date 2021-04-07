@@ -13,7 +13,7 @@
     "@types/node": "^14.14.37"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && (cd dist && zip -r cloudfront_invalidate.zip .)",
+    "build": "tsc -p tsconfig.build.json && (cd dist && zip -r sns_handler.zip .)",
     "deploy": "yarn build && node deploy",
     "dockerLoginLocal": "aws ecr get-login-password --region eu-west-1 --profile platform | docker login --username AWS --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com",
     "dockerBuildLocal": "yarn dockerLoginLocal && docker build . -t weco_cf_lambdas",
