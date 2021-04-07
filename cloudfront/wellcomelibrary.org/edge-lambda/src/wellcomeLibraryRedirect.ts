@@ -40,12 +40,12 @@ async function getWorksRedirect(
   return wellcomeCollectionRedirect(`/works/${work.id}`);
 }
 
-async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse> {
+async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse | undefined> {
   const apiRedirectUri = await wlorgpLookup(uri);
 
   if (apiRedirectUri instanceof Error) {
     console.error(apiRedirectUri);
-    return createServerError(apiRedirectUri);
+    return Promise.resolve(undefined);
   }
 
   return createRedirect(apiRedirectUri);

@@ -119,28 +119,22 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/iiif/collection/not-found',
-      out: expectedServerError(
-        'Got 404 from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/not-found'
-      ),
+      out: expectedPassthru('/iiif/collection/not-found'),
       error: axios404,
     },
     {
       uri: '/iiif/collection/no-response',
-      out: expectedServerError(
-        'No response from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/no-response'
-      ),
+      out: expectedPassthru('/iiif/collection/no-response'),
       error: axiosNoResponse,
     },
     {
       uri: '/iiif/collection/error',
-      out: expectedServerError(
-        'Unknown error from https://iiif.wellcomecollection.org/wlorgp/iiif/collection/error: Error: nope'
-      ),
+      out: expectedPassthru('/iiif/collection/error'),
       error: Error('nope'),
     },
     {
       uri: '/iiif/collection/invalid-url',
-      out: expectedServerError('Invalid URL: not_a_url'),
+      out:  expectedPassthru('/iiif/collection/invalid-url'),
       generateData: () => 'not_a_url',
     },
     {
