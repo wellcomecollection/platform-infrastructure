@@ -5,3 +5,16 @@
 output "dlcs_path_rewrite_arn_latest" {
   value = local.dlcs_path_rewrite_arn_latest
 }
+
+# Cloudfront distribution id for all environments
+output "iiif_prod_distribution_id" {
+  value = module.iiif-prod.distribution_id
+}
+
+output "iiif_stage_distribution_id" {
+  value = module.iiif-stage.distribution_id
+}
+
+output "iiif_test_distribution_id" {
+  value = module.iiif-test.distribution_id
+}
