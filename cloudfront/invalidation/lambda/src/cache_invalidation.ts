@@ -1,6 +1,6 @@
-import { SNSHandler } from "aws-lambda/trigger/sns";
-import { CloudFront } from "aws-sdk";
-import { CreateInvalidationRequest } from "aws-sdk/clients/cloudfront";
+import { SNSHandler } from 'aws-lambda/trigger/sns';
+import { CloudFront } from 'aws-sdk';
+import { CreateInvalidationRequest } from 'aws-sdk/clients/cloudfront';
 
 export const handler: SNSHandler = async (event) => {
   const distro = process.env.DISTRIBUTION_ID;
