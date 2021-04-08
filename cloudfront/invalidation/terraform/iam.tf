@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "iiif_prod" {
       test     = "StringLike"
       variable = "aws:userId"
       values = [
-        "${local.dds_dashboard_prod}:*"
+        "${local.dds_workflow_prod}:*"
       ]
     }
 
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "api_prod" {
       test     = "StringLike"
       variable = "aws:userId"
       values = [
-        "${local.dds_dashboard_prod}:*"
+        "${local.dds_workflow_prod}:*"
       ]
     }
 
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "iiif_stage" {
       test     = "StringLike"
       variable = "aws:userId"
       values = [
-        "${local.dds_dashboard_stage}:*"
+        "${local.dds_workflow_stage}:*"
       ]
     }
 
@@ -98,8 +98,8 @@ data "aws_iam_policy_document" "api_stage" {
       test     = "StringLike"
       variable = "aws:userId"
       values = [
-        "${local.dds_dashboard_stage}:*",
-        "${local.dds_dashboard_test}:*",
+        "${local.dds_workflow_stage}:*",
+        "${local.dds_workflow_test}:*",
       ]
     }
 
@@ -128,7 +128,7 @@ data "aws_iam_policy_document" "iiif_test" {
       test     = "StringLike"
       variable = "aws:userId"
       values = [
-        "${local.dds_dashboard_test}:*"
+        "${local.dds_workflow_test}:*"
       ]
     }
 
