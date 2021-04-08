@@ -1,23 +1,59 @@
-import { SNSHandler } from 'aws-lambda/trigger/sns';
-import { CloudFront } from 'aws-sdk';
-import { CreateInvalidationRequest } from 'aws-sdk/clients/cloudfront';
+import { SNSHandler, SNSMessage } from 'aws-lambda/trigger/sns';
+import * as AWS from 'aws-sdk';
+import { CreateInvalidationRequest as CloudFrontInvalidationRequest } from 'aws-sdk/clients/cloudfront';
 
-export const handler: SNSHandler = async (event) => {
-  const distro = process.env.DISTRIBUTION_ID;
+type IncomingMessage = {
+  reference: string;
+  paths: string[];
+};
 
-  const paths = JSON.parse(event.Records[0].Sns.Message);
+type InvalidationRequest = {
+  distribution: string;
+  reference: string;
+  paths: string[];
+};
 
-  const cloudfront = new CloudFront();
-  const params: CreateInvalidationRequest = {
-    DistributionId: String(distro),
+function createCloudFrontRequest(
+  invalidationRequest: InvalidationRequest
+): CloudFrontInvalidationRequest {
+  return {
+    DistributionId: invalidationRequest.distribution,
     InvalidationBatch: {
-      CallerReference: `${Date.now()}`,
+      CallerReference: invalidationRequest.reference,
       Paths: {
-        Quantity: paths.length,
-        Items: paths,
+        Quantity: invalidationRequest.paths.length,
+        Items: invalidationRequest.paths,
       },
     },
-  };
+  } as CloudFrontInvalidationRequest;
+}
 
-  await cloudfront.createInvalidation(params).promise();
+function createInvalidationRequest(
+  distribution: string,
+  message: SNSMessage
+): InvalidationRequest {
+  const incomingMessage = JSON.parse(message.Message) as IncomingMessage;
+  return {
+    distribution: distribution,
+    reference: incomingMessage.reference,
+    paths: incomingMessage.paths,
+  } as InvalidationRequest;
+}
+
+async function runInvalidation(
+  cloudfront: AWS.CloudFront,
+  invalidationRequest: InvalidationRequest
+) {
+  const cloudFrontRequest = createCloudFrontRequest(invalidationRequest);
+  return await cloudfront.createInvalidation(cloudFrontRequest).promise();
+}
+
+export const handler: SNSHandler = async (event) => {
+  const distro = String(process.env.DISTRIBUTION_ID);
+  const cloudfront = new AWS.CloudFront();
+  const invalidationRequest = createInvalidationRequest(
+    distro,
+    event.Records[0].Sns
+  );
+  await runInvalidation(cloudfront, invalidationRequest);
 };
