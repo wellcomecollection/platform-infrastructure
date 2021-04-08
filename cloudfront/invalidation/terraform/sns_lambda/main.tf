@@ -84,5 +84,5 @@ resource "aws_iam_role_policy" "lambda_invalidate_cloudfront_distro" {
 resource "aws_sns_topic_subscription" "invalidation_lambda_target" {
   topic_arn = aws_sns_topic.sns_invalidation_topic.arn
   protocol  = "lambda"
-  endpoint  = aws_sqs_queue.cloudfront_invalidation.arn
+  endpoint  = aws_lambda_function.cloudfront_invalidation.arn
 }
