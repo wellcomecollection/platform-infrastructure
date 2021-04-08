@@ -253,7 +253,7 @@ module "data_dev_roleset" {
     # Reporting
     local.reporting_account_roles["developer_role_arn"],
     local.reporting_account_roles["read_only_role_arn"],
-      
+
     # Catalogue
     local.catalogue_account_roles["developer_role_arn"],
     local.catalogue_account_roles["read_only_role_arn"],
