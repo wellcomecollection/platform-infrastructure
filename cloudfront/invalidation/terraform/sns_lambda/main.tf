@@ -37,7 +37,7 @@ resource "aws_lambda_function" "cloudfront_invalidation" {
   function_name = "value"
   role          = aws_iam_role.cloudfront_invalidation_exec_role.arn
   runtime       = "nodejs12.x"
-  handler       = "cache_invalidation.handler"
+  handler       = "cacheInvalidation.handler"
   publish       = true
 
   s3_bucket         = data.aws_s3_bucket_object.cloudfront_invalidate.bucket

@@ -2,7 +2,7 @@ import { expect, test } from '@jest/globals';
 import { SNSEvent, SNSEventRecord } from 'aws-lambda/trigger/sns';
 import { Context } from 'aws-lambda';
 
-import { handler } from './cache_invalidation';
+import { handler } from './cacheInvalidation';
 
 import AWS from 'aws-sdk';
 import {
