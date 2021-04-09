@@ -4,29 +4,46 @@ import { Context } from 'aws-lambda';
 
 import { handler } from './cache_invalidation';
 
-import AWS from "aws-sdk";
-import { CreateInvalidationRequest as CloudFrontInvalidationRequest } from 'aws-sdk/clients/cloudfront';
-import AWSMock from "aws-sdk-mock";
+import AWS from 'aws-sdk';
+import {
+  CreateInvalidationRequest,
+  InvalidationBatch,
+} from 'aws-sdk/clients/cloudfront';
+import AWSMock from 'aws-sdk-mock';
 
-
-test('test request', async () => {
+test('makes correct invalidation request', async () => {
   const message = {
-    paths: ["foo", "bar"],
-    reference: "my-test-reference"
+    paths: ['/path/to/invalidate', '/path/with/wildcard*'],
+    reference: 'my-test-reference',
   };
   const fakeEvent = getFakeEvent(JSON.stringify(message));
 
   AWSMock.setSDKInstance(AWS);
-  let called = false;
-  AWSMock.mock("CloudFront", "createInvalidation", (params: CloudFrontInvalidationRequest, callback: Function) => {
-    called = true;
-    callback(null, null);
-  })
+  let called_with: CreateInvalidationRequest;
+  AWSMock.mock(
+    'CloudFront',
+    'createInvalidation',
+    (params: CreateInvalidationRequest, callback: Function) => {
+      called_with = params;
+      callback(null, null);
+    }
+  );
+
+  const expectedInvalidation = {
+    CallerReference: 'my-test-reference',
+    Paths: {
+      Quantity: 2,
+      Items: ['/path/to/invalidate', '/path/with/wildcard*'],
+    },
+  } as InvalidationBatch;
 
   await handler(fakeEvent, {} as Context, () => {});
-  expect(called).toBe(true);
+  expect(called_with!.InvalidationBatch).toStrictEqual(expectedInvalidation);
+
+  AWSMock.restore('CloudFront');
 });
 
+// note - this is boilerplate from aws docs
 function getFakeEvent(message: string): SNSEvent {
   return {
     Records: [
