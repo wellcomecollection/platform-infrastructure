@@ -1,6 +1,7 @@
 import { SNSHandler, SNSMessage } from 'aws-lambda/trigger/sns';
 import * as AWS from 'aws-sdk';
 import { CreateInvalidationRequest as CloudFrontInvalidationRequest } from 'aws-sdk/clients/cloudfront';
+import {CloudFront} from "aws-sdk";
 
 type IncomingMessage = {
   reference: string;
@@ -41,7 +42,7 @@ function createInvalidationRequest(
 }
 
 function runInvalidation(
-  cloudfront: AWS.CloudFront,
+  cloudfront:CloudFront,
   invalidationRequest: InvalidationRequest
 ) {
   const cloudFrontRequest = createCloudFrontRequest(invalidationRequest);
@@ -49,11 +50,13 @@ function runInvalidation(
 }
 
 export const handler: SNSHandler = async (event) => {
-  const distro = String(process.env.DISTRIBUTION_ID);
   const cloudfront = new AWS.CloudFront();
+
+  const distro = String(process.env.DISTRIBUTION_ID);
   const invalidationRequest = createInvalidationRequest(
     distro,
     event.Records[0].Sns
   );
+
   await runInvalidation(cloudfront, invalidationRequest);
 };

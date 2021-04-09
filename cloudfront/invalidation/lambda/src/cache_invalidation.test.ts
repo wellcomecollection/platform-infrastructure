@@ -1,11 +1,13 @@
 import { expect, test } from '@jest/globals';
 import { SNSEvent, SNSEventRecord } from 'aws-lambda/trigger/sns';
 import { Context } from 'aws-lambda';
-import * as AWS from "aws-sdk";
-import { CreateInvalidationRequest as CloudFrontInvalidationRequest } from 'aws-sdk/clients/cloudfront';
-import * as AWSMock from "aws-sdk-mock";
 
 import { handler } from './cache_invalidation';
+
+import AWS from "aws-sdk";
+import { CreateInvalidationRequest as CloudFrontInvalidationRequest } from 'aws-sdk/clients/cloudfront';
+import AWSMock from "aws-sdk-mock";
+
 
 test('test request', async () => {
   const message = {
