@@ -2,7 +2,6 @@ data "aws_iam_policy_document" "iiif_prod" {
   statement {
     actions = [
       "sns:Publish",
-      "sns:SendMessage",
     ]
 
     resources = [module.iiif_prod.sns_topic_arn, ]
@@ -31,7 +30,6 @@ data "aws_iam_policy_document" "api_prod" {
   statement {
     actions = [
       "sns:Publish",
-      "sns:SendMessage",
     ]
 
     resources = [module.api_prod.sns_topic_arn, ]
@@ -60,7 +58,6 @@ data "aws_iam_policy_document" "iiif_stage" {
   statement {
     actions = [
       "sns:Publish",
-      "sns:SendMessage",
     ]
 
     resources = [module.iiif_stage.sns_topic_arn, ]
@@ -89,7 +86,6 @@ data "aws_iam_policy_document" "api_stage" {
   statement {
     actions = [
       "sns:Publish",
-      "sns:SendMessage",
     ]
 
     resources = [module.api_stage.sns_topic_arn, ]
@@ -119,7 +115,6 @@ data "aws_iam_policy_document" "iiif_test" {
   statement {
     actions = [
       "sns:Publish",
-      "sns:SendMessage",
     ]
 
     resources = [module.iiif_test.sns_topic_arn, ]

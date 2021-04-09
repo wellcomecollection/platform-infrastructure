@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "basic_execution_role" {
 }
 
 resource "aws_lambda_function" "cloudfront_invalidation" {
-  function_name = "value"
+  function_name = "${var.friendly_name}-cloudfront_invalidation"
   role          = aws_iam_role.cloudfront_invalidation_exec_role.arn
   runtime       = "nodejs12.x"
   handler       = "cacheInvalidation.handler"
@@ -67,11 +67,11 @@ data "aws_iam_policy_document" "lambda_invalidate_cloudfront" {
       "cloudfront:GetInvalidation",
       "cloudfront:ListInvalidations"
     ]
-  }
 
-  resources = [
-    data.aws_cloudfront_distribution.distro.arn
-  ]
+    resources = [
+      data.aws_cloudfront_distribution.distro.arn
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "lambda_invalidate_cloudfront_distro" {
