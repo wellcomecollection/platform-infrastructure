@@ -40,12 +40,12 @@ function createInvalidationRequest(
   } as InvalidationRequest;
 }
 
-async function runInvalidation(
+function runInvalidation(
   cloudfront: AWS.CloudFront,
   invalidationRequest: InvalidationRequest
 ) {
   const cloudFrontRequest = createCloudFrontRequest(invalidationRequest);
-  return await cloudfront.createInvalidation(cloudFrontRequest).promise();
+  return cloudfront.createInvalidation(cloudFrontRequest).promise();
 }
 
 export const handler: SNSHandler = async (event) => {
