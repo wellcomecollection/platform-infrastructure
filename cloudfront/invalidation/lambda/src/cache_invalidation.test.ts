@@ -19,12 +19,12 @@ test('makes correct invalidation request', async () => {
   const fakeEvent = getFakeEvent(JSON.stringify(message));
 
   AWSMock.setSDKInstance(AWS);
-  let called_with: CreateInvalidationRequest;
+  let calledWith: CreateInvalidationRequest;
   AWSMock.mock(
     'CloudFront',
     'createInvalidation',
     (params: CreateInvalidationRequest, callback: Function) => {
-      called_with = params;
+      calledWith = params;
       callback(null, null);
     }
   );
@@ -38,7 +38,7 @@ test('makes correct invalidation request', async () => {
   } as InvalidationBatch;
 
   await handler(fakeEvent, {} as Context, () => {});
-  expect(called_with!.InvalidationBatch).toStrictEqual(expectedInvalidation);
+  expect(calledWith!.InvalidationBatch).toStrictEqual(expectedInvalidation);
 
   AWSMock.restore('CloudFront');
 });
