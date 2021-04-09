@@ -2,6 +2,14 @@ steps:
   - command: .buildkite/scripts/run_autoformat.py
     label: "autoformat"
 
+  - label: "test invalidation lambda"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: invalidation_lambda
+          command: ["yarn", "test"]
+
   - label: "test iiif_edge_lambdas"
     plugins:
       - ecr#v2.1.1:

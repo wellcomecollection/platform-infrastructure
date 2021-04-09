@@ -1,5 +1,8 @@
 version: '3.3'
 services:
+  invalidation_lambda:
+    build:
+      context: ./cloudfront/invalidation/lambda
   iiif_edge_lambdas:
     build:
       context: ./cloudfront/iiif.wellcomecollection.org/edge-lambda
