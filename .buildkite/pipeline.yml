@@ -26,6 +26,14 @@ steps:
           run: wellcome_library_edge_lambdas
           command: ["yarn", "test"]
 
+  - label: "deploy invalidation lambda"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: invalidation_lambda
+          command: ["yarn", "deploy"]
+
   - label: "deploy iiif_edge_lambdas"
     branches: "master"
     plugins:
