@@ -244,6 +244,7 @@ module "data_dev_roleset" {
     # Platform
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
+    module.aws_account.ci_role_arn,
 
     # Data
     local.data_account_roles["admin_role_arn"],
