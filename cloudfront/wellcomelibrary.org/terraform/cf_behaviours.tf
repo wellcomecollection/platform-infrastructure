@@ -103,7 +103,6 @@ locals {
 
   prod_behaviours = concat(
     local.api_behaviours,
-    local.items_behaviours
   )
 
   stage_behaviours = []
