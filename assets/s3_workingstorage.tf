@@ -38,6 +38,31 @@ resource "aws_s3_bucket" "working_storage" {
     enabled = true
   }
 
+  # We lifecycle all the remaining Miro images to Glacier.  We aren't
+  # going to look at these again until we move the Editorial Photography
+  # images into the storage service.
+  #
+  # We were going to delete all of these, but this might cause us to lose
+  # images -- we can't rely on "same ID" == "same image".  When we eventually
+  # sort out the Editorial Photography images, we'll have to inspect these
+  # images quite carefully to be sure we don't lose anything.
+  #
+  # In the meantime, putting them in Deep Archive will save us ~$1000 a year.
+  #
+  # See https://github.com/wellcomecollection/platform/issues/4885#issuecomment-816703253
+  lifecycle_rule {
+    id = "transition_miro_to_glacier"
+
+    prefix = "miro/"
+
+    transition {
+      days          = 90
+      storage_class = "DEEP_ARCHIVE"
+    }
+
+    enabled = true
+  }
+
   tags = local.default_tags
 }
 
