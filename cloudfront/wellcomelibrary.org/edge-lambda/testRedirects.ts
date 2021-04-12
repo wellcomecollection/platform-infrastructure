@@ -159,7 +159,7 @@ const itemTestSet = {
   headers: staticRedirectHeaders,
   envs: {
     stage: 'https://stage.wellcomelibrary.org',
-    // prod: 'https://wellcomelibrary.org',
+    prod: 'https://wellcomelibrary.org',
   },
   checkResponse: checkMatchingUrl,
 };
