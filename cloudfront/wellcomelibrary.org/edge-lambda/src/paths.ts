@@ -24,5 +24,8 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
     return Error(`b number in ${path} does not match ${bNumberRegexp}`);
   }
 
-  return splitPath[2].toLowerCase();
+  return splitPath[2]
+      .toLowerCase()
+      .substr(1,7)
+
 }

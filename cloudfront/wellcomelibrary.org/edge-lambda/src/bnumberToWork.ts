@@ -6,10 +6,7 @@ export async function getWork(bNumber: string): Promise<GetWorkResult> {
     include: ['identifiers'],
   });
 
-  let work;
-
   for await (const result of resultList) {
-    work = result;
 
     if (result.identifiers) {
       const identifiers: Identifier[] = result.identifiers;
@@ -20,14 +17,10 @@ export async function getWork(bNumber: string): Promise<GetWorkResult> {
         (thing) => thing.identifierType.id === 'sierra-identifier'
       );
       if (hasSierraId) {
-        break;
+        return result;
       }
     }
   }
 
-  if (work) {
-    return work;
-  } else {
-    return Error('No matching Catalogue API results found');
-  }
+  return Error('No matching Catalogue API results found');
 }

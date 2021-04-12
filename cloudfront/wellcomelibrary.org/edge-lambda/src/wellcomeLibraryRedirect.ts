@@ -59,7 +59,7 @@ async function redirectRequestUri(
     uri = `${uri}?${request.querystring}`;
   }
 
-  const itemPathRegExp: RegExp = /^\/item\/.*/;
+  const itemPathRegExp: RegExp = /^\/(item|player)\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
   const staticRedirect = lookupRedirect(staticRedirects, uri);

@@ -9,19 +9,19 @@ const pathTests = (): ExpectedPath[] => {
   return [
     {
       in: '/item/b21293302',
-      out: 'b21293302',
+      out: '2129330',
     },
     {
       in: '/item/B21293302',
-      out: 'b21293302',
+      out: '2129330',
     },
     {
       in: '/item/b2129330x',
-      out: 'b2129330x',
+      out: '2129330',
     },
     {
       in: '/item/b2129330',
-      out: 'b2129330',
+      out: '2129330',
     },
     {
       in: '/item/b21293302/nope',
