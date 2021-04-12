@@ -119,4 +119,25 @@ data "aws_iam_policy_document" "identity_ci" {
       "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-execution-role-stage"
     ]
   }
+
+  # This slightly unusual clause allows the identity-ci role to assume… itself.
+  #
+  # This is because Buildkite uses the identity-ci role to run tasks
+  # in CI for https://github.com/wellcomecollection/identity, and those CI
+  # tasks in turn run Terraform, which has an "assume_role" block for the
+  # provider (to match our other Terraform configurations).
+  #
+  # When Buildkite running as identity-ci tries to assume identity-ci, that
+  # isn't allowed by default -- we need to explicitly allow it.
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    resources = [
+      "arn:aws:iam::${local.account_ids.identity}:role/identity-ci",
+    ]
+  }
 }
