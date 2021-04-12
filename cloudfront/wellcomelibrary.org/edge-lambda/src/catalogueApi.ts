@@ -2,11 +2,6 @@ import axios from 'axios';
 
 const apiBasePath = 'https://api.wellcomecollection.org/catalogue/v2';
 
-export type ApiQuery = {
-  query: string;
-  include: string[];
-};
-
 export type IdentifierType = {
   id: string;
   label: string;
@@ -38,12 +33,12 @@ export type CatalogueResultsList<Result = Work> = {
 export type GetWorkResult = Work | Error;
 
 export async function* apiQuery(
-  query: ApiQuery
+  query: string
 ): AsyncGenerator<Work, void, void> {
   const url = `${apiBasePath}/works`;
-  const config = { params: query };
+  const queryUrl = `${url}?include=identifiers&query=${query}`;
 
-  const apiResult = await axios.get(url, config);
+  const apiResult = await axios.get(queryUrl);
   const resultList = apiResult.data as CatalogueResultsList;
 
   let nextPage = resultList.nextPage;

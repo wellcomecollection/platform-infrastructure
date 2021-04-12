@@ -16,13 +16,13 @@ export const testDataSingleResult = {
       identifiers: [
         {
           identifierType: {
-            id: "sierra-identifier",
-            label: "Sierra identifier",
-            type: "IdentifierType"
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
           },
-          value: "2242512",
-          type: "Identifier"
-        }
+          value: '2242512',
+          type: 'Identifier',
+        },
       ],
       thumbnail: {},
       availableOnline: true,
@@ -50,13 +50,13 @@ export const testDataMultipleResults = {
       identifiers: [
         {
           identifierType: {
-            id: "sierra-identifier",
-            label: "Sierra identifier",
-            type: "IdentifierType"
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
           },
-          value: "2242512",
-          type: "Identifier"
-        }
+          value: '2242512',
+          type: 'Identifier',
+        },
       ],
       thumbnail: {},
       availableOnline: true,
@@ -96,13 +96,13 @@ export const testDataMultiPageFirstPage = {
       identifiers: [
         {
           identifierType: {
-            id: "sierra-identifier",
-            label: "Sierra identifier",
-            type: "IdentifierType"
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
           },
-          value: "2242512",
-          type: "Identifier"
-        }
+          value: '2242512',
+          type: 'Identifier',
+        },
       ],
       thumbnail: {},
       availableOnline: true,

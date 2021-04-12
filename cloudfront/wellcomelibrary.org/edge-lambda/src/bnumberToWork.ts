@@ -1,13 +1,9 @@
 import { apiQuery, GetWorkResult, Identifier } from './catalogueApi';
 
 export async function getWork(bNumber: string): Promise<GetWorkResult> {
-  const resultList = apiQuery({
-    query: bNumber,
-    include: ['identifiers'],
-  });
+  const resultList = apiQuery(bNumber);
 
   for await (const result of resultList) {
-
     if (result.identifiers) {
       const identifiers: Identifier[] = result.identifiers;
       // If the work has a sierra-identifier identifier, that

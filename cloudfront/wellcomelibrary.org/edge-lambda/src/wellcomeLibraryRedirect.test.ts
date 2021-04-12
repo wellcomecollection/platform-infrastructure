@@ -10,7 +10,6 @@ import {
   axiosNoResponse,
   expectedPassthru,
   expectedRedirect,
-  expectedServerError,
 } from './testHelpers';
 import {
   CloudFrontRequest,
@@ -67,7 +66,7 @@ type ExpectedRewrite = {
 
 const rewriteTests = (): ExpectedRewrite[] => {
   return [
-    // Item page tests
+    // Item & player page tests
     {
       uri: '/item/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
@@ -75,6 +74,16 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/item/b21293302',
+      out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
+      generateData: () => testDataNoResults,
+    },
+    {
+      uri: '/player/b21293302',
+      out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
+      generateData: () => testDataSingleResult,
+    },
+    {
+      uri: '/player/b21293302',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
       generateData: () => testDataNoResults,
     },
@@ -134,7 +143,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/iiif/collection/invalid-url',
-      out:  expectedPassthru('/iiif/collection/invalid-url'),
+      out: expectedPassthru('/iiif/collection/invalid-url'),
       generateData: () => 'not_a_url',
     },
     {

@@ -16,16 +16,13 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
     );
   }
 
-  if (splitPath[1] !== 'item') {
-    return Error(`Path ${path} does not start with /item`);
+  if (!(splitPath[1] === 'item' || splitPath[1] === 'player')) {
+    return Error(`Path ${path} does not start with /item or /player`);
   }
 
   if (!bNumberRegexp.test(splitPath[2])) {
     return Error(`b number in ${path} does not match ${bNumberRegexp}`);
   }
 
-  return splitPath[2]
-      .toLowerCase()
-      .substr(1,7)
-
+  return splitPath[2].toLowerCase().substr(1, 7);
 }

@@ -4,7 +4,6 @@ import {
   testDataMultiPageFirstPage,
   testDataMultiPageNextPage,
   testDataNoResults,
-  testDataSingleResult,
 } from './catalogueApiFixtures';
 import { Work, CatalogueResultsList, Identifier } from './catalogueApi';
 import { getWork } from './bnumberToWork';

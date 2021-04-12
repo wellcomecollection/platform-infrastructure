@@ -24,6 +24,22 @@ const pathTests = (): ExpectedPath[] => {
       out: '2129330',
     },
     {
+      in: '/player/b21293302',
+      out: '2129330',
+    },
+    {
+      in: '/player/B21293302',
+      out: '2129330',
+    },
+    {
+      in: '/player/b2129330x',
+      out: '2129330',
+    },
+    {
+      in: '/player/b2129330',
+      out: '2129330',
+    },
+    {
       in: '/item/b21293302/nope',
       out: Error(
         'Path /item/b21293302/nope has the wrong number many elements (expected 2)'
@@ -43,7 +59,7 @@ const pathTests = (): ExpectedPath[] => {
     },
     {
       in: '/notitem/gary',
-      out: Error('Path /notitem/gary does not start with /item'),
+      out: Error('Path /notitem/gary does not start with /item or /player'),
     },
     {
       in: '/item/i21293302',

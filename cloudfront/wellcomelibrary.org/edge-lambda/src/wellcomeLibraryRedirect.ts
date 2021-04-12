@@ -9,7 +9,6 @@ import {
   createRedirect,
   wellcomeCollectionNotFoundRedirect,
   wellcomeCollectionRedirect,
-  createServerError,
 } from './redirectHelpers';
 import { redirectToRoot } from './redirectToRoot';
 import { lookupRedirect } from './lookupRedirect';
@@ -40,7 +39,9 @@ async function getWorksRedirect(
   return wellcomeCollectionRedirect(`/works/${work.id}`);
 }
 
-async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse | undefined> {
+async function getApiRedirects(
+  uri: string
+): Promise<CloudFrontResultResponse | undefined> {
   const apiRedirectUri = await wlorgpLookup(uri);
 
   if (apiRedirectUri instanceof Error) {
