@@ -1,5 +1,5 @@
 locals {
-  route53_wellcomecolection_update = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
+  route53_wellcomecolection_update = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
 }
 
 module "super_dev_roleset" {
