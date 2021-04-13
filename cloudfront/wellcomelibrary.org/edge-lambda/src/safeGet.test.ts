@@ -1,4 +1,4 @@
-import { expect, test, jest } from '@jest/globals';
+import { expect, test, jest, afterEach } from '@jest/globals';
 import axios from 'axios';
 import { safeGet } from './safeGet';
 
@@ -51,4 +51,8 @@ test('returns the data value with a success response', async () => {
   const getResult = await safeGet('http://www.example.com');
 
   expect(getResult).toEqual(expectedData);
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });

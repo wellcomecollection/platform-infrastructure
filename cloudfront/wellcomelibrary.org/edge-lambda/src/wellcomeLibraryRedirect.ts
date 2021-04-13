@@ -21,15 +21,15 @@ async function getWorksRedirect(
   uri: string
 ): Promise<CloudFrontResultResponse> {
   // Try and find b-number in item path
-  const bNumberResult = getBnumberFromPath(uri);
+  const sierraIdentifier = getBnumberFromPath(uri);
 
-  if (bNumberResult instanceof Error) {
-    console.error(bNumberResult);
+  if (sierraIdentifier instanceof Error) {
+    console.error(sierraIdentifier);
     return wellcomeCollectionNotFoundRedirect;
   }
 
   // Find corresponding work id
-  const work = await getWork(bNumberResult);
+  const work = await getWork(sierraIdentifier);
 
   if (work instanceof Error) {
     console.error(work);

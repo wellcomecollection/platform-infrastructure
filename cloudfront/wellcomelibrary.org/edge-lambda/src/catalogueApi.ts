@@ -27,7 +27,7 @@ export type CatalogueResultsList<Result = Work> = {
   results: Result[];
   pageSize: number;
   prevPage?: string;
-  nextPage: string | undefined;
+  nextPage?: string | undefined;
 };
 
 export type GetWorkResult = Work | Error;

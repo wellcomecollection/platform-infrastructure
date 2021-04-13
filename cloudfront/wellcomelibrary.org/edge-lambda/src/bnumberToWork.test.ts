@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { jest, test, expect } from '@jest/globals';
+import { jest, test, expect, afterEach } from '@jest/globals';
 import {
   testDataMultiPageFirstPage,
   testDataMultiPageNextPage,
   testDataNoResults,
+  testDataSingleResult,
 } from './catalogueApiFixtures';
 import { Work, CatalogueResultsList, Identifier } from './catalogueApi';
 import { getWork } from './bnumberToWork';
@@ -11,24 +12,7 @@ import { getWork } from './bnumberToWork';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-test('returns an Error when none available', async () => {
-  mockedAxios.get.mockResolvedValueOnce({ data: testDataNoResults });
-
-  const workResults = await getWork('bnumber');
-  expect(workResults).toEqual(Error('No matching Catalogue API results found'));
-});
-
-const includesSierraIdentifiers = [
-  {
-    identifierType: {
-      id: 'sierra-system-number',
-      label: 'Sierra system number',
-      type: 'IdentifierType',
-    },
-    value: 'b12062789',
-    type: 'Identifier',
-  } as Identifier,
-
+const includesSierraId = [
   {
     identifierType: {
       id: 'sierra-identifier',
@@ -36,6 +20,18 @@ const includesSierraIdentifiers = [
       type: 'IdentifierType',
     },
     value: '1206278',
+    type: 'Identifier',
+  } as Identifier,
+];
+
+const includesSierraSysNum = [
+  {
+    identifierType: {
+      id: 'sierra-system-number',
+      label: 'Sierra system number',
+      type: 'IdentifierType',
+    },
+    value: 'b12062789',
     type: 'Identifier',
   } as Identifier,
 ];
@@ -67,9 +63,21 @@ function addIdentifiersToPage(
   };
 }
 
+test('returns an Error when none available', async () => {
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: testDataNoResults })
+    .mockResolvedValueOnce({ data: testDataNoResults });
+
+  const workResults = await getWork({
+    sierraIdentifier: 'b1234567',
+  });
+
+  expect(workResults).toEqual(Error('No matching Catalogue API results found'));
+});
+
 test('returns the work with a "sierra-identifier" identifier', async () => {
   const firstPageWithSierraIdentifiers = addIdentifiersToPage(
-    includesSierraIdentifiers,
+    includesSierraId,
     testDataMultiPageFirstPage as CatalogueResultsList
   );
   const nextPageWithoutSierraIdentifiers = addIdentifiersToPage(
@@ -83,6 +91,38 @@ test('returns the work with a "sierra-identifier" identifier', async () => {
 
   const expectedWork = firstPageWithSierraIdentifiers.results[0] as Work;
 
-  const workResults = await getWork('bnumber');
+  const workResults = await getWork({
+    sierraIdentifier: includesSierraId[0].value,
+  });
+
   expect(workResults).toEqual(expectedWork);
+});
+
+test('returns the work with a "sierra-system-number" identifier when no "sierra-identifier"', async () => {
+  const firstRequestWithOutSierraIdentifiers = addIdentifiersToPage(
+    excludesSierraIdentifiers,
+    testDataSingleResult as CatalogueResultsList
+  );
+  const nextRequestWithSierraSysNumIdentifiers = addIdentifiersToPage(
+    includesSierraSysNum,
+    testDataSingleResult as CatalogueResultsList
+  );
+
+  mockedAxios.get
+    .mockResolvedValueOnce({ data: firstRequestWithOutSierraIdentifiers })
+    .mockResolvedValueOnce({ data: nextRequestWithSierraSysNumIdentifiers });
+
+  const expectedWork = nextRequestWithSierraSysNumIdentifiers
+    .results[0] as Work;
+
+  const workResults = await getWork({
+    sierraIdentifier: 'nope',
+    sierraSystemNumber: includesSierraSysNum[0].value,
+  });
+
+  expect(workResults).toEqual(expectedWork);
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });

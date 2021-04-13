@@ -1,20 +1,46 @@
-import { apiQuery, GetWorkResult, Identifier } from './catalogueApi';
+import { apiQuery, GetWorkResult, Identifier, Work } from './catalogueApi';
+import { SierraIdentifier } from './paths';
 
-export async function getWork(bNumber: string): Promise<GetWorkResult> {
-  const resultList = apiQuery(bNumber);
+async function findMatchingWork(
+  identifierType: string,
+  identifierValue: string
+): Promise<Work | undefined> {
+  const resultList = apiQuery(identifierValue);
 
   for await (const result of resultList) {
     if (result.identifiers) {
       const identifiers: Identifier[] = result.identifiers;
-      // If the work has a sierra-identifier identifier, that
-      // preferentially indicates the work as being sourced
-      // from Sierra, so use that work if we see it.
-      const hasSierraId = identifiers.some(
-        (thing) => thing.identifierType.id === 'sierra-identifier'
+      const hasMatchingId = identifiers.some(
+        (thing) =>
+          thing.identifierType.id === identifierType &&
+          thing.value === identifierValue
       );
-      if (hasSierraId) {
+
+      if (hasMatchingId) {
         return result;
       }
+    }
+  }
+}
+
+export async function getWork(
+  sierraIdentifier: SierraIdentifier
+): Promise<GetWorkResult> {
+  const sierraIdWork = await findMatchingWork(
+    'sierra-identifier',
+    sierraIdentifier.sierraIdentifier
+  );
+  if (sierraIdWork) {
+    return sierraIdWork;
+  }
+
+  if (sierraIdentifier.sierraSystemNumber) {
+    const sierraSysNumWork = await findMatchingWork(
+      'sierra-system-number',
+      sierraIdentifier.sierraSystemNumber
+    );
+    if (sierraSysNumWork) {
+      return sierraSysNumWork;
     }
   }
 

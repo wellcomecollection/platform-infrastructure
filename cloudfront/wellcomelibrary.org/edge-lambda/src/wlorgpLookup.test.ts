@@ -1,4 +1,4 @@
-import { expect, test, jest } from '@jest/globals';
+import { expect, test, jest, afterEach } from '@jest/globals';
 import { safeGet } from './safeGet';
 
 import { wlorgpLookup } from './wlorgpLookup';
@@ -37,4 +37,8 @@ test('returns a URL if valid is returned', async () => {
   const lookupResult = await wlorgpLookup('http://www.example.com');
 
   expect(lookupResult).toEqual(new URL(validUrl));
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });

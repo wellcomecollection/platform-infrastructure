@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { jest, test, expect } from '@jest/globals';
+import { jest, test, expect, afterEach } from '@jest/globals';
 
 import { apiQuery, Work } from './catalogueApi';
 import {
@@ -77,4 +77,8 @@ test('returns multiple result across pages', async () => {
   ];
 
   expect(works).toEqual(expectedResults);
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });
