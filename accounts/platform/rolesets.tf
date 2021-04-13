@@ -1,3 +1,7 @@
+locals {
+  route53_wellcomecolection_update = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
+}
+
 module "super_dev_roleset" {
   source = "../modules/roleset"
 
@@ -88,7 +92,7 @@ module "super_dev_roleset" {
     module.s3_releases_scala_fixtures.role_arn,
 
     # Route 53
-    "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
+    local.route53_wellcomecolection_update
   ]
 }
 
@@ -348,7 +352,7 @@ module "digirati_dev_roleset" {
     local.identity_account_roles["read_only_role_arn"],
     local.identity_account_roles["ci_role_arn"],
 
-    # Identity
+    # Experience
     local.experience_account_roles["developer_role_arn"],
     local.experience_account_roles["read_only_role_arn"],
     local.experience_account_roles["ci_role_arn"],
@@ -358,5 +362,45 @@ module "digirati_dev_roleset" {
 
     # Storage
     local.storage_account_roles["read_only_role_arn"]
+  ]
+}
+
+module "digirati_admin_roleset" {
+  source = "../modules/roleset"
+
+  name = "digirati-admin"
+
+  federated_principal = module.account_federation.principal
+  aws_principal       = local.aws_principal
+
+  assumable_role_arns = [
+    # Platform
+    module.aws_account.read_only_role_arn,
+
+    # Digirati
+    local.digirati_account_roles["admin_role_arn"],
+    local.digirati_account_roles["developer_role_arn"],
+    local.digirati_account_roles["read_only_role_arn"],
+    local.digirati_account_roles["ci_role_arn"],
+
+    # Identity
+    local.identity_account_roles["admin_role_arn"],
+    local.identity_account_roles["developer_role_arn"],
+    local.identity_account_roles["read_only_role_arn"],
+    local.identity_account_roles["ci_role_arn"],
+
+    # Experience
+    local.experience_account_roles["developer_role_arn"],
+    local.experience_account_roles["read_only_role_arn"],
+    local.experience_account_roles["ci_role_arn"],
+
+    # Workflow
+    local.workflow_account_roles["read_only_role_arn"],
+
+    # Storage
+    local.storage_account_roles["read_only_role_arn"],
+
+    # Route 53
+    local.route53_wellcomecolection_update
   ]
 }
