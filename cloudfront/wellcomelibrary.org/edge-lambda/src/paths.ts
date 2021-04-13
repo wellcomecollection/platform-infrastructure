@@ -7,17 +7,17 @@ export type GetBNumberResult = SierraIdentifier | Error;
 
 // Copied from https://github.com/SydneyUniLibrary/sierra-record-check-digit/blob/master/index.js#L21
 function calcCheckDigit(recordNumber: number) {
-  let m = 2
-  let x = 0
-  let i = Number(recordNumber)
+  let m = 2;
+  let x = 0;
+  let i = Number(recordNumber);
   while (i > 0) {
-    let a = i % 10
-    i = Math.floor(i / 10)
-    x += a * m
-    m += 1
+    const a = i % 10;
+    i = Math.floor(i / 10);
+    x += a * m;
+    m += 1;
   }
-  const r = x % 11
-  return r === 10 ? 'x' : String(r)
+  const r = x % 11;
+  return r === 10 ? 'x' : String(r);
 }
 
 export function getBnumberFromPath(path: string): GetBNumberResult {
@@ -45,7 +45,9 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
   }
 
   const sierraIdentifier = splitPath[2].toLowerCase().substr(1, 7);
-  const sierraSystemNumber = `b${sierraIdentifier}${calcCheckDigit(parseInt(sierraIdentifier))}`
+  const sierraSystemNumber = `b${sierraIdentifier}${calcCheckDigit(
+    parseInt(sierraIdentifier)
+  )}`;
 
   return {
     sierraIdentifier: sierraIdentifier,
