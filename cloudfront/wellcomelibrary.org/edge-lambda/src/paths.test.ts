@@ -25,14 +25,14 @@ const pathTests = (): ExpectedPath[] => {
       in: '/item/b2129330x',
       out: {
         sierraIdentifier: '2129330',
-        sierraSystemNumber: undefined,
+        sierraSystemNumber: 'b21293302',
       },
     },
     {
       in: '/item/b2129330',
       out: {
         sierraIdentifier: '2129330',
-        sierraSystemNumber: undefined,
+        sierraSystemNumber: 'b21293302',
       },
     },
     {
@@ -53,14 +53,14 @@ const pathTests = (): ExpectedPath[] => {
       in: '/player/b2129330x',
       out: {
         sierraIdentifier: '2129330',
-        sierraSystemNumber: undefined,
+        sierraSystemNumber: 'b21293302',
       },
     },
     {
       in: '/player/b2129330',
       out: {
         sierraIdentifier: '2129330',
-        sierraSystemNumber: undefined,
+        sierraSystemNumber: 'b21293302',
       },
     },
     {
