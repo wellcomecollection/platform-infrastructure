@@ -10,14 +10,13 @@ import {
   axiosNoResponse,
   expectedPassthru,
   expectedRedirect,
-  expectedServerError,
 } from './testHelpers';
 import {
   CloudFrontRequest,
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { expect, jest, test } from '@jest/globals';
+import { expect, jest, test, afterEach } from '@jest/globals';
 
 import rawStaticRedirects from './staticRedirects.json';
 const staticRedirects = rawStaticRedirects as Record<string, string>;
@@ -61,22 +60,32 @@ type ExpectedRewrite = {
   uri: string;
   queryString?: string;
   out: CloudFrontResultResponse | CloudFrontRequest;
-  generateData?: GenerateData;
+  generateData?: GenerateData[];
   error?: Error;
 };
 
 const rewriteTests = (): ExpectedRewrite[] => {
   return [
-    // Item page tests
+    // Item & player page tests
     {
-      uri: '/item/b21293302',
+      uri: '/item/b22425122',
       out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
-      generateData: () => testDataSingleResult,
+      generateData: [() => testDataSingleResult],
     },
     {
-      uri: '/item/b21293302',
+      uri: '/item/b22425122',
       out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
-      generateData: () => testDataNoResults,
+      generateData: [() => testDataNoResults, () => testDataNoResults],
+    },
+    {
+      uri: '/player/b22425122',
+      out: expectedRedirect('https://wellcomecollection.org/works/k2a8y7q6'),
+      generateData: [() => testDataSingleResult],
+    },
+    {
+      uri: '/player/b22425122',
+      out: expectedRedirect('https://wellcomecollection.org/works/not-found'),
+      generateData: [() => testDataNoResults, () => testDataNoResults],
     },
     {
       uri: '/item/not-bnumber',
@@ -114,8 +123,9 @@ const rewriteTests = (): ExpectedRewrite[] => {
       out: expectedRedirect(
         'https://iiif.wellcomecollection.org/presentation/v2/happy-path'
       ),
-      generateData: () =>
-        'https://iiif.wellcomecollection.org/presentation/v2/happy-path',
+      generateData: [
+        () => 'https://iiif.wellcomecollection.org/presentation/v2/happy-path',
+      ],
     },
     {
       uri: '/iiif/collection/not-found',
@@ -134,8 +144,8 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/iiif/collection/invalid-url',
-      out:  expectedPassthru('/iiif/collection/invalid-url'),
-      generateData: () => 'not_a_url',
+      out: expectedPassthru('/iiif/collection/invalid-url'),
+      generateData: [() => 'not_a_url'],
     },
     {
       uri: '/service/alto/happy-path/0',
@@ -143,30 +153,32 @@ const rewriteTests = (): ExpectedRewrite[] => {
       out: expectedRedirect(
         'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2'
       ),
-      generateData: (url) => {
-        // Simulate doing a lookup with a query string
-        if (url?.endsWith('/service/alto/happy-path/0?image=400')) {
-          return 'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2';
-        } else {
-          return 'https://example.com/badpath';
-        }
-      },
+      generateData: [
+        (url) => {
+          // Simulate doing a lookup with a query string
+          if (url?.endsWith('/service/alto/happy-path/0?image=400')) {
+            return 'https://iiif.wellcomecollection.org/text/alto/happy-path/b28047345_0403.jp2';
+          } else {
+            return 'https://example.com/badpath';
+          }
+        },
+      ],
     },
     {
       uri: '/ddsconf/happy-path',
       out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: [() => 'https://iiif.wellcomecollection.org/bar/bat'],
     },
     {
       uri: '/dds-static/happy-path',
       out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: [() => 'https://iiif.wellcomecollection.org/bar/bat'],
     },
     {
       uri: '/annoservices/search/happy-path',
       queryString: 'q=butterfly',
       out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
-      generateData: () => 'https://iiif.wellcomecollection.org/bar/bat',
+      generateData: [() => 'https://iiif.wellcomecollection.org/bar/bat'],
     },
   ];
 };
@@ -183,19 +195,21 @@ test.each(rewriteTests())(
     }
 
     if (expected.generateData) {
-      mockedAxios.get.mockImplementationOnce(
-        async (url: string, config?: AxiosRequestConfig) => {
-          const dataGenerator = expected.generateData as GenerateData;
+      expected.generateData.forEach((generator) => {
+        mockedAxios.get.mockImplementationOnce(
+          async (url: string, config?: AxiosRequestConfig) => {
+            const dataGenerator = generator as GenerateData;
 
-          return {
-            data: dataGenerator(url),
-            status: 200,
-            statusText: 'OK',
-            headers: {},
-            config: {},
-          } as AxiosResponse;
-        }
-      );
+            return {
+              data: dataGenerator(url),
+              status: 200,
+              statusText: 'OK',
+              headers: {},
+              config: {},
+            } as AxiosResponse;
+          }
+        );
+      });
     }
 
     const originRequest = await origin.requestHandler(request, {} as Context);
@@ -270,4 +284,8 @@ test('leaves other headers unmodified', async () => {
       { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
     ],
   });
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
 });

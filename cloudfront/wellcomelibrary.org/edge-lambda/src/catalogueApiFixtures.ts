@@ -13,6 +13,17 @@ export const testDataSingleResult = {
         '<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>',
       physicalDescription: '1 folded sheet (4 p.) : ill. ; 21 cm.',
       workType: {},
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
+          },
+          value: '2242512',
+          type: 'Identifier',
+        },
+      ],
       thumbnail: {},
       availableOnline: true,
       availabilities: {},
@@ -36,6 +47,17 @@ export const testDataMultipleResults = {
         '<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>',
       physicalDescription: '1 folded sheet (4 p.) : ill. ; 21 cm.',
       workType: {},
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
+          },
+          value: '2242512',
+          type: 'Identifier',
+        },
+      ],
       thumbnail: {},
       availableOnline: true,
       availabilities: {},
@@ -71,6 +93,17 @@ export const testDataMultiPageFirstPage = {
         '<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>',
       physicalDescription: '1 folded sheet (4 p.) : ill. ; 21 cm.',
       workType: {},
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
+          },
+          value: '2242512',
+          type: 'Identifier',
+        },
+      ],
       thumbnail: {},
       availableOnline: true,
       availabilities: {},

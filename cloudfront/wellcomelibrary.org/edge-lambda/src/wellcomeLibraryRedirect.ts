@@ -9,7 +9,6 @@ import {
   createRedirect,
   wellcomeCollectionNotFoundRedirect,
   wellcomeCollectionRedirect,
-  createServerError,
 } from './redirectHelpers';
 import { redirectToRoot } from './redirectToRoot';
 import { lookupRedirect } from './lookupRedirect';
@@ -22,15 +21,15 @@ async function getWorksRedirect(
   uri: string
 ): Promise<CloudFrontResultResponse> {
   // Try and find b-number in item path
-  const bNumberResult = getBnumberFromPath(uri);
+  const sierraIdentifier = getBnumberFromPath(uri);
 
-  if (bNumberResult instanceof Error) {
-    console.error(bNumberResult);
+  if (sierraIdentifier instanceof Error) {
+    console.error(sierraIdentifier);
     return wellcomeCollectionNotFoundRedirect;
   }
 
   // Find corresponding work id
-  const work = await getWork(bNumberResult);
+  const work = await getWork(sierraIdentifier);
 
   if (work instanceof Error) {
     console.error(work);
@@ -40,7 +39,9 @@ async function getWorksRedirect(
   return wellcomeCollectionRedirect(`/works/${work.id}`);
 }
 
-async function getApiRedirects(uri: string): Promise<CloudFrontResultResponse | undefined> {
+async function getApiRedirects(
+  uri: string
+): Promise<CloudFrontResultResponse | undefined> {
   const apiRedirectUri = await wlorgpLookup(uri);
 
   if (apiRedirectUri instanceof Error) {
@@ -59,7 +60,7 @@ async function redirectRequestUri(
     uri = `${uri}?${request.querystring}`;
   }
 
-  const itemPathRegExp: RegExp = /^\/item\/.*/;
+  const itemPathRegExp: RegExp = /^\/(item|player)\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
   const staticRedirect = lookupRedirect(staticRedirects, uri);

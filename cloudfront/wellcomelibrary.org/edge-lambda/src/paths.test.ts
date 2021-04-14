@@ -1,27 +1,67 @@
 import { expect, test } from '@jest/globals';
-import { getBnumberFromPath } from './paths';
+import { getBnumberFromPath, SierraIdentifier } from './paths';
 
 type ExpectedPath = {
   in: string;
-  out: string | Error;
+  out: SierraIdentifier | Error;
 };
 const pathTests = (): ExpectedPath[] => {
   return [
     {
       in: '/item/b21293302',
-      out: 'b21293302',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
     },
     {
       in: '/item/B21293302',
-      out: 'b21293302',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
     },
     {
       in: '/item/b2129330x',
-      out: 'b2129330x',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
     },
     {
       in: '/item/b2129330',
-      out: 'b2129330',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
+    },
+    {
+      in: '/player/b21293302',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
+    },
+    {
+      in: '/player/B21293302',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
+    },
+    {
+      in: '/player/b2129330x',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
+    },
+    {
+      in: '/player/b2129330',
+      out: {
+        sierraIdentifier: '2129330',
+        sierraSystemNumber: 'b21293302',
+      },
     },
     {
       in: '/item/b21293302/nope',
@@ -43,7 +83,7 @@ const pathTests = (): ExpectedPath[] => {
     },
     {
       in: '/notitem/gary',
-      out: Error('Path /notitem/gary does not start with /item'),
+      out: Error('Path /notitem/gary does not start with /item or /player'),
     },
     {
       in: '/item/i21293302',
