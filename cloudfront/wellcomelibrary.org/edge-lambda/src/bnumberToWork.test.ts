@@ -69,7 +69,8 @@ test('returns an Error when none available', async () => {
     .mockResolvedValueOnce({ data: testDataNoResults });
 
   const workResults = await getWork({
-    sierraIdentifier: 'b1234567',
+    sierraIdentifier: '1234567',
+    sierraSystemNumber: 'b1234567x',
   });
 
   expect(workResults).toEqual(Error('No matching Catalogue API results found'));
@@ -93,6 +94,7 @@ test('returns the work with a "sierra-identifier" identifier', async () => {
 
   const workResults = await getWork({
     sierraIdentifier: includesSierraId[0].value,
+    sierraSystemNumber: 'b12062789',
   });
 
   expect(workResults).toEqual(expectedWork);
