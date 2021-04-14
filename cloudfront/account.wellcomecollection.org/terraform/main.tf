@@ -6,10 +6,7 @@ data "aws_route53_zone" "weco_zone" {
   provider = aws.dns
 }
 
-/*resource "aws_route53_zone" "account" {
-  name = "account.${data.aws_route53_zone.weco_zone.name}"
-}
-
+/*
 resource "aws_route53_record" "account-ns" {
   zone_id = data.aws_route53_zone.weco_zone.id
   name    = "account.${data.aws_route53_zone.weco_zone.name}"
@@ -18,7 +15,8 @@ resource "aws_route53_record" "account-ns" {
   records = local.account_zone_name_servers
 
   provider = aws.dns
-}*/
+}
+*/
 
 resource "aws_route53_record" "identity-ses-txt" {
   zone_id = data.aws_route53_zone.weco_zone.id
