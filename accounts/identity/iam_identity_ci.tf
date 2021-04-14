@@ -76,6 +76,8 @@ data "aws_iam_policy_document" "identity_ci" {
     resources = [
       "arn:aws:s3:::identity-public-swagger-ui-v1-stage",
       "arn:aws:s3:::identity-public-swagger-ui-v1-stage/*",
+      "arn:aws:s3:::identity-public-swagger-ui-v1-prod",
+      "arn:aws:s3:::identity-public-swagger-ui-v1-prod/*",
     ]
   }
 
@@ -96,27 +98,6 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
     resources = [
       "*",
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ecs:UpdateService"
-    ]
-    resources = [
-      "arn:aws:ecs:eu-west-1:${local.account_ids.identity}:service/*",
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "iam:PassRole"
-    ]
-    resources = [
-      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-task-role-stage",
-      "arn:aws:iam::${local.account_ids.identity}:role/identity-ecs-execution-role-stage"
     ]
   }
 
