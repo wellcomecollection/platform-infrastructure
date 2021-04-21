@@ -116,4 +116,14 @@ data "aws_iam_policy_document" "workflow_support" {
       "arn:aws:s3:::wellcomecollection-storage-staging/digitised/*",
     ]
   }
+
+  # Allow workflow-support users to use CloudShell, so they can use
+  # the AWS CLI in the browser rather than installing locally.
+  statement {
+    actions = [
+      "cloudshell:*",
+    ]
+
+    resources = ["*"]
+  }
 }
