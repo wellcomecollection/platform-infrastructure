@@ -115,6 +115,7 @@ data "aws_iam_policy_document" "ci_permissions" {
   # Publish & retrieve scala libraries
   dynamic "statement" {
     for_each = [
+      "http",
       "json",
       "storage",
       "monitoring",
