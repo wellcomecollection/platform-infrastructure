@@ -12,9 +12,10 @@ variable "comment" {
 
 variable "origin_domains" {
   type = object({
-    catalogue = string
-    stacks = string
-    storage = string
-    text = string
+    catalogue     = string
+    catalogue_old = string
+    stacks        = string
+    storage       = string
+    text          = string
   })
 }

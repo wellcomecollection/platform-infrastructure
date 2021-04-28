@@ -1,5 +1,5 @@
 locals {
-  root_s3_domain   = "wellcomecollection-public-api.s3.amazonaws.com"
+  root_s3_domain = "wellcomecollection-public-api.s3.amazonaws.com"
 }
 
 resource "aws_cloudfront_distribution" "wellcomecollection" {
@@ -7,7 +7,24 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   origin {
     domain_name = var.origin_domains.catalogue
+    origin_id   = "catalogue_api_delta"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
+
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_keepalive_timeout = 5
+      origin_read_timeout      = 30
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"] // API Gateway V2 requires TLSv1.2
+    }
+  }
+
+  // TODO remove this origin once the new one is active
+  origin {
+    domain_name = var.origin_domains.catalogue_old
     origin_id   = "catalogue_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -26,6 +43,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   origin {
     domain_name = var.origin_domains.stacks
     origin_id   = "stacks_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -44,6 +62,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   origin {
     domain_name = var.origin_domains.storage
     origin_id   = "storage_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -62,11 +81,13 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   origin {
     domain_name = local.root_s3_domain
     origin_id   = "root"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
   }
 
   origin {
     domain_name = var.origin_domains.text
     origin_id   = "text_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
