@@ -1,22 +1,12 @@
 locals {
-  subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
-
-  distro_alias = "api${local.subdomain_modifier}.wellcomecollection.org"
-
-  catalogue_domain = "catalogue.api${local.subdomain_modifier}.wellcomecollection.org"
-  stacks_domain    = "stacks.api${local.subdomain_modifier}.wellcomecollection.org"
-  storage_domain   = "storage.api${local.subdomain_modifier}.wellcomecollection.org"
   root_s3_domain   = "wellcomecollection-public-api.s3.amazonaws.com"
-  text_domain      = "dds${local.subdomain_modifier}.wellcomecollection.digirati.io"
 }
 
 resource "aws_cloudfront_distribution" "wellcomecollection" {
-  aliases = [
-    local.distro_alias
-  ]
+  aliases = var.aliases
 
   origin {
-    domain_name = local.catalogue_domain
+    domain_name = var.origin_domains.catalogue
     origin_id   = "catalogue_api"
 
     custom_origin_config {
@@ -34,7 +24,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
-    domain_name = local.stacks_domain
+    domain_name = var.origin_domains.stacks
     origin_id   = "stacks_api"
 
     custom_origin_config {
@@ -52,7 +42,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
-    domain_name = local.storage_domain
+    domain_name = var.origin_domains.storage
     origin_id   = "storage_api"
 
     custom_origin_config {
@@ -75,7 +65,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
-    domain_name = local.text_domain
+    domain_name = var.origin_domains.text
     origin_id   = "text_api"
 
     custom_origin_config {
@@ -94,7 +84,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   enabled         = true
   is_ipv6_enabled = true
-  comment         = "Collection APIs (${var.environment})"
+  comment         = var.comment
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
