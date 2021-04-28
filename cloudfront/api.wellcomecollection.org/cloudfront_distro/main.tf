@@ -128,9 +128,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   ordered_cache_behavior {
-    path_pattern     = "/catalogue/*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
+    path_pattern    = "/catalogue/*"
+    allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods  = ["GET", "HEAD"]
+    // TODO: switch this over _after_ adding the new origin (this is already done in staging)
+    // target_origin_id = "catalogue_api_delta"
     target_origin_id = "catalogue_api"
 
     forwarded_values {
