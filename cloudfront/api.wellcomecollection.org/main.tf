@@ -3,7 +3,7 @@ locals {
   stage_domain = "api-stage.wellcomecollection.org"
 }
 
-module "wellcomecollection-prod" {
+module "wellcomecollection_prod" {
   source = "./cloudfront_distro"
 
   comment = "Collection APIs (prod)"
@@ -18,7 +18,7 @@ module "wellcomecollection-prod" {
   acm_certificate_arn = module.cert.arn
 }
 
-module "wellcomecollection-stage" {
+module "wellcomecollection_stage" {
   source = "./cloudfront_distro"
 
   comment = "Collection APIs (stage)"
