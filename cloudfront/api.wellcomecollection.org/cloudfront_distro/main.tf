@@ -1,23 +1,14 @@
 locals {
-  subdomain_modifier = var.environment == "prod" ? "" : "-${var.environment}"
-
-  distro_alias = "api${local.subdomain_modifier}.wellcomecollection.org"
-
-  catalogue_domain = "catalogue.api${local.subdomain_modifier}.wellcomecollection.org"
-  stacks_domain    = "stacks.api${local.subdomain_modifier}.wellcomecollection.org"
-  storage_domain   = "storage.api${local.subdomain_modifier}.wellcomecollection.org"
-  root_s3_domain   = "wellcomecollection-public-api.s3.amazonaws.com"
-  text_domain      = "dds${local.subdomain_modifier}.wellcomecollection.digirati.io"
+  root_s3_domain = "wellcomecollection-public-api.s3.amazonaws.com"
 }
 
 resource "aws_cloudfront_distribution" "wellcomecollection" {
-  aliases = [
-    local.distro_alias
-  ]
+  aliases = var.aliases
 
   origin {
-    domain_name = local.catalogue_domain
-    origin_id   = "catalogue_api"
+    domain_name = var.origin_domains.catalogue
+    origin_id   = "catalogue_api_delta"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -25,17 +16,14 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
+      origin_ssl_protocols     = ["TLSv1.2"] // API Gateway V2 requires TLSv1.2
     }
   }
 
   origin {
-    domain_name = local.stacks_domain
+    domain_name = var.origin_domains.stacks
     origin_id   = "stacks_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -52,8 +40,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
-    domain_name = local.storage_domain
+    domain_name = var.origin_domains.storage
     origin_id   = "storage_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -72,11 +61,13 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   origin {
     domain_name = local.root_s3_domain
     origin_id   = "root"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
   }
 
   origin {
-    domain_name = local.text_domain
+    domain_name = var.origin_domains.text
     origin_id   = "text_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
       http_port                = 80
@@ -94,7 +85,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   enabled         = true
   is_ipv6_enabled = true
-  comment         = "Collection APIs (${var.environment})"
+  comment         = var.comment
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -120,7 +111,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     path_pattern     = "/catalogue/*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "catalogue_api"
+    target_origin_id = "catalogue_api_delta"
 
     forwarded_values {
       query_string = true
