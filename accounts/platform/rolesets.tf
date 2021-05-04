@@ -242,6 +242,9 @@ module "data_dev_roleset" {
 
   assumable_role_arns = [
     # Platform
+    # Currently the admin role is needed as we have a lot of
+    # infra in the platform account that should be in the catalogue account
+    module.aws_account.admin_role_arn,
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
     module.aws_account.ci_role_arn,
