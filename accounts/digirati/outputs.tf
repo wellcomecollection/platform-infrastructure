@@ -41,3 +41,19 @@ output "digirati_vpc_public_subnets" {
 output "digirati_vpc_id" {
   value = module.digirati_vpc.vpc_id
 }
+
+output "moh_vpc_private_subnets" {
+  value = module.moh_vpc.private_subnets
+}
+
+output "moh_cidr_block_private" {
+  value = module.moh_vpc.cidr_block_private
+}
+
+output "moh_vpc_public_subnets" {
+  value = module.moh_vpc.public_subnets
+}
+
+output "moh_vpc_id" {
+  value = module.moh_vpc.vpc_id
+}
