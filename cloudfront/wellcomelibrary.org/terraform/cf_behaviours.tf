@@ -101,9 +101,7 @@ locals {
     }
   ]
 
-  prod_behaviours = concat(
-    local.api_behaviours,
-  )
+  prod_behaviours = []
 
   stage_behaviours = []
 }
