@@ -34,4 +34,14 @@ data "aws_iam_policy_document" "experience_ci" {
       "arn:aws:secretsmanager:${local.aws_region}:${local.account_ids["experience"]}:secret:builds/*",
     ]
   }
+
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${local.aws_region}:${local.account_ids["experience"]}:secret:catalogue_api/items/*",
+    ]
+  }
 }
