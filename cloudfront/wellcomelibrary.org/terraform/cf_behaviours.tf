@@ -118,7 +118,7 @@ locals {
       target_origin_id = local.wellcome_library_moh_origin.origin_id
       headers          = []
       cookies          = "all"
-      lambdas = []
+      lambdas          = []
 
       min_ttl     = null
       default_ttl = null
@@ -140,7 +140,7 @@ locals {
       target_origin_id = local.wellcome_library_moh_origin.origin_id
       headers          = []
       cookies          = "all"
-      lambdas = []
+      lambdas          = []
 
       min_ttl     = null
       default_ttl = null
