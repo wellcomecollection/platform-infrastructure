@@ -118,12 +118,7 @@ locals {
       target_origin_id = local.wellcome_library_moh_origin.origin_id
       headers          = []
       cookies          = "all"
-      lambdas = [
-        {
-          event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_prod
-        }
-      ]
+      lambdas = []
 
       min_ttl     = null
       default_ttl = null
@@ -145,12 +140,7 @@ locals {
       target_origin_id = local.wellcome_library_moh_origin.origin_id
       headers          = []
       cookies          = "all"
-      lambdas = [
-        {
-          event_type = "origin-request"
-          lambda_arn = local.wellcome_library_passthru_arn_prod
-        }
-      ]
+      lambdas = []
 
       min_ttl     = null
       default_ttl = null
