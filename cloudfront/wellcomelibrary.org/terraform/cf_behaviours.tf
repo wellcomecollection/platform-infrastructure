@@ -101,64 +101,12 @@ locals {
     }
   ]
 
+  moh_paths = ["moh/*", "spas/*", "assets/*", "plugins/*", "scripts/*", "timelines/*"]
+
   moh_behaviours = [
+    for path in local.moh_paths:
     {
-      path_pattern     = "moh/*"
-      target_origin_id = local.wellcome_library_moh_origin.origin_id
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
-    {
-      path_pattern     = "spas/*"
-      target_origin_id = local.wellcome_library_moh_origin.origin_id
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
-    {
-      path_pattern     = "assets/*"
-      target_origin_id = local.wellcome_library_moh_origin.origin_id
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
-    {
-      path_pattern     = "plugins/*"
-      target_origin_id = local.wellcome_library_moh_origin.origin_id
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
-    {
-      path_pattern     = "scripts/*"
-      target_origin_id = local.wellcome_library_moh_origin.origin_id
-      headers          = []
-      cookies          = "all"
-      lambdas          = []
-
-      min_ttl     = null
-      default_ttl = null
-      max_ttl     = null
-    },
-    {
-      path_pattern     = "timelines/*"
+      path_pattern     = path
       target_origin_id = local.wellcome_library_moh_origin.origin_id
       headers          = []
       cookies          = "all"
