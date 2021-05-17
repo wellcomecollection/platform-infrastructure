@@ -104,7 +104,7 @@ locals {
   moh_paths = ["moh/*", "spas/*", "assets/*", "plugins/*", "scripts/*", "timelines/*"]
 
   moh_behaviours = [
-    for path in local.moh_paths:
+    for path in local.moh_paths :
     {
       path_pattern     = path
       target_origin_id = local.wellcome_library_moh_origin.origin_id
