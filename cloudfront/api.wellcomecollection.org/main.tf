@@ -10,7 +10,6 @@ module "wellcomecollection_prod" {
   aliases = [local.prod_domain]
   origin_domains = {
     catalogue = "catalogue.api-prod.wellcomecollection.org"
-    stacks    = "stacks.${local.prod_domain}"
     storage   = "storage.${local.prod_domain}"
     text      = "dds.wellcomecollection.digirati.io"
   }
@@ -25,7 +24,6 @@ module "wellcomecollection_stage" {
   aliases = [local.stage_domain]
   origin_domains = {
     catalogue = "catalogue.api-stage-delta.wellcomecollection.org"
-    stacks    = "stacks.${local.stage_domain}"
     storage   = "storage.${local.stage_domain}"
     text      = "dds-stage.wellcomecollection.digirati.io"
   }
