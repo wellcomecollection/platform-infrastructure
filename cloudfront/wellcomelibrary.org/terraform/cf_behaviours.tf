@@ -118,7 +118,9 @@ locals {
     }
   ]
 
-  prod_behaviours = []
+  prod_behaviours = concat(
+    local.moh_behaviours,
+  )
 
   stage_behaviours = concat(
     local.moh_behaviours,

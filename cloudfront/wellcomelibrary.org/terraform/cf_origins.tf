@@ -14,7 +14,8 @@ locals {
   }
 
   prod_origins = [
-    local.wellcome_library_origin
+    local.wellcome_library_origin,
+    local.wellcome_library_moh_origin
   ]
 
   stage_origins = [
