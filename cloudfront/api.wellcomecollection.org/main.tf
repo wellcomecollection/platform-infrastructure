@@ -23,7 +23,7 @@ module "wellcomecollection_stage" {
   comment = "Collection APIs (stage)"
   aliases = [local.stage_domain]
   origin_domains = {
-    catalogue = "catalogue.api-stage-delta.wellcomecollection.org"
+    catalogue = "catalogue.api-stage.wellcomecollection.org"
     storage   = "storage.${local.stage_domain}"
     text      = "dds-stage.wellcomecollection.digirati.io"
   }

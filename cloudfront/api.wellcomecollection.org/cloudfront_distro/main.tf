@@ -7,7 +7,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   origin {
     domain_name = var.origin_domains.catalogue
-    origin_id   = "catalogue_api_delta"
+    origin_id   = "catalogue_api"
     origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
@@ -16,7 +16,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
       origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"] // API Gateway V2 requires TLSv1.2
+      origin_ssl_protocols     = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
     }
   }
 
@@ -92,7 +96,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     path_pattern     = "/catalogue/*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "catalogue_api_delta"
+    target_origin_id = "catalogue_api"
 
     forwarded_values {
       query_string = true
