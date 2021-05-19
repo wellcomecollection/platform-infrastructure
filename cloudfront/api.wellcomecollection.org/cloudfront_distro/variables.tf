@@ -21,3 +21,7 @@ variable "origin_domains" {
     text      = string
   })
 }
+
+variable "root_s3_domain" {
+  type = string
+}

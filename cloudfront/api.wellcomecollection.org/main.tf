@@ -18,6 +18,8 @@ module "wellcomecollection_prod" {
     text      = "dds.wellcomecollection.digirati.io"
   }
 
+  root_s3_domain = aws_s3_bucket.public_api.bucket_domain_name
+
   acm_certificate_arn = module.cert.arn
 
   tags = local.default_tags
@@ -33,6 +35,8 @@ module "wellcomecollection_stage" {
     storage   = "storage.${local.stage_domain}"
     text      = "dds-stage.wellcomecollection.digirati.io"
   }
+
+  root_s3_domain = aws_s3_bucket.public_api.bucket_domain_name
 
   acm_certificate_arn = module.cert.arn
 

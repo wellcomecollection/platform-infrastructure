@@ -1,7 +1,3 @@
-locals {
-  root_s3_domain = "wellcomecollection-public-api.s3.amazonaws.com"
-}
-
 resource "aws_cloudfront_distribution" "wellcomecollection" {
   aliases = var.aliases
 
@@ -44,7 +40,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
-    domain_name = local.root_s3_domain
+    domain_name = var.root_s3_domain
     origin_id   = "root"
     origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
   }
