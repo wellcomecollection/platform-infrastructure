@@ -3,7 +3,7 @@ locals {
   lambda_error_alarm_arn         = local.shared_infra["lambda_error_alarm_arn"]
   dlq_alarm_arn                  = local.shared_infra["dlq_alarm_arn"]
 
-  admin_cidr_ingress = data.terraform_remote_state.infra_critical.outputs.admin_cidr_ingress
+  admin_cidr_ingress = data.aws_ssm_parameter.admin_cidr_ingress.value
 
   bucket_alb_logs_id = local.shared_infra["bucket_alb_logs_id"]
 
@@ -14,4 +14,9 @@ locals {
   vpc_id          = local.platform_vpcs["monitoring_vpc_delta_id"]
   private_subnets = local.platform_vpcs["monitoring_vpc_delta_private_subnets"]
   public_subnets  = local.platform_vpcs["monitoring_vpc_delta_public_subnets"]
+}
+
+
+data "aws_ssm_parameter" "admin_cidr_ingress" {
+  name = "/infra_critical/config/prod/admin_cidr_ingress"
 }
