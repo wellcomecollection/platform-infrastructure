@@ -1,37 +1,3 @@
-module "api-stage" {
-  source = "./api.wellcomecollection.org"
-
-  subdomain   = "api-stage"
-  cert_domain = "api"
-
-  public_api_bucket_domain_name = aws_s3_bucket.public_api.bucket_domain_name
-
-  description = "Collection APIs staging"
-
-  cf_logging_bucket = aws_s3_bucket.api_root_cf_logs.bucket_domain_name
-
-  providers = {
-    aws.us_east_1 = aws.us-east-1
-  }
-}
-
-module "api" {
-  source = "./api.wellcomecollection.org"
-
-  subdomain   = "api"
-  cert_domain = "api"
-
-  public_api_bucket_domain_name = aws_s3_bucket.public_api.bucket_domain_name
-
-  description = "Collection APIs production"
-
-  cf_logging_bucket = aws_s3_bucket.api_root_cf_logs.bucket_domain_name
-
-  providers = {
-    aws.us_east_1 = aws.us-east-1
-  }
-}
-
 // S3 origin for redirect to developers.wellcomecollection.org
 resource "aws_s3_bucket" "public_api" {
   bucket = "wellcomecollection-public-api"
