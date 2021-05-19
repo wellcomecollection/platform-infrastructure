@@ -7,22 +7,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   origin {
     domain_name = var.origin_domains.catalogue
-    origin_id   = "catalogue_api_delta"
-    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
-
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_keepalive_timeout = 5
-      origin_read_timeout      = 30
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"] // API Gateway V2 requires TLSv1.2
-    }
-  }
-
-  origin {
-    domain_name = var.origin_domains.stacks
-    origin_id   = "stacks_api"
+    origin_id   = "catalogue_api"
     origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
 
     custom_origin_config {
@@ -111,7 +96,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     path_pattern     = "/catalogue/*"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "catalogue_api_delta"
+    target_origin_id = "catalogue_api"
 
     forwarded_values {
       query_string = true
@@ -134,28 +119,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "storage_api"
-
-    forwarded_values {
-      query_string = true
-      headers      = ["Authorization"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-
-    min_ttl     = 0
-    default_ttl = 0
-    max_ttl     = 0
-
-    viewer_protocol_policy = "https-only"
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "/stacks/*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "stacks_api"
 
     forwarded_values {
       query_string = true
@@ -198,9 +161,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
 
-  tags = {
-    Managed = "terraform"
-  }
+  tags = var.tags
 
   logging_config {
     bucket          = "weco-cloudfront-logs.s3.amazonaws.com"

@@ -1,6 +1,10 @@
 locals {
   prod_domain  = "api.wellcomecollection.org"
   stage_domain = "api-stage.wellcomecollection.org"
+  default_tags = {
+    Managed                   = "terraform"
+    TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/cloudfront/api.wellcomecollection.org"
+  }
 }
 
 module "wellcomecollection_prod" {
@@ -10,12 +14,13 @@ module "wellcomecollection_prod" {
   aliases = [local.prod_domain]
   origin_domains = {
     catalogue = "catalogue.api-prod.wellcomecollection.org"
-    stacks    = "stacks.${local.prod_domain}"
     storage   = "storage.${local.prod_domain}"
     text      = "dds.wellcomecollection.digirati.io"
   }
 
   acm_certificate_arn = module.cert.arn
+
+  tags = local.default_tags
 }
 
 module "wellcomecollection_stage" {
@@ -24,11 +29,12 @@ module "wellcomecollection_stage" {
   comment = "Collection APIs (stage)"
   aliases = [local.stage_domain]
   origin_domains = {
-    catalogue = "catalogue.api-stage-delta.wellcomecollection.org"
-    stacks    = "stacks.${local.stage_domain}"
+    catalogue = "catalogue.api-stage.wellcomecollection.org"
     storage   = "storage.${local.stage_domain}"
     text      = "dds-stage.wellcomecollection.digirati.io"
   }
 
   acm_certificate_arn = module.cert.arn
+
+  tags = local.default_tags
 }
