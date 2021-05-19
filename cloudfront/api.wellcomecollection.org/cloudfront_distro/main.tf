@@ -161,9 +161,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
 
-  tags = {
-    Managed = "terraform"
-  }
+  tags = var.tags
 
   logging_config {
     bucket          = "weco-cloudfront-logs.s3.amazonaws.com"
