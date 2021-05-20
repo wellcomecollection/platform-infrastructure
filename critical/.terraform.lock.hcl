@@ -6,6 +6,17 @@ provider "registry.terraform.io/elastic/ec" {
   constraints = "0.1.0-beta"
   hashes = [
     "h1:FeIlgFFtDoVwNJ5sIBWCmuURRopyXXX9DqC7s0AwubQ=",
+    "zh:091d59c4ea25a8f9ea4046c7b1eee2fbe9fe107d715b060f2659cf7aebd6d437",
+    "zh:09efa6fecbc27039604a75be5e31ed886bcf67a0e031f40da40edf5875f6aa98",
+    "zh:32869c4bb353f9f9550689c56ea8d88d2d46f4e11ec7860261251680c38b9982",
+    "zh:4140e6121569620e9f8a20daa5bc1a2beec37459681ab001900979215043e7b4",
+    "zh:5f0ecf44cd5a385fd3081e9fa1e3e55b25e52cf1548b3a0bf2dc0af00edaff67",
+    "zh:9104902a070b3cf153051b3dfae88173a310165c1a2cbf5db80bc64f7dc5d950",
+    "zh:c7ed96bd9c5110d2ad5303ce530cc161d245d114e2eff03ee447be7ff3b8aafa",
+    "zh:d5ecb3b9710062c8fe8a7c5755666dac577fab95108023315e1297cd2660f4c9",
+    "zh:d84faf97b57e96c7c7518ad8c2eb7e04d75dd311a59f2c22b1ac7bb1f6dfe0f9",
+    "zh:eda7e297fdca4665a98320f58b62ca13b9ef58c849b701c9f3eeb0462528a22b",
+    "zh:eff814f45b195a40aa5cef658caccc2bc8ab7bc1028cf2582708d9efb7c34bc4",
   ]
 }
 
