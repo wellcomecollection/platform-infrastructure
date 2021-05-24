@@ -108,10 +108,10 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
 
     resources = [
-      "${local.secrets_base_arn}identity/stage/account_management_system/api_key",
-      "${local.secrets_base_arn}identity/stage/smoke_test/credentials",
-      "${local.secrets_base_arn}identity/prod/account_management_system/api_key",
-      "${local.secrets_base_arn}identity/prod/smoke_test/credentials",
+      "${local.secrets_base_arn}identity/stage/account_management_system/api_key*",
+      "${local.secrets_base_arn}identity/stage/smoke_test/credentials*",
+      "${local.secrets_base_arn}identity/prod/account_management_system/api_key*",
+      "${local.secrets_base_arn}identity/prod/smoke_test/credentials*",
     ]
   }
 
