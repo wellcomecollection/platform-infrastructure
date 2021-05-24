@@ -140,14 +140,14 @@ data "aws_iam_policy_document" "ci_permissions" {
   }
 
   # Publish & retrieve lambdas
-   statement {
-      actions = [
-        "s3:*"
-      ]
+  statement {
+    actions = [
+      "s3:*"
+    ]
 
-      resources = [
-        "${local.infra_bucket_arn}/lambdas/*",
-      ]
+    resources = [
+      "${local.infra_bucket_arn}/lambdas/*",
+    ]
 
   }
 }
