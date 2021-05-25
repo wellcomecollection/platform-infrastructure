@@ -3,7 +3,7 @@ locals {
   aws_principal     = "arn:aws:iam::${local.account_id}:root"
   ci_agent_role_arn = data.terraform_remote_state.builds.outputs.ci_role_arn
 
-  aws_region        = "eu-west-1"
+  aws_region = "eu-west-1"
 
   catalogue_account_roles    = data.terraform_remote_state.accounts_catalogue.outputs
   data_account_roles         = data.terraform_remote_state.accounts_data.outputs
