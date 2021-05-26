@@ -62,3 +62,22 @@ terraform output tf_output_name | base64 -D | keybase pgp decrypt
 ```
 
 Platfrom SSH Keys available to authorised users in the `wc_platform` Keybase team.
+
+## VPCs
+
+These are the VPCs contained within these accounts - note that they are non-overlapping.
+
+| Account      | VPC name                   | CIDR block    |
+|--------------|----------------------------|---------------|
+| `catalogue`  | `catalogue` *(deprecated)* | `172.31.0.0/16` |
+| `catalogue`  | `catalogue`                | `172.18.0.0/16` |
+| `data`       | `datascience`              | `172.17.0.0/16` |
+| `digirati`   | `iiif-services`            | `172.56.0.0/16` |
+| `digirati`   | `moh`                      | `172.57.0.0/16` |
+| `experience` | `experience`               | `172.19.0.0/16` |
+| `identity`   | `identity-services-prod`   | `172.72.0.0/16` |
+| `identity`   | `identity-services-stage`  | `172.73.0.0/16` |
+| `platform`   | `ci`                       | `172.43.0.0/16` |
+| `platform`   | `developer`                | `172.42.0.0/16` |
+| `platform`   | `monitoring`               | `172.28.0.0/16` |
+| `storage`    | `storage`                  | `172.30.0.0/16` |
