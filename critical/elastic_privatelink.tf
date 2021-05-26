@@ -100,7 +100,7 @@ module "digirati_privatelink" {
   ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
 }
 
-module "identity_privatelink" {
+module "identity_prod_privatelink" {
   source = "./modules/elasticsearch_privatelink"
 
   providers = {
@@ -109,8 +109,24 @@ module "identity_privatelink" {
 
   traffic_filter_name = "identity"
 
-  vpc_id     = local.identity_vpcs["identity_vpc_id"]
-  subnet_ids = local.identity_vpcs["identity_vpc_private_subnets"]
+  vpc_id     = local.identity_vpcs["identity_prod_vpc_id"]
+  subnet_ids = local.identity_vpcs["identity_prod_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
+module "identity_stage_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.identity
+  }
+
+  traffic_filter_name = "identity"
+
+  vpc_id     = local.identity_vpcs["identity_stage_vpc_id"]
+  subnet_ids = local.identity_vpcs["identity_stage_vpc_private_subnets"]
 
   service_name   = local.ec_eu_west_1_service_name
   ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
