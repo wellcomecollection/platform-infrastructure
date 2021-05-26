@@ -145,8 +145,12 @@ output "ec_digirati_privatelink_sg_id" {
   value = module.digirati_privatelink.security_group_id
 }
 
-output "ec_identity_privatelink_sg_id" {
-  value = module.identity_privatelink.security_group_id
+output "ec_identity_prod_privatelink_sg_id" {
+  value = module.identity_prod_privatelink.security_group_id
+}
+
+output "ec_identity_stage_privatelink_sg_id" {
+  value = module.identity_stage_privatelink.security_group_id
 }
 
 output "ec_workflow_stage_privatelink_sg_id" {
@@ -177,8 +181,12 @@ output "ec_digirati_privatelink_traffic_filter_id" {
   value = module.digirati_privatelink.traffic_filter_vpce_id
 }
 
-output "ec_identity_privatelink_traffic_filter_id" {
-  value = module.identity_privatelink.traffic_filter_vpce_id
+output "ec_identity_prod_privatelink_traffic_filter_id" {
+  value = module.identity_prod_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_identity_stage_privatelink_traffic_filter_id" {
+  value = module.identity_stage_privatelink.traffic_filter_vpce_id
 }
 
 output "ec_workflow_stage_privatelink_traffic_filter_id" {

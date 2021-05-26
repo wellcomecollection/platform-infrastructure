@@ -12,7 +12,8 @@ resource "ec_deployment" "logging" {
     module.storage_privatelink.traffic_filter_vpce_id,
     module.experience_privatelink.traffic_filter_vpce_id,
     module.digirati_privatelink.traffic_filter_vpce_id,
-    module.identity_privatelink.traffic_filter_vpce_id,
+    module.identity_prod_privatelink.traffic_filter_vpce_id,
+    module.identity_stage_privatelink.traffic_filter_vpce_id,
     module.workflow_prod_privatelink.traffic_filter_vpce_id,
     module.workflow_stage_privatelink.traffic_filter_vpce_id,
   ]
