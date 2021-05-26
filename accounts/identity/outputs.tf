@@ -26,18 +26,34 @@ output "ci_role_arn" {
   value = module.identity_account.ci_role_arn
 }
 
-output "identity_vpc_private_subnets" {
-  value = module.identity_vpc.private_subnets
+output "identity_prod_vpc_private_subnets" {
+  value = module.identity_vpc_prod.private_subnets
 }
 
-output "identity_cidr_block_private" {
-  value = module.identity_vpc.cidr_block_private
+output "identity_prod_cidr_block_private" {
+  value = module.identity_vpc_prod.cidr_block_private
 }
 
-output "identity_vpc_public_subnets" {
-  value = module.identity_vpc.public_subnets
+output "identity_prod_vpc_public_subnets" {
+  value = module.identity_vpc_prod.public_subnets
 }
 
-output "identity_vpc_id" {
-  value = module.identity_vpc.vpc_id
+output "identity_prod_vpc_id" {
+  value = module.identity_vpc_prod.vpc_id
+}
+
+output "identity_stage_vpc_private_subnets" {
+  value = module.identity_vpc_stage.private_subnets
+}
+
+output "identity_stage_cidr_block_private" {
+  value = module.identity_vpc_stage.cidr_block_private
+}
+
+output "identity_stage_vpc_public_subnets" {
+  value = module.identity_vpc_stage.public_subnets
+}
+
+output "identity_stage_vpc_id" {
+  value = module.identity_vpc_stage.vpc_id
 }
