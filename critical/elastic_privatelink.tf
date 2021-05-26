@@ -107,7 +107,7 @@ module "identity_prod_privatelink" {
     aws = aws.identity
   }
 
-  traffic_filter_name = "identity"
+  traffic_filter_name = "identity_prod"
 
   vpc_id     = local.identity_vpcs["identity_prod_vpc_id"]
   subnet_ids = local.identity_vpcs["identity_prod_vpc_private_subnets"]
@@ -123,7 +123,7 @@ module "identity_stage_privatelink" {
     aws = aws.identity
   }
 
-  traffic_filter_name = "identity"
+  traffic_filter_name = "identity_stage"
 
   vpc_id     = local.identity_vpcs["identity_stage_vpc_id"]
   subnet_ids = local.identity_vpcs["identity_stage_vpc_private_subnets"]
