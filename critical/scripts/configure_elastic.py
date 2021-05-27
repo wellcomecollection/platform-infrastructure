@@ -42,7 +42,7 @@ def read_secret(secret_id, role_arn):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
     secret_prefix = f"elasticsearch/logging"
 
@@ -57,27 +57,22 @@ if __name__ == '__main__':
     security_client = elasticsearch.client.SecurityClient(es)
 
     role_mapping_config = {
-        "enabled" : True,
-        "roles" : [
+        "enabled": True,
+        "roles": [
             "kibana_admin",
             "reporting_user",
             "logging_read_only",
             "apm_user",
-            "monitoring_user"
+            "monitoring_user",
         ],
-        "rules" : {
-            "field" : {
-                "realm.name" : "cloud-oidc"
-            }
-        },
-        "metadata" : {
-            "version" : 1
-        }
+        "rules": {"field": {"realm.name": "cloud-oidc"}},
+        "metadata": {"version": 1},
     }
 
     print("Creating role mapping")
-    pprint.pprint(security_client.put_role_mapping(
-        name='cloud_oidc_to_kibana',
-        body=role_mapping_config
-    ))
-    pprint.pprint(security_client.get_role_mapping('cloud_oidc_to_kibana'))
+    pprint.pprint(
+        security_client.put_role_mapping(
+            name="cloud_oidc_to_kibana", body=role_mapping_config
+        )
+    )
+    pprint.pprint(security_client.get_role_mapping("cloud_oidc_to_kibana"))

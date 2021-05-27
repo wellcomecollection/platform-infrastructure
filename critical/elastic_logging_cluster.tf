@@ -21,17 +21,17 @@ locals {
           realms : {
             oidc : {
               cloud-oidc : {
-                order: 2
-                "rp.client_id": local.client_id
-                "rp.response_type": "code"
-                "rp.redirect_uri": "https://logging.wellcomecollection.org/api/security/v1/oidc"
-                "op.issuer": "https://login.microsoftonline.com/${local.tenant_id}/v2.0"
-                "op.authorization_endpoint": "https://login.microsoftonline.com/${local.tenant_id}/oauth2/v2.0/authorize"
-                "op.token_endpoint": "https://login.microsoftonline.com/${local.tenant_id}/oauth2/v2.0/token"
-                "op.userinfo_endpoint": "https://graph.microsoft.com/oidc/userinfo"
-                "op.jwkset_path": "https://login.microsoftonline.com/${local.tenant_id}/discovery/v2.0/keys"
-                "claims.principal": "sub"
-                "claims.groups": "groups"
+                order : 2
+                "rp.client_id" : local.client_id
+                "rp.response_type" : "code"
+                "rp.redirect_uri" : "https://logging.wellcomecollection.org/api/security/v1/oidc"
+                "op.issuer" : "https://login.microsoftonline.com/${local.tenant_id}/v2.0"
+                "op.authorization_endpoint" : "https://login.microsoftonline.com/${local.tenant_id}/oauth2/v2.0/authorize"
+                "op.token_endpoint" : "https://login.microsoftonline.com/${local.tenant_id}/oauth2/v2.0/token"
+                "op.userinfo_endpoint" : "https://graph.microsoft.com/oidc/userinfo"
+                "op.jwkset_path" : "https://login.microsoftonline.com/${local.tenant_id}/discovery/v2.0/keys"
+                "claims.principal" : "sub"
+                "claims.groups" : "groups"
               }
             }
           }
@@ -48,7 +48,7 @@ locals {
         description : "Log in with Azure"
       }
       "basic.basic1" : {
-        order: 1
+        order : 1
       }
     }
   }
@@ -129,8 +129,8 @@ module "host_secrets" {
   source = "./modules/secrets/secret"
 
   key_value_map = {
-    "elasticsearch/logging/username" = local.logging_elastic_username
-    "elasticsearch/logging/password" = local.logging_elastic_password
+    "elasticsearch/logging/username"     = local.logging_elastic_username
+    "elasticsearch/logging/password"     = local.logging_elastic_password
     "elasticsearch/logging/public_host"  = local.logging_public_host
     "elasticsearch/logging/private_host" = local.logging_private_host
 
