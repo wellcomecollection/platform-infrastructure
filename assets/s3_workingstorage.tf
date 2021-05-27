@@ -116,6 +116,7 @@ data "aws_iam_policy_document" "working_storage" {
     resources = [
       "${aws_s3_bucket.working_storage.arn}/preservica/*",
       "${aws_s3_bucket.working_storage.arn}/proquest/*",
+      "${aws_s3_bucket.working_storage.arn}/av/*",
     ]
   }
 }

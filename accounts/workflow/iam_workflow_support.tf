@@ -23,6 +23,8 @@ data "aws_iam_policy_document" "workflow_support" {
       "s3:Put*",
       "s3:DeleteObject",
       "s3:RestoreObject",
+      "s3:CopyObject*",
+      "s3:Head*",
     ]
 
     resources = [
@@ -35,14 +37,18 @@ data "aws_iam_policy_document" "workflow_support" {
       "arn:aws:s3:::wellcomecollection-client-transfer-pre2020/*",
       "arn:aws:s3:::wellcomecollection-digitisation-av",
       "arn:aws:s3:::wellcomecollection-digitisation-av/*",
+      "arn:aws:s3:::wellcomecollection-delivery-service",
+      "arn:aws:s3:::wellcomecollection-delivery-service/*",
 
-      # Other buckets
-      "arn:aws:s3:::wellcomecollection-client-transfer",
-      "arn:aws:s3:::wellcomecollection-client-transfer/*",
+      # Buckets in the workflow account
       "arn:aws:s3:::wellcomecollection-workflow-upload",
       "arn:aws:s3:::wellcomecollection-workflow-upload/*",
       "arn:aws:s3:::wellcomecollection-workflow-stage-upload",
       "arn:aws:s3:::wellcomecollection-workflow-stage-upload/*",
+
+      # Buckets in the platform account
+      "arn:aws:s3:::wellcomecollection-client-transfer",
+      "arn:aws:s3:::wellcomecollection-client-transfer/*",
       "arn:aws:s3:::wellcomecollection-editorial-photography",
       "arn:aws:s3:::wellcomecollection-editorial-photography/*",
     ]
@@ -68,6 +74,19 @@ data "aws_iam_policy_document" "workflow_support" {
 
     resources = [
       "arn:aws:s3:::wellcomecollection-assets-workingstorage/preservica/*",
+    ]
+  }
+
+  # Allow workflow-support users to access the AV data in the assets bucket.
+  statement {
+    actions = [
+      "s3:List*",
+      "s3:Get*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::wellcomecollection-assets-workingstorage",
+      "arn:aws:s3:::wellcomecollection-assets-workingstorage/av/*",
     ]
   }
 
