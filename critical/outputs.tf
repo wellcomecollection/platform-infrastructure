@@ -200,3 +200,9 @@ output "ec_workflow_prod_privatelink_traffic_filter_id" {
 output "logging_kibana_endpoint" {
   value = local.logging_kibana_endpoint
 }
+
+# Logging cluster identifier
+
+output "logging_cluster_id" {
+  value = ec_deployment.logging.id
+}
