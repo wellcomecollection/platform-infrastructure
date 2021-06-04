@@ -12,7 +12,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     ScaleDownPeriod     = 300
     ScaleCooldownPeriod = 60
 
-    SpotPrice = 0.04
+    SpotPrice = 0.05
 
     ScaleUpAdjustment   = 1
     ScaleDownAdjustment = -10
