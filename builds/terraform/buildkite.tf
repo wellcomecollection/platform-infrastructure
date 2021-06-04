@@ -20,7 +20,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     AgentsPerInstance                         = 1
     BuildkiteTerminateInstanceAfterJobTimeout = 1800
 
-    RootVolumeSize = 250
+    RootVolumeSize = 150
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
