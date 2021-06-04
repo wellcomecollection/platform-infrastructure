@@ -12,7 +12,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     ScaleDownPeriod     = 300
     ScaleCooldownPeriod = 60
 
-    SpotPrice = 0.04
+    SpotPrice = 0.05
 
     ScaleUpAdjustment   = 1
     ScaleDownAdjustment = -10
@@ -20,7 +20,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     AgentsPerInstance                         = 1
     BuildkiteTerminateInstanceAfterJobTimeout = 1800
 
-    RootVolumeSize = 250
+    RootVolumeSize = 150
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 

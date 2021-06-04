@@ -17,4 +17,7 @@ docker ps
 echo "I'm going to stop these containers now, so this job has a clean start."
 docker kill $(docker ps -q) || true
 
+echo "How much space am I using?"
+df -h
+
 echo "Goodbye! The agent hook is finished now!"
