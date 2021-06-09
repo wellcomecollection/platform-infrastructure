@@ -26,8 +26,7 @@ type Test = {
 const archiveTests = [
   {
     label: 'known RefNo in dsqItem',
-    qs:
-      'dsqIni=Dserve.ini&dsqApp=Archive&dsqDb=Catalog&dsqCmd=NaviTree.tcl&dsqField=RefNo&dsqItem=PPMEL/C',
+    qs: 'dsqField=RefNo&dsqItem=PPMEL/C',
     results: results([
       resultWithIdentifier('cbms2pg6', 'calm-ref-no', 'PPMEL/C'),
       resultWithIdentifier('refd2pg6', 'calm-ref-no', 'REFNOT'),
@@ -36,8 +35,7 @@ const archiveTests = [
   },
   {
     label: 'known RefNo in dsqSearch',
-    qs:
-      'dsqIni=Dserve.ini&dsqApp=Archive&dsqDb=Catalog&dsqCmd=show.tcl&dsqSearch=(RefNo==%27PPADA%27)',
+    qs: 'dsqSearch=(RefNo==%27PPADA%27)',
     results: results([
       resultWithIdentifier('jwj9b483', 'calm-ref-no', 'PPADA'),
       resultWithIdentifier('refd2pg6', 'calm-ref-no', 'REFNOT'),
