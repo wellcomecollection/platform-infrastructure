@@ -28,6 +28,7 @@ async function redirectRequestUri(
   const dsqSearchTerms = dsqSearchTermsMatch
     ? dsqSearchTermsMatch.map((term) => term.replace(/'/g, '')).join(' ')
     : undefined;
+
   const search = dsqItem ?? dsqSearchTerms;
 
   if (search) {
