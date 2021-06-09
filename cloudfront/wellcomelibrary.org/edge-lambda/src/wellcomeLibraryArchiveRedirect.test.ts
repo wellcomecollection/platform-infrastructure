@@ -72,6 +72,15 @@ const archiveTests = [
     ]),
     resolvedUri: 'https://wellcomecollection.org/works?query=MS%20542',
   },
+  {
+    label: 'No text to decipher',
+    qs: '',
+    results: results([
+      resultWithIdentifier('k2fae5cz', 'calm-ref-no', 'MS.542'),
+      resultWithIdentifier('dr6uy6dg', 'calm-ref-no', 'MS.345'),
+    ]),
+    resolvedUri: 'https://wellcomecollection.org/collections',
+  },
 ] as Test[];
 
 test.each(archiveTests)('$label', (test: Test) => {

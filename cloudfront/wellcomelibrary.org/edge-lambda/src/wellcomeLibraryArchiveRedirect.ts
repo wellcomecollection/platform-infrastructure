@@ -48,11 +48,5 @@ export const requestHandler = async (
     return requestRedirect;
   }
 
-  // If we've matched nothing so far then set the host header for Wellcome Library
-  // In future we may want to redirect to wellcomecollection.org if we find no match
-  request.headers.host = [
-    { key: 'host', value: 'archive.wellcomelibrary.org' },
-  ];
-
-  return request;
+  return wellcomeCollectionRedirect('/collections');
 };
