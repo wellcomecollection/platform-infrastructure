@@ -190,11 +190,11 @@ const apexTestSet = {
 const archiveTestSet = {
   displayName: 'Archive search',
   fileLocation: 'archiveRedirects.csv',
-  fileHostPrefix: 'staticRedirectsHost',
-  headers: staticRedirectHeaders,
+  fileHostPrefix: 'archive.wellcomecollection.org',
+  headers: ['sourceUrl', 'targetUrl'],
   envs: {
-    stage: 'https://stage.wellcomelibrary.org',
-    prod: 'https://wellcomelibrary.org',
+    stage: 'https://archives.stage.wellcomelibrary.org',
+    prod: 'https://archives.wellcomelibrary.org',
   },
   checkResponse: checkMatchingUrl,
 };
