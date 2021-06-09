@@ -68,8 +68,9 @@ export async function findWorkWithIdentifierValue(
       const identifiers: Identifier[] = result.identifiers;
       const hasMatchingId = identifiers.some(
         (identifier) =>
-          identifier.value.toLowerCase() === identifierValue.toLowerCase() &&
-          (!identifierType || identifier.identifierType.id === identifierType)
+          (!identifierType ||
+            identifier.identifierType.id === identifierType) &&
+          identifier.value.toLowerCase() === identifierValue.toLowerCase()
       );
 
       if (hasMatchingId) {
