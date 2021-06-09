@@ -46,8 +46,7 @@ const archiveTests = [
   },
   {
     label: 'known AltRefNo in dsqSeaarch',
-    qs:
-      'dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=0&dsqSearch=(AltRefNo=%27sa/whl%27)',
+    qs: 'dsqSearch=(AltRefNo=%27sa/whl%27)',
     results: results([
       resultWithIdentifier('fjg4s86y', 'calm-alt-ref-no', 'SA/WHL'),
       resultWithIdentifier('mtgtt57a', 'calm-alt-ref-no', 'SA/WHL/14'),
@@ -57,7 +56,7 @@ const archiveTests = [
   {
     label: 'Unknown text in dsqSearch',
     qs:
-      'dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=2&dsqSearch=%28%28%28text%29%3D%27wa%2Fhmm%27%29AND%28%28text%29%3D%27durham%27%29%29',
+      'dsqSearch=%28%28%28text%29%3D%27wa%2Fhmm%27%29AND%28%28text%29%3D%27durham%27%29%29',
     results: results([
       resultWithIdentifier('k2fae5cz', 'calm-ref-no', 'WA/HMM'),
       resultWithIdentifier('dr6uy6dg', 'calm-ref-no', 'WA/HSW'),
@@ -66,8 +65,7 @@ const archiveTests = [
   },
   {
     label: 'Unknown AltRefNo in dsqSearch',
-    qs:
-      'dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=0&dsqSearch=((AltRefNo=%27MS%27)AND(AltRefNo=%27542%27))',
+    qs: 'dsqSearch=((AltRefNo=%27MS%27)AND(AltRefNo=%27542%27))',
     results: results([
       resultWithIdentifier('k2fae5cz', 'calm-ref-no', 'MS.542'),
       resultWithIdentifier('dr6uy6dg', 'calm-ref-no', 'MS.345'),
@@ -77,7 +75,11 @@ const archiveTests = [
 ] as Test[];
 
 test.each(archiveTests)('$label', (test: Test) => {
-  const request = testRequest('/DServe/dserve.exe', test.qs, archivedHeaders);
+  const request = testRequest(
+    '/DServe/dserve.exe',
+    `dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=0&${test.qs}`,
+    archivedHeaders
+  );
   mockedAxios.get.mockResolvedValueOnce({
     data: test.results,
   });
