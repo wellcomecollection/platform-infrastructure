@@ -63,12 +63,15 @@ async function redirectRequestUri(
   const itemPathRegExp: RegExp = /^\/(item|player)\/.*/;
   const eventsPathRegExp: RegExp = /^\/events(\/)?.*/;
   const apiPathRegExp: RegExp = /^\/(iiif|service|ddsconf|dds-static|annoservices)\/.*/;
+  const collectionsBrowseExp: RegExp = /^\/collections\/browse(\/)?.*/;
   const staticRedirect = lookupRedirect(staticRedirects, uri);
 
   if (staticRedirect) {
     return staticRedirect;
   } else if (uri.match(itemPathRegExp)) {
     return getWorksRedirect(uri);
+  } else if (uri.match(collectionsBrowseExp)) {
+    return wellcomeCollectionRedirect('/collections');
   } else if (uri.match(eventsPathRegExp)) {
     return wellcomeCollectionRedirect('/whats-on');
   } else if (uri.match(apiPathRegExp)) {

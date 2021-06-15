@@ -180,6 +180,22 @@ const rewriteTests = (): ExpectedRewrite[] => {
       out: expectedRedirect('https://iiif.wellcomecollection.org/bar/bat'),
       generateData: [() => 'https://iiif.wellcomecollection.org/bar/bat'],
     },
+    {
+      uri: '/collections/browse/authors/Wellcome Historical Medical Library./',
+      out: expectedRedirect('https://wellcomecollection.org/collections'),
+    },
+    {
+      uri: '/collections/browse/topics/Archives/',
+      out: expectedRedirect('https://wellcomecollection.org/collections'),
+    },
+    {
+      uri: '/collections/browse/genres/Archives/',
+      out: expectedRedirect('https://wellcomecollection.org/collections'),
+    },
+    {
+      uri: '/collections/browse/collections/digramc/',
+      out: expectedRedirect('https://wellcomecollection.org/collections'),
+    },
   ];
 };
 
