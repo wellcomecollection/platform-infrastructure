@@ -188,11 +188,24 @@ const apexTestSet = {
   checkResponse: checkMatchingUrl,
 };
 
+const collectionBrowseTestSet = {
+  displayName: 'Collection browse pages',
+  fileLocation: 'collectionsBrowse.csv',
+  fileHostPrefix: 'wellcomelibrary.org',
+  headers: ['sourceUrl', 'targetUrl'],
+  envs: {
+    stage: 'https://stage.wellcomelibrary.org',
+    prod: 'https://wellcomelibrary.org',
+  },
+  checkResponse: checkMatchingUrl,
+};
+
 const testSets: RedirectTestSet[] = [
   apiTestSet,
   itemTestSet,
   blogTestSet,
   apexTestSet,
+  collectionBrowseTestSet,
 ];
 
 const runTests = async (envId: EnvId) => {
