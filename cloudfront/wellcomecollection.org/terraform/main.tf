@@ -19,6 +19,17 @@ resource "aws_route53_record" "rank" {
   provider = aws.dns
 }
 
+// This adds a CNAME record for Atlassion Statuspage (https://wellcomecollection.statuspage.io/)
+resource "aws_route53_record" "status" {
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = "status.wellcomecollection.org"
+  type    = "CNAME"
+  records = ["qyhn8w55666p.stspg-customer.com"]
+  ttl     = "300"
+
+  provider = aws.dns
+}
+
 # See https://help.shopify.com/en/manual/online-store/os/domains/add-a-domain/using-existing-domains/connecting-domains#set-up-your-existing-domain-to-connect-to-shopify
 
 resource "aws_route53_record" "shop" {
