@@ -147,3 +147,45 @@ export const testDataNoResults = {
   totalResults: 0,
   results: [],
 };
+
+export function results(results: any[]) {
+  return {
+    '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
+    type: 'ResultList',
+    pageSize: 10,
+    totalPages: 1,
+    totalResults: results.length,
+    results,
+  };
+}
+
+export function resultWithIdentifier(
+  id: string,
+  idType: string,
+  idValue: string
+) {
+  return {
+    id,
+    title: 'Basic care of cats and kittens / The Cats Protection League.',
+    alternativeTitles: [],
+    description:
+      '<p>Leaflet outlining basic training and health tips for people with a new kitten.</p>',
+    physicalDescription: '1 folded sheet (4 p.) : ill. ; 21 cm.',
+    workType: {},
+    identifiers: [
+      {
+        identifierType: {
+          id: idType,
+          label: 'Identifier label',
+          type: 'IdentifierType',
+        },
+        value: idValue,
+        type: 'Identifier',
+      },
+    ],
+    thumbnail: {},
+    availableOnline: true,
+    availabilities: {},
+    type: 'Work',
+  };
+}

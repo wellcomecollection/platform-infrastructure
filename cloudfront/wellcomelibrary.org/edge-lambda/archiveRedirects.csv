@@ -1,0 +1,8 @@
+sourceUrl,targetUrl
+archives.wellcomelibrary.org/DServe/dserve.exe?dsqIni=Dserve.ini&dsqApp=Archive&dsqDb=Catalog&dsqCmd=NaviTree.tcl&dsqField=RefNo&dsqItem=PPMEL/C,https://wellcomecollection.org/works/cbms2pg6
+archives.wellcomelibrary.org/DServe/dserve.exe?dsqIni=Dserve.ini&dsqApp=Archive&dsqDb=Catalog&dsqCmd=show.tcl&dsqSearch=(RefNo==%27PPADA%27),https://wellcomecollection.org/works/jwj9b483
+archives.wellcomelibrary.org/DServe/dserve.exe?dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=0&dsqSearch=(AltRefNo=%27sa/whl%27),https://wellcomecollection.org/works/fjg4s86y
+archives.wellcomelibrary.org/DServe/dserve.exe?dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=2&dsqSearch=%28%28%28text%29%3D%27wa%2Fhmm%27%29AND%28%28text%29%3D%27durham%27%29%29,https://wellcomecollection.org/works?query=wa/hmm%20durham
+archives.wellcomelibrary.org/DServe/dserve.exe?dsqIni=Dserve.ini&dsqApp=Archive&dsqCmd=Show.tcl&dsqDb=Catalog&dsqPos=0&dsqSearch=((AltRefNo=%27MS%27)AND(AltRefNo=%27542%27)),https://wellcomecollection.org/works?query=MS%20542
+archives.wellcomelibrary.org/DServe/dserve.exe?&dsqIni=Dserve.ini&dsqApp=Archive&dsqDb=Catalog&dsqCmd=Search.tcl,https://wellcomecollection.org/collections
+archives.wellcomelibrary.org,https://wellcomecollection.org/collections

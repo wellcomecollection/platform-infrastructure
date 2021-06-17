@@ -56,3 +56,26 @@ export async function* apiQuery(
     }
   }
 }
+
+export async function findWorkWithIdentifierValue(
+  identifierValue: string,
+  identifierType?: string
+): Promise<Work | undefined> {
+  const resultList = apiQuery(identifierValue);
+
+  for await (const result of resultList) {
+    if (result.identifiers) {
+      const identifiers: Identifier[] = result.identifiers;
+      const hasMatchingId = identifiers.some(
+        (identifier) =>
+          (!identifierType ||
+            identifier.identifierType.id === identifierType) &&
+          identifier.value.toLowerCase() === identifierValue.toLowerCase()
+      );
+
+      if (hasMatchingId) {
+        return result;
+      }
+    }
+  }
+}
