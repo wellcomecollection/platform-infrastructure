@@ -5,6 +5,7 @@ import { readRedirects } from './src/readRedirects';
 import {
   staticRedirectFileLocation,
   staticRedirectHeaders,
+  staticRedirectsHost,
 } from './staticRedirects';
 
 type CsvHeader = string | undefined;
@@ -178,8 +179,8 @@ const blogTestSet = {
 const apexTestSet = {
   displayName: 'Apex (Content management) pages',
   fileLocation: staticRedirectFileLocation,
-  fileHostPrefix: 'blog.wellcomelibrary.org',
-  headers: ['sourceUrl', 'targetUrl'],
+  fileHostPrefix: staticRedirectsHost,
+  headers: staticRedirectHeaders,
   envs: {
     stage: 'https://blog.stage.wellcomelibrary.org/',
     prod: 'https://blog.wellcomelibrary.org/',
@@ -204,6 +205,7 @@ const testSets: RedirectTestSet[] = [
   itemTestSet,
   blogTestSet,
   apexTestSet,
+  archiveTestSet,
 ];
 
 const runTests = async (envId: EnvId) => {
