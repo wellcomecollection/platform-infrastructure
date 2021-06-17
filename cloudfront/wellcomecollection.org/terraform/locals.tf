@@ -1,8 +1,5 @@
 
 locals {
-  # identity_zone_name_servers = data.terraform_remote_state.identity.outputs.identity_zone_name_servers
-  account_zone_name_servers = data.terraform_remote_state.identity.outputs.account_zone_name_servers
-
   // The outputs from the identity stack contain enough information to construct
   // the whole record (including type, and name) which is useful _but_ we don't
   // want to allow the outputs from that stack to set those details here in order
