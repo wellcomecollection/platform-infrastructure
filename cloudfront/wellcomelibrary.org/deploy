@@ -1,9 +1,0 @@
-#!/bin/bash
-
-pushd ./edge-lambda
-  yarn && yarn deploy
-popd
-
-pushd ./terraform
-  terraform apply
-popd
