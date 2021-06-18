@@ -1,4 +1,4 @@
-module "identity_account" {
+module "dam_prototype_account" {
   source = "../modules/account/aws"
 
   prefix = "dam_prototype"
