@@ -1,10 +1,10 @@
 module "identity_account" {
   source = "../modules/account/aws"
 
-  prefix = "dam_prototype"
+  prefix = "identity"
 
   principals = [
     local.account_principals["platform"],
-    local.account_principals["dam_prototype"],
+    local.account_principals["identity"],
   ]
 }
