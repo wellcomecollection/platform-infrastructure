@@ -34,14 +34,19 @@ test('http requests are redirected to https', () => {
   );
 });
 
-test('rewrites the host header if it exists', async () => {
-  const request = testRequest('/', undefined, {
+test('redirects wellcomelibrary.org passthrus to wellcomecollection.org', async () => {
+  const request = testRequest('/unknown', undefined, {
     host: [{ key: 'host', value: 'www.wellcomelibrary.org' }],
   });
 
   const originRequest = await origin.requestHandler(request, {} as Context);
 
   expect(originRequest.headers).toStrictEqual({
-    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
+    location: [{ key: 'Location', value: 'https://wellcomecollection.org/' }],
+    'access-control-allow-origin': [
+      { key: 'Access-Control-Allow-Origin', value: '*' },
+    ],
   });
+
+  expect(originRequest.status).toEqual('302');
 });
