@@ -47,4 +47,6 @@ test('redirects wellcomelibrary.org passthrus to wellcomecollection.org', async 
       { key: 'Access-Control-Allow-Origin', value: '*' },
     ],
   });
+
+  expect(originRequest.status).toEqual('302');
 });
