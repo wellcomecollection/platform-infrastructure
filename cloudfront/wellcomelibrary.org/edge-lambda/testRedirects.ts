@@ -212,18 +212,6 @@ const collectionBrowseTestSet = {
   checkResponse: checkMatchingUrl,
 };
 
-const passthruTestSet = {
-  displayName: 'Passthru pages',
-  fileLocation: 'passthruRedirects.csv',
-  fileHostPrefix: 'wellcomelibrary.org',
-  headers: ['sourceUrl', 'targetUrl'],
-  envs: {
-    stage: 'https://stage.wellcomelibrary.org',
-    prod: 'https://wellcomelibrary.org',
-  },
-  checkResponse: checkMatchingUrl,
-};
-
 const testSets: RedirectTestSet[] = [
   apiTestSet,
   itemTestSet,
@@ -231,7 +219,6 @@ const testSets: RedirectTestSet[] = [
   apexTestSet,
   archiveTestSet,
   collectionBrowseTestSet,
-  passthruTestSet,
 ];
 
 const runTests = async (envId: EnvId) => {
