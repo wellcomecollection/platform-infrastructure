@@ -182,8 +182,8 @@ const apexTestSet = {
   fileHostPrefix: staticRedirectsHost,
   headers: staticRedirectHeaders,
   envs: {
-    stage: 'https://blog.stage.wellcomelibrary.org/',
-    prod: 'https://blog.wellcomelibrary.org/',
+    stage: 'https://stage.wellcomelibrary.org/',
+    prod: 'https://wellcomelibrary.org/',
   },
   checkResponse: checkMatchingUrl,
 };
