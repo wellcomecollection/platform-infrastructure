@@ -93,7 +93,7 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/not-item',
-      out: expectedPassthru('/not-item'),
+      out: expectedRedirect('https://wellcomecollection.org/'),
     },
     // Events pages redirect
     {
@@ -129,22 +129,22 @@ const rewriteTests = (): ExpectedRewrite[] => {
     },
     {
       uri: '/iiif/collection/not-found',
-      out: expectedPassthru('/iiif/collection/not-found'),
+      out: expectedRedirect('https://wellcomecollection.org/'),
       error: axios404,
     },
     {
       uri: '/iiif/collection/no-response',
-      out: expectedPassthru('/iiif/collection/no-response'),
+      out: expectedRedirect('https://wellcomecollection.org/'),
       error: axiosNoResponse,
     },
     {
       uri: '/iiif/collection/error',
-      out: expectedPassthru('/iiif/collection/error'),
+      out: expectedRedirect('https://wellcomecollection.org/'),
       error: Error('nope'),
     },
     {
       uri: '/iiif/collection/invalid-url',
-      out: expectedPassthru('/iiif/collection/invalid-url'),
+      out: expectedRedirect('https://wellcomecollection.org/'),
       generateData: [() => 'not_a_url'],
     },
     {
@@ -260,45 +260,19 @@ test.each(staticRedirectTests)(
   }
 );
 
-test('rewrites the host header if it exists', async () => {
+test('redirects unknown paths to wellcomecollection.org', async () => {
   const request = testRequest('/unspecifiedPath', undefined, {
-    host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
+    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
   });
 
   const originRequest = await origin.requestHandler(request, {} as Context);
 
+  expect(originRequest.status).toStrictEqual('302');
   expect(originRequest.headers).toStrictEqual({
-    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-  });
-});
-
-test('adds the host header if it is missing', async () => {
-  const request = testRequest('/unspecifiedPath', undefined);
-
-  const originRequest = await origin.requestHandler(request, {} as Context);
-
-  expect(originRequest.headers).toStrictEqual({
-    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-  });
-});
-
-test('leaves other headers unmodified', async () => {
-  const request = testRequest('/unspecifiedPath', undefined, {
-    host: [{ key: 'host', value: 'notwellcomelibrary.org' }],
-    connection: [{ key: 'connection', value: 'close' }],
-    authorization: [
-      { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
+    'access-control-allow-origin': [
+      { key: 'Access-Control-Allow-Origin', value: '*' },
     ],
-  });
-
-  const originRequest = await origin.requestHandler(request, {} as Context);
-
-  expect(originRequest.headers).toStrictEqual({
-    host: [{ key: 'host', value: 'wellcomelibrary.org' }],
-    connection: [{ key: 'connection', value: 'close' }],
-    authorization: [
-      { key: 'authorization', value: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l' },
-    ],
+    location: [{ key: 'Location', value: 'https://wellcomecollection.org/' }],
   });
 });
 
