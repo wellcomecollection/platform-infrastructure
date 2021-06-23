@@ -170,8 +170,8 @@ const blogTestSet = {
   fileHostPrefix: 'blog.wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
-    stage: 'https://blog.stage.wellcomelibrary.org/',
-    prod: 'https://blog.wellcomelibrary.org/',
+    stage: 'https://blog.stage.wellcomelibrary.org',
+    prod: 'https://blog.wellcomelibrary.org',
   },
   checkResponse: checkMatchingBlogUrl,
 };
@@ -182,8 +182,8 @@ const apexTestSet = {
   fileHostPrefix: staticRedirectsHost,
   headers: staticRedirectHeaders,
   envs: {
-    stage: 'https://stage.wellcomelibrary.org/',
-    prod: 'https://wellcomelibrary.org/',
+    stage: 'https://stage.wellcomelibrary.org',
+    prod: 'https://wellcomelibrary.org',
   },
   checkResponse: checkMatchingUrl,
 };
