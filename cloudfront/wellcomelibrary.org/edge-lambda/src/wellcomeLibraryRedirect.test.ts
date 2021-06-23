@@ -5,12 +5,7 @@ import {
   testDataNoResults,
   testDataSingleResult,
 } from './catalogueApiFixtures';
-import {
-  axios404,
-  axiosNoResponse,
-  expectedPassthru,
-  expectedRedirect,
-} from './testHelpers';
+import { axios404, axiosNoResponse, expectedRedirect } from './testHelpers';
 import {
   CloudFrontRequest,
   CloudFrontResultResponse,
