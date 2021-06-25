@@ -27,10 +27,10 @@ data "aws_iam_policy_document" "platform_ci" {
     ]
 
     resources = [
-      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/internal_model_2.12/*",
-      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/internal_model_typesafe_2.12/*",
-      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/source_model_2.12/*",
-      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/uk/ac/wellcome/source_model_typesafe_2.12/*",
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/weco/internal_model_2.12/*",
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/weco/internal_model_typesafe_2.12/*",
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/weco/source_model_2.12/*",
+      "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/weco/source_model_typesafe_2.12/*",
     ]
   }
 
