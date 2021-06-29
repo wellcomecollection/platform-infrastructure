@@ -34,17 +34,6 @@ data "aws_iam_policy_document" "platform_ci" {
     ]
   }
 
-  # Secrets required for diff_tool to run
-  statement {
-    actions = [
-      "secretsmanager:GetSecretValue",
-    ]
-
-    resources = [
-      "${local.secrets_base_arn}catalogue/api*",
-    ]
-  }
-
   # This slightly unusual clause allows the platform-ci role to assume… itself.
   #
   # This is because Buildkite uses the platform-ci role to run tasks
