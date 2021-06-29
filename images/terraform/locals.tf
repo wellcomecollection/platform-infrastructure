@@ -7,6 +7,7 @@ locals {
     "130871440101", // experience_account_id
     "653428163053", // digirati_account_id
     "770700576653", // identity_account_id
+    "241906670800",  # dams prototype account
   ]
 
   namespace = "uk.ac.wellcome"
