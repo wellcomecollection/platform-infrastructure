@@ -1,15 +1,12 @@
-resource "aws_ecr_repository" "fluentbit" {
-  name = "${local.namespace}/fluentbit"
-}
+module "ecr_fluentbit" {
+  source = "./repo_pair"
 
-resource "aws_ecrpublic_repository" "fluentbit" {
-  provider = aws.us_east_1
+  namespace   = local.namespace
+  repo_name   = "fluentbit"
+  description = "A fluentbit image for sending logs to Logstash"
 
-  repository_name = "fluentbit"
-
-  catalog_data {
-    about_text      = "A fluentbit image for sending logs to Logstash"
-    logo_image_blob = filebase64("weco.png")
+  providers = {
+    aws.ecr_public = aws.us_east_1
   }
 }
 
@@ -21,18 +18,15 @@ resource "aws_ecr_repository" "nginx_grafana" {
   name = "${local.namespace}/nginx_grafana"
 }
 
-resource "aws_ecr_repository" "nginx_apigw" {
-  name = "${local.namespace}/nginx_apigw"
-}
+module "ecr_nginx_apigw" {
+  source = "./repo_pair"
 
-resource "aws_ecrpublic_repository" "nginx_apigw" {
-  provider = aws.us_east_1
+  namespace   = local.namespace
+  repo_name   = "nginx_apigw"
+  description = "An nginx image to run as a proxy between API Gateway and our app containers"
 
-  repository_name = "nginx_apigw"
-
-  catalog_data {
-    about_text      = "An nginx image to run as a proxy between API Gateway and our app containers"
-    logo_image_blob = filebase64("weco.png")
+  providers = {
+    aws.ecr_public = aws.us_east_1
   }
 }
 
@@ -42,7 +36,7 @@ module "nginx_apigw" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name   = aws_ecr_repository.nginx_apigw.name
+  repo_name   = module.ecr_nginx_apigw.private_repo_name
 }
 
 module "nginx_experience" {
@@ -56,7 +50,7 @@ module "fluentbit" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name   = aws_ecr_repository.fluentbit.name
+  repo_name   = module.ecr_fluentbit.private_repo_name
 }
 
 # In order to avoid docker hub rate limiting, we mirror some docker hub images
