@@ -6,10 +6,6 @@ resource "aws_ecr_repository" "nginx_experience" {
   name = "${local.namespace}/nginx_experience"
 }
 
-resource "aws_ecr_repository" "nginx_loris" {
-  name = "${local.namespace}/nginx_loris"
-}
-
 resource "aws_ecr_repository" "nginx_grafana" {
   name = "${local.namespace}/nginx_grafana"
 }
