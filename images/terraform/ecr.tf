@@ -2,6 +2,17 @@ resource "aws_ecr_repository" "fluentbit" {
   name = "${local.namespace}/fluentbit"
 }
 
+resource "aws_ecrpublic_repository" "fluentbit" {
+  provider = aws.us_east_1
+
+  repository_name = "fluentbit"
+
+  catalog_data {
+    about_text      = "A fluentbit image for sending logs to Logstash"
+    logo_image_blob = filebase64("weco.png")
+  }
+}
+
 resource "aws_ecr_repository" "nginx_experience" {
   name = "${local.namespace}/nginx_experience"
 }
@@ -12,6 +23,17 @@ resource "aws_ecr_repository" "nginx_grafana" {
 
 resource "aws_ecr_repository" "nginx_apigw" {
   name = "${local.namespace}/nginx_apigw"
+}
+
+resource "aws_ecrpublic_repository" "nginx_apigw" {
+  provider = aws.us_east_1
+
+  repository_name = "nginx_apigw"
+
+  catalog_data {
+    about_text      = "An nginx image to run as a proxy between API Gateway and our app containers"
+    logo_image_blob = filebase64("weco.png")
+  }
 }
 
 // Cross account access policies
