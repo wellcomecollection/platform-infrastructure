@@ -16,8 +16,7 @@ data "aws_caller_identity" "current" {}
 #Providers
 
 provider "aws" {
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
