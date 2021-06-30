@@ -1,21 +1,33 @@
-resource "aws_ecr_repository" "fluentbit" {
-  name = "${local.namespace}/fluentbit"
+module "ecr_fluentbit" {
+  source = "./repo_pair"
+
+  namespace   = local.namespace
+  repo_name   = "fluentbit"
+  description = "A fluentbit image for sending logs to Logstash"
+
+  providers = {
+    aws.ecr_public = aws.us_east_1
+  }
 }
 
 resource "aws_ecr_repository" "nginx_experience" {
   name = "${local.namespace}/nginx_experience"
 }
 
-resource "aws_ecr_repository" "nginx_loris" {
-  name = "${local.namespace}/nginx_loris"
-}
-
 resource "aws_ecr_repository" "nginx_grafana" {
   name = "${local.namespace}/nginx_grafana"
 }
 
-resource "aws_ecr_repository" "nginx_apigw" {
-  name = "${local.namespace}/nginx_apigw"
+module "ecr_nginx_apigw" {
+  source = "./repo_pair"
+
+  namespace   = local.namespace
+  repo_name   = "nginx_apigw"
+  description = "An nginx image to run as a proxy between API Gateway and our app containers"
+
+  providers = {
+    aws.ecr_public = aws.us_east_1
+  }
 }
 
 // Cross account access policies
@@ -24,7 +36,7 @@ module "nginx_apigw" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name   = aws_ecr_repository.nginx_apigw.name
+  repo_name   = module.ecr_nginx_apigw.private_repo_name
 }
 
 module "nginx_experience" {
@@ -38,7 +50,7 @@ module "fluentbit" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name   = aws_ecr_repository.fluentbit.name
+  repo_name   = module.ecr_fluentbit.private_repo_name
 }
 
 # In order to avoid docker hub rate limiting, we mirror some docker hub images
