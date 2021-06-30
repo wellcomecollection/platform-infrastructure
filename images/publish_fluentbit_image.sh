@@ -16,6 +16,21 @@ echo "*** WARNING! ***"
 echo ""
 read -p "Press enter to continue."
 
+
+echo ""
+echo "*** Logging in to ECR Private ***"
+echo ""
+AWS_PROFILE=platform-developer aws ecr get-login --no-include-email | bash
+
+echo ""
+echo "*** Logging in to ECR Public ***"
+echo ""
+
+# We have to log in with us-east-1 because that's where ECR Public lives.
+# See https://docs.aws.amazon.com/AmazonECR/latest/public/getting-started-cli.html#cli-authenticate-registry
+AWS_PROFILE=platform-developer aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+
+
 echo ""
 echo "*** Building fluentbit image ***"
 echo ""
@@ -26,10 +41,8 @@ TAG="fluentbit:$CURRENT_COMMIT"
 docker build --tag="$TAG" fluentbit
 
 echo ""
-echo "*** Publishing fluentbit image to ecr-private ***"
+echo "*** Publishing fluentbit image to ECR Private ***"
 echo ""
-
-AWS_PROFILE=platform-developer aws ecr get-login --no-include-email | bash
 
 ECR_PRIVATE_TAG="$ECR_PRIVATE_PREFIX/fluentbit:$CURRENT_COMMIT"
 
@@ -38,12 +51,8 @@ docker push "$ECR_PRIVATE_TAG"
 docker rmi "$ECR_PRIVATE_TAG"
 
 echo ""
-echo "*** Publishing fluentbit image to ecr-public ***"
+echo "*** Publishing fluentbit image to ECR Public ***"
 echo ""
-
-# We have to log in with us-east-1 because that's where ECR Public lives.
-# See https://docs.aws.amazon.com/AmazonECR/latest/public/getting-started-cli.html#cli-authenticate-registry
-AWS_PROFILE=platform-developer aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 
 ECR_PUBLIC_TAG="$ECR_PUBLIC_PREFIX/fluentbit:$CURRENT_COMMIT"
 
