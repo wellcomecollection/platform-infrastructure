@@ -17,6 +17,7 @@ data "aws_iam_policy_document" "ci_permissions" {
       "ecr-public:BatchCheckLayerAvailability",
       "ecr-public:Describe*",
       "ecr-public:Get*",
+      "ecr-public:GetAuthorizationToken",
       "ecr-public:List*",
       "ecr-public:TagResource",
       "ecr-public:PutImage",
@@ -119,6 +120,20 @@ data "aws_iam_policy_document" "ci_permissions" {
 
     resources = [
       "*",
+    ]
+  }
+
+  # This policy allows the CI role to assume itself, this is useful when
+  # a Build script has had the CI role assumption hard coded.
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.role_name}",
     ]
   }
 }
