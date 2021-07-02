@@ -25,6 +25,9 @@ data "aws_iam_policy_document" "ci_permissions" {
       "ecr-public:CompleteLayerUpload",
       # This is required for uploading to public repositories; see https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-policy-examples.html
       "sts:GetServiceBearerToken",
+      # We need this to use "aws ecr-public get-login-password" when uploading
+      # ECR Public images from CI.
+      "ecr-public:GetAuthorizationToken",
     ]
 
     resources = [
