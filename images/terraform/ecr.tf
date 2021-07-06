@@ -75,6 +75,7 @@ locals {
   mirrored_images = [
     "amazon/aws-cli",
     "hashicorp/terraform",
+    "java11",
     "localstack/localstack",
     "nginx",
     "node",
