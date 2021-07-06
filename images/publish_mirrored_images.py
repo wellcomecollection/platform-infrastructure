@@ -47,6 +47,7 @@ IMAGE_TAGS = [
     "localstack/localstack:0.10.5",
     "node:12.18.3",
     "node:14.14.0",
+    "openjdk:11",
     "peopleperhour/dynamodb",
     "python:3.7",
     "python:3.7-alpine",
