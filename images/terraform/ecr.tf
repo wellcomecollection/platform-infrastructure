@@ -78,6 +78,7 @@ locals {
     "localstack/localstack",
     "nginx",
     "node",
+    "openjdk",
     "peopleperhour/dynamodb",
     "python",
     "rodolpheche/wiremock",
