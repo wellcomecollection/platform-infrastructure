@@ -36,7 +36,7 @@ export async function* apiQuery(
   query: string
 ): AsyncGenerator<Work, void, void> {
   const url = `${apiBasePath}/works`;
-  const queryUrl = `${url}?include=identifiers&query=${query}`;
+  const queryUrl = `${url}?include=identifiers&pageSize=100&identifiers=${query}`;
 
   const apiResult = await axios.get(queryUrl);
   const resultList = apiResult.data as CatalogueResultsList;
