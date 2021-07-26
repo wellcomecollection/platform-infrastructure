@@ -5,9 +5,7 @@
     "@elastic/elasticsearch": "^7.13.0",
     "@types/node-fetch": "^2.5.11",
     "@weco/ts-aws": "^0.0.14",
-    "global": "^4.4.0",
     "node-fetch": "^2.6.1",
-    "prompts": "^2.4.1",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },

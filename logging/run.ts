@@ -4,6 +4,7 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 import { getCreds } from "@weco/ts-aws/sts";
 import { URLSearchParams } from "url";
+import { rulesWithSlackConnector } from "./config";
 import { KibanaClient } from "./kibana";
 
 /**
@@ -13,8 +14,6 @@ import { KibanaClient } from "./kibana";
  * - https://www.elastic.co/guide/en/kibana/current/actions-and-connectors-api.html
  *
  */
-
-type ElasticError = { statusCode: number };
 
 type ConnectorType = ".server-log" | ".slack";
 
@@ -65,7 +64,7 @@ async function getSlackConnector(
   kibanaClient: KibanaClient,
   slackWebhook: string
 ): Promise<Connector> {
-  // find/put slack connector
+  // find or create slack connector
   // Annoyingly - we should be able to do this with `xpack.actions.preconfigured`
   // but it's not available on EC yet.
   // see:  https://www.elastic.co/guide/en/kibana/current/alert-action-settings-kb.html
@@ -76,15 +75,15 @@ async function getSlackConnector(
 
   const connectors = await kibanaClient.send<Connector[]>("actions/connectors");
 
-  const ecSlackConnector = connectors.find(
+  const existingSlackConnector = connectors.find(
     ({ connector_type_id, name }) =>
       connector_type_id === slackConnector.connector_type_id &&
       name === slackConnector.name
   );
 
-  if (ecSlackConnector) {
+  if (existingSlackConnector) {
     console.info(`${slackConnector.name} exists`);
-    return ecSlackConnector;
+    return existingSlackConnector;
   }
 
   console.info(`${slackConnector.name} missing, creating...`);
@@ -119,35 +118,14 @@ async function getAlertingRules(
   return rules.data;
 }
 
-async function run() {
-  // We use developer over read_only as we need to read secrets
-  const creds = await getCreds("platform", "developer");
-  const secretsManagerClient = new SecretsManagerClient({
-    region: "eu-west-1",
-    credentials: creds,
-  });
-  const [username, password, endpoint, slackWebhook] = await Promise.all(
-    [
-      "elasticsearch/logging/management_username",
-      "elasticsearch/logging/management_password",
-      "elasticsearch/logging/kibana_endpoint",
-      "monitoring/critical_slack_webhook",
-    ].map(async (secretId) => {
-      const { SecretString: secret } = await secretsManagerClient.send(
-        new GetSecretValueCommand({ SecretId: secretId })
-      );
-      return secret;
-    })
-  );
-
-  const kibanaClient = new KibanaClient(username!, password!, endpoint!);
-
+async function addSlackConnector(
+  kibanaClient: KibanaClient,
+  slackWebhook: string,
+  ruleName: string
+) {
   const connector = await getSlackConnector(kibanaClient, slackWebhook!);
+  const rules = await getAlertingRules(kibanaClient, ruleName);
 
-  const rules = await getAlertingRules(
-    kibanaClient,
-    "monitoring_ccr_read_exceptions"
-  );
   if (rules.length === 0)
     throw Error("Found 0 rules for `monitoring_ccr_read_exceptions`");
   if (rules.length > 1)
@@ -193,7 +171,7 @@ async function run() {
       ],
     };
 
-    const updatedRuleRes = await kibanaClient.send<Rule | ElasticError>(
+    const updatedRuleRes = await kibanaClient.send<Rule>(
       `alerting/rule/${rule.id}`,
       {
         method: "PUT",
@@ -201,17 +179,41 @@ async function run() {
       }
     );
 
-    if (updatedRuleRes) {
+    if (updatedRuleRes.id) {
       console.info(`updated rule ${rule.id} to have action ${connector.name}`);
-      process.exit(0);
     } else {
-      console.error(
-        `Error. Couldn't update rule ${rule.id} to have action ${connector.name}`,
-        updatedRuleRes
+      throw new Error(
+        `Couldn't add ${connector.name} to ${rule.id} with ${updatedRuleRes}`
       );
-      process.exit(1);
     }
   }
+}
+
+async function run() {
+  // We use developer over read_only as we need to read secrets
+  const creds = await getCreds("platform", "developer");
+  const secretsManagerClient = new SecretsManagerClient({
+    region: "eu-west-1",
+    credentials: creds,
+  });
+  const [username, password, endpoint, slackWebhook] = await Promise.all(
+    [
+      "elasticsearch/logging/management_username",
+      "elasticsearch/logging/management_password",
+      "elasticsearch/logging/kibana_endpoint",
+      "monitoring/critical_slack_webhook",
+    ].map(async (secretId) => {
+      const { SecretString: secret } = await secretsManagerClient.send(
+        new GetSecretValueCommand({ SecretId: secretId })
+      );
+      return secret;
+    })
+  );
+
+  const kibanaClient = new KibanaClient(username!, password!, endpoint!);
+  rulesWithSlackConnector.map((ruleTypeId) => {
+    addSlackConnector(kibanaClient, slackWebhook!, ruleTypeId);
+  });
 }
 
 run();
