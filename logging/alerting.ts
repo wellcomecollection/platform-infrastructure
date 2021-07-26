@@ -4,7 +4,7 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 import { getCreds } from "@weco/ts-aws/sts";
 import { URLSearchParams } from "url";
-import { rulesWithSlackConnector } from "./config";
+import { rulesWithSlackConnector } from "./alerting-config";
 import { KibanaClient } from "./kibana";
 
 /**

@@ -1,5 +1,9 @@
 {
   "name": "@weco/logging",
+  "license": "MIT",
+  "scripts": {
+    "alerting": "ts-node alerting"
+  },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.23.0",
     "@elastic/elasticsearch": "^7.13.0",
