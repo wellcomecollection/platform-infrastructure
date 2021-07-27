@@ -81,7 +81,6 @@ locals {
     "openjdk",
     "peopleperhour/dynamodb",
     "python",
-    "rodolpheche/wiremock",
     "s12v/elasticmq",
     "scality/s3server",
     "wellcome/build_test_python",

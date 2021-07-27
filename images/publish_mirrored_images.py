@@ -53,7 +53,6 @@ IMAGE_TAGS = [
     "python:3.7-alpine",
     "python:3.7-slim",
     "python:3.8.3",
-    "rodolpheche/wiremock",
     "scality/s3server:mem-latest",
     "s12v/elasticmq",
     "wellcome/build_test_python",
