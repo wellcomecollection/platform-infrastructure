@@ -129,10 +129,11 @@ module "host_secrets" {
   source = "./modules/secrets/secret"
 
   key_value_map = {
-    "elasticsearch/logging/username"     = local.logging_elastic_username
-    "elasticsearch/logging/password"     = local.logging_elastic_password
-    "elasticsearch/logging/public_host"  = local.logging_public_host
-    "elasticsearch/logging/private_host" = local.logging_private_host
+    "elasticsearch/logging/username"        = local.logging_elastic_username
+    "elasticsearch/logging/password"        = local.logging_elastic_password
+    "elasticsearch/logging/public_host"     = local.logging_public_host
+    "elasticsearch/logging/private_host"    = local.logging_private_host
+    "elasticsearch/logging/kibana_endpoint" = local.logging_kibana_endpoint
 
     # Duplicated as this is what consumers currently expect
     # The above naming scheme is common to our other ES setups
