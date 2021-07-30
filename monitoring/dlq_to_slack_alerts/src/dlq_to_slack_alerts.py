@@ -21,21 +21,23 @@ def count_messages_on_queue(queue_name):
     return int(resp["Attributes"]["ApproximateNumberOfMessages"])
 
 
-def main(event, _ctxt=None):
-    alarm = json.loads(event["Records"][0]["Sns"]["Message"])
-    webhook_url = os.environ["SLACK_WEBHOOK"]
-
-    alarm_name = alarm["AlarmName"]
-
+def create_message(alarm_name):
     assert alarm_name.endswith("_dlq_not_empty")
     queue_name = alarm_name[: -len("_dlq_not_empty")]
 
     queue_length = count_messages_on_queue(f"{queue_name}_dlq")
 
     if queue_length == 1:
-        message = f"There is 1 item on the {queue_name} DLQ."
+        return f"There is 1 item on the {queue_name} DLQ."
     else:
-        message = f"There are {queue_length} items on the {queue_name} DLQ."
+        return f"There are {queue_length} items on the {queue_name} DLQ."
+
+
+def main(event, _ctxt=None):
+    alarm = json.loads(event["Records"][0]["Sns"]["Message"])
+    webhook_url = os.environ["SLACK_WEBHOOK"]
+
+    alarm_name = alarm["AlarmName"]
 
     slack_payload = {
         "username": "cloudwatch-warning",
@@ -45,7 +47,7 @@ def main(event, _ctxt=None):
                 "color": "warning",
                 "fallback": alarm_name,
                 "title": alarm_name,
-                "fields": [{"value": message}],
+                "fields": [{"value": create_message(alarm_name)}],
             }
         ],
     }
