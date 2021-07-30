@@ -2,17 +2,40 @@
 Sends a notification to Slack when we see a message on a DLQ.
 """
 
-import httplib
+import functools
 import json
-import os
+import sys
+import urllib.request
 
 import boto3
+
+
+def log_on_error(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except Exception:
+            print(f'args   = {args!r}', file=sys.stderr)
+            print(f'kwargs = {kwargs!r}', file=sys.stderr)
+            raise
+
+    return wrapper
+
+
+def get_secret_string(*, secret_id):
+    """
+    Look up the value of a SecretString in Secrets Manager.
+    """
+    secrets_client = boto3.client("secretsmanager")
+
+    return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
 def count_messages_on_queue(queue_name):
     sqs_client = boto3.client("sqs")
 
-    queue_url = sqs_client.get_queue_url(QueueName=queue_name)
+    queue_url = sqs_client.get_queue_url(QueueName=queue_name)["QueueUrl"]
 
     resp = sqs_client.get_queue_attributes(
         QueueUrl=queue_url, AttributeNames=["ApproximateNumberOfMessages"]
@@ -33,14 +56,15 @@ def create_message(alarm_name):
         return f"There are {queue_length} items on the {queue_name} DLQ."
 
 
+@log_on_error
 def main(event, _ctxt=None):
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
-    webhook_url = os.environ["SLACK_WEBHOOK"]
+    webhook_url = get_secret_string(secret_id="monitoring/noncritical_slack_webhook")
 
     alarm_name = alarm["AlarmName"]
 
     slack_payload = {
-        "username": "cloudwatch-warning",
+        "username": "sqs-dlq-alarm",
         "icon_emoji": ":warning:",
         "attachments": [
             {
@@ -54,8 +78,10 @@ def main(event, _ctxt=None):
 
     print("Sending message %s" % json.dumps(slack_payload))
 
-    conn = httplib.HTTPConnection(webhook_url)
-    conn.request(
-        "POST", "", json.dumps(slack_payload), {"Content-Type": "application/json"}
+    req = urllib.request.Request(
+        webhook_url,
+        data=json.dumps(slack_payload).encode('utf8'),
+        headers={"Content-Type": "application/json"}
     )
-    conn.getresponse()
+    resp = urllib.request.urlopen(req)
+    print(resp)
