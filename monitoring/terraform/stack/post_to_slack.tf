@@ -42,28 +42,3 @@ module "trigger_post_to_slack_lambda_error" {
   lambda_function_arn  = module.lambda_post_to_slack.arn
   sns_trigger_arn      = var.lambda_error_alarm_arn
 }
-
-resource "random_id" "statement_id" {
-  keepers = {
-    aws_sns_topic_subscription = aws_sns_topic_subscription.subscribe_lambda_to_cloudfront_errors.id
-  }
-
-  byte_length = 8
-}
-
-resource "aws_lambda_permission" "allow_sns_cloudfront_trigger" {
-  statement_id  = random_id.statement_id.hex
-  action        = "lambda:InvokeFunction"
-  function_name = module.lambda_post_to_slack.arn
-  principal     = "sns.amazonaws.com"
-  source_arn    = var.cloudfront_errors_topic_arn
-  depends_on    = [aws_sns_topic_subscription.subscribe_lambda_to_cloudfront_errors]
-}
-
-resource "aws_sns_topic_subscription" "subscribe_lambda_to_cloudfront_errors" {
-  provider = aws.us_east_1
-
-  topic_arn = var.cloudfront_errors_topic_arn
-  protocol  = "lambda"
-  endpoint  = module.lambda_post_to_slack.arn
-}

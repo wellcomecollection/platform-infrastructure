@@ -32,7 +32,6 @@ module "monitoring-271118" {
 
   dlq_alarm_arn                  = local.dlq_alarm_arn
   gateway_server_error_alarm_arn = local.gateway_server_error_alarm_arn
-  cloudfront_errors_topic_arn    = local.cloudfront_errors_topic_arn
   critical_slack_webhook         = local.critical_slack_webhook
   non_critical_slack_webhook     = local.noncritical_slack_webhook
   bitly_access_token             = local.bitly_access_token

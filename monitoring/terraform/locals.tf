@@ -7,8 +7,6 @@ locals {
 
   bucket_alb_logs_id = local.shared_infra["bucket_alb_logs_id"]
 
-  cloudfront_errors_topic_arn = data.terraform_remote_state.loris.outputs.cloudfront_errors_topic_arn
-
   namespace = "monitoring"
 
   vpc_id          = local.platform_vpcs["monitoring_vpc_delta_id"]

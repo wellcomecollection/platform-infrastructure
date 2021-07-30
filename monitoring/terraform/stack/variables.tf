@@ -36,7 +36,6 @@ variable "grafana_anonymous_enabled" {}
 
 variable "dlq_alarm_arn" {}
 variable "gateway_server_error_alarm_arn" {}
-variable "cloudfront_errors_topic_arn" {}
 variable "critical_slack_webhook" {}
 variable "bitly_access_token" {}
 
