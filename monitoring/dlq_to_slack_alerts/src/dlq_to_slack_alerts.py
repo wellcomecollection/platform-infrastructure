@@ -16,8 +16,8 @@ def log_on_error(fn):
         try:
             return fn(*args, **kwargs)
         except Exception:
-            print(f'args   = {args!r}', file=sys.stderr)
-            print(f'kwargs = {kwargs!r}', file=sys.stderr)
+            print(f"args   = {args!r}", file=sys.stderr)
+            print(f"kwargs = {kwargs!r}", file=sys.stderr)
             raise
 
     return wrapper
@@ -80,8 +80,8 @@ def main(event, _ctxt=None):
 
     req = urllib.request.Request(
         webhook_url,
-        data=json.dumps(slack_payload).encode('utf8'),
-        headers={"Content-Type": "application/json"}
+        data=json.dumps(slack_payload).encode("utf8"),
+        headers={"Content-Type": "application/json"},
     )
     resp = urllib.request.urlopen(req)
     print(resp)
