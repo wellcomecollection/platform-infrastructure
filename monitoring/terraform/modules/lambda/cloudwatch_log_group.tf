@@ -19,6 +19,7 @@ data "aws_iam_policy_document" "cloudwatch_logs" {
 
     resources = [
       aws_cloudwatch_log_group.cloudwatch_log_group.arn,
+      "${aws_cloudwatch_log_group.cloudwatch_log_group.arn}:*",
     ]
   }
 }
