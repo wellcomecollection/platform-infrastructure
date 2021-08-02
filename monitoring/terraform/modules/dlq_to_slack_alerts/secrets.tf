@@ -1,6 +1,6 @@
 locals {
   secrets_to_copy = {
-    noncritical_slack_webhook = "monitoring/noncritical_slack_webhook"
+    noncritical_slack_webhook = "monitoring/critical_slack_webhook"
   }
 }
 

@@ -59,7 +59,7 @@ def create_message(alarm_name):
 @log_on_error
 def main(event, _ctxt=None):
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
-    webhook_url = get_secret_string(secret_id="monitoring/noncritical_slack_webhook")
+    webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
 
     alarm_name = alarm["AlarmName"]
 
