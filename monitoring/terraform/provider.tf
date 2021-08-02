@@ -1,8 +1,22 @@
+locals {
+  default_tags = {
+    TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/monitoring/terraform"
+    Department                = "Digital Platform"
+    Division                  = "Culture and Society"
+    Use                       = "Storage service"
+    Environment               = "Staging"
+  }
+}
+
 provider "aws" {
   region = var.aws_region
 
   assume_role {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    role_arn = "arn:aws:iam::760097843905:role/platform-admin"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
 
@@ -12,6 +26,10 @@ provider "aws" {
 
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
 
@@ -23,6 +41,10 @@ provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::756629837203:role/catalogue-developer"
   }
+
+  default_tags {
+    tags = local.default_tags
+  }
 }
 
 provider "aws" {
@@ -33,6 +55,10 @@ provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::975596993436:role/storage-developer"
   }
+
+  default_tags {
+    tags = local.default_tags
+  }
 }
 
 provider "aws" {
@@ -41,5 +67,9 @@ provider "aws" {
 
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
