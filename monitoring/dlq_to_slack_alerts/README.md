@@ -20,3 +20,7 @@ Notifications sent to this topic trigger this Lambda function, which sends a mes
 
 *   We have one topic/Lambda function per account, so we don't have to deal with cross-account permissions for the CloudWatch-to-SNS topic notification.
 *   The ARNs of the per-account DLQ alarm topics are published as outputs from the `monitoring` stack.
+
+## How to deploy
+
+The Lambda is automatically deployed when you run `terraform apply` in the monitoring stack.
