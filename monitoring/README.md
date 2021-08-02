@@ -10,4 +10,6 @@ It can be viewed at <https://monitoring.wellcomecollection.org/> (note this is o
 
 ## Slack alarms
 
-We have an AWS Lambda that publishes certain CloudWatch alarms to a Slack channel, so failures are immediately visible.
+We have AWS Lambdas that publish CloudWatch alarms to a Slack channel, so failures are immediately visible.
+
+*   [dlq_to_slack_alerts](dlq_to_slack_alerts) sends us a Slack message if there are messages on SQS dead-letter queues.
