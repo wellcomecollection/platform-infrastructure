@@ -84,4 +84,4 @@ def main(event, _ctxt=None):
         headers={"Content-Type": "application/json"},
     )
     resp = urllib.request.urlopen(req)
-    print(resp)
+    assert resp.status == 200, resp
