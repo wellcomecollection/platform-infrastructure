@@ -52,6 +52,14 @@ locals {
       }
     }
   }
+
+  logging_apm_user_settings = {
+    "apm-server" : {
+      rum : {
+        enabled : true
+      }
+    }
+  }
 }
 
 # IMPORTANT: When deploying fresh you will need to set the following key in Elasticsearch keystore:
@@ -106,6 +114,10 @@ resource "ec_deployment" "logging" {
       size       = "0.5g"
       zone_count = 1
     }
+
+    config {
+      user_settings_yaml = yamlencode(local.logging_apm_user_settings)
+    }
   }
 }
 
@@ -126,7 +138,7 @@ locals {
 }
 
 module "host_secrets" {
-  source = "./modules/secrets/secret"
+  source = "github.com/wellcomecollection/terraform-aws-secrets.git?ref=v1.3.0"
 
   key_value_map = {
     "elasticsearch/logging/username"        = local.logging_elastic_username
