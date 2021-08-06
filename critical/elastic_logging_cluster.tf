@@ -55,6 +55,7 @@ locals {
 
   logging_apm_user_settings = {
     "apm-server" : {
+      # RUM = Real-User Monitoring
       rum : {
         enabled : true
       }
