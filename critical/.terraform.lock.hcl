@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/elastic/ec" {
   version     = "0.1.0-beta"
-  constraints = "0.1.0-beta, 0.1.1"
+  constraints = "0.1.0-beta, 0.2.1"
   hashes = [
     "h1:FeIlgFFtDoVwNJ5sIBWCmuURRopyXXX9DqC7s0AwubQ=",
     "zh:091d59c4ea25a8f9ea4046c7b1eee2fbe9fe107d715b060f2659cf7aebd6d437",
