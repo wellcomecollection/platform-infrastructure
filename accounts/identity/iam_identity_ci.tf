@@ -112,7 +112,19 @@ data "aws_iam_policy_document" "identity_ci" {
       "${local.secrets_base_arn}identity/stage/buildkite/credentials*",
       "${local.secrets_base_arn}identity/stage/smoke_test/credentials*",
       "${local.secrets_base_arn}identity/prod/account_management_system/api_key*",
+      "${local.secrets_base_arn}identity/prod/buildkite/credentials*",
       "${local.secrets_base_arn}identity/prod/smoke_test/credentials*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "ssm:GetParameters",
+    ]
+
+    resources = [
+      "${local.ssm_param_base_arn}identity-auth0_domain-stage",
+      "${local.ssm_param_base_arn}identity-auth0_domain-prod",
     ]
   }
 
