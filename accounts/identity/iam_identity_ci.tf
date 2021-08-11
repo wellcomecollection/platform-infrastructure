@@ -119,7 +119,7 @@ data "aws_iam_policy_document" "identity_ci" {
 
   statement {
     actions = [
-      "ssm:GetParameters",
+      "ssm:GetParameter",
     ]
 
     resources = [
