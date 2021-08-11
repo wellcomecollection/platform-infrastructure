@@ -84,14 +84,6 @@ module "super_dev_roleset" {
     local.dam_prototype_account_roles["ci_role_arn"],
 
     aws_iam_role.s3_scala_releases_read.arn,
-    module.s3_releases_scala_sierra_client.role_arn,
-    module.s3_releases_scala_catalogue_client.role_arn,
-    module.s3_releases_scala_storage.role_arn,
-    module.s3_releases_scala_json.role_arn,
-    module.s3_releases_scala_messaging.role_arn,
-    module.s3_releases_scala_monitoring.role_arn,
-    module.s3_releases_scala_typesafe.role_arn,
-    module.s3_releases_scala_fixtures.role_arn,
 
     # Route 53
     "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update",
@@ -162,13 +154,6 @@ module "dev_roleset" {
     local.workflow_account_roles["ci_role_arn"],
     local.digitisation_account_roles["ci_role_arn"],
     local.experience_account_roles["ci_role_arn"],
-
-    module.s3_releases_scala_fixtures.role_arn,
-    module.s3_releases_scala_json.role_arn,
-    module.s3_releases_scala_messaging.role_arn,
-    module.s3_releases_scala_monitoring.role_arn,
-    module.s3_releases_scala_storage.role_arn,
-    module.s3_releases_scala_typesafe.role_arn,
   ]
 }
 
