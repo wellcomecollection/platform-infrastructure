@@ -113,33 +113,14 @@ data "aws_iam_policy_document" "ci_permissions" {
   }
 
   # Publish & retrieve scala libraries
-  dynamic "statement" {
-    for_each = [
-      "http",
-      "json",
-      "storage",
-      "monitoring",
-      "messaging",
-      "fixtures",
-      "typesafe_app",
-      "sierra-streams-source",
-      "elasticsearch",
-      "elasticsearch-typesafe"
+  statement {
+    actions = [
+      "s3:*"
     ]
 
-    content {
-      actions = [
-        "s3:*"
-      ]
-
-      resources = [
-        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_2.12/*",
-        "${aws_s3_bucket.releases.arn}/uk/ac/wellcome/${statement.value}_typesafe_2.12/*",
-
-        "${aws_s3_bucket.releases.arn}/weco/${statement.value}_2.12/*",
-        "${aws_s3_bucket.releases.arn}/weco/${statement.value}_typesafe_2.12/*",
-      ]
-    }
+    resources = [
+      "${aws_s3_bucket.releases.arn}/weco/*",
+    ]
   }
 
   # Publish & retrieve lambdas
