@@ -5,6 +5,8 @@ locals {
     ES_HOST         = "shared/logging/es_host"
     ES_PORT         = "shared/logging/es_port"
     ES_HOST_PRIVATE = "shared/logging/es_host_private"
+    APM_SERVER_URL  = "elasticsearch/logging/apm_server_url"
+    APM_SECRET      = "elasticsearch/logging/apm_secret"
   }
 }
 
