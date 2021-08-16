@@ -5,9 +5,14 @@ locals {
     ES_HOST         = "shared/logging/es_host"
     ES_PORT         = "shared/logging/es_port"
     ES_HOST_PRIVATE = "shared/logging/es_host_private"
-    APM_SERVER_URL  = "elasticsearch/logging/apm_server_url"
-    APM_SECRET      = "elasticsearch/logging/apm_secret"
   }
+
+  apm_secrets = {
+    APM_SERVER_URL = "elasticsearch/logging/apm_server_url"
+    APM_SECRET     = "elasticsearch/logging/apm_secret"
+  }
+
+  shared_secrets = merge(local.logging_secrets, local.apm_secrets)
 }
 
 module "storage_logging_secrets" {
@@ -17,7 +22,7 @@ module "storage_logging_secrets" {
     aws = aws.storage
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }
 
 module "catalogue_logging_secrets" {
@@ -27,7 +32,7 @@ module "catalogue_logging_secrets" {
     aws = aws.catalogue
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }
 
 module "experience_logging_secrets" {
@@ -37,7 +42,7 @@ module "experience_logging_secrets" {
     aws = aws.experience
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }
 
 module "workflow_logging_secrets" {
@@ -47,7 +52,7 @@ module "workflow_logging_secrets" {
     aws = aws.workflow
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }
 
 module "digirati_logging_secrets" {
@@ -57,7 +62,7 @@ module "digirati_logging_secrets" {
     aws = aws.digirati
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }
 
 module "identity_logging_secrets" {
@@ -67,5 +72,5 @@ module "identity_logging_secrets" {
     aws = aws.identity
   }
 
-  secrets = local.logging_secrets
+  secrets = local.shared_secrets
 }

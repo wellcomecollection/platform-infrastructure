@@ -119,6 +119,10 @@ output "shared_secrets_logging" {
   value = local.logging_secrets
 }
 
+output "shared_secrets_apm" {
+  value = local.apm_secrets
+}
+
 # Elastic Cloud
 
 output "ec_public_internet_traffic_filter_id" {
