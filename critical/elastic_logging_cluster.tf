@@ -151,7 +151,7 @@ module "host_secrets" {
     "elasticsearch/logging/private_host"    = local.logging_private_host
     "elasticsearch/logging/kibana_endpoint" = local.logging_kibana_endpoint
     "elasticsearch/logging/apm_server_url"  = local.logging_apm_server_url
-    "elasticsearch/logging/apm_secret"      = local.logging_apm_server_url
+    "elasticsearch/logging/apm_secret"      = local.logging_apm_secret
 
     # Duplicated as this is what consumers currently expect
     # The above naming scheme is common to our other ES setups
