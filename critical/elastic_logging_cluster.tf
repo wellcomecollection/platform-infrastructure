@@ -136,6 +136,9 @@ locals {
   # See https://www.elastic.co/guide/en/cloud/current/ec-traffic-filtering-vpc.html
   logging_private_host = "${local.logging_elastic_id}.vpce.${local.logging_elastic_region}.aws.elastic-cloud.com"
   logging_public_host  = "${local.logging_elastic_id}.${local.logging_elastic_region}.aws.found.io"
+
+  logging_apm_server_url = ec_deployment.logging.apm[0].https_endpoint
+  logging_apm_secret     = ec_deployment.logging.apm_secret_token
 }
 
 module "host_secrets" {
@@ -147,6 +150,8 @@ module "host_secrets" {
     "elasticsearch/logging/public_host"     = local.logging_public_host
     "elasticsearch/logging/private_host"    = local.logging_private_host
     "elasticsearch/logging/kibana_endpoint" = local.logging_kibana_endpoint
+    "elasticsearch/logging/apm_server_url"  = local.logging_apm_server_url
+    "elasticsearch/logging/apm_secret"      = local.logging_apm_secret
 
     # Duplicated as this is what consumers currently expect
     # The above naming scheme is common to our other ES setups
