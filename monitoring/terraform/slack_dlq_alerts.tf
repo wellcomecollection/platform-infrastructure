@@ -9,8 +9,6 @@ module "platform_dlq_to_slack_alerts" {
   infra_bucket = "wellcomecollection-platform-infra"
 
   alarm_topic_arn = local.lambda_error_alarm_arn
-
-  copy_secrets = false
 }
 
 output "platform_dlq_alarm_topic_arn" {
