@@ -1,7 +1,3 @@
-"""
-Sends a notification to Slack when we see a message on a DLQ.
-"""
-
 import functools
 import json
 import os
@@ -45,7 +41,7 @@ def create_message(alarm):
         r"\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]", state_reason
     ).group("count")
 
-    if error_count == 1:
+    if int(error_count) == 1:
         return "There was a error from API Gateway"
     else:
         return f"There were {error_count} errors from API Gateway"

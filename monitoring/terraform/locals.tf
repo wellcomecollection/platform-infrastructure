@@ -1,5 +1,5 @@
 locals {
-  gateway_server_error_alarm_arn = local.shared_infra["gateway_server_error_alarm_arn"]
+  gateway_server_error_alarm_arn = module.platform_dlq_to_slack_alerts.alarm_topic_arn
   lambda_error_alarm_arn         = local.shared_infra["lambda_error_alarm_arn"]
   dlq_alarm_arn                  = module.platform_dlq_to_slack_alerts.alarm_topic_arn
 
