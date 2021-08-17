@@ -46,7 +46,7 @@ def main(event, _ctxt=None):
     #     greater than the threshold (0.0).
     #
     state_reason = alarm["NewStateReason"]
-    error_count = re.match(r'\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]', state_reason).group("count")
+    error_count = re.search(r'\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]', state_reason).group("count")
 
     print(error_count)
 
