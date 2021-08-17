@@ -12,7 +12,7 @@ module "catalogue_api_gateway_alerts" {
 }
 
 output "catalogue_api_gateway_alerts_topic_arn" {
-  value = module.storage_api_gateway_alerts.alarm_topic_arn
+  value = module.catalogue_api_gateway_alerts.alarm_topic_arn
 }
 
 module "storage_api_gateway_alerts" {
