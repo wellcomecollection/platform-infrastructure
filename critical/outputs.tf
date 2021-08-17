@@ -2,10 +2,6 @@ output "lambda_error_alarm_arn" {
   value = module.lambda_error_alarm.arn
 }
 
-output "dlq_alarm_arn" {
-  value = module.dlq_alarm.arn
-}
-
 output "gateway_server_error_alarm_arn" {
   value = module.gateway_server_error_alarm.arn
 }
