@@ -13,7 +13,7 @@ module "platform_dlq_to_slack_alerts" {
 }
 
 output "platform_dlq_alarm_topic_arn" {
-  value = module.catalogue_dlq_to_slack_alerts.alarm_topic_arn
+  value = module.platform_dlq_to_slack_alerts.alarm_topic_arn
 }
 
 module "catalogue_dlq_to_slack_alerts" {
