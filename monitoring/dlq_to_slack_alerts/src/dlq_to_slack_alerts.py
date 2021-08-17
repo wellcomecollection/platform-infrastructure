@@ -4,6 +4,7 @@ Sends a notification to Slack when we see a message on a DLQ.
 
 import functools
 import json
+import os
 import sys
 import urllib.request
 
@@ -58,13 +59,15 @@ def create_message(alarm_name):
 
 @log_on_error
 def main(event, _ctxt=None):
+    account = os.environ["ACCOUNT_NAME"]
+
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
-    webhook_url = get_secret_string(secret_id="monitoring/noncritical_slack_webhook")
+    webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
 
     alarm_name = alarm["AlarmName"]
 
     slack_payload = {
-        "username": "sqs-dlq-alarm",
+        "username": f"{account}-sqs-dlq-alarm",
         "icon_emoji": ":warning:",
         "attachments": [
             {

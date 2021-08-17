@@ -15,10 +15,15 @@ resource "aws_s3_bucket_object" "lambda" {
 module "lambda" {
   source = "../lambda"
 
-  name        = "dlq_to_slack_alerts"
+  name        = "${var.account_name}_dlq_to_slack_alerts"
+  module_name = "dlq_to_slack_alerts"
   description = "Sends a notification to Slack when there are messages on DLQs"
 
   timeout = 10
+
+  environment_variables = {
+    "ACCOUNT_NAME" = var.account_name
+  }
 
   s3_bucket = aws_s3_bucket_object.lambda.bucket
   s3_key    = aws_s3_bucket_object.lambda.key

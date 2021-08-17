@@ -5,6 +5,7 @@ module "platform_dlq_to_slack_alerts" {
     aws = aws.platform
   }
 
+  account_name = "platform"
   infra_bucket = "wellcomecollection-platform-infra"
 
   alarm_topic_arn = local.lambda_error_alarm_arn
@@ -13,7 +14,7 @@ module "platform_dlq_to_slack_alerts" {
 }
 
 output "platform_dlq_alarm_topic_arn" {
-  value = module.catalogue_dlq_to_slack_alerts.alarm_topic_arn
+  value = module.platform_dlq_to_slack_alerts.alarm_topic_arn
 }
 
 module "catalogue_dlq_to_slack_alerts" {
@@ -23,6 +24,7 @@ module "catalogue_dlq_to_slack_alerts" {
     aws = aws.catalogue
   }
 
+  account_name = "catalogue"
   infra_bucket = "wellcomecollection-catalogue-infra-delta"
 
   alarm_topic_arn = local.lambda_error_alarm_arn
@@ -39,6 +41,7 @@ module "storage_dlq_to_slack_alerts" {
     aws = aws.storage
   }
 
+  account_name = "storage"
   infra_bucket = "wellcomecollection-storage-infra"
 
   alarm_topic_arn = local.lambda_error_alarm_arn

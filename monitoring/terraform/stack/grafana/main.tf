@@ -66,7 +66,7 @@ module "task" {
 }
 
 module "service" {
-  source = "github.com/wellcomecollection/terraform-aws-ecs-service.git//service?ref=v1.4.0"
+  source = "./service"
 
   service_name = var.namespace
   cluster_arn  = var.cluster_arn
