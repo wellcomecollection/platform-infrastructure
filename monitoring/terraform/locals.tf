@@ -1,7 +1,7 @@
 locals {
   gateway_server_error_alarm_arn = local.shared_infra["gateway_server_error_alarm_arn"]
   lambda_error_alarm_arn         = local.shared_infra["lambda_error_alarm_arn"]
-  dlq_alarm_arn                  = local.shared_infra["dlq_alarm_arn"]
+  dlq_alarm_arn                  = module.platform_dlq_to_slack_alerts.alarm_topic_arn
 
   admin_cidr_ingress = data.aws_ssm_parameter.admin_cidr_ingress.value
 

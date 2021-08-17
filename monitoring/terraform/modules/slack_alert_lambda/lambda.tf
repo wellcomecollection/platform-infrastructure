@@ -1,23 +1,23 @@
-data "archive_file" "dlq_to_slack_alerts" {
+data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "${path.module}/../../../dlq_to_slack_alerts/src/dlq_to_slack_alerts.py"
-  output_path = "${path.module}/dlq_to_slack_alerts.zip"
+  source_file = "${path.module}/../../../${var.name}/src/${var.name}.py"
+  output_path = "${path.module}/${var.name}.zip"
 }
 
 resource "aws_s3_bucket_object" "lambda" {
   bucket = var.infra_bucket
-  key    = "lambdas/platform-infrastructure/monitoring/dlq_to_slack_alerts.zip"
-  source = data.archive_file.dlq_to_slack_alerts.output_path
+  key    = "lambdas/platform-infrastructure/monitoring/${var.name}.zip"
+  source = data.archive_file.lambda.output_path
 
-  etag = filemd5(data.archive_file.dlq_to_slack_alerts.output_path)
+  etag = filemd5(data.archive_file.lambda.output_path)
 }
 
 module "lambda" {
   source = "../lambda"
 
-  name        = "${var.account_name}_dlq_to_slack_alerts"
-  module_name = "dlq_to_slack_alerts"
-  description = "Sends a notification to Slack when there are messages on DLQs"
+  name        = "${var.account_name}_${var.name}"
+  module_name = var.name
+  description = "Sends a notification to Slack when there are 5xx errors from API Gateway"
 
   timeout = 10
 
@@ -37,12 +37,12 @@ resource "aws_lambda_permission" "allow_sns_trigger" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda.arn
   principal     = "sns.amazonaws.com"
-  source_arn    = aws_sns_topic.dlq_alarms.arn
+  source_arn    = aws_sns_topic.topic.arn
   depends_on    = [aws_sns_topic_subscription.topic_lambda]
 }
 
 resource "aws_sns_topic_subscription" "topic_lambda" {
-  topic_arn = aws_sns_topic.dlq_alarms.arn
+  topic_arn = aws_sns_topic.topic.arn
   protocol  = "lambda"
   endpoint  = module.lambda.arn
 }

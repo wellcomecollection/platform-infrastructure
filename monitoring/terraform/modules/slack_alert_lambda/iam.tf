@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "read_secrets" {
     ]
 
     resources = [
-      for secret_id in values(local.secrets_to_copy) :
+      for secret_id in var.secrets :
       "arn:aws:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret:${secret_id}*"
     ]
   }
@@ -17,20 +17,4 @@ data "aws_iam_policy_document" "read_secrets" {
 resource "aws_iam_role_policy" "read_secrets" {
   role   = module.lambda.role_name
   policy = data.aws_iam_policy_document.read_secrets.json
-}
-
-data "aws_iam_policy_document" "get_queue_length" {
-  statement {
-    actions = [
-      "sqs:GetQueueAttributes",
-      "sqs:GetQueueUrl",
-    ]
-
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_role_policy" "get_queue_length" {
-  role   = module.lambda.role_name
-  policy = data.aws_iam_policy_document.get_queue_length.json
 }

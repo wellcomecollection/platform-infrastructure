@@ -62,6 +62,20 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias = "identity"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::770700576653:role/identity-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
   region = "us-east-1"
   alias  = "us_east_1"
 
