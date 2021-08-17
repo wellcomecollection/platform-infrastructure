@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "read_secrets" {
     ]
 
     resources = [
-      for secret_id in var.secrets:
+      for secret_id in var.secrets :
       "arn:aws:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret:${secret_id}*"
     ]
   }

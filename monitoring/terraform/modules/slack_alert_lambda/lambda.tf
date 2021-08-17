@@ -16,7 +16,7 @@ module "lambda" {
   source = "../lambda"
 
   name        = "${var.account_name}_${var.name}"
-  module_name = "${var.name}"
+  module_name = var.name
   description = "Sends a notification to Slack when there are 5xx errors from API Gateway"
 
   timeout = 10
