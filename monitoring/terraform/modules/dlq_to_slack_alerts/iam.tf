@@ -1,6 +1,12 @@
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
+locals {
+  secrets = [
+    "monitoring/critical_slack_webhook"
+  ]
+}
+
 data "aws_iam_policy_document" "read_secrets" {
   statement {
     actions = [
@@ -8,7 +14,7 @@ data "aws_iam_policy_document" "read_secrets" {
     ]
 
     resources = [
-      for secret_id in values(local.secrets_to_copy) :
+      for secret_id in local.secrets:
       "arn:aws:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret:${secret_id}*"
     ]
   }
