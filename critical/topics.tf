@@ -5,13 +5,6 @@ module "lambda_error_alarm" {
 
 # Alarm topics
 
-module "gateway_server_error_alarm" {
-  source = "github.com/wellcomecollection/terraform-aws-sns-topic.git?ref=v1.0.0"
-  name   = "shared_gateway_server_error_alarm"
-
-  cross_account_subscription_ids = [local.account_ids["catalogue"]]
-}
-
 module "terraform_apply_topic" {
   source = "github.com/wellcomecollection/terraform-aws-sns-topic.git?ref=v1.0.0"
   name   = "shared_terraform_apply"
