@@ -74,6 +74,7 @@ resource "aws_ecs_service" "service" {
     # TODO: Sort out the tagging on this service.
     ignore_changes = [
       tags,
+      tags_all,
     ]
   }
 }
