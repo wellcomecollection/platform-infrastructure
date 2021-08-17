@@ -16,6 +16,7 @@ module "lambda" {
   source = "../lambda"
 
   name        = "${var.account_name}_dlq_to_slack_alerts"
+  module_name = "dlq_to_slack_alerts"
   description = "Sends a notification to Slack when there are messages on DLQs"
 
   timeout = 10
