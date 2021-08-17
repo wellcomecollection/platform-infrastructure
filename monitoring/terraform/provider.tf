@@ -3,8 +3,8 @@ locals {
     TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/monitoring/terraform"
     Department                = "Digital Platform"
     Division                  = "Culture and Society"
-    Use                       = "Storage service"
-    Environment               = "Staging"
+    Use                       = "Monitoring"
+    Environment               = "Production"
   }
 }
 
