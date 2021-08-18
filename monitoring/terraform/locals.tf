@@ -17,6 +17,7 @@ locals {
   identity_infra_bucket  = "wellcomecollection-identity-experience-infra"
   platform_infra_bucket  = "wellcomecollection-platform-infra"
   storage_infra_bucket   = "wellcomecollection-storage-infra"
+  workflow_infra_bucket  = "wellcomecollection-workflow-infra"
 }
 
 
