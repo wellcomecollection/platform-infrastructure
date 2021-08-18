@@ -19,22 +19,12 @@ module "monitoring-271118" {
   aws_region         = var.aws_region
   admin_cidr_ingress = local.admin_cidr_ingress
 
-  lambda_error_alarm_arn = local.lambda_error_alarm_arn
-
   # grafana
 
   grafana_admin_user        = local.grafana_admin_user
   grafana_anonymous_role    = local.grafana_anonymous_role
   grafana_admin_password    = local.grafana_admin_password
   grafana_anonymous_enabled = local.grafana_anonymous_enabled
-
-  # post_to_slack
-
-  dlq_alarm_arn                  = local.dlq_alarm_arn
-  gateway_server_error_alarm_arn = local.gateway_server_error_alarm_arn
-  critical_slack_webhook         = local.critical_slack_webhook
-  non_critical_slack_webhook     = local.noncritical_slack_webhook
-  bitly_access_token             = local.bitly_access_token
 
   # IAM
 

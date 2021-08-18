@@ -1,15 +1,3 @@
-module "lambda_error_alarm" {
-  source = "github.com/wellcomecollection/terraform-aws-sns-topic.git?ref=v1.0.0"
-  name   = "lambda_error_alarm"
-}
-
-# Alarm topics
-
-module "terraform_apply_topic" {
-  source = "github.com/wellcomecollection/terraform-aws-sns-topic.git?ref=v1.0.0"
-  name   = "shared_terraform_apply"
-}
-
 # Shared topics for reindexing
 
 ## Reporting

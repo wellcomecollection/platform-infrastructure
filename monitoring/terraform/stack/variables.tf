@@ -1,7 +1,5 @@
 variable "namespace" {}
 
-variable "non_critical_slack_webhook" {}
-
 variable "namespace_id" {}
 variable "vpc_id" {}
 
@@ -23,21 +21,12 @@ variable "key_name" {}
 variable "aws_region" {}
 variable "admin_cidr_ingress" {}
 
-variable "lambda_error_alarm_arn" {}
-
 # Grafana
 
 variable "grafana_admin_user" {}
 variable "grafana_anonymous_role" {}
 variable "grafana_admin_password" {}
 variable "grafana_anonymous_enabled" {}
-
-# post_to_slack
-
-variable "dlq_alarm_arn" {}
-variable "gateway_server_error_alarm_arn" {}
-variable "critical_slack_webhook" {}
-variable "bitly_access_token" {}
 
 # IAM
 
