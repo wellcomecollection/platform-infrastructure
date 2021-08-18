@@ -42,7 +42,7 @@ module "storage_dlq_to_slack_alerts" {
   account_name = "storage"
   infra_bucket = local.storage_infra_bucket
 
-  alarm_topic_arn = local.lambda_error_alarm_arn
+  alarm_topic_arn = module.storage_lambda_error_alerts.alarm_topic_arn
 }
 
 output "storage_dlq_alarm_topic_arn" {
