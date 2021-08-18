@@ -76,6 +76,20 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias = "workflow"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::299497370133:role/workflow-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
   region = "us-east-1"
   alias  = "us_east_1"
 
