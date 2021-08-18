@@ -36,9 +36,7 @@ def get_secret_string(*, secret_id):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def build_cloudwatch_url(
-    search_term, log_group_name, start_date, end_date, region
-):
+def build_cloudwatch_url(search_term, log_group_name, start_date, end_date, region):
     """
     Builds a URL that opens the CloudWatch Console with the given filters.
     """
@@ -141,19 +139,20 @@ def main(event, _ctxt=None):
     # e.g. lambda-platform_example_lambda-errors
     #
     alarm_name = alarm["AlarmName"]
-    function_name = alarm_name[len("lambda-"):-len("-errors")]
+    function_name = alarm_name[len("lambda-") : -len("-errors")]
 
     log_group_name = f"/aws/lambda/{function_name}"
 
     # Try to get some rough bounds on when this error might have occurred.
     # There's about a 60 second delay on the error and the CloudWatch alarm
     # being triggered.
-    state_change_time = datetime.datetime.strptime(alarm["StateChangeTime"], "%Y-%m-%dT%H:%M:%S.%f+0000")
+    state_change_time = datetime.datetime.strptime(
+        alarm["StateChangeTime"], "%Y-%m-%dT%H:%M:%S.%f+0000"
+    )
     errors_start = state_change_time - datetime.timedelta(minutes=11)
-    errors_end = min([
-        datetime.datetime.now(),
-        state_change_time + datetime.timedelta(minutes=9)
-    ])
+    errors_end = min(
+        [datetime.datetime.now(), state_change_time + datetime.timedelta(minutes=9)]
+    )
 
     # Are there any interesting CloudWatch Logs for the Lambda?
     search_terms = ["Traceback", "Task timed out after"]
@@ -161,7 +160,7 @@ def main(event, _ctxt=None):
         log_group_name=log_group_name,
         start=errors_start,
         end=errors_end,
-        search_terms=search_terms
+        search_terms=search_terms,
     )
 
     cloudwatch_urls = [
@@ -191,7 +190,9 @@ def main(event, _ctxt=None):
             {"title": "CloudWatch messages", "value": cloudwatch_message_str}
         )
 
-    slack_payload["attachments"][0]["fields"].append({"value": " / ".join(cloudwatch_urls)})
+    slack_payload["attachments"][0]["fields"].append(
+        {"value": " / ".join(cloudwatch_urls)}
+    )
 
     print("Sending message %s" % json.dumps(slack_payload))
 
