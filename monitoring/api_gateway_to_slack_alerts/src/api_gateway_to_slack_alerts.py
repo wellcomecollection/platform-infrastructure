@@ -42,7 +42,7 @@ def create_message(alarm):
     ).group("count")
 
     if int(error_count) == 1:
-        return "There was a error from API Gateway"
+        return "There was an error from API Gateway"
     else:
         return f"There were {error_count} errors from API Gateway"
 
