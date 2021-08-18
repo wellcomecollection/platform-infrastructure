@@ -8,7 +8,7 @@ module "catalogue_api_gateway_alerts" {
   account_name = "catalogue"
   infra_bucket = local.catalogue_infra_bucket
 
-  alarm_topic_arn = local.lambda_error_alarm_arn
+  alarm_topic_arn = module.catalogue_lambda_error_alerts.alarm_topic_arn
 }
 
 output "catalogue_api_gateway_alerts_topic_arn" {
@@ -42,7 +42,7 @@ module "identity_api_gateway_alerts" {
   account_name = "identity"
   infra_bucket = local.identity_infra_bucket
 
-  alarm_topic_arn = local.lambda_error_alarm_arn
+  alarm_topic_arn = module.identity_lambda_error_alerts.alarm_topic_arn
 }
 
 output "identity_api_gateway_alerts_topic_arn" {

@@ -8,7 +8,7 @@ module "platform_dlq_to_slack_alerts" {
   account_name = "platform"
   infra_bucket = local.platform_infra_bucket
 
-  alarm_topic_arn = local.lambda_error_alarm_arn
+  alarm_topic_arn = module.platform_lambda_error_alerts.alarm_topic_arn
 }
 
 output "platform_dlq_alarm_topic_arn" {
@@ -25,7 +25,7 @@ module "catalogue_dlq_to_slack_alerts" {
   account_name = "catalogue"
   infra_bucket = local.catalogue_infra_bucket
 
-  alarm_topic_arn = local.lambda_error_alarm_arn
+  alarm_topic_arn = module.catalogue_lambda_error_alerts.alarm_topic_arn
 }
 
 output "catalogue_dlq_alarm_topic_arn" {

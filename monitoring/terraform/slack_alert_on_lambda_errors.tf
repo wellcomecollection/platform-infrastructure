@@ -57,3 +57,18 @@ module "workflow_lambda_error_alerts" {
 output "workflow_lambda_error_alerts_topic_arn" {
   value = module.workflow_lambda_error_alerts.alarm_topic_arn
 }
+
+module "identity_lambda_error_alerts" {
+  source = "./modules/slack_alert_on_lambda_error"
+
+  providers = {
+    aws = aws.identity
+  }
+
+  account_name = "identity"
+  infra_bucket = local.identity_infra_bucket
+}
+
+output "identity_lambda_error_alerts_topic_arn" {
+  value = module.identity_lambda_error_alerts.alarm_topic_arn
+}
