@@ -109,6 +109,10 @@ data "aws_iam_policy_document" "ci_permissions" {
 
     resources = [
       "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
+
+      # Allow BuildKite to get read-only credentials for the pipeline
+      # cluster, to help with auto-deployment of the pipeline.
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/pipeline_storage_*/read_only/*",
     ]
   }
 
