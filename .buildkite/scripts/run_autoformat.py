@@ -11,12 +11,9 @@ import os
 import subprocess
 import sys
 
-from commands import make, git
+from commands import git
 from git_utils import get_changed_paths
 from provider import current_branch, repo
-
-
-ECR_REGISTRY = "760097843905.dkr.ecr.eu-west-1.amazonaws.com"
 
 
 if __name__ == "__main__":
@@ -28,10 +25,14 @@ if __name__ == "__main__":
             --volume {os.path.join(home, '.aws')}:/root/.aws \
             --volume {root}:/repo \
             --workdir /repo \
-            {ECR_REGISTRY}/hashicorp/terraform:light fmt -recursive
+            760097843905.dkr.ecr.eu-west-1.amazonaws.com/hashicorp/terraform:light fmt -recursive
     """.strip(), shell=True)
 
-    make("format")
+    subprocess.check_call(f"""
+        docker run --tty --rm \
+            --volume {root}:/repo \
+            760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/format_python:112
+    """.strip(), shell=True)
 
     # If there are any changes, push to GitHub immediately and fail the
     # build.  This will abort the remaining jobs, and trigger a new build
@@ -61,4 +62,10 @@ if __name__ == "__main__":
     # Run the 'lint' tasks.  A failure in these tasks requires
     # manual intervention, so we run them second to get any automatic fixes
     # out of the way.
-    make("lint")
+    subprocess.check_call(f"""
+        docker run --tty --rm \
+            --volume {root}:/repo \
+            --workdir /repo \
+            760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/flake8:latest \
+            --exclude .git,__pycache__,target,.terraform --ignore=E501,E122,E126,E203,W503
+    """)
