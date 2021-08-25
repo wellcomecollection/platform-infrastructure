@@ -90,6 +90,20 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias = "experience"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
   region = "us-east-1"
   alias  = "us_east_1"
 
