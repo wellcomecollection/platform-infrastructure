@@ -68,4 +68,4 @@ if __name__ == "__main__":
             --workdir /repo \
             760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/flake8:latest \
             --exclude .git,__pycache__,target,.terraform --ignore=E501,E122,E126,E203,W503
-    """)
+    """.strip(), shell=True)
