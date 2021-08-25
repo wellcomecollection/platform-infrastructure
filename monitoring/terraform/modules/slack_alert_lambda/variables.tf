@@ -2,6 +2,16 @@ variable "name" {
   type = string
 }
 
+variable "source_name" {
+  type    = string
+  default = ""
+}
+
+variable "environment_variables" {
+  type    = map(string)
+  default = {}
+}
+
 variable "secrets" {
   type = list(string)
 }
