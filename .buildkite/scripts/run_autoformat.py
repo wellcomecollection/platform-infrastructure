@@ -27,7 +27,7 @@ if __name__ == "__main__":
         docker run --tty --rm \
             --volume {os.path.join(home, '.aws')}:/root/.aws \
             --volume {root}:/repo \
-            --workdir /repo
+            --workdir /repo \
             {ECR_REGISTRY}/hashicorp/terraform:light fmt -recursive
     """.strip(), shell=True)
 
