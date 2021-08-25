@@ -10,18 +10,12 @@ lint-python:
 		    --exclude .git,__pycache__,target,.terraform \
 		    --ignore=E501,E122,E126,E203,W503
 
-format-terraform:
-	$(ROOT)/docker_run.py --aws -- \
-		--volume $(ROOT):/repo \
-		--workdir /repo \
-		$(ECR_REGISTRY)/hashicorp/terraform:light fmt -recursive
-
 format-python:
 	$(ROOT)/docker_run.py -- \
 		--volume $(ROOT):/repo \
 		$(ECR_REGISTRY)/wellcome/format_python:112
 
-format: format-terraform format-python
+format: format-python
 
 lint: lint-python
 	git diff --exit-code

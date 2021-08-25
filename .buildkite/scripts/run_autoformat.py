@@ -7,6 +7,8 @@ In particular, it runs the 'make format' task, and if there are any changes,
 it pushes a new commit to your pull request and aborts the current build.
 """
 
+import os
+import subprocess
 import sys
 
 from commands import make, git
@@ -14,7 +16,20 @@ from git_utils import get_changed_paths
 from provider import current_branch, repo
 
 
+ECR_REGISTRY = "760097843905.dkr.ecr.eu-west-1.amazonaws.com"
+
+
 if __name__ == "__main__":
+    root = git("rev-parse", "--show-toplevel")
+    home = os.environ['HOME']
+
+    subprocess.check_call(f"""
+        docker run --tty --rm \
+            --volume {os.path.join(home, '.aws')}:/root/.aws \
+            --volume {root}:/repo \
+            --workdir /repo
+            {ECR_REGISTRY}/hashicorp/terraform:light fmt -recursive
+    """.strip(), shell=True)
 
     make("format")
 
