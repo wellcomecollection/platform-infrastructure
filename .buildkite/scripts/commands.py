@@ -27,11 +27,6 @@ def _subprocess_run(cmd, exit_on_error=True):
     return "\n".join(output).strip()
 
 
-def make(*args):
-    """Run a Make command, and check it completes successfully."""
-    _subprocess_run(["make"] + list(args))
-
-
 def git(*args, exit_on_error=True):
     """Run a Git command and return its output."""
     cmd = ["git"] + list(args)
