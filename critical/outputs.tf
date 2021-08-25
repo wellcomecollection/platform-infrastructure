@@ -1,13 +1,5 @@
-output "lambda_error_alarm_arn" {
-  value = module.lambda_error_alarm.arn
-}
-
 output "bucket_alb_logs_id" {
   value = aws_s3_bucket.alb_logs.id
-}
-
-output "terraform_apply_topic_name" {
-  value = module.terraform_apply_topic.name
 }
 
 output "cloudfront_logs_bucket_domain_name" {
