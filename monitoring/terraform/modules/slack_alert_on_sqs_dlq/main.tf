@@ -18,7 +18,6 @@ module "dlq_to_slack_alerts" {
     "monitoring/critical_slack_webhook",
   ]
 
-  infra_bucket    = var.infra_bucket
   account_name    = var.account_name
   alarm_topic_arn = var.alarm_topic_arn
 }

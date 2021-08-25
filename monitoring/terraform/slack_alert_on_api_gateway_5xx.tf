@@ -6,7 +6,6 @@ module "catalogue_api_gateway_alerts" {
   }
 
   account_name = "catalogue"
-  infra_bucket = local.catalogue_infra_bucket
 
   alarm_topic_arn = module.catalogue_lambda_error_alerts.alarm_topic_arn
 }
@@ -23,7 +22,6 @@ module "storage_api_gateway_alerts" {
   }
 
   account_name = "storage"
-  infra_bucket = local.storage_infra_bucket
 
   alarm_topic_arn = module.storage_lambda_error_alerts.alarm_topic_arn
 }
@@ -40,7 +38,6 @@ module "identity_api_gateway_alerts" {
   }
 
   account_name = "identity"
-  infra_bucket = local.identity_infra_bucket
 
   alarm_topic_arn = module.identity_lambda_error_alerts.alarm_topic_arn
 }

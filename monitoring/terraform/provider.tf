@@ -89,6 +89,7 @@ provider "aws" {
   }
 }
 
+
 provider "aws" {
   alias = "experience"
 
@@ -102,6 +103,22 @@ provider "aws" {
     tags = local.default_tags
   }
 }
+
+
+provider "aws" {
+  alias = "experience_cloudfront"
+
+  region = "us-east-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
 
 provider "aws" {
   region = "us-east-1"

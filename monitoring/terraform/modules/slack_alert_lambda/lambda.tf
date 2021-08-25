@@ -8,14 +8,6 @@ data "archive_file" "lambda" {
   output_path = "${path.module}/${local.source_name}.zip"
 }
 
-resource "aws_s3_bucket_object" "lambda" {
-  bucket = var.infra_bucket
-  key    = "lambdas/platform-infrastructure/monitoring/${var.name}.zip"
-  source = data.archive_file.lambda.output_path
-
-  etag = filemd5(data.archive_file.lambda.output_path)
-}
-
 module "lambda" {
   source = "../lambda"
 
@@ -32,12 +24,9 @@ module "lambda" {
     var.environment_variables
   )
 
-  s3_bucket = aws_s3_bucket_object.lambda.bucket
-  s3_key    = aws_s3_bucket_object.lambda.key
+  filename = data.archive_file.lambda.output_path
 
   alarm_topic_arn = var.alarm_topic_arn
-
-  depends_on = [aws_s3_bucket_object.lambda]
 }
 
 resource "aws_lambda_permission" "allow_sns_trigger" {

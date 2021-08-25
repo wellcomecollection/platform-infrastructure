@@ -18,11 +18,29 @@ module "cloudfront_to_slack_alerts" {
     "monitoring/critical_slack_webhook",
   ]
 
-  infra_bucket    = var.infra_bucket
   account_name    = var.account_name
-  alarm_topic_arn = var.alarm_topic_arn
+  alarm_topic_arn = module.lambda_error_alerts.alarm_topic_arn
 }
 
 output "alarm_topic_arn" {
   value = module.cloudfront_to_slack_alerts.alarm_topic_arn
+}
+
+# Because CloudFront lives in us-east-1 but the rest of our services
+# are in eu-west-1, we create a Lambda to alert on failures in the
+# CloudFront alerting Lambda within that region.
+#
+# This avoids the complication of cross-region alerting and the like.
+module "slack_secrets" {
+  source = "../../../../critical/modules/secrets/distributed"
+
+  secrets = {
+    noncritical_slack_webhook = "monitoring/critical_slack_webhook"
+  }
+}
+
+module "lambda_error_alerts" {
+  source = "../slack_alert_on_lambda_error"
+
+  account_name = var.account_name
 }

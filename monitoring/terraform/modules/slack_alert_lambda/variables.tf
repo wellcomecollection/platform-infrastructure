@@ -20,10 +20,6 @@ variable "description" {
   type = string
 }
 
-variable "infra_bucket" {
-  type = string
-}
-
 variable "account_name" {
   type = string
 }

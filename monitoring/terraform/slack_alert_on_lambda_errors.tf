@@ -6,7 +6,6 @@ module "platform_lambda_error_alerts" {
   }
 
   account_name = "platform"
-  infra_bucket = local.platform_infra_bucket
 }
 
 output "platform_lambda_error_alerts_topic_arn" {
@@ -21,7 +20,6 @@ module "storage_lambda_error_alerts" {
   }
 
   account_name = "storage"
-  infra_bucket = local.storage_infra_bucket
 }
 
 output "storage_lambda_error_alerts_topic_arn" {
@@ -36,7 +34,6 @@ module "catalogue_lambda_error_alerts" {
   }
 
   account_name = "catalogue"
-  infra_bucket = local.catalogue_infra_bucket
 }
 
 output "catalogue_lambda_error_alerts_topic_arn" {
@@ -51,7 +48,6 @@ module "workflow_lambda_error_alerts" {
   }
 
   account_name = "workflow"
-  infra_bucket = local.workflow_infra_bucket
 }
 
 output "workflow_lambda_error_alerts_topic_arn" {
@@ -66,24 +62,8 @@ module "identity_lambda_error_alerts" {
   }
 
   account_name = "identity"
-  infra_bucket = local.identity_infra_bucket
 }
 
 output "identity_lambda_error_alerts_topic_arn" {
   value = module.identity_lambda_error_alerts.alarm_topic_arn
-}
-
-module "experience_lambda_error_alerts" {
-  source = "./modules/slack_alert_on_lambda_error"
-
-  providers = {
-    aws = aws.experience
-  }
-
-  account_name = "experience"
-  infra_bucket = local.experience_infra_bucket
-}
-
-output "experience_lambda_error_alerts_topic_arn" {
-  value = module.experience_lambda_error_alerts.alarm_topic_arn
 }
