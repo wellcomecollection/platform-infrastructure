@@ -57,9 +57,13 @@ def create_message(alarm):
     #     greater than the threshold (0.0).
     #
     state_reason = alarm["NewStateReason"]
-    error_count = re.search(
-        r"\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]", state_reason
-    ).group("count")
+    try:
+        error_count = re.search(
+            r"\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]", state_reason
+        ).group("count")
+    except ValueError:
+        print(f"Unable to parse state reason: {state_reason!r}")
+        raise
 
     if int(error_count) == 1:
         return os.environ["STR_SINGLE_ERROR_MESSAGE"]

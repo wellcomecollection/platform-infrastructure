@@ -2,7 +2,8 @@ resource "aws_lambda_function" "lambda_function" {
   description   = var.description
   function_name = var.name
 
-  filename = var.filename
+  filename         = var.filename
+  source_code_hash = filebase64sha256(var.filename)
 
   role    = aws_iam_role.iam_role.arn
   handler = var.module_name == "" ? "${var.name}.main" : "${var.module_name}.main"
