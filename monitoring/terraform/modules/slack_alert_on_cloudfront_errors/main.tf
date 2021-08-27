@@ -8,8 +8,8 @@ module "cloudfront_to_slack_alerts" {
   topic_name  = "cloudfront_5xx_alarm"
 
   environment_variables = {
-    STR_SINGLE_ERROR_MESSAGE   = "There was 1 error in CloudFront"
-    STR_MULTIPLE_ERROR_MESSAGE = "There were {error_count} errors in CloudFront"
+    STR_SINGLE_ERROR_MESSAGE   = "1% of requests in CloudFront were 5xx errors"
+    STR_MULTIPLE_ERROR_MESSAGE = "{error_count}% of requests in CloudFront were 5xx errors"
     STR_ALARM_SLUG             = "api-gateway-5xx-alarm"
     STR_ALARM_LEVEL            = "error"
   }
