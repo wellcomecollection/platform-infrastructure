@@ -59,7 +59,8 @@ def create_message(alarm):
     state_reason = alarm["NewStateReason"]
     error_count = int(
         re.search(
-            r"\[(?P<count>\d+\.\d+) \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]", state_reason
+            r"\[(?P<count>\d+\.\d+) \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]",
+            state_reason,
         ).group("count")
     )
 
