@@ -331,11 +331,6 @@ module "digirati_dev_roleset" {
     local.digirati_account_roles["read_only_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
 
-    # Identity
-    local.experience_account_roles["developer_role_arn"],
-    local.experience_account_roles["read_only_role_arn"],
-    local.experience_account_roles["ci_role_arn"],
-
     # Workflow
     local.workflow_account_roles["read_only_role_arn"],
 
