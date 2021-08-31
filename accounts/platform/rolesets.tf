@@ -103,10 +103,6 @@ module "dev_roleset" {
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
 
-    # Identity
-    local.identity_account_roles["developer_role_arn"],
-    local.identity_account_roles["read_only_role_arn"],
-
     # Digirati
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
@@ -143,7 +139,6 @@ module "dev_roleset" {
     aws_iam_role.s3_scala_releases_read.arn,
 
     # CI Roles
-    local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
     module.aws_account.ci_role_arn,
     local.catalogue_account_roles["ci_role_arn"],
@@ -335,17 +330,6 @@ module "digirati_dev_roleset" {
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
-
-    # Identity
-    local.identity_account_roles["admin_role_arn"],
-    local.identity_account_roles["developer_role_arn"],
-    local.identity_account_roles["read_only_role_arn"],
-    local.identity_account_roles["ci_role_arn"],
-
-    # Identity
-    local.experience_account_roles["developer_role_arn"],
-    local.experience_account_roles["read_only_role_arn"],
-    local.experience_account_roles["ci_role_arn"],
 
     # Workflow
     local.workflow_account_roles["read_only_role_arn"],
