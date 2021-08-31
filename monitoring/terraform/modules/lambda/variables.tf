@@ -30,12 +30,9 @@ variable "alarm_topic_arn" {
   description = "ARN of the topic where to send notification for lambda errors"
 }
 
-variable "s3_bucket" {
-  description = "The S3 bucket containing the function's deployment package"
-}
-
-variable "s3_key" {
-  description = "The S3 key of the function's deployment package"
+variable "filename" {
+  type    = string
+  default = ""
 }
 
 variable "memory_size" {

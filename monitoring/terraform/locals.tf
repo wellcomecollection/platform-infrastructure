@@ -8,12 +8,6 @@ locals {
   vpc_id          = local.platform_vpcs["monitoring_vpc_delta_id"]
   private_subnets = local.platform_vpcs["monitoring_vpc_delta_private_subnets"]
   public_subnets  = local.platform_vpcs["monitoring_vpc_delta_public_subnets"]
-
-  catalogue_infra_bucket = "wellcomecollection-catalogue-infra-delta"
-  identity_infra_bucket  = "wellcomecollection-identity-experience-infra"
-  platform_infra_bucket  = "wellcomecollection-platform-infra"
-  storage_infra_bucket   = "wellcomecollection-storage-infra"
-  workflow_infra_bucket  = "wellcomecollection-workflow-infra"
 }
 
 

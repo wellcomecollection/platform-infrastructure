@@ -1,3 +1,23 @@
+"""
+This is a generic Lambda that can alert on the value of a CloudWatch Metric.
+
+You need to supply three strings as environment variables:
+
+    STR_SINGLE_ERROR_MESSAGE
+    = the message to display if there's a single error
+
+    STR_MULTIPLE_ERROR_MESSAGE
+    = the message to display if there are multiple errors.  If this includes
+      {error_count}, then the actual value will be included in then message
+
+    STR_ALARM_SLUG
+    = the slug to display in the name of the Slack message
+
+    STR_ALARM_LEVEL
+    = warning or error
+
+"""
+
 import functools
 import json
 import os
@@ -37,14 +57,17 @@ def create_message(alarm):
     #     greater than the threshold (0.0).
     #
     state_reason = alarm["NewStateReason"]
-    error_count = re.search(
-        r"\[(?P<count>\d+)\.0 \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]", state_reason
-    ).group("count")
+    error_count = int(
+        re.search(
+            r"\[(?P<count>\d+\.\d+) \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]",
+            state_reason,
+        ).group("count")
+    )
 
     if int(error_count) == 1:
-        return "There was an error from API Gateway"
+        return os.environ["STR_SINGLE_ERROR_MESSAGE"]
     else:
-        return f"There were {error_count} errors from API Gateway"
+        return os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(error_count=error_count)
 
 
 @log_on_error
@@ -57,12 +80,19 @@ def main(event, _ctxt=None):
 
     alarm_name = alarm["AlarmName"]
 
+    if os.environ["STR_ALARM_LEVEL"] == "error":
+        icon_emoji = ":rotating_light:"
+        color = "danger"
+    else:
+        icon_emoji = "warning"
+        color = "warning"
+
     slack_payload = {
-        "username": f"{account}-api-gateway-5xx-alarm",
-        "icon_emoji": ":rotating_light:",
+        "username": f"{account}-{os.environ['STR_ALARM_SLUG']}",
+        "icon_emoji": icon_emoji,
         "attachments": [
             {
-                "color": "danger",
+                "color": color,
                 "fallback": alarm_name,
                 "title": alarm_name,
                 "fields": [{"value": create_message(alarm)}],

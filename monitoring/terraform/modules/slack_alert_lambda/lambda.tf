@@ -1,36 +1,32 @@
-data "archive_file" "lambda" {
-  type        = "zip"
-  source_file = "${path.module}/../../../${var.name}/src/${var.name}.py"
-  output_path = "${path.module}/${var.name}.zip"
+locals {
+  source_name = var.source_name != "" ? var.source_name : var.name
 }
 
-resource "aws_s3_bucket_object" "lambda" {
-  bucket = var.infra_bucket
-  key    = "lambdas/platform-infrastructure/monitoring/${var.name}.zip"
-  source = data.archive_file.lambda.output_path
-
-  etag = filemd5(data.archive_file.lambda.output_path)
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../../../slack_alerts/${local.source_name}/src/${local.source_name}.py"
+  output_path = "${path.module}/${local.source_name}.zip"
 }
 
 module "lambda" {
   source = "../lambda"
 
   name        = "${var.account_name}_${var.name}"
-  module_name = var.name
+  module_name = local.source_name
   description = var.description
 
   timeout = 10
 
-  environment_variables = {
-    "ACCOUNT_NAME" = var.account_name
-  }
+  environment_variables = merge(
+    {
+      "ACCOUNT_NAME" = var.account_name
+    },
+    var.environment_variables
+  )
 
-  s3_bucket = aws_s3_bucket_object.lambda.bucket
-  s3_key    = aws_s3_bucket_object.lambda.key
+  filename = data.archive_file.lambda.output_path
 
   alarm_topic_arn = var.alarm_topic_arn
-
-  depends_on = [aws_s3_bucket_object.lambda]
 }
 
 resource "aws_lambda_permission" "allow_sns_trigger" {
