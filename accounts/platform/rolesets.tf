@@ -103,10 +103,6 @@ module "dev_roleset" {
     module.aws_account.developer_role_arn,
     module.aws_account.read_only_role_arn,
 
-    # Identity
-    local.identity_account_roles["developer_role_arn"],
-    local.identity_account_roles["read_only_role_arn"],
-
     # Digirati
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
@@ -335,12 +331,6 @@ module "digirati_dev_roleset" {
     local.digirati_account_roles["developer_role_arn"],
     local.digirati_account_roles["read_only_role_arn"],
     local.digirati_account_roles["ci_role_arn"],
-
-    # Identity
-    local.identity_account_roles["admin_role_arn"],
-    local.identity_account_roles["developer_role_arn"],
-    local.identity_account_roles["read_only_role_arn"],
-    local.identity_account_roles["ci_role_arn"],
 
     # Identity
     local.experience_account_roles["developer_role_arn"],
