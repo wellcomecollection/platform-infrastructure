@@ -139,7 +139,6 @@ module "dev_roleset" {
     aws_iam_role.s3_scala_releases_read.arn,
 
     # CI Roles
-    local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
     module.aws_account.ci_role_arn,
     local.catalogue_account_roles["ci_role_arn"],
