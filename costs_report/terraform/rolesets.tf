@@ -81,3 +81,15 @@ module "dam_prototype_role" {
 
   lambda_task_role_arn = module.costs_report_lambda.role_arn
 }
+
+module "digirati_role" {
+  source = "./roleset"
+
+  providers = {
+    aws = aws.digirati
+  }
+
+  account_name = "digirati"
+
+  lambda_task_role_arn = module.costs_report_lambda.role_arn
+}

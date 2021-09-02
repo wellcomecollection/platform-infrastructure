@@ -116,3 +116,17 @@ provider "aws" {
     tags = local.default_tags
   }
 }
+
+provider "aws" {
+  alias = "digirati"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::653428163053:role/digirati-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
