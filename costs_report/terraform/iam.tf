@@ -1,11 +1,45 @@
-module "platform_role" {
-  source = "./roleset"
+resource "aws_iam_role_policy" "allow_assume_role" {
+  role   = module.costs_report_lambda.role_name
+  policy = data.aws_iam_policy_document.allow_assume_role.json
+}
 
-  providers = {
-    aws = aws.platform
+data "aws_iam_policy_document" "allow_assume_role" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    resources = [
+      module.platform_role.arn,
+      module.catalogue_role.arn,
+      module.storage_role.arn,
+      module.workflow_role.arn,
+      module.experience_role.arn,
+      module.identity_role.arn,
+      module.dam_prototype_role.arn,
+    ]
   }
+}
 
-  account_name = "platform"
 
-  lambda_task_role_arn = module.costs_report_lambda.role_arn
+resource "aws_iam_role_policy" "allow_get_secrets" {
+  role   = module.costs_report_lambda.role_name
+  policy = data.aws_iam_policy_document.allow_get_secrets.json
+}
+
+data "aws_iam_policy_document" "allow_get_secrets" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:eu-west-1:760097843905:secret:elastic_cloud/api_key*",
+      "arn:aws:secretsmanager:eu-west-1:760097843905:secret:elastic_cloud/organisation_id*",
+    ]
+  }
 }

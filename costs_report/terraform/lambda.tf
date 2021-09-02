@@ -1,6 +1,6 @@
 data "archive_file" "costs_report" {
   type        = "zip"
-  source_file = "../costs_report.py"
+  source_dir  = "../costs_report"
   output_path = "../costs_report.zip"
 }
 

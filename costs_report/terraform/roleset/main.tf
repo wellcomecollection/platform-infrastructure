@@ -13,6 +13,10 @@ resource "aws_iam_role" "role" {
   max_session_duration = 3600
 }
 
+output "arn" {
+  value = aws_iam_role.role.arn
+}
+
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
