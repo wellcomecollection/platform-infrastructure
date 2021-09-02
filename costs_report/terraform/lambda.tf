@@ -2,6 +2,10 @@ data "archive_file" "costs_report" {
   type        = "zip"
   source_dir  = "../costs_report"
   output_path = "../costs_report.zip"
+
+  excludes = [
+    "../costs_report/__pycache__"
+  ]
 }
 
 module "costs_report_lambda" {
