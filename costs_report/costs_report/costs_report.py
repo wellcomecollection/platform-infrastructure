@@ -184,8 +184,6 @@ def create_billing_table(billing_data):
 
     This table is meant for printing in a monospaced font.
     """
-    lines = []
-
     rows = [
         _render_row(account_name, per_month_bills)
         for account_name, per_month_bills in billing_data.items()
