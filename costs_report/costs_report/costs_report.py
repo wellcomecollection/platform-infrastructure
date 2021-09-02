@@ -71,13 +71,7 @@ def get_secret_string(sess, *, secret_id):
     return client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def _get_elastic_cloud_costs_for_range(
-    *,
-    from_date,
-    to_date,
-    api_key,
-    organisation_id,
-):
+def _get_elastic_cloud_costs_for_range(*, from_date, to_date, api_key, organisation_id):
     # See https://www.elastic.co/guide/en/cloud/current/Billing_Costs_Analysis.html
     url = f"https://api.elastic-cloud.com/api/v1/billing/costs/{organisation_id}?from={from_date.isoformat()}T00:00:00Z&to={to_date.isoformat()}T00:00:00Z"
     headers = {"Authorization": f"ApiKey {api_key}"}
@@ -223,7 +217,9 @@ def create_billing_table(billing_data):
 def main(_event, _context):
     billing_data = {}
 
-    running_in_lambda = os.environ.get("AWS_EXECUTION_ENV", "").startswith("AWS_Lambda_")
+    running_in_lambda = os.environ.get("AWS_EXECUTION_ENV", "").startswith(
+        "AWS_Lambda_"
+    )
 
     for account_id, account_name in [
         ("760097843905", "platform"),
@@ -236,7 +232,9 @@ def main(_event, _context):
         ("653428163053", "digirati"),
     ]:
         if running_in_lambda:
-            role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-costs_report_lambda"
+            role_arn = (
+                f"arn:aws:iam::{account_id}:role/{account_name}-costs_report_lambda"
+            )
         else:
             role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-developer"
 

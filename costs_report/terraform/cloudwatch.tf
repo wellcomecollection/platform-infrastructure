@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_event_rule" "costs_report" {
-  name                = "costs_report"
-  description         = "Starts the costs report lambda"
+  name        = "costs_report"
+  description = "Starts the costs report lambda"
 
   # This runs the Lambda at 9am UTC on the second Tuesday of every month.
   # (3#2 = day 3 of the week / Tuesday, 2nd instance of)
