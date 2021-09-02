@@ -40,6 +40,7 @@ data "aws_iam_policy_document" "allow_get_secrets" {
     resources = [
       "arn:aws:secretsmanager:eu-west-1:760097843905:secret:elastic_cloud/api_key*",
       "arn:aws:secretsmanager:eu-west-1:760097843905:secret:elastic_cloud/organisation_id*",
+      "arn:aws:secretsmanager:eu-west-1:760097843905:secret:slack/wc-platform-hook*",
     ]
   }
 }

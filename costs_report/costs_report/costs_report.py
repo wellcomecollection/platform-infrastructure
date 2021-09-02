@@ -240,8 +240,33 @@ def main(_event, _context):
     billing_data["elastic cloud"] = get_elastic_cloud_bill(
         date_blocks=billing_data["platform"].keys()
     )
+    table = create_billing_table(billing_data)
 
-    print(create_billing_table(billing_data))
+    this_month = datetime.date.today() - datetime.timedelta(days=28)
+
+    slack_payload = {
+        "username": "costs-report",
+        "icon_emoji": ":money_with_wings:",
+        "attachments": [
+            {
+                "title": f"Costs report for {this_month.strftime('%B %Y')}",
+                "fields": [{"value": f"```\n{table}\n```"}],
+            }
+        ],
+    }
+
+    sess = boto3.Session()
+    webhook_url = get_secret_string(sess, secret_id="slack/wc-platform-hook")
+
+    print("Sending message %s" % json.dumps(slack_payload))
+
+    req = urllib.request.Request(
+        webhook_url,
+        data=json.dumps(slack_payload).encode("utf8"),
+        headers={"Content-Type": "application/json"},
+    )
+    resp = urllib.request.urlopen(req)
+    assert resp.status == 200, resp
 
 
 if __name__ == "__main__":
