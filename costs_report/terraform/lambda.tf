@@ -4,7 +4,7 @@ data "archive_file" "costs_report" {
   output_path = "../costs_report.zip"
 }
 
-module "costs_report" {
+module "costs_report_lambda" {
   source = "../../monitoring/terraform/modules/lambda"
 
   name        = "costs_report"
@@ -14,5 +14,5 @@ module "costs_report" {
 
   timeout = 60
 
-  alarm_topic_arn = data.terraform_remote_state.monitoring.outputs.platform_lambda_error_alerts_topic_arn
+  alarm_topic_arn = local.lambda_error_alerts_topic_arn
 }
