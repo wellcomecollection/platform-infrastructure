@@ -16,6 +16,26 @@ output "s3_scala_releases_read_role_arn" {
   value = aws_iam_role.s3_scala_releases_read.arn
 }
 
+output "admin_role_arn" {
+  value = module.aws_account.admin_role_arn
+}
+
+output "billing_role_arn" {
+  value = module.aws_account.billing_role_arn
+}
+
+output "developer_role_arn" {
+  value = module.aws_account.developer_role_arn
+}
+
+output "monitoring_role_arn" {
+  value = module.aws_account.monitoring_role_arn
+}
+
+output "read_only_role_arn" {
+  value = module.aws_account.read_only_role_arn
+}
+
 output "publisher_role_arn" {
   value = module.aws_account.publisher_role_arn
 }
