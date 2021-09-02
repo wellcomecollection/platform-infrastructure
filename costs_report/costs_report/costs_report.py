@@ -1,6 +1,7 @@
 import collections
 import datetime
 import json
+import os
 import re
 import urllib.error
 import urllib.request
@@ -195,14 +196,14 @@ def create_billing_table(billing_data):
 
     # Add a footer row that shows the total.
     total_bills = collections.defaultdict(int)
-    for per_month_bills in billing_data.values():
+    for name, per_month_bills in billing_data.items():
         for month, amount in per_month_bills.items():
 
             # We may have some zero-values in here; if so, backfill with
             # the average of the non-zero bills for this month.  This avoids
             # any zero values dragging down the average.
             if amount == 0:
-                total_bills[month] = average(
+                total_bills[month] += average(
                     [v for v in per_month_bills.values() if v > 0]
                 )
             else:
@@ -224,6 +225,8 @@ def create_billing_table(billing_data):
 def main(_event, _context):
     billing_data = {}
 
+    running_in_lambda = os.environ.get("AWS_EXECUTION_ENV", "").startswith("AWS_Lambda_")
+
     for account_id, account_name in [
         ("760097843905", "platform"),
         ("756629837203", "catalogue"),
@@ -232,16 +235,26 @@ def main(_event, _context):
         ("130871440101", "experience"),
         ("770700576653", "identity"),
         ("241906670800", "dam_prototype"),
+        ("653428163053", "digirati"),
     ]:
-        role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-costs_report_lambda"
+        if running_in_lambda:
+            role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-costs_report_lambda"
+        else:
+            role_arn = f"arn:aws:iam::{account_id}:role/{account_name}-developer"
 
         billing_data[account_name] = get_last_four_months_of_bills(role_arn=role_arn)
 
     billing_data["elastic cloud"] = get_elastic_cloud_bill(
         date_blocks=billing_data["platform"].keys()
     )
+
     table = create_billing_table(billing_data)
 
+    if not running_in_lambda:
+        print(table)
+        return
+
+    print(json.dumps(billing_data))
     this_month = datetime.date.today() - datetime.timedelta(days=28)
 
     slack_payload = {
