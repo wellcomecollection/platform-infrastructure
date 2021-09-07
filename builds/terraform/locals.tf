@@ -5,7 +5,8 @@ locals {
   platform_read_only_role_arn = local.platform_accounts["platform_read_only_role_arn"]
   account_ci_role_arn_map     = local.platform_accounts["ci_role_arn"]
 
-  ci_agent_role_name = "ci-agent"
+  ci_agent_role_name      = "ci-agent"
+  ci_nano_agent_role_name = "${local.ci_agent_role_name}-nano"
 
   ci_vpc_id              = local.platform_vpcs["ci_vpc_id"]
   ci_vpc_private_subnets = local.platform_vpcs["ci_vpc_private_subnets"]
