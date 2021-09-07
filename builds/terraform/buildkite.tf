@@ -101,7 +101,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     ScaleDownAdjustment = -10
 
     AgentsPerInstance                         = 1
-    BuildkiteTerminateInstanceAfterJobTimeout = 1800
+    BuildkiteTerminateInstanceAfterJobTimeout = 300
 
     RootVolumeSize = 25
     RootVolumeName = "/dev/xvda"
