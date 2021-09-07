@@ -115,6 +115,10 @@ data "aws_iam_policy_document" "ci_permissions" {
       "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/pipeline_storage_*/read_only*",
 
       "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/pipeline_storage_*/public_host*",
+
+      # Allow BuildKite to get storage service credentials so it can send
+      # test bags in the storage service repo.
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:buildkite/storage_service*",
     ]
   }
 
