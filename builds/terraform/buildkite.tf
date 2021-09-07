@@ -28,6 +28,8 @@ resource "aws_cloudformation_stack" "buildkite" {
     InstanceCreationTimeout = "PT5M"
     InstanceRoleName        = local.ci_agent_role_name
 
+    BuildkiteAgentTags = "queue=large"
+
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
     SecurityGroupId = aws_security_group.buildkite.id
@@ -72,6 +74,12 @@ resource "aws_cloudformation_stack" "buildkite" {
 # I picked the name "nano" because they're a catchall group for any sort
 # of small task, rather than for a specific purpose.
 #
+# You can target this queue by adding the following lines to the
+# Buildkite steps:
+#
+#      agents:
+#        queue: "nano"
+#
 resource "aws_cloudformation_stack" "buildkite_nano" {
   name = "buildkite-elasticstack-nano"
 
@@ -84,7 +92,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     SpotPrice    = 0.01
     InstanceType = "t3.nano"
 
-    BuildkiteAgentTags = "queue=nano"
+    BuildkiteQueue = "nano"
 
     BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
 
@@ -102,7 +110,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     RootVolumeType = "gp2"
 
     InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = "${local.ci_agent_role_name}-nano"
+    InstanceRoleName        = local.ci_nano_agent_role_name
 
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
@@ -147,6 +155,17 @@ data "aws_iam_role" "ci_agent" {
 resource "aws_iam_role_policy" "ci_agent" {
   policy = data.aws_iam_policy_document.ci_permissions.json
   role   = data.aws_iam_role.ci_agent.id
+
+  provider = aws
+}
+
+data "aws_iam_role" "ci_nano_agent" {
+  name = local.ci_nano_agent_role_name
+}
+
+resource "aws_iam_role_policy" "ci_nano_agent" {
+  policy = data.aws_iam_policy_document.ci_permissions.json
+  role   = data.aws_iam_role.ci_nano_agent.id
 
   provider = aws
 }
@@ -243,6 +262,13 @@ locals {
 
 resource "aws_s3_bucket_object" "buildkite_agent_hook" {
   bucket = aws_cloudformation_stack.buildkite.outputs["ManagedSecretsBucket"]
+  key    = "env"
+  source = local.buildkite_agent_hook_path
+  etag   = filemd5(local.buildkite_agent_hook_path)
+}
+
+resource "aws_s3_bucket_object" "buildkite_nano_agent_hook" {
+  bucket = aws_cloudformation_stack.buildkite_nano.outputs["ManagedSecretsBucket"]
   key    = "env"
   source = local.buildkite_agent_hook_path
   etag   = filemd5(local.buildkite_agent_hook_path)
