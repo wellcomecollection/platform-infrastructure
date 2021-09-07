@@ -28,8 +28,6 @@ resource "aws_cloudformation_stack" "buildkite" {
     InstanceCreationTimeout = "PT5M"
     InstanceRoleName        = local.ci_agent_role_name
 
-    BuildkiteAgentTags = "queue=large"
-
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
     SecurityGroupId = aws_security_group.buildkite.id
@@ -105,7 +103,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     AgentsPerInstance                         = 1
     BuildkiteTerminateInstanceAfterJobTimeout = 1800
 
-    RootVolumeSize = 150
+    RootVolumeSize = 25
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
