@@ -121,7 +121,6 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     CostAllocationTagName  = "aws:createdBy"
     CostAllocationTagValue = "buildkite-elasticstack"
 
-    BuildkiteQueue                                            = "default"
     BuildkiteAgentRelease                                     = "stable"
     BuildkiteAgentTimestampLines                              = false
     BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
