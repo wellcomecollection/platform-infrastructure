@@ -93,3 +93,39 @@ module "digirati_role" {
 
   lambda_task_role_arn = module.costs_report_lambda.role_arn
 }
+
+module "data_role" {
+  source = "./roleset"
+
+  providers = {
+    aws = aws.data
+  }
+
+  account_name = "data"
+
+  lambda_task_role_arn = module.costs_report_lambda.role_arn
+}
+
+module "reporting_role" {
+  source = "./roleset"
+
+  providers = {
+    aws = aws.reporting
+  }
+
+  account_name = "reporting"
+
+  lambda_task_role_arn = module.costs_report_lambda.role_arn
+}
+
+module "digitisation_role" {
+  source = "./roleset"
+
+  providers = {
+    aws = aws.digitisation
+  }
+
+  account_name = "digitisation"
+
+  lambda_task_role_arn = module.costs_report_lambda.role_arn
+}

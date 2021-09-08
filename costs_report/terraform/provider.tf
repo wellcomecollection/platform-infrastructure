@@ -130,3 +130,45 @@ provider "aws" {
     tags = local.default_tags
   }
 }
+
+provider "aws" {
+  alias = "data"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::964279923020:role/data-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "reporting"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::269807742353:role/reporting-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "digitisation"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::404315009621:role/digitisation-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}

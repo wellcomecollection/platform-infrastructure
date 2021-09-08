@@ -230,6 +230,9 @@ def main(_event, _context):
         ("770700576653", "identity"),
         ("241906670800", "dam_prototype"),
         ("653428163053", "digirati"),
+        ("964279923020", "data"),
+        ("269807742353", "reporting"),
+        ("404315009621", "digitisation"),
     ]:
         if running_in_lambda:
             role_arn = (
