@@ -15,8 +15,6 @@ data "aws_iam_policy_document" "read_secrets" {
 }
 
 resource "aws_iam_role_policy" "read_secrets" {
-  count = length(var.secrets) > 0 ? 1 : 0
-
   role   = module.lambda.role_name
   policy = data.aws_iam_policy_document.read_secrets.json
 }

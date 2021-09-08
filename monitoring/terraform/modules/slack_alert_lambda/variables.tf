@@ -13,8 +13,7 @@ variable "environment_variables" {
 }
 
 variable "secrets" {
-  type    = list(string)
-  default = []
+  type = list(string)
 }
 
 variable "description" {
