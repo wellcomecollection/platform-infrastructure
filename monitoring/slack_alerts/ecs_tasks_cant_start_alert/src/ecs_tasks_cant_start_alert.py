@@ -80,7 +80,7 @@ def main(event, _ctxt=None):
                 "attachments": [
                     {
                         "color": "danger",
-                        "title": "{cluster_name} / {service_name}",
+                        "title": f"{cluster_name} / {service_name}",
                         "fields": [
                             {
                                 "value": f"{service_name} is unable to consistently start tasks successfully."
