@@ -69,7 +69,7 @@ def main(event, _ctxt=None):
             for ev in recent_events
         ):
             webhook_url = get_secret_string(
-                secret_id="monitoring/critical_slack_webhook"
+                sess, secret_id="monitoring/critical_slack_webhook"
             )
 
             cluster_name = cluster_arn.split(":")[-1]
