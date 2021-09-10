@@ -67,3 +67,17 @@ module "identity_lambda_error_alerts" {
 output "identity_lambda_error_alerts_topic_arn" {
   value = module.identity_lambda_error_alerts.alarm_topic_arn
 }
+
+module "experience_lambda_error_alerts" {
+  source = "./modules/slack_alert_on_lambda_error"
+
+  providers = {
+    aws = aws.experience
+  }
+
+  account_name = "experience"
+}
+
+output "experience_lambda_error_alerts_topic_arn" {
+  value = module.experience_lambda_error_alerts.alarm_topic_arn
+}

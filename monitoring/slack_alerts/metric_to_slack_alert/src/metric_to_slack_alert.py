@@ -57,7 +57,7 @@ def create_message(alarm):
     #     greater than the threshold (0.0).
     #
     state_reason = alarm["NewStateReason"]
-    error_count = int(
+    error_count = float(
         re.search(
             r"\[(?P<count>\d+\.\d+) \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]",
             state_reason,
