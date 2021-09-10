@@ -1,3 +1,28 @@
+"""
+This Lambda warns us if any of our ECS services are failing to start
+and leaving the event:
+
+    {service} is unable to consistently start tasks successfully.
+
+This helps us spot when, say, we've deployed a bad configuration or we have
+an issue with ECS capacity.
+
+How it works:
+
+-   We capture CloudWatch Events for "Task stopped" events, and send
+    them to this Lambda.
+    See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_cwet2.html
+
+    We filter out "expected" stops, e.g. autoscaling activity.
+
+-   We look at the service associated with the task that just stopped.
+    We use the DescribeServices API to get a list of recent events.
+    Do we see anything that looks like "unable to consistently start tasks"?
+
+-   If we see such an event, and it's recent, send a message to Slack.
+
+"""
+
 import functools
 import json
 import os
