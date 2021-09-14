@@ -119,4 +119,24 @@ data "aws_iam_policy_document" "working_storage" {
       "${aws_s3_bucket.working_storage.arn}/av/*",
     ]
   }
+
+  # Allow the digitisation team to upload objects into the "av" prefix.
+  # See https://wellcome.slack.com/archives/C01B83N9NMP/p1631615772006800
+  statement {
+    principals {
+      identifiers = [
+        "arn:aws:iam::${local.digitisation_account_id}:root",
+      ]
+
+      type = "AWS"
+    }
+
+    actions = [
+      "s3:Put*",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.working_storage.arn}/av/*",
+    ]
+  }
 }
