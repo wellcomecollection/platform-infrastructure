@@ -2,10 +2,11 @@ resource "aws_cloudwatch_event_rule" "costs_report" {
   name        = "costs_report"
   description = "Starts the costs report lambda"
 
-  # This runs the Lambda at 9am UTC on the second Tuesday of every month.
+  # This runs the Lambda at 8am UTC on the second Tuesday of every month.
   # (3#2 = day 3 of the week / Tuesday, 2nd instance of)
+  # See https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html
   #
-  # We run on this day for a few reasons:
+  # We run at this time reasons:
   #
   #   - We don't want to run on the 1st of the month because billing data
   #     can take a few days to consolidate.  In particular, some charges
@@ -16,7 +17,7 @@ resource "aws_cloudwatch_event_rule" "costs_report" {
   #   - We have planning meetings on Tuesdays, so if this report does turn
   #     up anything worth investigation, we can discuss it at planning.
   #
-  schedule_expression = "cron(0 9 ? * 3#2 *)"
+  schedule_expression = "cron(0 8 ? * 3#2 *)"
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_trigger" {

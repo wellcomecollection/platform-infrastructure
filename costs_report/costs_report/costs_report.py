@@ -1,3 +1,35 @@
+"""
+Create a table of our cloud bills across all our AWS bills, which is
+then posted to Slack.
+
+The table looks something like:
+
+    Costs report for September 2021
+
+    account         prev 3 months ($)    last month ($)
+    ------------  -------------------  ----------------  ------  ------
+    candles                  3,600.00          3,960.00          ↟↟ 10%
+    rent                       800.00            801.00
+    food                       200.00            200.00
+    data                       150.00            151.50
+    utility                    150.00            142.60   ↓  5%
+    ------------  -------------------  ----------------  ------  ------
+    TOTAL                    4,900.00          5,255.10          ↟↟  7%
+
+How it works:
+
+-   We create an IAM role in each of our AWS acounts that gives the
+    ce:GetCostAndUsage permission for that account.
+-   We give the task role for this Lambda permission to assume that role.
+-   When the Lambda runs, it goes through the accounts in turn, and assumes
+    the corresponding role.  It gets the unblended costs for that account.
+-   The Lambda uses the tabulate library to render the table.
+
+It also fetches our Elastic Cloud bill, using an Elastic Cloud API key we
+keep in Secrets Manager.
+
+"""
+
 import collections
 import datetime
 import json
@@ -48,6 +80,16 @@ def get_last_four_months_of_bills(*, role_arn):
             "End": this_month_start.isoformat(),
         },
         Granularity="MONTHLY",
+        # Note: I'm using unblended costs because it matches the number
+        # I see in the console.  It may not be the most correct number
+        # from an accounting POV or what we actually pay AWS, but for
+        # this tool that doesn't matter.
+        #
+        # We care about the *direction* of the bill, not the exact amount.
+        # I'm assuming that a 10% rise in spend would be reflected in
+        # all forms of amortised/blended/normalised/unblended costs, and
+        # that change is what I care about.
+        #
         Metrics=["UnblendedCost"],
     )
 
@@ -253,7 +295,6 @@ def main(_event, _context):
         print(table)
         return
 
-    print(json.dumps(billing_data))
     this_month = datetime.date.today() - datetime.timedelta(days=28)
 
     slack_payload = {
