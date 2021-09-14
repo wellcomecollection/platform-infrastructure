@@ -253,7 +253,6 @@ def main(_event, _context):
         print(table)
         return
 
-    print(json.dumps(billing_data))
     this_month = datetime.date.today() - datetime.timedelta(days=28)
 
     slack_payload = {
