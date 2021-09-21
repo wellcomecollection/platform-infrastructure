@@ -76,6 +76,9 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
       } as RedirectResult;
 
       const axiosConfig: AxiosRequestConfig = {
+        // We don't want to follow the redirects, only to see where they're to.
+        // This is so that we are only testing our own behaviour, rather than that
+        // and future redirects sent by the destination (eg Internet Archive)
         maxRedirects: 0,
         // The default validation excludes redirects
         validateStatus: (status: number) => status >= 200 && status < 400
