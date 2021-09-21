@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import chalk from 'chalk';
 
 import { readRedirects } from './src/readRedirects';
@@ -10,7 +10,7 @@ import {
 
 type CsvHeader = string | undefined;
 
-type ResponseCheck = Error | undefined;
+type RedirectCheck = Error | undefined;
 
 type HostEnvs = {
   prod?: string;
@@ -40,7 +40,7 @@ type RedirectTestSet = {
   headers: CsvHeader[];
   envs: HostEnvs;
   results?: ResultSet;
-  checkResponse: (response: AxiosResponse<any>, toUrl: string) => ResponseCheck;
+  checkRedirect: (response: AxiosResponse<any>, toUrl: string) => RedirectCheck;
 };
 
 async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
@@ -75,9 +75,18 @@ async function testRedirects(env: EnvId, redirectTestSet: RedirectTestSet) {
         from: from,
       } as RedirectResult;
 
+      const axiosConfig: AxiosRequestConfig = {
+        // We don't want to follow the redirects, only to see where they're to.
+        // This is so that we are only testing our own behaviour, rather than that
+        // and future redirects sent by the destination (eg Internet Archive)
+        maxRedirects: 0,
+        // The default validation excludes redirects
+        validateStatus: (status: number) => status >= 200 && status < 400
+      }
+
       try {
-        redirectResult.error = redirectTestSet.checkResponse(
-          await axios.get(from),
+        redirectResult.error = redirectTestSet.checkRedirect(
+          await axios.get(from, axiosConfig),
           to
         );
       } catch (e) {
@@ -120,23 +129,23 @@ const displayResultSet = (redirectTestSet: RedirectTestSet) => {
 };
 
 const checkMatchingUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
-  const responseUrl = axiosResponse.request.res.responseUrl;
+  const redirectUrl = axiosResponse.headers.location;
 
-  if (responseUrl !== toUrl) {
-    return Error(`Response: ${responseUrl}\nExpected: ${toUrl}`);
+  if (redirectUrl !== toUrl) {
+    return Error(`Response: ${redirectUrl}\nExpected: ${toUrl}`);
   }
 };
 
 const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
-  const responseUrl = `${axiosResponse.request.res.responseUrl}`;
+  const redirectUrl = axiosResponse.headers.location;
   const wayBackBaseUrl = 'https://wayback.archive-it.org/16107';
 
-  if (!responseUrl.startsWith(wayBackBaseUrl)) {
-    return Error(`Response: ${responseUrl} must start with ${wayBackBaseUrl}`);
+  if (!redirectUrl.startsWith(wayBackBaseUrl)) {
+    return Error(`Response: ${redirectUrl} must start with ${wayBackBaseUrl}`);
   }
 
-  if (!responseUrl.endsWith(toUrl)) {
-    return Error(`Response: ${responseUrl} must end with ${toUrl}`);
+  if (!redirectUrl.endsWith(toUrl)) {
+    return Error(`Response: ${redirectUrl} must end with ${toUrl}`);
   }
 };
 
@@ -149,7 +158,7 @@ const apiTestSet = {
     stage: 'https://stage.wellcomelibrary.org',
     prod: 'https://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl,
+  checkRedirect: checkMatchingUrl,
 };
 
 const itemTestSet = {
@@ -161,7 +170,7 @@ const itemTestSet = {
     stage: 'https://stage.wellcomelibrary.org',
     prod: 'https://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl,
+  checkRedirect: checkMatchingUrl,
 };
 
 const blogTestSet = {
@@ -173,7 +182,7 @@ const blogTestSet = {
     stage: 'https://blog.stage.wellcomelibrary.org',
     prod: 'https://blog.wellcomelibrary.org',
   },
-  checkResponse: checkMatchingBlogUrl,
+  checkRedirect: checkMatchingBlogUrl,
 };
 
 const apexTestSet = {
@@ -185,7 +194,7 @@ const apexTestSet = {
     stage: 'https://stage.wellcomelibrary.org',
     prod: 'https://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl,
+  checkRedirect: checkMatchingUrl,
 };
 
 const archiveTestSet = {
@@ -197,7 +206,7 @@ const archiveTestSet = {
     stage: 'https://archives.stage.wellcomelibrary.org',
     prod: 'https://archives.wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl,
+  checkRedirect: checkMatchingUrl,
 };
 
 const collectionBrowseTestSet = {
@@ -209,7 +218,7 @@ const collectionBrowseTestSet = {
     stage: 'https://stage.wellcomelibrary.org',
     prod: 'https://wellcomelibrary.org',
   },
-  checkResponse: checkMatchingUrl,
+  checkRedirect: checkMatchingUrl,
 };
 
 const testSets: RedirectTestSet[] = [
