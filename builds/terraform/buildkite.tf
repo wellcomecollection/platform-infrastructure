@@ -7,7 +7,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
 
     MinSize = 0
-    MaxSize = 30
+    MaxSize = 60
 
     ScaleDownPeriod     = 300
     ScaleCooldownPeriod = 60
@@ -20,7 +20,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     AgentsPerInstance                         = 1
     BuildkiteTerminateInstanceAfterJobTimeout = 1800
 
-    RootVolumeSize = 150
+    RootVolumeSize = 50
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
