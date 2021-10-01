@@ -84,8 +84,13 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
   capabilities = ["CAPABILITY_NAMED_IAM"]
 
   parameters = {
+    # At time of writing (1 October 2021), we have six deployment tasks
+    # in the pipeline repo: four adapters, the reindexer, and the pipeline.
+    #
+    # We want all of these to run simultaneously and leave room for other
+    # nano tasks, so we need >6 instances.
     MinSize = 0
-    MaxSize = 5
+    MaxSize = 10
 
     SpotPrice    = 0.01
     InstanceType = "t3.nano"
