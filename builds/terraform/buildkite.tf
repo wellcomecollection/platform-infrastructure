@@ -242,6 +242,7 @@ data "aws_iam_policy_document" "ci_permissions" {
   }
 
   # Deploy static assets in the experience account
+  # See https://github.com/wellcomecollection/wellcomecollection.org/tree/main/assets
   statement {
     actions = [
       "s3:ListObject*",
