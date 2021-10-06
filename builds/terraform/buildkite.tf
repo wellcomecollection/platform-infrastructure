@@ -239,7 +239,19 @@ data "aws_iam_policy_document" "ci_permissions" {
     resources = [
       "${local.infra_bucket_arn}/lambdas/*",
     ]
+  }
 
+  # Deploy static assets in the experience account
+  statement {
+    actions = [
+      "s3:ListObject*",
+      "s3:GetObject*",
+      "s3:PutObject*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::i.wellcomecollection.org/*",
+    ]
   }
 }
 
