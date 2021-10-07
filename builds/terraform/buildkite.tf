@@ -245,9 +245,7 @@ data "aws_iam_policy_document" "ci_permissions" {
   # See https://github.com/wellcomecollection/wellcomecollection.org/tree/main/assets
   statement {
     actions = [
-      "s3:ListObject*",
-      "s3:GetObject*",
-      "s3:PutObject*",
+      "s3:*",
     ]
 
     resources = [
