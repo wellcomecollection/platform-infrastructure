@@ -251,6 +251,7 @@ data "aws_iam_policy_document" "ci_permissions" {
     ]
 
     resources = [
+      "arn:aws:s3:::i.wellcomecollection.org",
       "arn:aws:s3:::i.wellcomecollection.org/*",
     ]
   }
