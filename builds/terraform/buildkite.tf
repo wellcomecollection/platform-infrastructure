@@ -239,7 +239,19 @@ data "aws_iam_policy_document" "ci_permissions" {
     resources = [
       "${local.infra_bucket_arn}/lambdas/*",
     ]
+  }
 
+  # Deploy static assets in the experience account
+  # See https://github.com/wellcomecollection/wellcomecollection.org/tree/main/assets
+  statement {
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::i.wellcomecollection.org",
+      "arn:aws:s3:::i.wellcomecollection.org/*",
+    ]
   }
 }
 
