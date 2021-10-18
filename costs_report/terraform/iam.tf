@@ -20,6 +20,9 @@ data "aws_iam_policy_document" "allow_assume_role" {
       module.identity_role.arn,
       module.dam_prototype_role.arn,
       module.digirati_role.arn,
+      module.data_role.arn,
+      module.reporting_role.arn,
+      module.digitisation_role.arn,
     ]
   }
 }
