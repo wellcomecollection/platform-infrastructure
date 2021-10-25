@@ -28,3 +28,5 @@ steps:
                     BUILDKITE_PULL_REQUEST: "${BUILDKITE_PULL_REQUEST}"
                     BUILDKITE_PULL_REQUEST_BASE_BRANCH: "${BUILDKITE_PULL_REQUEST_BASE_BRANCH}"
                     BUILDKITE_PULL_REQUEST_REPO: "${BUILDKITE_PULL_REQUEST_REPO}"
+    agents:
+      - queue: nano
