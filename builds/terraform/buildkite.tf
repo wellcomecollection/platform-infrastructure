@@ -89,7 +89,12 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     #
     # We want all of these to run simultaneously and leave room for other
     # nano tasks, so we need >6 instances.
-    MinSize = 0
+    #
+    # We always run at least one nano instance because nano instances are
+    # extremely cheap, and this means the initial "pipeline upload" step
+    # is always warm.  An on-demand t3.nano costs ~$4 a month, and we use
+    # spot pricing, so this is unlikely to be an issue.
+    MinSize = 1
     MaxSize = 10
 
     SpotPrice    = 0.01
