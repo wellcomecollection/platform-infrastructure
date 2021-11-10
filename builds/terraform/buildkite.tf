@@ -221,6 +221,10 @@ data "aws_iam_policy_document" "ci_permissions" {
       # Allow BuildKite to get storage service credentials so it can send
       # test bags in the storage service repo.
       "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:buildkite/storage_service*",
+
+      # Allow BuildKite to get rank cluster credentials so it can run tests
+      # https://buildkite.com/wellcomecollection/catalogue-api-rank
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/rank/*",
     ]
   }
 
