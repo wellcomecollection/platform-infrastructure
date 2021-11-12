@@ -225,6 +225,11 @@ data "aws_iam_policy_document" "ci_permissions" {
       # Allow BuildKite to get rank cluster credentials so it can run tests
       # https://buildkite.com/wellcomecollection/catalogue-api-rank
       "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/rank/*",
+
+      # Allow BuildKite to get Prismic API keys to GET/PUT Prismic Custom Types 
+      # in the Experience build
+      # https://buildkite.com/wellcomecollection/experience
+      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:prismic-model/ci/*",
     ]
   }
 
