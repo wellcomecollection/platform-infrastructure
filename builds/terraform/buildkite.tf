@@ -1,32 +1,61 @@
 resource "aws_cloudformation_stack" "buildkite" {
   name = "buildkite-elasticstack"
 
-  capabilities = ["CAPABILITY_NAMED_IAM"]
+  capabilities = ["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"]
 
   parameters = {
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
-
     MinSize = 0
     MaxSize = 60
 
-    ScaleDownPeriod     = 300
-    ScaleCooldownPeriod = 60
+    SpotPrice    = 0.05
+    InstanceType = "r5.large"
 
-    SpotPrice = 0.05
+    BuildkiteQueue = "default"
+
+    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     ScaleUpAdjustment   = 1
     ScaleDownAdjustment = -10
 
-    AgentsPerInstance                         = 1
-    BuildkiteTerminateInstanceAfterJobTimeout = 1800
 
-    RootVolumeSize = 50
+    SpotPrice    = 0.05
+    InstanceType = "r5.large"
+
+    BuildkiteQueue = "default"
+
+    MinSize = 0
+    MaxSize = 60
+
+    # This setting tells Buildkite that:
+    #
+    #   - it should turn off an instance if it's idle for 10 minutes (=600s)
+    #   - it should pre-emptively start instances for jobs that are behind
+    #     a 'wait' step
+    #
+    # This is a new feature we got when we updated to v5.7.2 of the
+    # CloudFormation template (22 November 2021).  I'm enabling it to see
+    # if it makes a difference in Scala repos where we do one autoformat step
+    # and then fan out to the main build.
+    #
+    ScaleOutForWaitingJobs = true
+    ScaleInIdlePeriod      = 600
+
+    # We don't have to terminate an agent after a job completes.  We have
+    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
+    # any state left over from previous jobs, so each instance will be "fresh",
+    # but already have a local cache of Docker images and Scala libraries.
+    BuildkiteTerminateInstanceAfterJob = false
+
+    AgentsPerInstance = 1
+
+    RootVolumeSize = 25
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
-    InstanceType            = "r5.large"
+    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
+
     InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = local.ci_agent_role_name
+    InstanceRoleName        = local.ci_nano_agent_role_name
 
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
@@ -35,29 +64,11 @@ resource "aws_cloudformation_stack" "buildkite" {
     CostAllocationTagName  = "aws:createdBy"
     CostAllocationTagValue = "buildkite-elasticstack"
 
-    BuildkiteQueue                                            = "default"
-    BuildkiteAgentRelease                                     = "stable"
-    BuildkiteAgentTimestampLines                              = false
-    BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
-
-    # We don't have to terminate an agent after a job completes.  We have
-    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
-    # any state left over from previous jobs, so each instance will be "fresh",
-    # but already have a local cache of Docker images and Scala libraries.
-    BuildkiteTerminateInstanceAfterJob = false
-
-    EnableExperimentalLambdaBasedAutoscaling = true
-    EnableECRPlugin                          = true
-    EnableSecretsPlugin                      = true
-    EnableDockerLoginPlugin                  = true
-    EnableCostAllocationTags                 = false
-    EnableDockerExperimental                 = false
-    EnableAgentGitMirrorsExperiment          = false
-    EnableDockerUserNamespaceRemap           = false
-
+    BuildkiteAgentRelease        = "stable"
+    BuildkiteAgentTimestampLines = false
   }
 
-  template_body = file("${path.module}/buildkite.yaml")
+  template_body = file("${path.module}/buildkite-v5.7.2.yml")
 }
 
 # This is a separate pool of Buildkite instances specifically meant
@@ -80,6 +91,11 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
   capabilities = ["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"]
 
   parameters = {
+    SpotPrice    = 0.01
+    InstanceType = "t3.nano"
+
+    BuildkiteQueue = "nano"
+
     # At time of writing (1 October 2021), we have six deployment tasks
     # in the pipeline repo: four adapters, the reindexer, and the pipeline.
     #
@@ -93,13 +109,6 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     MinSize = 1
     MaxSize = 10
 
-    SpotPrice    = 0.01
-    InstanceType = "t3.nano"
-
-    BuildkiteQueue = "nano"
-
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
-
     # This setting would tell Buildkite to scale out for steps behind wait
     # steps.
     #
@@ -110,11 +119,19 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     #
     ScaleOutForWaitingJobs = false
 
+    # We don't have to terminate an agent after a job completes.  We have
+    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
+    # any state left over from previous jobs, so each instance will be "fresh",
+    # but already have a local cache of Docker images and Scala libraries.
+    BuildkiteTerminateInstanceAfterJob = false
+
     AgentsPerInstance = 1
 
     RootVolumeSize = 10
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
+
+    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     InstanceCreationTimeout = "PT5M"
     InstanceRoleName        = local.ci_nano_agent_role_name
@@ -128,20 +145,6 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
 
     BuildkiteAgentRelease        = "stable"
     BuildkiteAgentTimestampLines = false
-
-    # We don't have to terminate an agent after a job completes.  We have
-    # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
-    # any state left over from previous jobs, so each instance will be "fresh",
-    # but already have a local cache of Docker images and Scala libraries.
-    BuildkiteTerminateInstanceAfterJob = false
-
-    EnableECRPlugin                 = true
-    EnableSecretsPlugin             = true
-    EnableDockerLoginPlugin         = true
-    EnableCostAllocationTags        = false
-    EnableDockerExperimental        = false
-    EnableAgentGitMirrorsExperiment = false
-    EnableDockerUserNamespaceRemap  = false
   }
 
   template_body = file("${path.module}/buildkite-v5.7.2.yml")
