@@ -8,7 +8,7 @@ ROOT=$(git rev-parse --show-toplevel)
 ECR_PRIVATE_PREFIX="760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome"
 ECR_PUBLIC_PREFIX="public.ecr.aws/l7a1d1z4"
 
-SERVICE_IDS="apigw experience grafana"
+SERVICE_IDS="apigw frontend grafana"
 
 echo ""
 echo "*** WARNING! ***"
@@ -33,8 +33,6 @@ echo ""
 # See https://docs.aws.amazon.com/AmazonECR/latest/public/getting-started-cli.html#cli-authenticate-registry
 AWS_PROFILE=platform-developer aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 
-
-
 for SERVICE_ID in $SERVICE_IDS
 do
 
@@ -43,30 +41,31 @@ do
   echo ""
 
   CURRENT_COMMIT=$(git rev-parse HEAD)
-  TAG="nginx_$SERVICE_ID:$CURRENT_COMMIT"
+  TEMPLATE_FILE = "nginx/$SERVICE_ID.nginx.conf"
 
-  docker build --tag="$TAG" --file "nginx/$SERVICE_ID.Dockerfile" nginx
+  TAG="nginx_$SERVICE_ID:$CURRENT_COMMIT"
+  ECR_PRIVATE_TAG="$ECR_PRIVATE_PREFIX/$TAG"
+  ECR_PUBLIC_TAG="$ECR_PUBLIC_PREFIX/$TAG"
+
+  docker build \
+    --tag="$TAG" \
+    --build-arg CONFIG_TEMPLATE="${TEMPLATE_FILE}"
+    --file nginx/template.Dockerfile \
+    nginx
 
   echo ""
   echo "*** Publishing $SERVICE_ID image to ECR Private ***"
   echo ""
 
-  ECR_PRIVATE_TAG="$ECR_PRIVATE_PREFIX/nginx_$SERVICE_ID:$CURRENT_COMMIT"
-
   docker tag "$TAG" "$ECR_PRIVATE_TAG"
   docker push "$ECR_PRIVATE_TAG"
   docker rmi "$ECR_PRIVATE_TAG"
 
-  if [[ "$SERVICE_ID" == "apigw" ]]
-  then
-    echo ""
-    echo "*** Publishing $SERVICE_ID image to ECR Public ***"
-    echo ""
+  echo ""
+  echo "*** Publishing $SERVICE_ID image to ECR Public ***"
+  echo ""
 
-    ECR_PUBLIC_TAG="$ECR_PUBLIC_PREFIX/nginx_$SERVICE_ID:$CURRENT_COMMIT"
-
-    docker tag "$TAG" "$ECR_PUBLIC_TAG"
-    docker push "$ECR_PUBLIC_TAG"
-    docker rmi "$ECR_PUBLIC_TAG"
-  fi
+  docker tag "$TAG" "$ECR_PUBLIC_TAG"
+  docker push "$ECR_PUBLIC_TAG"
+  docker rmi "$ECR_PUBLIC_TAG"
 done
