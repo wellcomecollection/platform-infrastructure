@@ -1,48 +1,30 @@
 resource "aws_cloudformation_stack" "buildkite" {
   name = "buildkite-elasticstack"
 
-  capabilities = ["CAPABILITY_NAMED_IAM"]
+  capabilities = ["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"]
 
   parameters = {
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
-
     MinSize = 0
     MaxSize = 60
 
-    ScaleDownPeriod     = 300
-    ScaleCooldownPeriod = 60
+    SpotPrice    = 0.05
+    InstanceType = "r5.large"
 
-    SpotPrice = 0.05
+    BuildkiteQueue = "default"
 
-    ScaleUpAdjustment   = 1
-    ScaleDownAdjustment = -10
-
-    AgentsPerInstance                         = 1
-    BuildkiteTerminateInstanceAfterJobTimeout = 1800
-
-    RootVolumeSize = 50
-    RootVolumeName = "/dev/xvda"
-    RootVolumeType = "gp2"
-
-    InstanceType            = "r5.large"
-    InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = local.ci_agent_role_name
-
-    VpcId           = local.ci_vpc_id
-    Subnets         = join(",", local.ci_vpc_private_subnets)
-    SecurityGroupId = aws_security_group.buildkite.id
-
-    AssociatePublicIpAddress = true
-
-    KeyName = "wellcomedigitalplatform"
-
-    CostAllocationTagName  = "aws:createdBy"
-    CostAllocationTagValue = "buildkite-elasticstack"
-
-    BuildkiteQueue                                            = "default"
-    BuildkiteAgentRelease                                     = "stable"
-    BuildkiteAgentTimestampLines                              = false
-    BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
+    # This setting tells Buildkite that:
+    #
+    #   - it should turn off an instance if it's idle for 10 minutes (=600s)
+    #   - it should pre-emptively start instances for jobs that are behind
+    #     a 'wait' step
+    #
+    # This is a new feature we got when we updated to v5.7.2 of the
+    # CloudFormation template (22 November 2021).  I'm enabling it to see
+    # if it makes a difference in Scala repos where we do one autoformat step
+    # and then fan out to the main build.
+    #
+    ScaleOutForWaitingJobs = true
+    ScaleInIdlePeriod      = 600
 
     # We don't have to terminate an agent after a job completes.  We have
     # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
@@ -50,18 +32,32 @@ resource "aws_cloudformation_stack" "buildkite" {
     # but already have a local cache of Docker images and Scala libraries.
     BuildkiteTerminateInstanceAfterJob = false
 
-    EnableExperimentalLambdaBasedAutoscaling = true
-    EnableECRPlugin                          = true
-    EnableSecretsPlugin                      = true
-    EnableDockerLoginPlugin                  = true
-    EnableCostAllocationTags                 = false
-    EnableDockerExperimental                 = false
-    EnableAgentGitMirrorsExperiment          = false
-    EnableDockerUserNamespaceRemap           = false
+    InstanceRoleName = local.ci_agent_role_name
 
+    RootVolumeSize = 25
+    RootVolumeName = "/dev/xvda"
+    RootVolumeType = "gp2"
+
+    # This is a collection of settings that should be the same for every
+    # instance of the Buildkite stack.
+    AgentsPerInstance = 1
+
+    BuildkiteAgentTokenParameterStorePath = "/aws/reference/secretsmanager/builds/buildkite_agent_key"
+
+    InstanceCreationTimeout = "PT5M"
+
+    VpcId           = local.ci_vpc_id
+    Subnets         = join(",", local.ci_vpc_private_subnets)
+    SecurityGroupId = aws_security_group.buildkite.id
+
+    CostAllocationTagName  = "aws:createdBy"
+    CostAllocationTagValue = "buildkite-elasticstack"
+
+    BuildkiteAgentRelease        = "stable"
+    BuildkiteAgentTimestampLines = false
   }
 
-  template_body = file("${path.module}/buildkite.yaml")
+  template_body = file("${path.module}/buildkite-v5.7.2.yml")
 }
 
 # This is a separate pool of Buildkite instances specifically meant
@@ -81,9 +77,14 @@ resource "aws_cloudformation_stack" "buildkite" {
 resource "aws_cloudformation_stack" "buildkite_nano" {
   name = "buildkite-elasticstack-nano"
 
-  capabilities = ["CAPABILITY_NAMED_IAM"]
+  capabilities = ["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"]
 
   parameters = {
+    SpotPrice    = 0.01
+    InstanceType = "t3.nano"
+
+    BuildkiteQueue = "nano"
+
     # At time of writing (1 October 2021), we have six deployment tasks
     # in the pipeline repo: four adapters, the reindexer, and the pipeline.
     #
@@ -97,43 +98,15 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     MinSize = 1
     MaxSize = 10
 
-    SpotPrice    = 0.01
-    InstanceType = "t3.nano"
-
-    BuildkiteQueue = "nano"
-
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
-
-    ScaleDownPeriod     = 300
-    ScaleCooldownPeriod = 60
-
-    ScaleUpAdjustment   = 1
-    ScaleDownAdjustment = -10
-
-    AgentsPerInstance                         = 1
-    BuildkiteTerminateInstanceAfterJobTimeout = 300
-
-    RootVolumeSize = 25
-    RootVolumeName = "/dev/xvda"
-    RootVolumeType = "gp2"
-
-    InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = local.ci_nano_agent_role_name
-
-    VpcId           = local.ci_vpc_id
-    Subnets         = join(",", local.ci_vpc_private_subnets)
-    SecurityGroupId = aws_security_group.buildkite.id
-
-    AssociatePublicIpAddress = true
-
-    KeyName = "wellcomedigitalplatform"
-
-    CostAllocationTagName  = "aws:createdBy"
-    CostAllocationTagValue = "buildkite-elasticstack"
-
-    BuildkiteAgentRelease                                     = "stable"
-    BuildkiteAgentTimestampLines                              = false
-    BuildkiteTerminateInstanceAfterJobDecreaseDesiredCapacity = true
+    # This setting would tell Buildkite to scale out for steps behind wait
+    # steps.
+    #
+    # We don't enable it for nano instances because these are often waiting
+    # behind long-running tasks in the large queue (e.g. build and publish
+    # a Docker image, then deploy it from a nano instance) and the pre-emptively
+    # scaled instances would likely time out before they were used.
+    #
+    ScaleOutForWaitingJobs = false
 
     # We don't have to terminate an agent after a job completes.  We have
     # an agent hook (see buildkite_agent_hook.sh) which tries to clean up
@@ -141,163 +114,30 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     # but already have a local cache of Docker images and Scala libraries.
     BuildkiteTerminateInstanceAfterJob = false
 
-    EnableExperimentalLambdaBasedAutoscaling = true
-    EnableECRPlugin                          = true
-    EnableSecretsPlugin                      = true
-    EnableDockerLoginPlugin                  = true
-    EnableCostAllocationTags                 = false
-    EnableDockerExperimental                 = false
-    EnableAgentGitMirrorsExperiment          = false
-    EnableDockerUserNamespaceRemap           = false
+    InstanceRoleName = local.ci_nano_agent_role_name
 
+    RootVolumeSize = 10
+    RootVolumeName = "/dev/xvda"
+    RootVolumeType = "gp2"
+
+    # This is a collection of settings that should be the same for every
+    # instance of the Buildkite stack.
+    AgentsPerInstance = 1
+
+    BuildkiteAgentTokenParameterStorePath = "/aws/reference/secretsmanager/builds/buildkite_agent_key"
+
+    InstanceCreationTimeout = "PT5M"
+
+    VpcId           = local.ci_vpc_id
+    Subnets         = join(",", local.ci_vpc_private_subnets)
+    SecurityGroupId = aws_security_group.buildkite.id
+
+    CostAllocationTagName  = "aws:createdBy"
+    CostAllocationTagValue = "buildkite-elasticstack"
+
+    BuildkiteAgentRelease        = "stable"
+    BuildkiteAgentTimestampLines = false
   }
 
-  template_body = file("${path.module}/buildkite.yaml")
-}
-
-data "aws_iam_role" "ci_agent" {
-  name = local.ci_agent_role_name
-}
-
-resource "aws_iam_role_policy" "ci_agent" {
-  policy = data.aws_iam_policy_document.ci_permissions.json
-  role   = data.aws_iam_role.ci_agent.id
-
-  provider = aws
-}
-
-data "aws_iam_role" "ci_nano_agent" {
-  name = local.ci_nano_agent_role_name
-}
-
-resource "aws_iam_role_policy" "ci_nano_agent" {
-  policy = data.aws_iam_policy_document.ci_permissions.json
-  role   = data.aws_iam_role.ci_nano_agent.id
-
-  provider = aws
-}
-
-data "aws_iam_policy_document" "ci_permissions" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    resources = [
-      local.platform_read_only_role_arn,
-      local.account_ci_role_arn_map["platform"],
-      local.account_ci_role_arn_map["catalogue"],
-      local.account_ci_role_arn_map["digirati"],
-      local.account_ci_role_arn_map["storage"],
-      local.account_ci_role_arn_map["experience"],
-      local.account_ci_role_arn_map["workflow"],
-      local.account_ci_role_arn_map["identity"],
-    ]
-  }
-
-  # Deploy images to ECR (platform account)
-  statement {
-    actions = [
-      "ecr:*",
-    ]
-
-    resources = [
-      "*",
-    ]
-  }
-
-  # Retrieve build secrets
-  statement {
-    actions = [
-      "secretsmanager:GetSecretValue",
-    ]
-
-    resources = [
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:builds/*",
-
-      # Allow BuildKite to get read-only credentials for the pipeline
-      # cluster, to help with auto-deployment of the pipeline.
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/pipeline_storage_*/read_only*",
-
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/pipeline_storage_*/public_host*",
-
-      # Allow BuildKite to get storage service credentials so it can send
-      # test bags in the storage service repo.
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:buildkite/storage_service*",
-
-      # Allow BuildKite to get rank cluster credentials so it can run tests
-      # https://buildkite.com/wellcomecollection/catalogue-api-rank
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:elasticsearch/rank/*",
-
-      # Allow BuildKite to get Prismic API keys to GET/PUT Prismic Custom Types 
-      # in the Experience build
-      # https://buildkite.com/wellcomecollection/experience
-      "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:prismic-model/ci/*",
-    ]
-  }
-
-  # Publish & retrieve scala libraries
-  statement {
-    actions = [
-      "s3:*"
-    ]
-
-    resources = [
-      "${aws_s3_bucket.releases.arn}/weco/*",
-    ]
-  }
-
-  # Publish & retrieve lambdas
-  statement {
-    actions = [
-      "s3:*"
-    ]
-
-    resources = [
-      "${local.infra_bucket_arn}/lambdas/*",
-    ]
-  }
-
-  # Deploy static assets in the experience account
-  # See https://github.com/wellcomecollection/wellcomecollection.org/tree/main/assets
-  statement {
-    actions = [
-      "s3:*",
-    ]
-
-    resources = [
-      "arn:aws:s3:::i.wellcomecollection.org",
-      "arn:aws:s3:::i.wellcomecollection.org/*",
-    ]
-  }
-}
-
-locals {
-  account_id = data.aws_caller_identity.current.account_id
-}
-
-data "aws_caller_identity" "current" {}
-
-# Upload an agent environment hook to /env in the secrets bucket.
-#
-# This will be downloaded by the agent before the start of each job.
-# The hook cleans up the environment, so any stale state left from a previous
-# job shouldn't pollute the job that's running now.
-#
-# See:
-# https://github.com/buildkite/elastic-ci-stack-for-aws#build-secrets
-# https://buildkite.com/docs/agent/v3/hooks
-locals {
-  buildkite_agent_hook_path = "${path.module}/../buildkite_agent_hook.sh"
-}
-
-resource "aws_s3_bucket_object" "buildkite_agent_hook" {
-  bucket = aws_cloudformation_stack.buildkite.outputs["ManagedSecretsBucket"]
-  key    = "env"
-  source = local.buildkite_agent_hook_path
-  etag   = filemd5(local.buildkite_agent_hook_path)
-}
-
-resource "aws_s3_bucket_object" "buildkite_nano_agent_hook" {
-  bucket = aws_cloudformation_stack.buildkite_nano.outputs["ManagedSecretsBucket"]
-  key    = "env"
-  source = local.buildkite_agent_hook_path
-  etag   = filemd5(local.buildkite_agent_hook_path)
+  template_body = file("${path.module}/buildkite-v5.7.2.yml")
 }
