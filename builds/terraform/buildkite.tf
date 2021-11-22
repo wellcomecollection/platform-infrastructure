@@ -133,15 +133,14 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     # but already have a local cache of Docker images and Scala libraries.
     BuildkiteTerminateInstanceAfterJob = false
 
-    EnableExperimentalLambdaBasedAutoscaling = true
-    EnableECRPlugin                          = true
-    EnableSecretsPlugin                      = true
-    EnableDockerLoginPlugin                  = true
-    EnableCostAllocationTags                 = false
-    EnableDockerExperimental                 = false
-    EnableAgentGitMirrorsExperiment          = false
-    EnableDockerUserNamespaceRemap           = false
+    EnableECRPlugin                 = true
+    EnableSecretsPlugin             = true
+    EnableDockerLoginPlugin         = true
+    EnableCostAllocationTags        = false
+    EnableDockerExperimental        = false
+    EnableAgentGitMirrorsExperiment = false
+    EnableDockerUserNamespaceRemap  = false
   }
 
-  template_body = file("${path.module}/buildkite.yaml")
+  template_body = file("${path.module}/buildkite.yml")
 }
