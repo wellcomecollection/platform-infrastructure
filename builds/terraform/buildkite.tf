@@ -142,5 +142,5 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     EnableDockerUserNamespaceRemap  = false
   }
 
-  template_body = file("${path.module}/buildkite.yml")
+  template_body = file("${path.module}/buildkite-v5.7.2.yml")
 }
