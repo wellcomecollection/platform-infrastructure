@@ -42,7 +42,7 @@ resource "aws_cloudformation_stack" "buildkite" {
     # instance of the Buildkite stack.
     AgentsPerInstance = 1
 
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
+    BuildkiteAgentTokenParameterStorePath = "/aws/reference/secretsmanager/builds/buildkite_agent_key"
 
     InstanceCreationTimeout = "PT5M"
 
@@ -124,7 +124,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     # instance of the Buildkite stack.
     AgentsPerInstance = 1
 
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
+    BuildkiteAgentTokenParameterStorePath = "/aws/reference/secretsmanager/builds/buildkite_agent_key"
 
     InstanceCreationTimeout = "PT5M"
 
