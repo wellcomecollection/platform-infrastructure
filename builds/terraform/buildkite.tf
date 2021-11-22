@@ -32,10 +32,6 @@ resource "aws_cloudformation_stack" "buildkite" {
     Subnets         = join(",", local.ci_vpc_private_subnets)
     SecurityGroupId = aws_security_group.buildkite.id
 
-    AssociatePublicIpAddress = true
-
-    KeyName = "wellcomedigitalplatform"
-
     CostAllocationTagName  = "aws:createdBy"
     CostAllocationTagValue = "buildkite-elasticstack"
 
@@ -124,10 +120,6 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     Subnets         = join(",", local.ci_vpc_private_subnets)
     SecurityGroupId = aws_security_group.buildkite.id
 
-    AssociatePublicIpAddress = true
-
-    KeyName = "wellcomedigitalplatform"
-
     CostAllocationTagName  = "aws:createdBy"
     CostAllocationTagValue = "buildkite-elasticstack"
 
@@ -149,7 +141,6 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     EnableDockerExperimental                 = false
     EnableAgentGitMirrorsExperiment          = false
     EnableDockerUserNamespaceRemap           = false
-
   }
 
   template_body = file("${path.module}/buildkite.yaml")
