@@ -4,7 +4,7 @@ resource "aws_cloudformation_stack" "buildkite" {
   capabilities = ["CAPABILITY_NAMED_IAM"]
 
   parameters = {
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
+    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     MinSize = 0
     MaxSize = 60
@@ -102,7 +102,7 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
 
     BuildkiteQueue = "nano"
 
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.example.secret_string
+    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     ScaleDownPeriod     = 300
     ScaleCooldownPeriod = 60
