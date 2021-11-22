@@ -12,20 +12,6 @@ resource "aws_cloudformation_stack" "buildkite" {
 
     BuildkiteQueue = "default"
 
-    BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
-
-    ScaleUpAdjustment   = 1
-    ScaleDownAdjustment = -10
-
-
-    SpotPrice    = 0.05
-    InstanceType = "r5.large"
-
-    BuildkiteQueue = "default"
-
-    MinSize = 0
-    MaxSize = 60
-
     # This setting tells Buildkite that:
     #
     #   - it should turn off an instance if it's idle for 10 minutes (=600s)
@@ -46,16 +32,19 @@ resource "aws_cloudformation_stack" "buildkite" {
     # but already have a local cache of Docker images and Scala libraries.
     BuildkiteTerminateInstanceAfterJob = false
 
-    AgentsPerInstance = 1
+    InstanceRoleName = local.ci_agent_role_name
 
     RootVolumeSize = 25
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
+    # This is a collection of settings that should be the same for every
+    # instance of the Buildkite stack.
+    AgentsPerInstance = 1
+
     BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = local.ci_nano_agent_role_name
 
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
@@ -125,16 +114,19 @@ resource "aws_cloudformation_stack" "buildkite_nano" {
     # but already have a local cache of Docker images and Scala libraries.
     BuildkiteTerminateInstanceAfterJob = false
 
-    AgentsPerInstance = 1
+    InstanceRoleName = local.ci_nano_agent_role_name
 
     RootVolumeSize = 10
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
+    # This is a collection of settings that should be the same for every
+    # instance of the Buildkite stack.
+    AgentsPerInstance = 1
+
     BuildkiteAgentToken = data.aws_secretsmanager_secret_version.buildkite_agent_key.secret_string
 
     InstanceCreationTimeout = "PT5M"
-    InstanceRoleName        = local.ci_nano_agent_role_name
 
     VpcId           = local.ci_vpc_id
     Subnets         = join(",", local.ci_vpc_private_subnets)
