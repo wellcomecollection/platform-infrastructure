@@ -1,9 +1,21 @@
 data "aws_iam_policy_document" "get_buildkite_agent_key" {
   statement {
-    actions = ["ssm:GetParameter"]
+    actions = [
+      "ssm:GetParameter",
+    ]
 
     resources = [
       "arn:aws:ssm:${local.aws_region}:${local.account_id}:parameter/aws/reference/secretsmanager/builds/buildkite_agent_key",
+    ]
+  }
+
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${local.aws_region}:${local.account_id}:secret:builds/buildkite_agent_key*",
     ]
   }
 }
