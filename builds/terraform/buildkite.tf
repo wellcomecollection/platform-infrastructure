@@ -38,6 +38,14 @@ resource "aws_cloudformation_stack" "buildkite" {
     RootVolumeName = "/dev/xvda"
     RootVolumeType = "gp2"
 
+    # If we don't disable this setting, we get this error when trying to
+    # run Docker containers on the instances:
+    #
+    #     docker: Error response from daemon: cannot share the host's
+    #     network namespace when user namespaces are enabled.
+    #
+    EnableDockerUserNamespaceRemap = false
+
     # This is a collection of settings that should be the same for every
     # instance of the Buildkite stack.
     AgentsPerInstance = 1
