@@ -104,6 +104,16 @@ data "aws_iam_policy_document" "ci_nano_permissions" {
     ]
   }
 
+  statement {
+    actions = [
+      "ecr:*",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
   # Retrieve build secrets
   statement {
     actions = [
