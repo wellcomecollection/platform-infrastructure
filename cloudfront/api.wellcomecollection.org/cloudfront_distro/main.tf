@@ -159,12 +159,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
 
   tags = var.tags
 
-  logging_config {
-    bucket          = "weco-cloudfront-logs.s3.amazonaws.com"
-    include_cookies = false
-    prefix          = "api_root"
-  }
-
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
     ssl_support_method  = "sni-only"
