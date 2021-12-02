@@ -3,7 +3,7 @@ output "bucket_alb_logs_id" {
 }
 
 output "cloudfront_logs_bucket_domain_name" {
-  value = aws_s3_bucket.cloudfront_logs.bucket_domain_name
+  value = aws_s3_bucket.api_root_cf_logs.bucket_domain_name
 }
 
 output "infra_bucket_arn" {
