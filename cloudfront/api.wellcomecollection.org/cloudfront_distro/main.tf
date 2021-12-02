@@ -103,9 +103,15 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       }
     }
 
+    # We don't want to cache these results for too long, because that
+    # means we'd be serving stale data -- but nor does this data need to
+    # be so fresh that we need to go back to the API every single time.
+    #
+    # A little bit of caching here should mitigate the effect of somebody
+    # sending a flood of requests to /works.
     min_ttl     = 0
-    default_ttl = 0
-    max_ttl     = 0
+    default_ttl = 10
+    max_ttl     = 10
 
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -158,12 +164,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   default_root_object = "index.html"
 
   tags = var.tags
-
-  logging_config {
-    bucket          = "weco-cloudfront-logs.s3.amazonaws.com"
-    include_cookies = false
-    prefix          = "api_root"
-  }
 
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
