@@ -96,6 +96,8 @@ export const requestHandler = async (
     return requestRedirect;
   }
 
+  console.warn(`Unable to redirect request ${event.Records[0].cf.request}`);
+
   // If we've matched nothing we redirect to wellcomecollection.org
   return wellcomeCollectionRedirect('/');
 };
