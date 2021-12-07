@@ -151,7 +151,7 @@ const checkMatchingBlogUrl = (axiosResponse: AxiosResponse, toUrl: string) => {
 
 const apiTestSet = {
   displayName: 'Library API',
-  fileLocation: 'apiRedirects.csv',
+  fileLocation: 'src/csvFixtures/apiRedirects.csv',
   fileHostPrefix: 'wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
@@ -163,7 +163,7 @@ const apiTestSet = {
 
 const itemTestSet = {
   displayName: 'Item pages',
-  fileLocation: 'itemRedirects.csv',
+  fileLocation: 'src/csvFixtures/itemRedirects.csv',
   fileHostPrefix: 'wellcomelibrary.org',
   headers: staticRedirectHeaders,
   envs: {
@@ -175,7 +175,7 @@ const itemTestSet = {
 
 const blogTestSet = {
   displayName: 'Library blog',
-  fileLocation: 'blogRedirects.csv',
+  fileLocation: 'src/csvFixtures/blogRedirects.csv',
   fileHostPrefix: 'blog.wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
@@ -199,7 +199,7 @@ const apexTestSet = {
 
 const archiveTestSet = {
   displayName: 'Archive search',
-  fileLocation: 'archiveRedirects.csv',
+  fileLocation: 'src/csvFixtures/archiveRedirects.csv',
   fileHostPrefix: 'archives.wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
@@ -211,7 +211,7 @@ const archiveTestSet = {
 
 const collectionBrowseTestSet = {
   displayName: 'Collection browse pages',
-  fileLocation: 'collectionsBrowse.csv',
+  fileLocation: 'src/csvFixtures/collectionsBrowse.csv',
   fileHostPrefix: 'wellcomelibrary.org',
   headers: ['sourceUrl', 'targetUrl'],
   envs: {
