@@ -41,7 +41,7 @@ do
   echo ""
 
   CURRENT_COMMIT=$(git rev-parse HEAD)
-  TEMPLATE_FILE="nginx/$SERVICE_ID.nginx.conf"
+  TEMPLATE_FILE="$SERVICE_ID.nginx.conf"
 
   TAG="nginx_$SERVICE_ID:$CURRENT_COMMIT"
   ECR_PRIVATE_TAG="$ECR_PRIVATE_PREFIX/$TAG"
@@ -49,7 +49,7 @@ do
 
   docker build \
     --tag="$TAG" \
-    --build-arg CONFIG_TEMPLATE="${TEMPLATE_FILE}"
+    --build-arg CONFIG_TEMPLATE="${TEMPLATE_FILE}" \
     --file nginx/template.Dockerfile \
     nginx
 
