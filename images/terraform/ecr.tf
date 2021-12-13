@@ -10,12 +10,43 @@ module "ecr_fluentbit" {
   }
 }
 
-resource "aws_ecr_repository" "nginx_experience" {
-  name = "${local.namespace}/nginx_experience"
+module "ecr_nginx_experience" {
+  source = "./repo_pair"
+
+  namespace = local.namespace
+  repo_name = "nginx_experience"
+
+  description = "DEPRECATED: prefer nginx_frontend"
+
+  providers = {
+    aws.ecr_public = aws.us_east_1
+  }
 }
 
-resource "aws_ecr_repository" "nginx_grafana" {
-  name = "${local.namespace}/nginx_grafana"
+module "ecr_nginx_frontend" {
+  source = "./repo_pair"
+
+  namespace = local.namespace
+  repo_name = "nginx_frontend"
+
+  description = "An nginx image for reverse proxying applications with frontends"
+
+  providers = {
+    aws.ecr_public = aws.us_east_1
+  }
+}
+
+module "ecr_nginx_grafana" {
+  source = "./repo_pair"
+
+  namespace = local.namespace
+  repo_name = "nginx_grafana"
+
+  description = "An nginx image for reverse proxying Grafana"
+
+  providers = {
+    aws.ecr_public = aws.us_east_1
+  }
 }
 
 module "ecr_nginx_apigw" {
@@ -43,7 +74,14 @@ module "nginx_experience" {
   source = "./repo_policy"
 
   account_ids = local.account_ids
-  repo_name   = aws_ecr_repository.nginx_experience.name
+  repo_name   = module.ecr_nginx_experience.private_repo_name
+}
+
+module "nginx_frontend" {
+  source = "./repo_policy"
+
+  account_ids = local.account_ids
+  repo_name   = module.ecr_nginx_frontend.private_repo_name
 }
 
 module "fluentbit" {
