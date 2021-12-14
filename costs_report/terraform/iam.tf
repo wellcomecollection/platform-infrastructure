@@ -23,6 +23,7 @@ data "aws_iam_policy_document" "allow_assume_role" {
       module.data_role.arn,
       module.reporting_role.arn,
       module.digitisation_role.arn,
+      "arn:aws:iam::782179017633:role/microsites-costs_report_lambda",  # module.microsites_role.arn,
     ]
   }
 }

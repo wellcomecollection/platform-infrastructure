@@ -129,3 +129,42 @@ module "digitisation_role" {
 
   lambda_task_role_arn = module.costs_report_lambda.role_arn
 }
+
+# This is the config for the microsites account, which is a standalone
+# account we're responsible for but which isn't tied to our Azure roles.
+#
+# These resources have been created so they're consistent with our other
+# accounts, but they've been removed from the Terraform state.
+
+/*module "microsites_role" {
+  source = "./roleset"
+
+  providers = {
+    aws = aws.microsites
+  }
+
+  account_name = "microsites"
+
+  lambda_task_role_arn = module.costs_report_lambda.role_arn
+}*/
+
+/*variable "microsites_access_key" {
+  type = string
+}
+
+variable "microsites_secret_key" {
+  type = string
+}
+
+provider "aws" {
+  alias = "microsites"
+
+  region = "eu-west-1"
+
+  access_key = var.microsites_access_key
+  secret_key = var.microsites_secret_key
+
+  default_tags {
+    tags = local.default_tags
+  }
+}*/

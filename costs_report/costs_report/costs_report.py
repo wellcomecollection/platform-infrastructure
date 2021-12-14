@@ -275,6 +275,7 @@ def main(_event, _context):
         ("964279923020", "data"),
         ("269807742353", "reporting"),
         ("404315009621", "digitisation"),
+        ("782179017633", "microsites")
     ]:
         if running_in_lambda:
             role_arn = (
