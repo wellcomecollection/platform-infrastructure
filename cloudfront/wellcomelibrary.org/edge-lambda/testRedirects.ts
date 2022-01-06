@@ -221,6 +221,17 @@ const collectionBrowseTestSet = {
   checkRedirect: checkMatchingUrl,
 };
 
+const encoreTestSet = {
+  displayName: 'Encore pages',
+  fileLocation: 'src/csvFixtures/encoreRedirects.csv',
+  fileHostPrefix: 'search.wellcomelibrary.org',
+  headers: ['sourceUrl', 'targetUrl'],
+  envs: {
+    stage: 'https://search.stage.wellcomelibrary.org',
+  },
+  checkRedirect: checkMatchingUrl,
+};
+
 const testSets: RedirectTestSet[] = [
   apiTestSet,
   itemTestSet,
@@ -228,6 +239,7 @@ const testSets: RedirectTestSet[] = [
   apexTestSet,
   archiveTestSet,
   collectionBrowseTestSet,
+  encoreTestSet
 ];
 
 const runTests = async (envId: EnvId) => {
