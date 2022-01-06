@@ -44,3 +44,61 @@ You can get to the Hosted Zone by assuming the following role: `arn:aws:iam::267
 You can see the Hosted Zone by going to <https://console.aws.amazon.com/route53/v2/hostedzones?#ListRecordSets/Z78J6G8RSOLSZ>
 
 (You can't find the hosted zone in the Route 53 console because we don't have the ListHostedZones permission – some of them are for domains we don't control.)
+
+## How to deploy the redirects
+
+1.  Create a ZIP package for the Lambda definition, which is uploaded to S3:
+
+    ```console
+    $ cd edge-lambda/
+    $ yarn deploy
+    ...
+    Finished uploading dist/wellcome_library_redirect.zip to s3://wellcomecollection-edge-lambdas/wellcome_library/wellcome_library_redirect.zip
+    ```
+
+2.  Apply the Terraform changes:
+
+    ```console
+    $ cd terraform/
+
+    $ terraform plan -out=terraform.plan
+    # review the changes
+
+    $ terraform apply terraform.plan
+    ```
+
+    This will deploy the new version of the redirects to the *staging* domains.
+    The new versions will be returned as an output:
+
+    ```
+    stage_lambda_function_versions = {
+      "archive" = "28"
+      "blog" = "45"
+      "encore" = "24"
+      "passthru" = "61"
+      "wellcomelibrary" = "80"
+    }
+    ```
+
+    We have [multiple versions of the Lambda@Edge functions][versions].
+    When you upload a new zip package and run Terraform, it creates a new version.
+    The staging domains always use the latest version, whereas the prod domains use a pinned version.
+
+3.  Test the redirects in staging:
+
+    ```console
+    $ cd edge-lambda/
+    $ yarn testRedirectsStage
+    ```
+
+4.  Update the versions of the Lambda functions in prod in `lambda_versions.tf`, using the versions output from Terraform above.
+    Then do another Terraform plan/apply.
+
+5.  Test the redirects in prod:
+
+    ```console
+    $ cd edge-lambda/
+    $ yarn testRedirects
+    ```
+
+[versions]: https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html
