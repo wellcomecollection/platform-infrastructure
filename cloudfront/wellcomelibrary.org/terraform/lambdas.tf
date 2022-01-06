@@ -95,8 +95,8 @@ data "aws_iam_policy_document" "lambda" {
       type = "Service"
 
       identifiers = [
-        "lambda.amazonaws.com",
         "edgelambda.amazonaws.com",
+        "lambda.amazonaws.com",
       ]
     }
   }
