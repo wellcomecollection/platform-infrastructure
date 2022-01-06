@@ -18,7 +18,7 @@ resource "aws_lambda_function" "wellcome_library_encore_redirect" {
   function_name = "cf_edge_wellcome_library_encore_redirect"
   role          = aws_iam_role.edge_lambda_role.arn
   runtime       = "nodejs12.x"
-  handler       = "wellcomeLibraryencoreRedirect.requestHandler"
+  handler       = "wellcomeLibraryEncoreRedirect.requestHandler"
   publish       = true
 
   s3_bucket         = data.aws_s3_bucket_object.wellcome_library_redirect.bucket
