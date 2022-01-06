@@ -47,7 +47,7 @@ You can see the Hosted Zone by going to <https://console.aws.amazon.com/route53/
 
 ## How to deploy the redirects
 
-1.  Create a ZIP package for the Lambda definition, which is uploaded to S3:
+1.  Package and upload to S3 a ZIP for the Lambda definition
 
     ```console
     $ cd edge-lambda/
