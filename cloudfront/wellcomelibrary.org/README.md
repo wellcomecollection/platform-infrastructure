@@ -33,6 +33,14 @@ It includes the code for redirecting users from the old site to the appropriate 
 
 [opac]: https://en.wikipedia.org/wiki/Online_public_access_catalog
 
-## AWS Route53
+## Getting to the Route 53 Hosted Zone
 
-If you need access to the Route53 console use [this link](https://console.aws.amazon.com/route53/v2/hostedzones?#ListRecordSets/Z78J6G8RSOLSZ). You will need to have permissions to assume the role: `arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update`.
+The Route 53 Hosted Zone for wellcomelibrary.org is defined in a D&T account.
+
+You can get to the Hosted Zone by assuming the following role: `arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update`.
+
+![Screenshot of the "assume role" screen in the AWS console with the account ID and role filled in.](assume_role.png)
+
+You can see the Hosted Zone by going to <https://console.aws.amazon.com/route53/v2/hostedzones?#ListRecordSets/Z78J6G8RSOLSZ>
+
+(You can't find the hosted zone in the Route 53 console because we don't have the ListHostedZones permission – some of them are for domains we don't control.)
