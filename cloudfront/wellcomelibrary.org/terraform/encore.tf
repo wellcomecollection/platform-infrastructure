@@ -12,13 +12,13 @@ module "wellcomelibrary_encore-prod" {
     origin_id : "origin"
     domain_name : "search.origin.wellcomelibrary.org"
     origin_path : null
-    origin_protocol_policy : "http-only"
+    origin_protocol_policy : "match-viewer"
   }]
 
   default_target_origin_id                       = "origin"
   default_lambda_function_association_event_type = "origin-request"
   default_lambda_function_association_lambda_arn = local.wellcome_library_passthru_arn_prod
-  default_forwarded_headers                      = ["Host"]
+  default_forwarded_headers                      = ["Host", "CloudFront-Forwarded-Proto"]
 }
 
 module "wellcomelibrary_encore-stage" {
