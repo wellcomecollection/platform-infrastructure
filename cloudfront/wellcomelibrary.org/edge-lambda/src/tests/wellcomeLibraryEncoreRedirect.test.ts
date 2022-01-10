@@ -57,6 +57,28 @@ const encoreTests = [
       resolvedUri: 'https://wellcomecollection.org/works/tsayk6g3'
     },
   ],
+  [
+    'Encore URL with language query string',
+    {
+      path: '/iii/encore/record/C__Rb3185463',
+      qs: 'lang=eng',
+      results: results([
+        resultWithIdentifier('jg6dqsx4', 'sierra-identifier', '3185463'),
+      ]),
+      resolvedUri: 'https://wellcomecollection.org/works/jg6dqsx4'
+    }
+  ],
+  [
+    'Longer Encore paths',
+    {
+      path: '/iii/encore/record/C__Rb3153458__Sdrugscope__P0%2C1__Orightresult__U__X7',
+      qs: 'lang=eng&suite=cobalt',
+      results: results([
+        resultWithIdentifier('psspw62x', 'sierra-identifier', '3153458'),
+      ]),
+      resolvedUri: 'https://wellcomecollection.org/works/psspw62x'
+    }
+  ],
 ] as [string, Test][];
 
 test.each(encoreTests)('%s', (name: string, test: Test) => {
