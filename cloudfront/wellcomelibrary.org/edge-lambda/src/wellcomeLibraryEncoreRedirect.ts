@@ -21,7 +21,7 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
     return Error(`b number in ${path} (${pathPath}) does not match ${sierraIdRegexp}`);
   }
 
-  const sierraIdentifier = pathPath.toLowerCase().substr(5, 11);
+  const sierraIdentifier = pathPath.toLowerCase().substring(5, 12);
   const sierraSystemNumber = `b${sierraIdentifier}${calcCheckDigit(
     parseInt(sierraIdentifier)
   )}`;
