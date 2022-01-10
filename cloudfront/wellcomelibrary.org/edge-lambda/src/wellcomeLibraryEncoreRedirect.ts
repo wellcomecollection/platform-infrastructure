@@ -53,8 +53,13 @@ export const requestHandler = async (
   // URLs like https://search.wellcomelibrary.org/iii/encore/record/C__Rb2475299
   const bibPathRegExp: RegExp = /\/iii\/encore\/record\/C__Rb[0-9]{7}.*/;
 
+  // URLs like https://search.wellcomelibrary.org/iii/encore/myaccount?suite=cobalt&lang=eng
+  const accountPathRegExp: RegExp = /\/iii\/encore\/myaccount.*/;
+
   if (uri.match(bibPathRegExp)) {
     return getWorksRedirect(uri);
+  } else if (uri.match(accountPathRegExp)) {
+    return wellcomeCollectionRedirect('/account');
   }
 
   // If we've matched nothing we redirect to wellcomecollection.org/collections/

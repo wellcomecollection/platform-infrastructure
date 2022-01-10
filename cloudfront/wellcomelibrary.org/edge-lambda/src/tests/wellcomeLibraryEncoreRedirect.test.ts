@@ -79,6 +79,15 @@ const encoreTests = [
       resolvedUri: 'https://wellcomecollection.org/works/psspw62x'
     }
   ],
+  [
+    'Account pages in Encore',
+    {
+      path: '/iii/encore/myaccount',
+      qs: 'lang=eng&suite=cobalt',
+      results: results([]),
+      resolvedUri: 'https://wellcomecollection.org/account'
+    }
+  ],
 ] as [string, Test][];
 
 test.each(encoreTests)('%s', (name: string, test: Test) => {
