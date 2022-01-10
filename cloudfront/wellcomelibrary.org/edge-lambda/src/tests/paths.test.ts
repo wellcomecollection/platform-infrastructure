@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { getBnumberFromPath, SierraIdentifier } from './paths';
+import { getBnumberFromPath, SierraIdentifier } from '../paths';
 
 type ExpectedPath = {
   in: string;

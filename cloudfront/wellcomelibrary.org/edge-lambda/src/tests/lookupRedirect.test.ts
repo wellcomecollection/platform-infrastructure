@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { lookupRedirect } from './lookupRedirect';
+import { lookupRedirect } from '../lookupRedirect';
 import { CloudFrontResultResponse } from 'aws-lambda';
 
 test('returns a valid redirect', async () => {

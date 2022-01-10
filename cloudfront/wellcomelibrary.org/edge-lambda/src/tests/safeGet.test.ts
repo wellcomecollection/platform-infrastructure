@@ -1,6 +1,6 @@
 import { expect, test, jest, afterEach } from '@jest/globals';
 import axios from 'axios';
-import { safeGet } from './safeGet';
+import { safeGet } from '../safeGet';
 
 import { axios404, axiosNoResponse } from './testHelpers';
 

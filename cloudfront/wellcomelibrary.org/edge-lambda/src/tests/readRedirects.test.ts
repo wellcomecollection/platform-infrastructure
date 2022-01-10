@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { readRedirects } from './readRedirects';
+import { readRedirects } from '../readRedirects';
 import path from 'path';
 
 const expectedRedirectHeaders = [
@@ -14,7 +14,7 @@ const expectedHostPrefix = 'wellcomelibrary.org';
 test('parses redirects from a CSV', async () => {
   const fileLocation = path.resolve(
     __dirname,
-    'csvFixtures/readRedirectsFixture.csv'
+    '../csvFixtures/readRedirectsFixture.csv'
   );
   const expectedRedirects = {
     '/trailing-slash': 'https://wellcomecollection.org/trailing-slash',
@@ -34,7 +34,7 @@ test('parses redirects from a CSV', async () => {
 test('fails parsing if duplicate records exist', async () => {
   const fileLocation = path.resolve(
     __dirname,
-    'csvFixtures/readRedirectsFixtureDupes.csv'
+    '../csvFixtures/readRedirectsFixtureDupes.csv'
   );
   const expectedError = Error(
     'Cannot parse CSV into redirects, duplicate paths exist for /dupe!'
@@ -49,7 +49,7 @@ test('fails parsing if duplicate records exist', async () => {
 test('fails parsing if unexpected hostPrefix found', async () => {
   const fileLocation = path.resolve(
     __dirname,
-    'csvFixtures/readRedirectFixtureBadHost.csv'
+    '../csvFixtures/readRedirectFixtureBadHost.csv'
   );
   const expectedError = Error(
     'Source row does not start with expected prefix: wellcomelibrary.org (badhost.com/no-host)'

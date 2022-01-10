@@ -1,11 +1,11 @@
-import * as origin from './wellcomeLibraryArchiveRedirect';
+import * as origin from '../wellcomeLibraryArchiveRedirect';
 import testRequest from './testEventRequest';
 import { Context } from 'aws-lambda';
 import { results, resultWithIdentifier } from './catalogueApiFixtures';
 import { expectedRedirect } from './testHelpers';
 import axios from 'axios';
 import { expect, jest, test } from '@jest/globals';
-import { CatalogueResultsList } from './catalogueApi';
+import { CatalogueResultsList } from '../catalogueApi';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

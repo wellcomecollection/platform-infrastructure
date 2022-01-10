@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { createRedirect } from './redirectHelpers';
+import { createRedirect } from '../redirectHelpers';
 import { CloudFrontResultResponse } from 'aws-lambda';
 
 test('returns a valid redirect', () => {

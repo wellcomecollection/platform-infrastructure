@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import testRequest from './testEventRequest';
-import * as origin from './wellcomeLibraryPassthru';
+import * as origin from '../wellcomeLibraryPassthru';
 import { Context } from 'aws-lambda';
 import { expectedRedirect } from './testHelpers';
 

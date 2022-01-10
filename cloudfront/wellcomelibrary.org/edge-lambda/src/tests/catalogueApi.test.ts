@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jest, test, expect, afterEach } from '@jest/globals';
 
-import { apiQuery, Work } from './catalogueApi';
+import { apiQuery, Work } from '../catalogueApi';
 import {
   testDataMultiPageFirstPage,
   testDataMultiPageNextPage,
