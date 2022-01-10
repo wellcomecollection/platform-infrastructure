@@ -6,7 +6,7 @@ export type SierraIdentifier = {
 export type GetBNumberResult = SierraIdentifier | Error;
 
 // Copied from https://github.com/SydneyUniLibrary/sierra-record-check-digit/blob/master/index.js#L21
-function calcCheckDigit(recordNumber: number) {
+export function calcCheckDigit(recordNumber: number) {
   let m = 2;
   let x = 0;
   let i = Number(recordNumber);
