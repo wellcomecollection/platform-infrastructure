@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { redirectToRoot } from './redirectToRoot';
+import { redirectToRoot } from '../redirectToRoot';
 import { createCloudFrontRequest } from './testEventRequest';
 import { expectedRedirect } from './testHelpers';
 

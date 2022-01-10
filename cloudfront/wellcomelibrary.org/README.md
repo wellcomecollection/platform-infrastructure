@@ -31,6 +31,9 @@ It includes the code for redirecting users from the old site to the appropriate 
 *   DServe was a web front-end for the archive catalogue/CALM, available at `archives.wellcomelibrary.org`.
     We redirect requests to the Works pages on the new website.
 
+*   IIIF services including a IIIF Image API and IIIF presentation API were hosted on various paths under the old site, including `wl.org/iiif` and `wl.org/service/alto`.
+    These services are now served from `iiif.wc.org`, and we redirect any requests for the old URLs to the new URLs.
+
 [opac]: https://en.wikipedia.org/wiki/Online_public_access_catalog
 
 ## Getting to the Route 53 Hosted Zone
@@ -51,7 +54,7 @@ You can see the Hosted Zone by going to <https://console.aws.amazon.com/route53/
 
     ```console
     $ cd edge-lambda/
-    $ yarn deploy
+    $ yarn uploadToS3
     ...
     Finished uploading dist/wellcome_library_redirect.zip to s3://wellcomecollection-edge-lambdas/wellcome_library/wellcome_library_redirect.zip
     ```

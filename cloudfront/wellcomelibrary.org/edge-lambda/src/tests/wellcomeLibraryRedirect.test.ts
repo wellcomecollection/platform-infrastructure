@@ -1,4 +1,4 @@
-import * as origin from './wellcomeLibraryRedirect';
+import * as origin from '../wellcomeLibraryRedirect';
 import testRequest from './testEventRequest';
 import { Context } from 'aws-lambda';
 import {
@@ -13,7 +13,7 @@ import {
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { expect, jest, test, afterEach } from '@jest/globals';
 
-import rawStaticRedirects from './staticRedirects.json';
+import rawStaticRedirects from '../staticRedirects.json';
 const staticRedirects = rawStaticRedirects as Record<string, string>;
 
 jest.mock('axios');

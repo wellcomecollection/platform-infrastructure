@@ -1,10 +1,10 @@
 import { expect, test, jest, afterEach } from '@jest/globals';
-import { safeGet } from './safeGet';
+import { safeGet } from '../safeGet';
 
-import { wlorgpLookup } from './wlorgpLookup';
+import { wlorgpLookup } from '../wlorgpLookup';
 import { AxiosRequestConfig } from 'axios';
 
-jest.mock('./safeGet');
+jest.mock('../safeGet');
 const safeGetMock = safeGet as jest.MockedFunction<
   (url: string, config?: AxiosRequestConfig) => Promise<Error | string>
 >;

@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals';
 import testRequest from './testEventRequest';
-import * as origin from './wellcomeLibraryBlogRedirect';
+import * as origin from '../wellcomeLibraryBlogRedirect';
 import { Context } from 'aws-lambda';
 import { expectedRedirect, expectedServerError } from './testHelpers';
-import { blogHost, waybackPrefix } from './wellcomeLibraryBlogRedirect';
+import { blogHost, waybackPrefix } from '../wellcomeLibraryBlogRedirect';
 
 test('redirects blog. to the wayback machine', () => {
   const expectedPath = '/foo';

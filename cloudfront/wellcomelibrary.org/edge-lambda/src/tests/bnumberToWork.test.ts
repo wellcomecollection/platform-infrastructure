@@ -6,8 +6,8 @@ import {
   testDataNoResults,
   testDataSingleResult,
 } from './catalogueApiFixtures';
-import { Work, CatalogueResultsList, Identifier } from './catalogueApi';
-import { getWork } from './bnumberToWork';
+import { Work, CatalogueResultsList, Identifier } from '../catalogueApi';
+import { getWork } from '../bnumberToWork';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
