@@ -51,7 +51,7 @@ You can see the Hosted Zone by going to <https://console.aws.amazon.com/route53/
 
     ```console
     $ cd edge-lambda/
-    $ yarn deploy
+    $ yarn uploadToS3
     ...
     Finished uploading dist/wellcome_library_redirect.zip to s3://wellcomecollection-edge-lambdas/wellcome_library/wellcome_library_redirect.zip
     ```
