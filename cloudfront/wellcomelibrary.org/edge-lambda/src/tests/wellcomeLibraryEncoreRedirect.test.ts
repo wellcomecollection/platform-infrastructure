@@ -21,7 +21,7 @@ const encoreHeaders = {
 
 type Test = {
   path: string;
-  qs: string;
+  qs?: string;
   results?: CatalogueResultsList;
   resolvedUri: string;
 };
@@ -30,7 +30,6 @@ const encoreTests = [
     'root URL',
     {
       path: '',
-      qs: '',
       resolvedUri: 'https://wellcomecollection.org/collections/',
     },
   ],
@@ -38,7 +37,6 @@ const encoreTests = [
     'single record page',
     {
       path: '/iii/encore/record/C__Rb2475299',
-      qs: '',
       results: results([
         resultWithIdentifier('tsayk6g3', 'sierra-identifier', '2475299'),
       ]),
@@ -49,7 +47,6 @@ const encoreTests = [
     'single record page (with check digit on the Sierra ID in the catalogue API)',
     {
       path: '/iii/encore/record/C__Rb2475299',
-      qs: '',
       results: results([
         resultWithIdentifier('tsayk6g3', 'sierra-system-number', 'b2475299x'),
       ]),
@@ -89,7 +86,7 @@ const encoreTests = [
 ] as [string, Test][];
 
 test.each(encoreTests)('%s', (name: string, test: Test) => {
-  const request = testRequest(test.path, test.qs, encoreHeaders);
+  const request = testRequest(test.path, test.qs ?? '', encoreHeaders);
 
   test.results && mockedAxios.get.mockResolvedValue({
     data: test.results,
