@@ -36,7 +36,7 @@ const encoreTests = [
     },
   ],
   [
-    'single search page',
+    'single record page',
     {
       path: '/iii/encore/record/C__Rb2475299',
       qs: '',
@@ -47,7 +47,7 @@ const encoreTests = [
     },
   ],
   [
-    'single search page (with check digit on the Sierra ID)',
+    'single record page (with check digit on the Sierra ID in the catalogue API)',
     {
       path: '/iii/encore/record/C__Rb2475299',
       qs: '',
@@ -58,7 +58,7 @@ const encoreTests = [
     },
   ],
   [
-    'Encore URL with language query string',
+    'single record page with language in query string',
     {
       path: '/iii/encore/record/C__Rb3185463',
       qs: 'lang=eng',
@@ -69,7 +69,7 @@ const encoreTests = [
     }
   ],
   [
-    'Longer Encore paths',
+    'single record page with extra information in the path',
     {
       path: '/iii/encore/record/C__Rb3153458__Sdrugscope__P0%2C1__Orightresult__U__X7',
       qs: 'lang=eng&suite=cobalt',
@@ -80,7 +80,7 @@ const encoreTests = [
     }
   ],
   [
-    'Account pages in Encore',
+    'account page',
     {
       path: '/iii/encore/myaccount',
       qs: 'lang=eng&suite=cobalt',
