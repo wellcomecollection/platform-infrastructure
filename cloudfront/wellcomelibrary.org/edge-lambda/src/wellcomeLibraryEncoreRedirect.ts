@@ -65,7 +65,7 @@ export function getBnumberFromEncorePath(path: string): GetBNumberResult {
 
   // If defined, this will be something like '1234567'
   const bnumber = components
-    .filter(c => c.letter == 'R')
+    .filter(c => c.letter === 'R')
     .find(c => c.contents && sierraBibRegexp.test(c.contents))
     ?.contents?.substring(1, );
 
@@ -105,7 +105,7 @@ function getSearchRedirect(
   const components = parseEncorePathComponents(finalPathPart);
 
   const searchTerms = components
-    .find(c => c.letter == 'S')
+    .find(c => c.letter === 'S')
     ?.contents;
 
   if (searchTerms) {
