@@ -8,8 +8,9 @@ import {
   wellcomeCollectionRedirect
 } from './redirectHelpers';
 import { calcCheckDigit, GetBNumberResult } from './paths';
+import querystring from 'querystring';
 
-export function getBnumberFromPath(path: string): GetBNumberResult {
+export function getBnumberFromEncorePath(path: string): GetBNumberResult {
   if (!path.startsWith('/iii/encore/record/')) {
     return Error(`Path ${path} does not start with /iii/encore/record/`);
   }
@@ -33,11 +34,64 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
 }
 
 async function getWorksRedirect(
-  uri: string
+  path: string
 ): Promise<CloudFrontResultResponse> {
-  const sierraIdentifier = getBnumberFromPath(uri);
+  const sierraIdentifier = getBnumberFromEncorePath(path);
 
   return getSierraIdentifierRedirect(sierraIdentifier);
+}
+
+function getSearchRedirect(
+  path: string,
+  qs: querystring.ParsedUrlQuery
+): CloudFrontResultResponse | Error {
+  if (!path.startsWith('/iii/encore/search')) {
+    return Error(`Path ${path} does not start with /iii/encore/search`);
+  }
+  
+  // For URLs like /iii/encore/search?target=erythromelalgia&submit=Search
+  if (qs['submit'] === 'Search' && qs['target']) {
+    return wellcomeCollectionRedirect(`/works?query=${qs['target']}`)
+  }
+
+  // For URLs like /iii/encore/search/C__Srosalind%20paget
+  //
+  // I'm having to guess at how Encore URLs work here -- it looks like the
+  // final part is a collection of components separated by a double underscore, and
+  // the first letter of each component tells you waht that component is.
+  // e.g. if we look at a more complex URL:
+  //
+  //    /iii/encore/record/C__Rb3153458__Sdrugscope__P0%2C1__Orightresult__U__X7
+  //
+  // Then we have:
+  //
+  //    R = record = b3153458
+  //    S = search = drugscope
+  //    P = ???    = 0,1
+  //    O = ???    = rightresult
+  //    U = ???    = <empty>
+  //    X = ???    = 7
+  //
+  // and for these URLs, we want the component that starts with 'S'.
+  const parts = path.split('/');
+  if (parts.length === 5) {
+    const finalPart = parts[4];
+    const searchComponent =
+      finalPart
+        .split('__')
+        .find(c => c.startsWith('S'));
+
+    // Remember to strip the leading 'S'
+    const searchTerms = searchComponent?.substring(1, );
+
+    if (searchTerms) {
+      return wellcomeCollectionRedirect(`/works?query=${searchTerms}`);
+    }
+  }
+
+  // If we've matched nothing we redirect to the top-level collections page
+  console.warn(`Could not extract search term from path=${path}, qs=${qs}`);
+  return wellcomeCollectionRedirect('/collections/');
 }
 
 export const requestHandler = async (
@@ -48,21 +102,30 @@ export const requestHandler = async (
 
   request.headers.host = [{ key: 'host', value: 'search.wellcomelibrary.org' }];
 
-  const uri = request.uri;
+  const path = request.uri;
+  const qs: querystring.ParsedUrlQuery = querystring.parse(request.querystring);
 
   // URLs like https://search.wellcomelibrary.org/iii/encore/record/C__Rb2475299
-  const bibPathRegExp: RegExp = /\/iii\/encore\/record\/C__Rb[0-9]{7}.*/;
+  const bibPathRegExp: RegExp = /^\/iii\/encore\/record\/C__Rb[0-9]{7}.*/;
 
   // URLs like https://search.wellcomelibrary.org/iii/encore/myaccount?suite=cobalt&lang=eng
-  const accountPathRegExp: RegExp = /\/iii\/encore\/myaccount.*/;
+  const accountPathRegExp: RegExp = /^\/iii\/encore\/myaccount.*/;
 
-  if (uri.match(bibPathRegExp)) {
-    return getWorksRedirect(uri);
-  } else if (uri.match(accountPathRegExp)) {
+  // URLs like search.wellcomelibrary.org/iii/encore/search/C__Srosalind%20paget
+  //
+  // Note: the omission of the trailing slash is deliberate, because some Encore URLs
+  // only have '/search' as the path and then put the search terms in the query string.
+  const searchPathRegExp: RegExp = /^\/iii\/encore\/search.*/;
+
+  if (path.match(bibPathRegExp)) {
+    return getWorksRedirect(path);
+  } else if (path.match(accountPathRegExp)) {
     return wellcomeCollectionRedirect('/account');
+  } else if (path.match(searchPathRegExp)) {
+    return getSearchRedirect(path, qs);
   }
 
-  // If we've matched nothing we redirect to wellcomecollection.org/collections/
+  // If we've matched nothing we redirect to the top-level collections page
   console.warn(`Unable to redirect request ${JSON.stringify(event.Records[0].cf.request)}`);
   return wellcomeCollectionRedirect('/collections/');
 };

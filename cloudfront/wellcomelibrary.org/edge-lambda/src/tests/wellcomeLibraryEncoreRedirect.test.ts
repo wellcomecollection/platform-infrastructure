@@ -83,6 +83,21 @@ const encoreTests = [
       resolvedUri: 'https://wellcomecollection.org/account'
     }
   ],
+  [
+    'search page with search terms in the query parameters',
+    {
+      path: '/iii/encore/search',
+      qs: 'target=erythromelalgia&submit=Search',
+      resolvedUri: 'https://wellcomecollection.org/works?query=erythromelalgia',
+    }
+  ],
+  [
+    'search page with search terms in the path',
+    {
+      path: '/iii/encore/search/C__Srosalind%20paget',
+      resolvedUri: 'https://wellcomecollection.org/works?query=rosalind%20paget'
+    }
+  ],
 ] as [string, Test][];
 
 test.each(encoreTests)('%s', (name: string, test: Test) => {
