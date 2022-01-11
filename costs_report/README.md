@@ -61,4 +61,4 @@ You need to:
 *   Create that role in Terraform, using the `roleset` module
 *   Give the Lambda permission to assume the role
 
-See [commit 2af1f1b](https://github.com/wellcomecollection/platform-infrastructure/commit/2af1f1bc24d282c13f5ce290c27a60cc2e7286dc) as an example of adding a new account.
+See [commit 2af1f1b](https://github.com/wellcomecollection/platform-infrastructure/commit/2af1f1bc24d282c13f5ce290c27a60cc2e7286dc) and [cb2a39f](https://github.com/wellcomecollection/platform-infrastructure/commit/cb2a39fcde4b65f6ab51e1a34f782e442ded720b#diff-553d8343b3da113c8b87417d57d38f3efae186331cf32538e6c67dec37d298ae) as an example of adding a new account.
