@@ -6,7 +6,7 @@ export type SierraIdentifier = {
 export type GetBNumberResult = SierraIdentifier | Error;
 
 // Copied from https://github.com/SydneyUniLibrary/sierra-record-check-digit/blob/master/index.js#L21
-function calcCheckDigit(recordNumber: number) {
+export function calcCheckDigit(recordNumber: number) {
   let m = 2;
   let x = 0;
   let i = Number(recordNumber);
@@ -44,7 +44,7 @@ export function getBnumberFromPath(path: string): GetBNumberResult {
     return Error(`b number in ${path} does not match ${sierraIdRegexp}`);
   }
 
-  const sierraIdentifier = splitPath[2].toLowerCase().substr(1, 7);
+  const sierraIdentifier = splitPath[2].toLowerCase().substring(1, 8);
   const sierraSystemNumber = `b${sierraIdentifier}${calcCheckDigit(
     parseInt(sierraIdentifier)
   )}`;

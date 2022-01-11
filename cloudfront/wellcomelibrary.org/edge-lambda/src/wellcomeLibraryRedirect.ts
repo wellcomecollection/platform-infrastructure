@@ -4,9 +4,9 @@ import {
   CloudFrontResultResponse,
 } from 'aws-lambda/common/cloudfront';
 import { getBnumberFromPath } from './paths';
-import { getWork } from './bnumberToWork';
 import {
   createRedirect,
+  getSierraIdentifierRedirect,
   wellcomeCollectionNotFoundRedirect,
   wellcomeCollectionRedirect,
 } from './redirectHelpers';
@@ -20,23 +20,9 @@ const staticRedirects = rawStaticRedirects as Record<string, string>;
 async function getWorksRedirect(
   uri: string
 ): Promise<CloudFrontResultResponse> {
-  // Try and find b-number in item path
   const sierraIdentifier = getBnumberFromPath(uri);
 
-  if (sierraIdentifier instanceof Error) {
-    console.error(sierraIdentifier);
-    return wellcomeCollectionNotFoundRedirect;
-  }
-
-  // Find corresponding work id
-  const work = await getWork(sierraIdentifier);
-
-  if (work instanceof Error) {
-    console.error(work);
-    return wellcomeCollectionNotFoundRedirect;
-  }
-
-  return wellcomeCollectionRedirect(`/works/${work.id}`);
+  return getSierraIdentifierRedirect(sierraIdentifier);
 }
 
 async function getApiRedirects(
@@ -96,8 +82,7 @@ export const requestHandler = async (
     return requestRedirect;
   }
 
-  console.warn(`Unable to redirect request ${JSON.stringify(event.Records[0].cf.request)}`);
-
   // If we've matched nothing we redirect to wellcomecollection.org
+  console.warn(`Unable to redirect request ${JSON.stringify(event.Records[0].cf.request)}`);
   return wellcomeCollectionRedirect('/');
 };

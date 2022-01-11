@@ -1,4 +1,6 @@
 import { CloudFrontResultResponse } from 'aws-lambda/common/cloudfront';
+import { getWork } from './bnumberToWork';
+import { GetBNumberResult } from './paths';
 
 const wellcomeCollectionHost = 'https://wellcomecollection.org';
 
@@ -44,4 +46,23 @@ export function createServerError(error: Error) {
     status: '500',
     statusDescription: error.message,
   } as CloudFrontResultResponse;
+}
+
+export async function getSierraIdentifierRedirect(
+  sierraIdentifier: GetBNumberResult 
+): Promise<CloudFrontResultResponse> {
+  if (sierraIdentifier instanceof Error) {
+    console.error(sierraIdentifier);
+    return wellcomeCollectionNotFoundRedirect;
+  }
+
+  // Find corresponding work id
+  const work = await getWork(sierraIdentifier);
+
+  if (work instanceof Error) {
+    console.error(work);
+    return wellcomeCollectionNotFoundRedirect;
+  }
+
+  return wellcomeCollectionRedirect(`/works/${work.id}`);
 }
