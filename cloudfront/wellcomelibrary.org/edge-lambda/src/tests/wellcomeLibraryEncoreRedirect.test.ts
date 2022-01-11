@@ -22,7 +22,7 @@ const encoreHeaders = {
 type Test = {
   path: string;
   qs: string;
-  results: CatalogueResultsList;
+  results?: CatalogueResultsList;
   resolvedUri: string;
 };
 const encoreTests = [
@@ -31,7 +31,6 @@ const encoreTests = [
     {
       path: '',
       qs: '',
-      results: results([]),
       resolvedUri: 'https://wellcomecollection.org/collections/',
     },
   ],
@@ -84,7 +83,6 @@ const encoreTests = [
     {
       path: '/iii/encore/myaccount',
       qs: 'lang=eng&suite=cobalt',
-      results: results([]),
       resolvedUri: 'https://wellcomecollection.org/account'
     }
   ],
@@ -92,7 +90,8 @@ const encoreTests = [
 
 test.each(encoreTests)('%s', (name: string, test: Test) => {
   const request = testRequest(test.path, test.qs, encoreHeaders);
-  mockedAxios.get.mockResolvedValue({
+
+  test.results && mockedAxios.get.mockResolvedValue({
     data: test.results,
   });
 
