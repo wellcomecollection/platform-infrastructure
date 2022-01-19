@@ -23,6 +23,7 @@ steps:
   - wait
 
   - label: "deploy invalidation lambda"
+    branches: "main"
     plugins:
       - ecr#v2.1.1:
           login: true
