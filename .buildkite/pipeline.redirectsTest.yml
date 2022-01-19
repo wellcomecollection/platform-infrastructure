@@ -46,23 +46,3 @@ steps:
           run: catalogue_tests
     retry:
       automatic: true
-
-  - label: "Wellcome Library STAGE Redirects"
-    plugins:
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: wellcome_library_edge_lambdas
-          command: ["yarn", "testRedirectsStage"]
-    retry:
-      automatic: true
-
-  - label: "Wellcome Library PROD Redirects"
-    plugins:
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: wellcome_library_edge_lambdas
-          command: ["yarn", "testRedirects"]
-    retry:
-      automatic: true
