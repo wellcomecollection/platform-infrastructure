@@ -1,7 +1,7 @@
 steps:
   - command: .buildkite/scripts/run_autoformat.py
     label: "autoformat"
-    
+
   - wait
 
   - label: "test invalidation lambda"
@@ -20,13 +20,7 @@ steps:
           run: iiif_edge_lambdas
           command: ["yarn", "test"]
 
-  - label: "test wellcome_library_edge_lambdas"
-    plugins:
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: wellcome_library_edge_lambdas
-          command: ["yarn", "test"]
+  - wait
 
   - label: "deploy invalidation lambda"
     plugins:
@@ -37,19 +31,10 @@ steps:
           command: ["yarn", "deploy"]
 
   - label: "deploy iiif_edge_lambdas"
-    branches: "master"
+    branches: "main"
     plugins:
       - ecr#v2.1.1:
           login: true
       - docker-compose#v3.5.0:
           run: iiif_edge_lambdas
-          command: [ "yarn", "deploy" ]
-
-  - label: "deploy wellcome_library_edge_lambdas"
-    branches: "master"
-    plugins:
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: wellcome_library_edge_lambdas
           command: [ "yarn", "deploy" ]
