@@ -6,7 +6,7 @@ module "ecr_fluentbit" {
   description = "A fluentbit image for sending logs to Logstash"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -19,7 +19,7 @@ module "ecr_nginx_experience" {
   description = "DEPRECATED: prefer nginx_frontend"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -32,7 +32,7 @@ module "ecr_nginx_frontend" {
   description = "An nginx image for reverse proxying applications with frontends"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -45,7 +45,7 @@ module "ecr_nginx_grafana" {
   description = "An nginx image for reverse proxying Grafana"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -57,7 +57,7 @@ module "ecr_nginx_apigw" {
   description = "An nginx image to run as a proxy between API Gateway and our app containers"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
