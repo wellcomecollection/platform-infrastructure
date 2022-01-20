@@ -119,10 +119,8 @@ locals {
     "openjdk",
     "peopleperhour/dynamodb",
     "python",
-    "s12v/elasticmq",
     "scality/s3server",
     "wellcome/build_test_python",
-    "wellcome/fake-sns",
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
@@ -131,7 +129,6 @@ locals {
     "wellcome/sbt_wrapper",
     "wellcome/scalafmt",
     "wellcome/tox",
-    "wellcome/typesafe_config_base",
     "wellcome/weco-deploy",
     "zenko/cloudserver",
   ]
