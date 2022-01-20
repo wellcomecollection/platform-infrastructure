@@ -6,7 +6,7 @@ module "ecr_fluentbit" {
   description = "A fluentbit image for sending logs to Logstash"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -19,7 +19,7 @@ module "ecr_nginx_experience" {
   description = "DEPRECATED: prefer nginx_frontend"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -32,7 +32,7 @@ module "ecr_nginx_frontend" {
   description = "An nginx image for reverse proxying applications with frontends"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -45,7 +45,7 @@ module "ecr_nginx_grafana" {
   description = "An nginx image for reverse proxying Grafana"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -57,7 +57,7 @@ module "ecr_nginx_apigw" {
   description = "An nginx image to run as a proxy between API Gateway and our app containers"
 
   providers = {
-    aws.ecr_public = aws.us_east_1
+    aws.ecr_public = aws.ecr_public
   }
 }
 
@@ -119,10 +119,8 @@ locals {
     "openjdk",
     "peopleperhour/dynamodb",
     "python",
-    "s12v/elasticmq",
     "scality/s3server",
     "wellcome/build_test_python",
-    "wellcome/fake-sns",
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
@@ -131,7 +129,6 @@ locals {
     "wellcome/sbt_wrapper",
     "wellcome/scalafmt",
     "wellcome/tox",
-    "wellcome/typesafe_config_base",
     "wellcome/weco-deploy",
     "zenko/cloudserver",
   ]
