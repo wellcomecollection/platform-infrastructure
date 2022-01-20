@@ -41,6 +41,7 @@ PLATFORM_ROLE_ARN = "arn:aws:iam::760097843905:role/platform-developer"
 # These repositories must be provisioned in terraform/ecr.tf
 IMAGE_TAGS = [
     "amazon/aws-cli",
+    "amazon/dynamodb-local",
     "hashicorp/terraform:light",
     "library/mysql:5.6",
     "localstack/localstack",
@@ -49,7 +50,6 @@ IMAGE_TAGS = [
     "node:14.14.0",
     "node:14-alpine",
     "openjdk:11",
-    "peopleperhour/dynamodb",
     "python:3.7",
     "python:3.7-alpine",
     "python:3.7-slim",
