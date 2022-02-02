@@ -16,7 +16,7 @@ This includes getting AWS CLI credentials.
 
 ## Our accounts
 
-<table>
+<table id="accounts">
   <tr>
     <th>Account name</th>
     <th>Account ID</th>
@@ -30,7 +30,6 @@ This includes getting AWS CLI credentials.
       Used for infrastructure shared across the platform, and some resources that predate the use of separate accounts.
     </td>
   </tr>
-
   <tr>
     <td>catalogue</td>
     <td>756629837203</td>
@@ -111,7 +110,7 @@ This includes getting AWS CLI credentials.
 
 Within each account (except microsites), we create a standard set of roles:
 
-<table>
+<table id="roles">
   <tr>
     <th>role suffix</th>
     <th>example role</th>
@@ -203,6 +202,12 @@ e.g. some of the Digital Production team have access to the S3 buckets in the di
 ## How to
 
 *   [Log into an account using the AWS console](docs/console-login.md)
+
 *   [Get credentials for the AWS CLI/local SDK](docs/cli-credentials.md)
+
+*   [Select a role when working on the AWS CLI](docs/cli-roles.md)
+
 *   To give/revoke somebody's permission to access our AWS accounts, you need to use the Azure blade and talk to D&T.
     The link to the blade is in [our private docs](https://github.com/wellcomecollection/private-docs/blob/main/account-config.md); you may need to go through CAB or D&T service desk.
+
+    Assume this will take longer than you think, [and then some](https://en.wikipedia.org/wiki/Hofstadter%27s_law).
