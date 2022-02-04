@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import shutil
 
 
 def get_file_paths_under(root=".", *, suffix=""):
@@ -19,15 +20,13 @@ def homedir(name):
 
 
 def sync_dir(src, dst):
-    should_sync = bool(os.listdir(dst))
-
     for src_f in get_file_paths_under(src):
         dst_f = os.path.join(
             dst, os.path.relpath(src_f, src)
         )
-        if should_sync:
+        if not os.path.exists(dst_f):
             os.makedirs(os.path.dirname(dst_f), exist_ok=True)
-            os.rename(src_f, dst_f)
+            shutil.move(src_f, dst_f)
 
 
 if __name__ == '__main__':
