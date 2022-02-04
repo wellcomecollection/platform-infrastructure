@@ -14,6 +14,15 @@ apt-get install --yes \
     python3-pip \
     python3-setuptools
 
+# We follow the instructions for running Docker from https://docs.docker.com/engine/install/ubuntu/
+#
+# Note: those instructions mention "docker-ce" and "containerd.io", but
+# we don't install those because we don't need them.  They provide a
+# container runtime, but we don't need a runtime inside a container --
+# we use the container runtime from the build host, by mounting the
+# Docker socket inside the container.
+#
+# This shaves ~400MB off the size of the final Docker image!
 curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 
 add-apt-repository \
@@ -22,7 +31,7 @@ add-apt-repository \
    stable"
 
 apt-get update
-apt-get install --yes docker-ce docker-ce-cli containerd.io
+apt-get install --yes docker-ce-cli
 pip3 install docker-compose
 
 # Remove some packages we no longer need once docker-compose is installed.
