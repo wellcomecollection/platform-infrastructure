@@ -31,7 +31,9 @@ apt-get remove --yes \
     apt-transport-https \
     ca-certificates \
     curl \
-    python3-pip
+    libffi-dev \
+    python3-pip \
+    software-properties-common
 
 # This is to ensure you haven't deleted a critical package for running
 # Docker Compose.  In particular, when trying to create this container,
