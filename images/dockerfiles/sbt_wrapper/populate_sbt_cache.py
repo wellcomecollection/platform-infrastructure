@@ -16,19 +16,17 @@ def get_file_paths_under(root=".", *, suffix=""):
 
 
 def homedir(name):
-    return os.path.join(os.environ['HOME'], name)
+    return os.path.join(os.environ["HOME"], name)
 
 
 def sync_dir(src, dst):
     for src_f in get_file_paths_under(src):
-        dst_f = os.path.join(
-            dst, os.path.relpath(src_f, src)
-        )
+        dst_f = os.path.join(dst, os.path.relpath(src_f, src))
         if not os.path.exists(dst_f):
             os.makedirs(os.path.dirname(dst_f), exist_ok=True)
             shutil.move(src_f, dst_f)
 
 
-if __name__ == '__main__':
-    sync_dir(src=homedir('.sbt.image'), dst=homedir('.sbt'))
-    sync_dir(src=homedir('.ivy2.image'), dst=homedir('.ivy2'))
+if __name__ == "__main__":
+    sync_dir(src=homedir(".sbt.image"), dst=homedir(".sbt"))
+    sync_dir(src=homedir(".ivy2.image"), dst=homedir(".ivy2"))
