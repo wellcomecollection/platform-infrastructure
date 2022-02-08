@@ -9,6 +9,25 @@ resource "aws_s3_bucket" "redirect" {
   website {
     redirect_all_requests_to = var.to
   }
+
+  tags = {
+    Description = "Website used for redirecting ${var.from} to ${var.to}"
+  }
+}
+
+data "template_file" "readme" {
+  template = file("${path.module}/bucket-README.tpl")
+  vars = {
+    from_url = var.from
+    to_url   = var.to
+  }
+}
+
+resource "aws_s3_bucket_object" "readme" {
+  bucket = aws_s3_bucket.redirect.bucket
+  key    = "README.md"
+
+  content = data.template_file.readme.rendered
 }
 
 resource "aws_route53_record" "redirect_domain" {
