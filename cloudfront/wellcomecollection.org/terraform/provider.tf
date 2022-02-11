@@ -4,6 +4,13 @@ provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-admin"
   }
+
+  default_tags {
+    tags = {
+      Managed                   = "terraform"
+      TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/cloudfront/wellcomecollection.org"
+    }
+  }
 }
 
 provider "aws" {
