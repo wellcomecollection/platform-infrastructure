@@ -8,8 +8,6 @@ Wellcome Collection common infrastructure.
 
 - [assets](assets/README.md): Infrastructure for managing S3 buckets that contain "assets" (files or documents that are irretrievable).
 
-- [builds](builds/README.md): Infrastructure for CI (mostly IAM for build agents).
-
 - [images](images/README.md): Shared container definitions & repos (e.g. fluentbit, nginx).
 
 - [critical](critical/README.md): Shared infrastructure for all projects, split into user_facing (api/cognito) and back_end (logs, shared config, networking).
@@ -19,3 +17,11 @@ Wellcome Collection common infrastructure.
 - [monitoring](monitoring/README.md): Grafana platform monitoring stack.
 
 - **photography_backups**: Backup storage for photography (needs cleanup?)
+
+## No longer in this repo
+
+Some of the subdirectories of this repo have been broken out into their own repositories, to make them easier to find:
+
+*   `builds` is now the [buildkite-infrastructure](https://github.com/wellcomecollection/buildkite-infrastructure) repository
+*   `cloudfront/wellcomelibrary.org` is now the [wellcomelibrary.org](https://github.com/wellcomecollection/wellcomelibrary.org) repository
+*   `cost_reporter` is now [a standalone repo of the same name](https://github.com/wellcomecollection/cost_reporter)
