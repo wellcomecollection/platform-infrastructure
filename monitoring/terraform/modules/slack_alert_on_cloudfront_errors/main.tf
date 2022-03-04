@@ -12,6 +12,7 @@ module "cloudfront_to_slack_alerts" {
     STR_MULTIPLE_ERROR_MESSAGE = "{error_count:0.2f}% of requests in CloudFront were 5xx errors"
     STR_ALARM_SLUG             = "cloudfront-5xx-alarm"
     STR_ALARM_LEVEL            = "error"
+    CONTEXT_URL_TEMPLATE       = var.context_url_template
   }
 
   secrets = [
