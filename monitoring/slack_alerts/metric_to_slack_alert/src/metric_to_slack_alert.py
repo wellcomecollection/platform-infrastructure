@@ -80,9 +80,7 @@ def create_context_url(alarm_info):
 
         return {
             "url": url_template.format(
-                cluster_name=cluster_name,
-                to_date=to_date,
-                from_date=from_date,
+                cluster_name=cluster_name, to_date=to_date, from_date=from_date
             ),
             "label": "View logs in Kibana",
         }
@@ -154,7 +152,7 @@ def main(event, _ctxt=None):
                 "fallback": alarm_info["name"],
                 "title": alarm_info["name"],
                 "text": create_message(alarm_info),
-            },
+            }
         ],
     }
 
