@@ -157,9 +157,14 @@ def create_message(alarm_info):
     if int(alarm_info["count"]) == 1:
         lines.append(os.environ["STR_SINGLE_ERROR_MESSAGE"])
     else:
+        if int(alarm_info["count"]) == alarm_info["count"]:
+            error_count = int(alarm_info["count"])
+        else:
+            error_count = alarm_info["count"]
+
         lines.append(
             os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(
-                error_count=alarm_info["count"]
+                error_count=error_count
             )
         )
 
