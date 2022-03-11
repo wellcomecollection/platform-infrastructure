@@ -92,7 +92,7 @@ def create_context_url(alarm_info):
         }
 
     if os.environ.get("CONTEXT_URL_TEMPLATE") == "identity-api-gateway-5xx-errors":
-        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{to_date}',to:'{from_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%20200%20OK*%22%20and%20not%20log:%22*GET%20%2Fusers%2Fme%2Fitem-requests%20HTTP%2F1.1%5C%22%20200*%22'),sort:!(!('@timestamp',desc)))"""
+        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{from_date}',to:'{to_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%20200%20OK*%22%20and%20not%20log:%22*GET%20%2Fusers%2Fme%2Fitem-requests%20HTTP%2F1.1%5C%22%20200*%22'),sort:!(!('@timestamp',desc)))"""
         if alarm_info["name"] == "identity-api-prod-5xx-alarm":
             cluster_name = "identity-prod"
         elif alarm_info["name"] == "identity-api-stage-5xx-alarm":
