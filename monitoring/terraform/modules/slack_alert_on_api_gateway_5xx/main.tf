@@ -12,6 +12,7 @@ module "api_gateway_to_slack_alerts" {
     STR_MULTIPLE_ERROR_MESSAGE = "There were {error_count} errors in the API"
     STR_ALARM_SLUG             = "api-gateway-5xx-alarm"
     STR_ALARM_LEVEL            = "error"
+    CONTEXT_URL_TEMPLATE       = var.context_url_template
   }
 
   secrets = [
