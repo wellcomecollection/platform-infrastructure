@@ -1,7 +1,7 @@
 """
 This is a generic Lambda that can alert on the value of a CloudWatch Metric.
 
-You need to supply three strings as environment variables:
+You need to supply these strings as environment variables:
 
     STR_SINGLE_ERROR_MESSAGE
     = the message to display if there's a single error
@@ -16,8 +16,14 @@ You need to supply three strings as environment variables:
     STR_ALARM_LEVEL
     = warning or error
 
+Plus optionally:
+
+    CONTEXT_URL_TEMPLATE
+    = select the template to use in create_context_url
+
 """
 
+import datetime
 import functools
 import json
 import os
@@ -50,24 +56,74 @@ def get_secret_string(*, secret_id):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def create_message(alarm):
+def create_context_url(alarm_info):
+    if os.environ.get("CONTEXT_URL_TEMPLATE") == "experience-cloudfront-errors":
+        # This URL template was obtained by going through the Discover
+        # view in Kibana, then copy/pasting the URL and templating a few
+        # parameters.
+        #
+        # It's designed to exclude common operations we don't care about
+        # (e.g. 200 OK or 404 Not Found errors) and highlight app errors.
+        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{from_date}',to:'{to_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:service_name,negate:!t,params:(query:identity-18012021-prod),type:phrase),query:(match_phrase:(service_name:identity-18012021-prod))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:service_name,negate:!t,params:(query:identity-18012021-stage),type:phrase),query:(match_phrase:(service_name:identity-18012021-stage))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%2F1.1%5C%22%20200*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20302*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20304*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20307*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20308*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20400*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20401*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20404*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20410*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20414*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20499*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fusers%2Fme%20401*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fauth%2Fme%20401*%22%20and%20not%20log:%22*%3C--%20GET%20%2Faccount%2Fapi%2Fauth%2Fme*%22%20'),sort:!(!('@timestamp',desc)))"""
+
+        if alarm_info["name"] == "cloudfront_wc.org_error_5xx":
+            cluster_name = f"experience-frontend-prod"
+        elif alarm_info["name"] == "cloudfront_stage.wc.org_error_5xx":
+            cluster_name = f"experience-frontend-stage"
+        else:
+            return
+
+        to_date = alarm_info["date"].strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        from_date = (alarm_info["date"] - datetime.timedelta(minutes=15)).strftime(
+            "%Y-%m-%dT%H:%M:%S.000Z"
+        )
+
+        return {
+            "url": url_template.format(
+                cluster_name=cluster_name, to_date=to_date, from_date=from_date
+            ),
+            "label": "View logs in Kibana",
+        }
+
+
+def get_alarm_info(alarm):
     # This will be a message of the form:
     #
     #     Threshold Crossed: 1 datapoint [2.0 (17/08/21 09:08:00)] was
     #     greater than the threshold (0.0).
     #
-    state_reason = alarm["NewStateReason"]
-    error_count = float(
-        re.search(
-            r"\[(?P<count>\d+\.\d+) \(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}\)\]",
-            state_reason,
-        ).group("count")
+    m = re.search(
+        r"\[(?P<count>\d+\.\d+) \((?P<date>\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2})\)\]",
+        alarm["NewStateReason"],
     )
 
-    if int(error_count) == 1:
-        return os.environ["STR_SINGLE_ERROR_MESSAGE"]
+    if m is None:
+        return
+
+    return {
+        "name": alarm["AlarmName"],
+        "count": float(m.group("count")),
+        "date": datetime.datetime.strptime(m.group("date"), "%d/%m/%y %H:%M:%S"),
+    }
+
+
+def create_message(alarm_info):
+    lines = []
+
+    if int(alarm_info["count"]) == 1:
+        lines.append(os.environ["STR_SINGLE_ERROR_MESSAGE"])
     else:
-        return os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(error_count=error_count)
+        lines.append(
+            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(
+                error_count=alarm_info["count"]
+            )
+        )
+
+    context_url = create_context_url(alarm_info)
+    if context_url is not None:
+        lines.append(f"👉 <{context_url['url']}|{context_url['label']}>")
+
+    return "\n".join(lines)
 
 
 @log_on_error
@@ -75,10 +131,9 @@ def main(event, _ctxt=None):
     account = os.environ["ACCOUNT_NAME"]
 
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
+    alarm_info = get_alarm_info(alarm)
 
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
-
-    alarm_name = alarm["AlarmName"]
 
     if os.environ["STR_ALARM_LEVEL"] == "error":
         icon_emoji = ":rotating_light:"
@@ -92,10 +147,11 @@ def main(event, _ctxt=None):
         "icon_emoji": icon_emoji,
         "attachments": [
             {
+                "mrkdwn_in": ["text"],
                 "color": color,
-                "fallback": alarm_name,
-                "title": alarm_name,
-                "fields": [{"value": create_message(alarm)}],
+                "fallback": alarm_info["name"],
+                "title": alarm_info["name"],
+                "text": create_message(alarm_info),
             }
         ],
     }
