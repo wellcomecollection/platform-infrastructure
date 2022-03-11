@@ -62,14 +62,18 @@ def create_context_url(alarm_info):
         "%Y-%m-%dT%H:%M:%S.000Z"
     )
 
+    # These URL template were obtained by going through the Discover
+    # view in Kibana, then copy/pasting the URL and templating a few
+    # parameters.
+    #
+    # They're designed to exclude common operations we don't care about
+    # (e.g. 200 OK or 404 Not Found errors) and highlight app errors.
+    #
+    # Note: if you're replacing or updating these URLs, remember to update
+    # the template parameters like to_date/from_date.
+
     if os.environ.get("CONTEXT_URL_TEMPLATE") == "experience-cloudfront-errors":
-        # This URL template was obtained by going through the Discover
-        # view in Kibana, then copy/pasting the URL and templating a few
-        # parameters.
-        #
-        # It's designed to exclude common operations we don't care about
-        # (e.g. 200 OK or 404 Not Found errors) and highlight app errors.
-        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{from_date}',to:'{to_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%2F1.1%5C%22%20200*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20302*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20304*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20307*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20308*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20400*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20401*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20404*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20410*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20414*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20499*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fusers%2Fme%20401*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fauth%2Fme%20401*%22%20and%20not%20log:%22*%3C--%20GET%20%2Faccount%2Fapi%2Fauth%2Fme*%22%20and%20not%20log:%22*%2Fmanagement%2Fhealthcheck*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%20304*%22%20and%20not%20log:%22*-x-%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%20304*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%20302*%22%20and%20not%20log:%22-x-%3E%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%20302*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount*%20200*%22%20and%20not%20log:%22*-x-%3E%20GET%20%2Faccount*%20200*%22%20and%20not%20log:%22%3C--%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%22%20and%20not%20log:%22%3C--%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%22'),sort:!(!('@timestamp',desc)))"""
+        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{from_date}',to:'{to_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%2F1.1%5C%22%20200*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20206*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20302*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20304*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20307*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20308*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20400*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20401*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20404*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20410*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20414*%22%20and%20not%20log:%22*HTTP%2F1.1%5C%22%20499*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fusers%2Fme%20401*%22%20and%20not%20log:%22*GET%20%2Faccount%2Fapi%2Fauth%2Fme%20401*%22%20and%20not%20log:%22*%3C--%20GET%20%2Faccount%2Fapi%2Fauth%2Fme*%22%20and%20not%20log:%22*%2Fmanagement%2Fhealthcheck*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%20304*%22%20and%20not%20log:%22*-x-%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%20304*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%20302*%22%20and%20not%20log:%22-x-%3E%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%20302*%22%20and%20not%20log:%22*--%3E%20GET%20%2Faccount*%20200*%22%20and%20not%20log:%22*-x-%3E%20GET%20%2Faccount*%20200*%22%20and%20not%20log:%22%3C--%20GET%20%2Faccount%2Fapi%2Fusers%2Fme%2Fitem-requests%22%20and%20not%20log:%22%3C--%20GET%20%2Faccount%2Fapi%2Fauth%2Flogin%22'),sort:!(!('@timestamp',desc)))"""
 
         if alarm_info["name"] == "cloudfront_wc.org_error_5xx":
             cluster_name = f"experience-frontend-prod"
@@ -88,7 +92,7 @@ def create_context_url(alarm_info):
         }
 
     if os.environ.get("CONTEXT_URL_TEMPLATE") == "identity-api-gateway-5xx-errors":
-        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:{to_date},to:{from_data}))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%20200%20OK*%22%20and%20not%20log:%22*GET%20%2Fusers%2Fme%2Fitem-requests%20HTTP%2F1.1%5C%22%20200*%22'),sort:!(!('@timestamp',desc)))"""
+        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{to_date}',to:'{from_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:'not%20log:%22*HTTP%20200%20OK*%22%20and%20not%20log:%22*GET%20%2Fusers%2Fme%2Fitem-requests%20HTTP%2F1.1%5C%22%20200*%22'),sort:!(!('@timestamp',desc)))"""
         if alarm_info["name"] == "identity-api-prod-5xx-alarm":
             cluster_name = "identity-prod"
         elif alarm_info["name"] == "identity-api-stage-5xx-alarm":
@@ -99,6 +103,26 @@ def create_context_url(alarm_info):
         return {
             "url": url_template.format(
                 cluster_name=cluster_name,
+                to_date=kibana_to_date,
+                from_date=kibana_from_date,
+            ),
+            "label": "View logs in Kibana",
+        }
+
+    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info["name"].startswith("catalogue-"):
+        # The alarm name will be something like:
+        #
+        #     catalogue-2022-03-10_id_minter_input_dlq_not_empty
+        #
+        cluster_name = alarm_info["name"].split("_")[0]
+        service_name = alarm_info["name"].replace("_input_dlq_not_empty", "")
+
+        url_template = """https://logging.wellcomecollection.org/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:'{from_date}',to:'{to_date}'))&_a=(columns:!(log),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:ecs_cluster,negate:!f,params:(query:{cluster_name}),type:phrase),query:(match_phrase:(ecs_cluster:{cluster_name}))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',key:service_name,negate:!f,params:(query:{service_name}),type:phrase),query:(match_phrase:(service_name:{service_name})))),index:'94746ad0-81c5-11eb-b41a-c9fd641654c0',interval:auto,query:(language:kuery,query:''),sort:!(!('@timestamp',desc)))"""
+
+        return {
+            "url": url_template.format(
+                cluster_name=cluster_name,
+                service_name=service_name,
                 to_date=kibana_to_date,
                 from_date=kibana_from_date,
             ),

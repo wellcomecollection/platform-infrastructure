@@ -12,6 +12,7 @@ module "dlq_to_slack_alerts" {
     STR_MULTIPLE_ERROR_MESSAGE = "There are {error_count} messages on the DLQ"
     STR_ALARM_SLUG             = "sqs-dlq-not-empty"
     STR_ALARM_LEVEL            = "warning"
+    CONTEXT_URL_TEMPLATE       = "${var.account_name}-dlq-alerts"
   }
 
   secrets = [
