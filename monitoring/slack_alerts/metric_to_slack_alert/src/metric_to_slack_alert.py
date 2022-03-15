@@ -57,10 +57,10 @@ def get_secret_string(*, secret_id):
 
 
 def create_context_url(alarm_info):
-    # Increase the size of the logs window by 5 seconds on either side
-    # as we seem to miss some logs, particularly at the upper limit (to_date)
-    to_date = alarm_info["date"] + datetime.timedelta(seconds=5)
-    from_date = alarm_info["date"] - datetime.timedelta(minutes=15, seconds=5)
+    # Move the end of the window 3 minutes later as there seems to be
+    # a delay in logs propagating to elasticsearch
+    to_date = alarm_info["date"] + datetime.timedelta(minutes=3)
+    from_date = alarm_info["date"] - datetime.timedelta(minutes=10)
     kibana_to_date = to_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
     kibana_from_date = from_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
