@@ -57,10 +57,12 @@ def get_secret_string(*, secret_id):
 
 
 def create_context_url(alarm_info):
-    kibana_to_date = alarm_info["date"].strftime("%Y-%m-%dT%H:%M:%S.000Z")
-    kibana_from_date = (alarm_info["date"] - datetime.timedelta(minutes=15)).strftime(
-        "%Y-%m-%dT%H:%M:%S.000Z"
-    )
+    # Increase the size of the logs window by 5 seconds on either side
+    # as we seem to miss some logs, particularly at the upper limit (to_date)
+    to_date = alarm_info["date"] + datetime.timedelta(seconds=5)
+    from_date = alarm_info["date"] - datetime.timedelta(minutes=15, seconds=5)
+    kibana_to_date = to_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    kibana_from_date = from_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
     # These URL template were obtained by going through the Discover
     # view in Kibana, then copy/pasting the URL and templating a few
@@ -109,7 +111,9 @@ def create_context_url(alarm_info):
             "label": "View logs in Kibana",
         }
 
-    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info["name"].startswith("catalogue-"):
+    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info[
+        "name"
+    ].startswith("catalogue-"):
         # The alarm name will be something like:
         #
         #     catalogue-2022-03-10_id_minter_input_dlq_not_empty
@@ -163,9 +167,7 @@ def create_message(alarm_info):
             error_count = alarm_info["count"]
 
         lines.append(
-            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(
-                error_count=error_count
-            )
+            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(error_count=error_count)
         )
 
     context_url = create_context_url(alarm_info)
