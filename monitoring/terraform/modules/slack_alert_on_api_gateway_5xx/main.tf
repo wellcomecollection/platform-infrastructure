@@ -23,6 +23,6 @@ module "api_gateway_to_slack_alerts" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
-output "alarm_topic_arn" {
-  value = module.api_gateway_to_slack_alerts.alarm_topic_arn
+output "trigger_topic_arn" {
+  value = module.api_gateway_to_slack_alerts.trigger_topic_arn
 }

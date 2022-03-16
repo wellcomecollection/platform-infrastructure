@@ -9,7 +9,7 @@ module "platform_lambda_error_alerts" {
 }
 
 output "platform_lambda_error_alerts_topic_arn" {
-  value = module.platform_lambda_error_alerts.alarm_topic_arn
+  value = module.platform_lambda_error_alerts.trigger_topic_arn
 }
 
 module "storage_lambda_error_alerts" {
@@ -23,7 +23,7 @@ module "storage_lambda_error_alerts" {
 }
 
 output "storage_lambda_error_alerts_topic_arn" {
-  value = module.storage_lambda_error_alerts.alarm_topic_arn
+  value = module.storage_lambda_error_alerts.trigger_topic_arn
 }
 
 module "catalogue_lambda_error_alerts" {
@@ -37,7 +37,7 @@ module "catalogue_lambda_error_alerts" {
 }
 
 output "catalogue_lambda_error_alerts_topic_arn" {
-  value = module.catalogue_lambda_error_alerts.alarm_topic_arn
+  value = module.catalogue_lambda_error_alerts.trigger_topic_arn
 }
 
 module "workflow_lambda_error_alerts" {
@@ -51,7 +51,7 @@ module "workflow_lambda_error_alerts" {
 }
 
 output "workflow_lambda_error_alerts_topic_arn" {
-  value = module.workflow_lambda_error_alerts.alarm_topic_arn
+  value = module.workflow_lambda_error_alerts.trigger_topic_arn
 }
 
 module "identity_lambda_error_alerts" {
@@ -65,7 +65,7 @@ module "identity_lambda_error_alerts" {
 }
 
 output "identity_lambda_error_alerts_topic_arn" {
-  value = module.identity_lambda_error_alerts.alarm_topic_arn
+  value = module.identity_lambda_error_alerts.trigger_topic_arn
 }
 
 module "experience_lambda_error_alerts" {
@@ -79,5 +79,5 @@ module "experience_lambda_error_alerts" {
 }
 
 output "experience_lambda_error_alerts_topic_arn" {
-  value = module.experience_lambda_error_alerts.alarm_topic_arn
+  value = module.experience_lambda_error_alerts.trigger_topic_arn
 }

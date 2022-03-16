@@ -5,9 +5,9 @@ module "auth0_log_stream_alerts" {
     aws = aws.identity
   }
 
-  alarm_topic_arn = module.identity_lambda_error_alerts.alarm_topic_arn
+  alarm_topic_arn = module.identity_lambda_error_alerts.trigger_topic_arn
 }
 
-output "auth0_log_stream_lambda_arn" {
-  value = module.auth0_log_stream_alerts.lambda_arn
+output "auth0_log_stream_topic_arn" {
+  value = module.auth0_log_stream_alerts.trigger_topic_arn
 }

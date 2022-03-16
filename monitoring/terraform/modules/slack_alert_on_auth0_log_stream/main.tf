@@ -16,6 +16,6 @@ module "auth0_log_stream_alerts" {
   account_name = "identity"
 }
 
-output "lambda_arn" {
-  value = module.auth0_log_stream_alerts.lambda_arn
+output "trigger_topic_arn" {
+  value = module.auth0_log_stream_alerts.trigger_topic_arn
 }

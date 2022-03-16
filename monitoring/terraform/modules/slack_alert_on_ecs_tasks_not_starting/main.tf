@@ -34,11 +34,11 @@ resource "aws_cloudwatch_event_rule" "tasks_stopped" {
 resource "aws_cloudwatch_event_target" "tasks_stopped" {
   rule      = aws_cloudwatch_event_rule.tasks_stopped.name
   target_id = "SendToSNS"
-  arn       = module.alert_on_tasks_not_starting.alarm_topic_arn
+  arn       = module.alert_on_tasks_not_starting.trigger_topic_arn
 }
 
 resource "aws_sns_topic_policy" "default" {
-  arn    = module.alert_on_tasks_not_starting.alarm_topic_arn
+  arn    = module.alert_on_tasks_not_starting.trigger_topic_arn
   policy = data.aws_iam_policy_document.sns_topic_policy.json
 }
 
@@ -52,6 +52,6 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       identifiers = ["events.amazonaws.com"]
     }
 
-    resources = [module.alert_on_tasks_not_starting.alarm_topic_arn]
+    resources = [module.alert_on_tasks_not_starting.trigger_topic_arn]
   }
 }
