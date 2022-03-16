@@ -1,6 +1,13 @@
 """
 This is a Lambda which receives events from the Auth0 log stream rule in https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf
-That file describes their schema.
+
+They look like:
+
+{
+  "environment": string,
+  "tenant_name": string
+  "log_id": string,
+}
 
 It sends alerts to Slack which link back to the log event in Auth0.
 

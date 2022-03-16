@@ -5,3 +5,7 @@ output "alarm_topic_arn" {
 output "role_name" {
   value = module.lambda.role_name
 }
+
+output "lambda_arn" {
+  value = module.lambda.arn
+}
