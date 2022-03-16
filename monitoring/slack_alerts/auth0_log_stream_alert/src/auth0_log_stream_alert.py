@@ -1,7 +1,8 @@
 """
 This is a Lambda which receives events from the Auth0 log stream rule in https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf
+These events are passed via an SNS topic to make permissions easier and for consistency with the other alerting lambdas.
 
-They look like:
+The contents of the messages looks like:
 
 {
   "environment": string,
@@ -15,6 +16,7 @@ It sends alerts to Slack which link back to the log event in Auth0.
 
 import functools
 import json
+import sys
 import urllib.request
 
 import boto3
@@ -44,47 +46,38 @@ def should_alert_for_event(event):
     return True
 
 
-def get_short_message(event):
-    env = event["environment"]
-    return f"Error from Auth0 ({env})"
-
-
-def get_message_block(event):
-    env = event["environment"]
-    log_id = event["log_id"]
-    tenant_name = event["tenant_name"]
-    log_url = f"https://manage.auth0.com/dashboard/eu/{tenant_name}/logs/{log_id}?page=1"
-    message_text = '\n'.join([
-        f"**Error from Auth0 ({env})**",
-        f":pager: [View error in Auth0 dashboard]({log_url})"
-    ])
-    return {
-        "type": "section",
-        "text": {
-            "type": "mrkdwn",
-            "text": message_text
-        }
-    }
+def get_log_url(log_id, *, tenant_name):
+    return f"https://manage.auth0.com/dashboard/eu/{tenant_name}/logs/{log_id}?page=1"
 
 
 @log_on_error
 def main(event, _ctxt=None):
-    if not should_alert_for_event(event):
+    webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
+    log_event = json.loads(event["Records"][0]["Sns"]["Message"])  # There will only ever be 1 record
+
+    if not should_alert_for_event(log_event):
         return
 
-    webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
+    environment = log_event["environment"]
+    tenant_name = log_event["tenant_name"]
+
+    short_message = f"*Error from Auth0 ({environment})*"
+    message_content = f':pager: <{get_log_url(log_event["log_id"], tenant_name=tenant_name)}|View in management dashboard>'
+
     slack_payload = {
         "username": "auth0-log-stream-alerts",
         "icon_emoji": ":rotating_light:",
-        "text": get_short_message(event),
+        "text": short_message,
         "blocks": [
             {
-                "color": "danger"
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": '\n'.join([short_message, message_content])
+                }
             }
         ]
     }
-
-    print(f"Sending message {json.dumps(slack_payload)}")
 
     req = urllib.request.Request(
         webhook_url,
