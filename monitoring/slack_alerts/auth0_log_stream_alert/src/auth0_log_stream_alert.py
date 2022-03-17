@@ -44,7 +44,39 @@ def get_secret_string(*, secret_id):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def should_alert_for_event(event):
+def should_alert_for_event(event_type):
+    """
+    Should we send a Slack alert for this event type?
+    Listed here: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
+    """
+
+    no_alert_prefixes = [
+        "s",  # Success
+        "limit",  # IP address blocking etc
+        "sys",  # Auth0 system events
+        "gd",  # Stuff related to MFA
+    ]
+    no_alert_codes = [
+        "admin_update_launch",  # Auth0 Update Launched
+        "cls",  # Code/Link Sent
+        "cs",  # Code Sent
+        "du",  # Deleted User
+        "fcpr",  # Failed change password request (account doesn't exist)
+        "fp",  # Incorrect password
+        "mfar",  # MFA required
+        "mgmt_api_read",  # Management API read operation
+        "pla",  # Pre-login assessment
+        "pwd_leak",  # A leaked passwork was used
+        "resource_cleanup",  # Refresh token excess warning
+        "ublkdu",  # User block released
+    ]
+
+    if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
+        return False
+
+    if event_type in no_alert_codes:
+        return False
+
     return True
 
 
@@ -59,7 +91,7 @@ def main(event, _ctxt=None):
         event["Records"][0]["Sns"]["Message"]
     )  # There will only ever be 1 record
 
-    if not should_alert_for_event(log_event):
+    if not should_alert_for_event(log_event["log_event_type"]):
         return
 
     environment = log_event["environment"]
