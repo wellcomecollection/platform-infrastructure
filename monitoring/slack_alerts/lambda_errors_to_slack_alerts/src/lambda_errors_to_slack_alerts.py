@@ -132,14 +132,21 @@ def main(event, _ctxt=None):
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
 
-    # The name of our Lambda error alarms is of the form
+    # The name of our Lambda error alarms should be of the form
     #
     #     lambda-{function_name}-errors
     #
     # e.g. lambda-platform_example_lambda-errors
     #
     alarm_name = alarm["AlarmName"]
-    function_name = alarm_name[len("lambda-") : -len("-errors")]
+    try:
+        function_name = re.match(r"^lambda\-(?P<name>.+?)\-errors$", alarm_name).group(
+            "name"
+        )
+    except (AttributeError, IndexError):
+        raise Exception(
+            f"The Lambda alarm name {alarm_name} does not match the pattern, 'lambda-<function_name>-errors'"
+        )
 
     log_group_name = f"/aws/lambda/{function_name}"
 
