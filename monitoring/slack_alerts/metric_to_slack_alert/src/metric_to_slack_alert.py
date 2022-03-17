@@ -30,6 +30,7 @@ import os
 import re
 import sys
 import urllib.request
+from urllib.error import HTTPError
 
 import boto3
 
@@ -214,5 +215,8 @@ def main(event, _ctxt=None):
         data=json.dumps(slack_payload).encode("utf8"),
         headers={"Content-Type": "application/json"},
     )
-    resp = urllib.request.urlopen(req)
-    assert resp.status == 200, resp
+
+    try:
+        urllib.request.urlopen(req)
+    except HTTPError as err:
+        raise Exception(f"{err} - {err.read()}")
