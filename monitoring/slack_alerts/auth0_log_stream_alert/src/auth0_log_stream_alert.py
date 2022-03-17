@@ -44,10 +44,6 @@ def get_secret_string(*, secret_id):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def should_alert_for_event(event):
-    return True
-
-
 def get_log_url(log_id, *, tenant_name):
     return f"https://manage.auth0.com/dashboard/eu/{tenant_name}/logs/{log_id}?page=1"
 
@@ -55,12 +51,10 @@ def get_log_url(log_id, *, tenant_name):
 @log_on_error
 def main(event, _ctxt=None):
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
+    # There will only ever be 1 record
     log_event = json.loads(
         event["Records"][0]["Sns"]["Message"]
-    )  # There will only ever be 1 record
-
-    if not should_alert_for_event(log_event):
-        return
+    )
 
     environment = log_event["environment"]
     tenant_name = log_event["tenant_name"]
