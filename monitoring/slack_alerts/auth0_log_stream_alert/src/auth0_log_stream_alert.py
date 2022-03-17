@@ -87,9 +87,10 @@ def get_log_url(log_id, *, tenant_name):
 @log_on_error
 def main(event, _ctxt=None):
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
+    # There will only ever be 1 record
     log_event = json.loads(
         event["Records"][0]["Sns"]["Message"]
-    )  # There will only ever be 1 record
+    )
 
     if not should_alert_for_event(log_event["log_event_type"]):
         return
