@@ -140,10 +140,13 @@ def main(event, _ctxt=None):
     #
     alarm_name = alarm["AlarmName"]
     try:
-        function_name = re.match(r'^lambda\-(?P<name>.+?)\-errors$', alarm_name).group("name")
+        function_name = re.match(r"^lambda\-(?P<name>.+?)\-errors$", alarm_name).group(
+            "name"
+        )
     except (AttributeError, IndexError):
-        raise Exception(f"The Lambda alarm name {alarm_name} does not match the pattern, 'lambda-<function_name>-errors'")
-
+        raise Exception(
+            f"The Lambda alarm name {alarm_name} does not match the pattern, 'lambda-<function_name>-errors'"
+        )
 
     log_group_name = f"/aws/lambda/{function_name}"
 
