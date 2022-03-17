@@ -20,11 +20,11 @@ module "cloudfront_to_slack_alerts" {
   ]
 
   account_name    = var.account_name
-  alarm_topic_arn = module.lambda_error_alerts.alarm_topic_arn
+  alarm_topic_arn = module.lambda_error_alerts.trigger_topic_arn
 }
 
-output "alarm_topic_arn" {
-  value = module.cloudfront_to_slack_alerts.alarm_topic_arn
+output "trigger_topic_arn" {
+  value = module.cloudfront_to_slack_alerts.trigger_topic_arn
 }
 
 # Because CloudFront lives in us-east-1 but the rest of our services

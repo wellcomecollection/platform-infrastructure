@@ -7,11 +7,11 @@ module "catalogue_api_gateway_alerts" {
 
   account_name = "catalogue"
 
-  alarm_topic_arn = module.catalogue_lambda_error_alerts.alarm_topic_arn
+  alarm_topic_arn = module.catalogue_lambda_error_alerts.trigger_topic_arn
 }
 
 output "catalogue_api_gateway_alerts_topic_arn" {
-  value = module.catalogue_api_gateway_alerts.alarm_topic_arn
+  value = module.catalogue_api_gateway_alerts.trigger_topic_arn
 }
 
 module "storage_api_gateway_alerts" {
@@ -23,11 +23,11 @@ module "storage_api_gateway_alerts" {
 
   account_name = "storage"
 
-  alarm_topic_arn = module.storage_lambda_error_alerts.alarm_topic_arn
+  alarm_topic_arn = module.storage_lambda_error_alerts.trigger_topic_arn
 }
 
 output "storage_api_gateway_alerts_topic_arn" {
-  value = module.storage_api_gateway_alerts.alarm_topic_arn
+  value = module.storage_api_gateway_alerts.trigger_topic_arn
 }
 
 module "identity_api_gateway_alerts" {
@@ -39,9 +39,9 @@ module "identity_api_gateway_alerts" {
 
   account_name = "identity"
 
-  alarm_topic_arn = module.identity_lambda_error_alerts.alarm_topic_arn
+  alarm_topic_arn = module.identity_lambda_error_alerts.trigger_topic_arn
 }
 
 output "identity_api_gateway_alerts_topic_arn" {
-  value = module.identity_api_gateway_alerts.alarm_topic_arn
+  value = module.identity_api_gateway_alerts.trigger_topic_arn
 }

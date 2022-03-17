@@ -11,5 +11,5 @@ module "experience_cloudfront_alerts" {
 }
 
 output "experience_cloudfront_alerts_topic_arn" {
-  value = module.experience_cloudfront_alerts.alarm_topic_arn
+  value = module.experience_cloudfront_alerts.trigger_topic_arn
 }
