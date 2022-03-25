@@ -43,7 +43,7 @@ def redact_string(string):
     We have no reason to believe they'll appear in logs, but this is a defensive
     way of removing them
     """
-    email_address_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+    email_address_regex = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
     user_id_regex = r"(auth0\|)?p?[0-9]{7}"
 
     string = re.sub(email_address_regex, "<email redacted>", string)
