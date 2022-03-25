@@ -17,6 +17,7 @@ It sends alerts to Slack which link back to the log event in Auth0.
 import functools
 import json
 import sys
+import re
 import urllib.request
 from urllib.error import HTTPError
 
@@ -29,11 +30,25 @@ def log_on_error(fn):
         try:
             return fn(*args, **kwargs)
         except Exception:
-            print(f"args   = {args!r}", file=sys.stderr)
-            print(f"kwargs = {kwargs!r}", file=sys.stderr)
+            print(redact_string(f"args   = {args!r}"), file=sys.stderr)
+            print(redact_string(f"kwargs = {kwargs!r}"), file=sys.stderr)
             raise
 
     return wrapper
+
+
+def redact_string(string):
+    """
+    Removes email addresses and user IDs from strings.
+    We have no reason to believe they'll appear in logs, but this is a defensive
+    way of removing them
+    """
+    email_address_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+    user_id_regex = r"(auth0\|)?p?[0-9]{7}"
+
+    string = re.sub(email_address_regex, "<email redacted>", string)
+    string = re.sub(user_id_regex, "<user id redacted>", string)
+    return string
 
 
 def get_secret_string(*, secret_id):
@@ -45,11 +60,13 @@ def get_secret_string(*, secret_id):
     return secrets_client.get_secret_value(SecretId=secret_id)["SecretString"]
 
 
-def should_alert_for_event(event_type):
+def should_alert_for_event(log_event):
     """
     Should we send a Slack alert for this event type?
     Listed here: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
     """
+    event_type = log_event["log_event_type"]
+    description = log_event["description"]
 
     no_alert_prefixes = [
         "s",  # Success
@@ -71,11 +88,17 @@ def should_alert_for_event(event_type):
         "resource_cleanup",  # Refresh token excess warning
         "ublkdu",  # User block released
     ]
+    no_alert_generic_failure_description_substrings = [
+        "You may have pressed the back button"
+    ]
 
     if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
         return False
 
     if event_type in no_alert_codes:
+        return False
+
+    if event_type == "f" and any(description.startswith(substring) for substring in no_alert_generic_failure_description_substrings):
         return False
 
     return True
@@ -91,7 +114,7 @@ def main(event, _ctxt=None):
     # There will only ever be 1 record
     log_event = json.loads(event["Records"][0]["Sns"]["Message"])
 
-    if not should_alert_for_event(log_event["log_event_type"]):
+    if not should_alert_for_event(log_event):
         return
 
     environment = log_event["environment"]
@@ -124,4 +147,4 @@ def main(event, _ctxt=None):
     try:
         urllib.request.urlopen(req)
     except HTTPError as err:
-        raise Exception(f"{err} - {err.read()}")
+        raise Exception(redact_string(f"{err} - {err.read()}"))
