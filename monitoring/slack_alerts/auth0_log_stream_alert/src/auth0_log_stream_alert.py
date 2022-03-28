@@ -99,7 +99,7 @@ def should_alert_for_event(log_event):
         return False
 
     if event_type == "f" and any(
-        description.startswith(substring)
+        substring in description
         for substring in no_alert_generic_failure_description_substrings
     ):
         return False
