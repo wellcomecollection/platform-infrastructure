@@ -91,7 +91,8 @@ def should_alert_for_event(log_event):
         "ublkdu",  # User block released
     ]
     no_alert_generic_failure_description_substrings = [
-        "You may have pressed the back button"
+        "You may have pressed the back button",
+        "PIN is not valid : PIN is trivial"
     ]
 
     if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
