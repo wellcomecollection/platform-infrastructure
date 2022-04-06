@@ -65,8 +65,10 @@ def should_alert_for_event(log_event):
     Should we send a Slack alert for this event type?
     Listed here: https://auth0.com/docs/deploy-monitor/logs/log-event-type-codes
     """
+    # These keys should match those set in the event transform rule
+    # https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf#L55
     event_type = log_event["log_event_type"]
-    description = log_event["description"]
+    description = log_event["log_description"]
 
     no_alert_prefixes = [
         "s",  # Success
