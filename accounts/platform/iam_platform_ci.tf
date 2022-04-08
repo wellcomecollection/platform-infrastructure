@@ -33,4 +33,15 @@ data "aws_iam_policy_document" "platform_ci" {
       "arn:aws:s3:::releases.mvn-repo.wellcomecollection.org/weco/source_model_typesafe_2.12/*",
     ]
   }
+
+  # Secrets required for diff_tool to run
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = [
+      "${local.secrets_base_arn}elasticsearch/pipeline_storage*",
+    ]
+  }
 }
