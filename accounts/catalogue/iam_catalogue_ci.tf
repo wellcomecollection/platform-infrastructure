@@ -16,6 +16,7 @@ data "aws_iam_policy_document" "catalogue_ci" {
     # At time of writing (February 2022) we have both old and new secrets
     # here, but at some point we should remove the old (catalogue_api*) secrets.
     resources = [
+      "${local.secrets_base_arn}elasticsearch/pipeline_storage*",
       "${local.secrets_base_arn}elasticsearch/catalogue_api*",
       "${local.secrets_base_arn}elasticsearch/pipeline_storage_*",
     ]
