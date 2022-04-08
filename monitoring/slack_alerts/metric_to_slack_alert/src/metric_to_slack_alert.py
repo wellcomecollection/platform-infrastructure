@@ -109,7 +109,9 @@ def create_context_url(alarm_info):
             "label": "View logs in Kibana",
         }
 
-    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info["name"].startswith("catalogue-"):
+    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info[
+        "name"
+    ].startswith("catalogue-"):
         # The alarm name will be something like:
         #
         #     catalogue-2022-03-10_id_minter_input_dlq_not_empty
@@ -163,9 +165,7 @@ def create_message(alarm_info):
             error_count = alarm_info["count"]
 
         lines.append(
-            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(
-                error_count=error_count
-            )
+            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(error_count=error_count)
         )
 
     context_url = create_context_url(alarm_info)
