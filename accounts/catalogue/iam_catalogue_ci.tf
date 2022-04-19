@@ -4,7 +4,7 @@ resource "aws_iam_role_policy" "catalogue_ci" {
 }
 
 data "aws_iam_policy_document" "catalogue_ci" {
-  # Secrets required for diff_tool and internal model checker to run
+  # Secrets required for internal model checker to run
   statement {
     actions = [
       "secretsmanager:GetSecretValue",
