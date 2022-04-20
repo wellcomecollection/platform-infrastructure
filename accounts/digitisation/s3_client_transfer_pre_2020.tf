@@ -1,16 +1,19 @@
 resource "aws_s3_bucket" "client_transfer_pre_2020" {
   bucket = "wellcomecollection-client-transfer-pre2020"
+}
 
-  lifecycle_rule {
-    id      = "Transition to Infrequent Access"
-    enabled = true
+resource "aws_s3_bucket_lifecycle_configuration" "client_transfer_pre_2020" {
+  bucket = aws_s3_bucket.client_transfer_pre_2020.id
+
+  rule {
+    id     = "Transition to Infrequent Access"
+    status = "Enabled"
 
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
   }
-
 }
 
 resource "aws_s3_bucket_policy" "client_transfer_pre_2020" {

@@ -1,9 +1,13 @@
 resource "aws_s3_bucket" "digitisation_av" {
   bucket = "wellcomecollection-digitisation-av"
+}
 
-  lifecycle_rule {
-    id      = "Transition to Infrequent Access"
-    enabled = true
+resource "aws_s3_bucket_lifecycle_configuration" "digitisation_av" {
+  bucket = aws_s3_bucket.digitisation_av.id
+
+  rule {
+    id     = "Transition to Infrequent Access"
+    status = "Enabled"
 
     transition {
       days          = 30
@@ -11,7 +15,6 @@ resource "aws_s3_bucket" "digitisation_av" {
     }
   }
 }
-
 
 resource "aws_s3_bucket_policy" "digitisation_av" {
   bucket = aws_s3_bucket.digitisation_av.id
