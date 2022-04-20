@@ -106,6 +106,8 @@ This includes getting AWS CLI credentials.
   </tr>
 </table>
 
+There's a list of all of Wellcome's AWS account in the [Wellcome Trust Confluence](https://wellcometrust.atlassian.net/wiki/spaces/INF/pages/719618052/AWS+Account+List).
+
 ## Standard roles
 
 Within each account (except microsites), we create a standard set of roles:
