@@ -89,6 +89,7 @@ def should_alert_for_event(log_event):
         "pwd_leak",  # A leaked passwork was used
         "resource_cleanup",  # Refresh token excess warning
         "ublkdu",  # User block released
+        "fertft", # Unknown or invalid refresh token
     ]
     no_alert_generic_failure_description_substrings = [
         "You may have pressed the back button",
