@@ -72,6 +72,7 @@ def should_alert_for_event(log_event):
 
     no_alert_prefixes = [
         "s",  # Success
+        "w",  # Warnings during login
         "limit",  # IP address blocking etc
         "sys",  # Auth0 system events
         "gd",  # Stuff related to MFA
