@@ -9,7 +9,7 @@ ROOT=$(git rev-parse --show-toplevel)
 docker run --tty --rm \
   --volume "$ROOT":/repo \
   --workdir /repo \
-  public.ecr.aws/hashicorp/terraform:light fmt -recursive
+  760097843905.dkr.ecr.eu-west-1.amazonaws.com/hashicorp/terraform:light fmt -recursive
 
 # Run the Python autoformatting
 docker run --tty --rm \
