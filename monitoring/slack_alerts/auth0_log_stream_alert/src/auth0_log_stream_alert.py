@@ -98,9 +98,7 @@ def should_alert_for_event(log_event):
         "You may have pressed the back button",
         "PIN is not valid : PIN is trivial",
     ]
-    no_alert_sign_up_descriptions = {
-        "Password is not allowed, it might be too common.",
-    }
+    no_alert_sign_up_descriptions = {"Password is not allowed, it might be too common."}
 
     if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
         return False
@@ -116,7 +114,7 @@ def should_alert_for_event(log_event):
         return False
 
     # Event type 'fs' = failed signup
-    if event_type == 'fs' and description in no_alert_sign_up_descriptions:
+    if event_type == "fs" and description in no_alert_sign_up_descriptions:
         return False
 
     return True
