@@ -103,6 +103,7 @@ def should_alert_for_event(log_event):
     if event_type in no_alert_codes:
         return False
 
+    # Event type 'f' = failed login
     if event_type == "f" and any(
         substring in description
         for substring in no_alert_generic_failure_description_substrings
