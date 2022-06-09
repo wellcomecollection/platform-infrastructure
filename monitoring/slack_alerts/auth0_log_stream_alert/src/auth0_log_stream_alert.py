@@ -12,6 +12,8 @@ The contents of the messages looks like:
 
 It sends alerts to Slack which link back to the log event in Auth0.
 
+This Lambda is deployed by running a Terraform plan/apply.
+
 """
 
 import functools
@@ -97,7 +99,7 @@ def should_alert_for_event(log_event):
         "PIN is not valid : PIN is trivial",
     ]
     no_alert_sign_up_descriptions = {
-        "Password is too common",
+        "Password is not allowed, it might be too common.",
     }
 
     if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
