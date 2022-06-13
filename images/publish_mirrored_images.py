@@ -53,9 +53,6 @@ IMAGE_TAGS = [
     "wellcome/scalafmt:edge",
     "wellcome/scalafmt:latest",
     "wellcome/tox:latest",
-    "wellcome/weco-deploy:5.5.3",
-    "wellcome/weco-deploy:5.5.7",
-    "wellcome/weco-deploy:5.6.4",
     "zenko/cloudserver:8.1.8",
 ]
 
