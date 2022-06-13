@@ -111,14 +111,8 @@ module "mirrored_images_policy" {
 
 locals {
   mirrored_images = [
-    "amazon/aws-cli",
-    "amazon/dynamodb-local",
-    "hashicorp/terraform",
     "localstack/localstack",
     "nginx",
-    "node",
-    "openjdk",
-    "python",
     "scality/s3server",
     "wellcome/build_test_python",
     "wellcome/flake8",
