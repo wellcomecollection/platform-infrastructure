@@ -64,20 +64,6 @@ def print(msg):
     builtins.print(f"\x1b[34m*** {msg}\x1b[0m")
 
 
-def get_ecr_repo_names_in_account(ecr_client, *, account_id):
-    """
-    Returns a set of all the ECR repository names in an AWS account.
-    """
-    repo_names = set()
-
-    paginator = ecr_client.get_paginator("describe_repositories")
-    for page in paginator.paginate(registryId=account_id):
-        for repo in page["repositories"]:
-            repo_names.add(repo["repositoryName"])
-
-    return repo_names
-
-
 def docker_login_to_ecr(ecr_client, *, account_id):
     """
     Authenticate Docker against the ECR repository in a particular account.
