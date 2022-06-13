@@ -42,7 +42,8 @@ PLATFORM_ROLE_ARN = "arn:aws:iam::760097843905:role/platform-developer"
 IMAGE_TAGS = [
     "localstack/localstack",
     "localstack/localstack:0.10.5",
-    "localstack/localstack:0.14.2" "scality/s3server:mem-latest",
+    "localstack/localstack:0.14.2",
+    "scality/s3server:mem-latest",
     "wellcome/build_test_python",
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
