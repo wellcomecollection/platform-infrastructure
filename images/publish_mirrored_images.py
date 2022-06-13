@@ -40,20 +40,9 @@ PLATFORM_ROLE_ARN = "arn:aws:iam::760097843905:role/platform-developer"
 
 # These repositories must be provisioned in terraform/ecr.tf
 IMAGE_TAGS = [
-    "amazon/aws-cli",
-    "amazon/dynamodb-local",
-    "hashicorp/terraform:light",
-    "library/mysql:5.6",
     "localstack/localstack",
     "localstack/localstack:0.10.5",
-    "node:12.18.3",
-    "node:14.14.0",
-    "node:14-alpine",
-    "openjdk:11",
-    "python:3.7",
-    "python:3.7-alpine",
-    "python:3.7-slim",
-    "python:3.8.3",
+    "localstack/localstack:0.14.2",
     "scality/s3server:mem-latest",
     "wellcome/build_test_python",
     "wellcome/flake8:latest",
@@ -65,9 +54,6 @@ IMAGE_TAGS = [
     "wellcome/scalafmt:edge",
     "wellcome/scalafmt:latest",
     "wellcome/tox:latest",
-    "wellcome/weco-deploy:5.5.3",
-    "wellcome/weco-deploy:5.5.7",
-    "wellcome/weco-deploy:5.6.4",
     "zenko/cloudserver:8.1.8",
 ]
 
@@ -77,20 +63,6 @@ def print(msg):
     import builtins
 
     builtins.print(f"\x1b[34m*** {msg}\x1b[0m")
-
-
-def get_ecr_repo_names_in_account(ecr_client, *, account_id):
-    """
-    Returns a set of all the ECR repository names in an AWS account.
-    """
-    repo_names = set()
-
-    paginator = ecr_client.get_paginator("describe_repositories")
-    for page in paginator.paginate(registryId=account_id):
-        for repo in page["repositories"]:
-            repo_names.add(repo["repositoryName"])
-
-    return repo_names
 
 
 def docker_login_to_ecr(ecr_client, *, account_id):
