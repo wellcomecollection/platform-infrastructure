@@ -18,7 +18,7 @@ module "aws_account" {
 module "account_federation" {
   source = "../modules/account/federated"
 
-  saml_xml = data.aws_s3_bucket_object.account_federation_saml.body
+  saml_xml = data.aws_s3_object.account_federation_saml.body
   pgp_key  = file("${path.module}/wellcomedigitalplatform.pub")
 
   prefix = "azure_sso"
@@ -35,7 +35,7 @@ module "account_federation" {
 #         /file/from/d_and_t.xml \
 #         s3://wellcomecollection-platform-infra/platform-terraform-objects/saml.xml*/
 #
-# The Content-Type header is significant here: the `aws_s3_bucket_object`
+# The Content-Type header is significant here: the `aws_s3_object`
 # data source won't fetch the Body of the object [2].  This will cause the
 # following somewhat non-obvious error:
 #
@@ -48,9 +48,9 @@ module "account_federation" {
 #       The argument "saml_metadata_document" is required, but no definition was found.
 #
 # [1]: https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/identity_providers
-# [2]: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket_object
+# [2]: https://registry.terraform.io/providers/hashicorp%20%20/aws/latest/docs/data-sources/s3_object
 #
-data "aws_s3_bucket_object" "account_federation_saml" {
+data "aws_s3_object" "account_federation_saml" {
   bucket = "wellcomecollection-platform-infra"
   key    = "platform-terraform-objects/saml.xml"
 }
