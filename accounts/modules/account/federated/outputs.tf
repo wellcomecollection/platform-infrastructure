@@ -17,5 +17,3 @@ output "list_roles_name" {
 output "list_roles_arn" {
   value = module.list_roles_user.arn
 }
-
-variable "saml_xml" {}

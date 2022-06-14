@@ -1,11 +1,22 @@
 resource "aws_s3_bucket" "editorial_photography" {
   bucket = "wellcomecollection-editorial-photography"
-  acl    = "private"
 
-  lifecycle_rule {
-    id      = "start_ia_move_to_glacier"
-    enabled = true
-    prefix  = ""
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_s3_bucket_acl" "editorial_photography" {
+  bucket = aws_s3_bucket.editorial_photography.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "editorial_photography" {
+  bucket = aws_s3_bucket.editorial_photography.id
+
+  rule {
+    id     = "start_ia_move_to_glacier"
+    status = "Enabled"
 
     transition {
       days          = 30
@@ -18,20 +29,21 @@ resource "aws_s3_bucket" "editorial_photography" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-
-  lifecycle_rule {
-    enabled = true
+  rule {
+    id     = "expire_old_versions"
+    status = "Enabled"
 
     noncurrent_version_expiration {
-      days = 30
+      noncurrent_days = 30
     }
+  }
+}
+
+resource "aws_s3_bucket_versioning" "editorial_photography" {
+  bucket = aws_s3_bucket.editorial_photography.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
