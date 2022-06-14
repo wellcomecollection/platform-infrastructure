@@ -10,10 +10,9 @@
     "test": "yarn jest",
     "build": "tsc -p tsconfig.build.json && (cd dist && zip -r dlcs_path_rewrite.zip .)",
     "deploy": "yarn build && yarn test && node deploy",
-    "dockerLoginLocal": "aws ecr get-login-password --region eu-west-1 --profile platform | docker login --username AWS --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com",
-    "dockerBuildLocal": "yarn dockerLoginLocal && docker build . -t weco_cf_lambdas",
-    "dockerTestLocal": "yarn dockerBuildLocal && docker run weco_cf_lambdas yarn test",
-    "dockerDeployLocal": "yarn dockerTestLocal && docker run weco_cf_lambdas -v ~/.aws:/root/.aws yarn deploy"
+    "dockerBuild": "docker build . -t weco_cf_lambdas",
+    "dockerTest": "docker run weco_cf_lambdas yarn test",
+    "dockerDeploy": "docker run weco_cf_lambdas -v ~/.aws:/root/.aws yarn deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.71",
