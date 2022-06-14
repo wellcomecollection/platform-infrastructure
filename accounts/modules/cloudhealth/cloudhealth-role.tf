@@ -13,8 +13,7 @@ resource "aws_iam_policy" "policy" {
 resource "aws_iam_policy_attachment" "wt-cloudhealth-policy-attachement" {
   name       = "cloudhealth"
   policy_arn = aws_iam_policy.policy.arn
-  roles = [
-  aws_iam_role.role.name]
+  roles = [aws_iam_role.role.name]
 }
 
 output "role_arn" {
