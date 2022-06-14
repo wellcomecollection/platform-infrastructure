@@ -19,7 +19,7 @@ module "account_federation" {
   source = "../modules/account/federated"
 
   saml_xml = data.aws_s3_bucket_object.account_federation_saml.body
-  pgp_key  = data.template_file.pgp_key.rendered
+  pgp_key  = file("${path.module}/wellcomedigitalplatform.pub")
 
   prefix = "azure_sso"
 }
