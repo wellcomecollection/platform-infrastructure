@@ -2,6 +2,14 @@ resource "aws_s3_bucket" "digitisation_av" {
   bucket = "wellcomecollection-digitisation-av"
 }
 
+resource "aws_s3_bucket_versioning" "digitisation_av" {
+  bucket = aws_s3_bucket.digitisation_av.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "digitisation_av" {
   bucket = aws_s3_bucket.digitisation_av.id
 
