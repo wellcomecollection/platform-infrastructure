@@ -15,19 +15,17 @@ resource "aws_s3_bucket" "redirect" {
   }
 }
 
-data "template_file" "readme" {
-  template = file("${path.module}/bucket-README.tpl")
-  vars = {
-    from_url = var.from
-    to_url   = var.to
-  }
-}
-
 resource "aws_s3_bucket_object" "readme" {
   bucket = aws_s3_bucket.redirect.bucket
   key    = "README.md"
 
-  content = data.template_file.readme.rendered
+  content = templatefile(
+    "${path.module}/bucket-README.tpl",
+    {
+      from_url = var.from
+      to_url   = var.to
+    }
+  )
 }
 
 resource "aws_route53_record" "redirect_domain" {
