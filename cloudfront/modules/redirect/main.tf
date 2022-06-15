@@ -1,7 +1,3 @@
-provider "aws" {
-  alias = "dns"
-}
-
 resource "aws_s3_bucket" "redirect" {
   bucket = var.from
   acl    = "private"
