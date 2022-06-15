@@ -1,4 +1,4 @@
-FROM public.ecr.aws/bitnami/python:3.9
+FROM public.ecr.aws/docker/library/python:3.9
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt

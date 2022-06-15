@@ -143,7 +143,3 @@ data "terraform_remote_state" "accounts_dam_prototype" {
 }
 
 data "aws_caller_identity" "current" {}
-
-data "template_file" "pgp_key" {
-  template = file("${path.module}/wellcomedigitalplatform.pub")
-}
