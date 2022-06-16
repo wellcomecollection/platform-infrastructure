@@ -16,7 +16,7 @@ variable "mount_points" {
 }
 
 variable "use_awslogs" {
-  type = bool
+  type    = bool
   default = false
 }
 
