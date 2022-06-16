@@ -6,7 +6,7 @@ module "task_role" {
 
 resource "aws_ecs_task_definition" "task" {
   family                = var.task_name
-  container_definitions = data.template_file.container_definition.rendered
+  container_definitions = local.container_definition
 
   task_role_arn      = module.task_role.task_role_arn
   execution_role_arn = module.task_role.task_execution_role_arn
