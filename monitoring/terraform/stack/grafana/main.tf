@@ -27,7 +27,7 @@ locals {
 }
 
 module "task" {
-  source = "github.com/wellcomecollection/terraform-aws-ecs-service.git//task_definition/single_container?ref=v1.5.0"
+  source = "./task_definition"
 
   task_name = var.namespace
 
