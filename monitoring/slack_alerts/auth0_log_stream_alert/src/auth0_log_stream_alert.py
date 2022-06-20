@@ -124,6 +124,13 @@ def should_alert_for_event(log_event):
     if event_type == "fs" and description in no_alert_sign_up_descriptions:
         return False
 
+    if (
+        event_type == "api_limit"
+        and log_event["environment"] == "stage"
+        and description == "Global per second default group limit has been reached"
+    ):
+        return False
+
     return True
 
 
