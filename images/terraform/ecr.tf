@@ -97,6 +97,13 @@ module "nginx_frontend" {
   repo_name   = module.ecr_nginx_frontend.private_repo_name
 }
 
+module "nginx_frontend_identity" {
+  source = "./repo_policy"
+
+  account_ids = local.account_ids
+  repo_name   = module.ecr_nginx_frontend_identity.private_repo_name
+}
+
 module "fluentbit" {
   source = "./repo_policy"
 
