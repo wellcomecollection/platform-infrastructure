@@ -36,6 +36,19 @@ module "ecr_nginx_frontend" {
   }
 }
 
+module "ecr_nginx_frontend_identity" {
+  source = "./repo_pair"
+
+  namespace = local.namespace
+  repo_name = "nginx_frontend_identity"
+
+  description = "An nginx image for reverse proxying in the identity web app"
+
+  providers = {
+    aws.ecr_public = aws.ecr_public
+  }
+}
+
 module "ecr_nginx_grafana" {
   source = "./repo_pair"
 
