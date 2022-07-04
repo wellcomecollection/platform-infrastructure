@@ -36,6 +36,19 @@ module "ecr_nginx_frontend" {
   }
 }
 
+module "ecr_nginx_frontend_identity" {
+  source = "./repo_pair"
+
+  namespace = local.namespace
+  repo_name = "nginx_frontend_identity"
+
+  description = "An nginx image for reverse proxying in the identity web app"
+
+  providers = {
+    aws.ecr_public = aws.ecr_public
+  }
+}
+
 module "ecr_nginx_grafana" {
   source = "./repo_pair"
 
@@ -82,6 +95,13 @@ module "nginx_frontend" {
 
   account_ids = local.account_ids
   repo_name   = module.ecr_nginx_frontend.private_repo_name
+}
+
+module "nginx_frontend_identity" {
+  source = "./repo_policy"
+
+  account_ids = local.account_ids
+  repo_name   = module.ecr_nginx_frontend_identity.private_repo_name
 }
 
 module "fluentbit" {
