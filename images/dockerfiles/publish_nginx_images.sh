@@ -8,7 +8,7 @@ ROOT=$(git rev-parse --show-toplevel)
 ECR_PRIVATE_PREFIX="760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome"
 ECR_PUBLIC_PREFIX="public.ecr.aws/l7a1d1z4"
 
-SERVICE_IDS="apigw frontend frontend_identity grafana"
+SERVICE_IDS="frontend_identity"
 
 echo ""
 echo "*** WARNING! ***"
