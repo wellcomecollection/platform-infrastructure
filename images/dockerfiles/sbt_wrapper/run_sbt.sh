@@ -4,7 +4,11 @@ set -o errexit
 set -o nounset
 set -o verbose
 
-python3 /populate_sbt_cache.py
+source ~/.env.sh
+
+# Merge the built cache into the mounted cache (if present)
+rsync -ar --mkpath ~/.sbt.image/ ~/.sbt
+rsync -ar --mkpath $COURSIER_DIR.image/ $COURSIER_DIR
 
 # -J-Xss: Stack size (used to hold return addresses, function/method call arguments)
 # This is by default in the order of KB, we have experienced OOM & Thread allocation exceptions with lower values
@@ -16,7 +20,7 @@ python3 /populate_sbt_cache.py
 # We've determined the value by experimentation (note containers must be provided at least this much memory).
 # -J-XX:MaxMetaspaceSize: Sets the amount of memory used to store compilation metadata (by default unbounded)
 # Our use of scala & libraries that use macros means this value can cause OOM errors if a maximum is unset
-/usr/local/sbt/bin/sbt \
+sbt \
   -batch \
   -J-Xss6M \
   -J-Xms4G \
