@@ -98,6 +98,9 @@ def should_alert_for_event(log_event):
         "You may have pressed the back button",
         "PIN is not valid : PIN is trivial",
     ]
+    no_alert_failed_login_descriptions = no_alert_generic_failure_description_substrings + [
+        "Missing required parameter: response_type",
+    ]
     no_alert_sign_up_descriptions = {"Password is not allowed, it might be too common."}
 
     if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
@@ -116,7 +119,7 @@ def should_alert_for_event(log_event):
     # Event type 'f' = failed login
     if event_type == "f" and any(
         substring in description
-        for substring in no_alert_generic_failure_description_substrings
+        for substring in no_alert_failed_login_descriptions
     ):
         return False
 
