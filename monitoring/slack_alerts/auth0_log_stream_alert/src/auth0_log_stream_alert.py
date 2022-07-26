@@ -72,6 +72,8 @@ def should_alert_for_event(log_event):
     log_event_type = log_event["log_event_type"]
     log_description = log_event["log_description"]
 
+    # This disables Black until 'fmt: on', which allows us to line up
+    # the comments describing the alert codes for readability.
     # fmt: off
 
     no_alert_code_prefixes = (
