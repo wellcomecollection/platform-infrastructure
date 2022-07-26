@@ -114,7 +114,10 @@ def should_alert_for_event(log_event):
             "PIN is not valid : PIN is trivial",
         ],
         # fs = Failed Signup
-        "fs": ["Password is not allowed, it might be too common."],
+        "fs": [
+            "Password is not allowed, it might be too common.",
+            "The user already exists.",
+        ],
         # Rate Limit on the Authentication or Management APIs
         "api_limit": ["Global per second default group limit has been reached"],
     }
