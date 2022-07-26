@@ -69,70 +69,67 @@ def should_alert_for_event(log_event):
     """
     # These keys should match those set in the event transform rule
     # https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf#L55
-    event_type = log_event["log_event_type"]
-    description = log_event["log_description"]
+    log_event_type = log_event["log_event_type"]
+    log_description = log_event["log_description"]
 
-    no_alert_prefixes = [
-        "s",  # Success
-        "w",  # Warnings during login
-        "limit",  # IP address blocking etc
-        "sys",  # Auth0 system events
-        "gd",  # Stuff related to MFA
-    ]
-    no_alert_codes = [
-        "admin_update_launch",  # Auth0 Update Launched
-        "cls",  # Code/Link Sent
-        "cs",  # Code Sent
-        "du",  # Deleted User
-        "fcpr",  # Failed change password request (account doesn't exist)
-        "fp",  # Incorrect password
-        "mfar",  # MFA required
-        "mgmt_api_read",  # Management API read operation
-        "pla",  # Pre-login assessment
-        "pwd_leak",  # A leaked passwork was used
-        "resource_cleanup",  # Refresh token excess warning
-        "ublkdu",  # User block released
-        "fertft",  # Unknown or invalid refresh token
-    ]
-    no_alert_generic_failure_description_substrings = [
-        "You may have pressed the back button",
-        "PIN is not valid : PIN is trivial",
-    ]
-    no_alert_failed_login_descriptions = (
-        no_alert_generic_failure_description_substrings
-        + ["Missing required parameter: response_type"]
+    # fmt: off
+
+    no_alert_code_prefixes = (
+        "gd",       # Stuff related to MFA
+        "limit",    # IP address blocking etc
+        "s",        # Success
+        "sys",      # Auth0 system events
     )
-    no_alert_sign_up_descriptions = {"Password is not allowed, it might be too common."}
+    no_alert_codes = {
+        "admin_update_launch",  # Auth0 Update Launched
+        "cls",                  # Code/Link Sent
+        "cs",                   # Code Sent
+        "du",                   # Deleted User
+        "fcpr",                 # Failed change password request (account doesn't exist)
+        "fp",                   # Incorrect password
+        "mfar",                 # MFA required
+        "mgmt_api_read",        # Management API read operation
+        "pla",                  # Pre-login assessment
+        "pwd_leak",             # A leaked passwork was used
+        "resource_cleanup",     # Refresh token excess warning
+        "ublkdu",               # User block released
+        "w",                    # Warnings during login
+        "fertft",               # Unknown or invalid refresh token
+    }
 
-    if any(event_type.startswith(prefix) for prefix in no_alert_prefixes):
+    # fmt: on
+
+    no_alert_descriptions = {
+        # f = Failed Login
+        "f": [
+            "You may have pressed the back button",
+            "PIN is not valid : PIN is trivial",
+            "Missing required parameter: response type",
+        ],
+        # fcp = Failed Change Password
+        "fcp": [
+            "You may have pressed the back button",
+            "PIN is not valid : PIN is trivial",
+        ],
+        # fs = Failed Signup
+        "fs": [
+            "Password is not allowed, it might be too common.",
+        ],
+        # Rate Limit on the Authentication or Management APIs
+        "api_limit": ["Global per second default group limit has been reached"],
+    }
+
+    if log_event_type.startswith(no_alert_code_prefixes):
         return False
 
-    if event_type in no_alert_codes:
+    if log_event_type in no_alert_codes:
         return False
 
-    # Event type 'fcp' = Failed Change Password
-    if event_type == "fcp" and any(
-        substring in description
-        for substring in no_alert_generic_failure_description_substrings
-    ):
-        return False
-
-    # Event type 'f' = failed login
-    if event_type == "f" and any(
-        substring in description for substring in no_alert_failed_login_descriptions
-    ):
-        return False
-
-    # Event type 'fs' = failed signup
-    if event_type == "fs" and description in no_alert_sign_up_descriptions:
-        return False
-
-    if (
-        event_type == "api_limit"
-        and log_event["environment"] == "stage"
-        and description == "Global per second default group limit has been reached"
-    ):
-        return False
+    for event_code, description_substrings in no_alert_descriptions.items():
+        if log_event_type == event_code and any(
+            substr in log_description for subst in description_substrings
+        ):
+            return False
 
     return True
 
