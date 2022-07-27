@@ -133,7 +133,7 @@ def should_alert_for_event(log_event):
 
     for event_code, description_substrings in no_alert_descriptions.items():
         if log_event_type == event_code and any(
-            substr in log_description for subst in description_substrings
+            substr in log_description for substr in description_substrings
         ):
             return False
 
