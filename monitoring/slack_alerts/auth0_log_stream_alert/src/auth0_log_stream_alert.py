@@ -26,6 +26,9 @@ from urllib.error import HTTPError
 import boto3
 
 
+LOG_EVENT_TYPE_CODES = json.load(open("log_event_type_codes.json"))
+
+
 def log_on_error(fn):
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
@@ -156,19 +159,33 @@ def main(event, _ctxt=None):
     environment = log_event["environment"]
     tenant_name = log_event["tenant_name"]
 
-    short_message = f"*Error from Auth0 ({environment})*"
-    message_content = f':pager: <{get_log_url(log_event["log_id"], tenant_name=tenant_name)}|View in management dashboard>'
+    # We're deliberately conservative about what we put in this message.
+    #
+    # Auth0 logs might contain PII, but these messages are sent to
+    # a public channel in the Wellcome Slack.  In particular, we can't
+    # forward the 'description' field from the event, which may contain
+    # user email addresses (e.g. user henry@example.com failed to log in).
+    event_type = log_event["log_event_type"]
+
+    try:
+        event_description = LOG_EVENT_TYPE_CODES[event_type]
+        log_event_description = f"Event type: {event_description}"
+    except KeyError:
+        log_event_description = f"Unknown event type code: {event_type}"
+
+    log_url = get_log_url(log_event["log_id"], tenant_name=tenant_name)
+    link_to_dashboard = f"<{log_url}|View in dashboard>"
 
     slack_payload = {
-        "username": "auth0-log-stream-alerts",
-        "icon_emoji": ":rotating_light:",
-        "text": short_message,
+        "username": f"Error from Auth0 ({environment})",
+        "icon_emoji": ":rotating_light:" if environment == "prod" else ":warning:",
+        "text": event_description,
         "blocks": [
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "\n".join([short_message, message_content]),
+                    "text": " / ".join([log_event_description, link_to_dashboard]),
                 },
             }
         ],

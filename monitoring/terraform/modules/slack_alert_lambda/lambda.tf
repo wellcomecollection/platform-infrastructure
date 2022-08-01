@@ -4,7 +4,7 @@ locals {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "${path.module}/../../../slack_alerts/${local.source_name}/src/${local.source_name}.py"
+  source_dir  = "${path.module}/../../../slack_alerts/${local.source_name}/src"
   output_path = "${path.module}/${local.source_name}.zip"
 }
 
