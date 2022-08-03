@@ -58,6 +58,7 @@ This includes getting AWS CLI credentials.
     <td>130871440101</td>
     <td>
       The front-end web apps for wellcomecollection.org.
+      This echoes "Digital Experience", the name of a now-defunct team that used to be responsible for the front-end.
     </td>
   </tr>
   <tr>
