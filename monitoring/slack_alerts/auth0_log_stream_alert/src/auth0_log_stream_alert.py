@@ -119,6 +119,7 @@ def should_alert_for_event(log_event):
         # fs = Failed Signup
         "fs": [
             "Password is not allowed, it might be too common.",
+            "Password contains user information",
             "The user already exists.",
             # This is the error we get from Sierra when it rejects
             # somebody's password.
