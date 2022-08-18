@@ -164,7 +164,9 @@ def should_log_description_for_event(log_event):
 
     # If we're hitting API rate limits, we can log the name of the
     # endpoint that's being limited without giving anything away.
-    if log_event_type == "api_limit" and re.match(r"You passed the limit of allowed calls to '[^']+'$", log_description):
+    if log_event_type == "api_limit" and re.match(
+        r"You passed the limit of allowed calls to '[^']+'$", log_description
+    ):
         return True
 
     return False
@@ -212,15 +214,7 @@ def main(event, _ctxt=None):
         "username": f"Error from Auth0 ({environment})",
         "icon_emoji": ":rotating_light:" if environment == "prod" else ":warning:",
         "text": event_description,
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": text,
-                },
-            }
-        ],
+        "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": text}}],
     }
 
     req = urllib.request.Request(
