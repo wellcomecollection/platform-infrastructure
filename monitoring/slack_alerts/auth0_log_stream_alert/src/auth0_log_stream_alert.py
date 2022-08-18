@@ -110,6 +110,7 @@ def should_alert_for_event(log_event):
             "You may have pressed the back button",
             "PIN is not valid : PIN is trivial",
             "Missing required parameter: response type",
+            "Unauthorized",
         ],
         # fcp = Failed Change Password
         "fcp": [
