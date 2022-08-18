@@ -145,6 +145,31 @@ def should_alert_for_event(log_event):
     return True
 
 
+def should_log_description_for_event(log_event):
+    """
+    Should the Slack alert for this event include the description?
+
+    We can't include the description in the general case, because it might
+    contain PII we don't want in Slack, e.g.
+
+        User jo@example.com failed to log in successfully
+
+    But in certain cases it may be useful to log a description if
+    we know it's safe.
+    """
+    # These keys should match those set in the event transform rule
+    # https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf#L55
+    log_event_type = log_event["log_event_type"]
+    log_description = log_event["log_description"]
+
+    # If we're hitting API rate limits, we can log the name of the
+    # endpoint that's being limited without giving anything away.
+    if log_event_type == "api_limit" and re.match(r"You passed the limit of allowed calls to '[^']+'$", log_description):
+        return True
+
+    return False
+
+
 def get_log_url(log_id, *, tenant_name):
     return f"https://manage.auth0.com/dashboard/eu/{tenant_name}/logs/{log_id}?page=1"
 
@@ -178,6 +203,11 @@ def main(event, _ctxt=None):
     log_url = get_log_url(log_event["log_id"], tenant_name=tenant_name)
     link_to_dashboard = f"<{log_url}|View in dashboard>"
 
+    text = " / ".join([log_event_description, link_to_dashboard])
+
+    if should_log_description_for_event(log_event):
+        text += "\n> " + log_event["log_description"]
+
     slack_payload = {
         "username": f"Error from Auth0 ({environment})",
         "icon_emoji": ":rotating_light:" if environment == "prod" else ":warning:",
@@ -187,7 +217,7 @@ def main(event, _ctxt=None):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": " / ".join([log_event_description, link_to_dashboard]),
+                    "text": text,
                 },
             }
         ],
