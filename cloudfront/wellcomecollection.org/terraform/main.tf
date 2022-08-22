@@ -9,6 +9,18 @@ resource "aws_route53_record" "docs" {
   provider = aws.dns
 }
 
+// This adds a CNAME record for our Chromatic instance of Storybook.
+// It will be up to date with what's in the main branch.
+resource "aws_route53_record" "cardigan" {
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = "cardigan.wellcomecollection.org"
+  type    = "CNAME"
+  records = ["domains.chromatic.com"]
+  ttl     = "300"
+
+  provider = aws.dns
+}
+
 resource "aws_route53_record" "rank" {
   zone_id = data.aws_route53_zone.weco_zone.id
   name    = "rank.wellcomecollection.org"
