@@ -17,6 +17,11 @@ locals {
     # Atlassion Statuspage (https://wellcomecollection.statuspage.io/)
     "status.wellcomecollection.org" = "qyhn8w55666p.stspg-customer.com"
   }
+
+  # Subdomains that should be redirected to wellcomecollection.org
+  redirect_subdomains_to_apex = [
+    "www.wellcomecollection.org",
+  ]
 }
 
 resource "aws_route53_record" "subdomains" {
@@ -62,14 +67,20 @@ moved {
   to   = aws_route53_record.subdomains["shop.wellcomecollection.org"]
 }
 
-# Redirects
-module "www" {
-  source  = "../../modules/redirect"
-  from    = "www.wellcomecollection.org"
+module "redirects" {
+  for_each = toset(local.redirect_subdomains_to_apex)
+  source   = "../../modules/redirect"
+
+  from    = each.key
   to      = "wellcomecollection.org"
   zone_id = data.aws_route53_zone.weco_zone.id
 
   providers = {
     aws.dns = aws.dns
   }
+}
+
+moved {
+  from = module.www
+  to   = module.redirects["www.wellcomecollection.org"]
 }
