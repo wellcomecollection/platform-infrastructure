@@ -1,13 +1,28 @@
-# Third-party services
-resource "aws_route53_record" "docs" {
+locals {
+  subdomain_cname_records = {
+    "docs" = "hosting.gitbook.com"
+  }
+}
+
+resource "aws_route53_record" "subdomains" {
+  for_each = local.subdomain_cname_records
+
+  name    = "${each.key}.wellcomecollection.org"
+  records = [each.value]
+
   zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "docs.wellcomecollection.org"
   type    = "CNAME"
-  records = ["hosting.gitbook.com"]
-  ttl     = "300"
+  ttl     = 300
 
   provider = aws.dns
 }
+
+moved {
+  from = aws_route53_record.docs
+  to   = aws_route53_record.subdomains["docs"]
+}
+
+# Third-party services
 
 // This adds a CNAME record for our Chromatic instance of Storybook.
 // It will be up to date with what's in the main branch.
