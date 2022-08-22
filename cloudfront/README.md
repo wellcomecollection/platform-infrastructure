@@ -8,7 +8,6 @@ You can find the infra for most of the CloudFront distributions / DNS records de
 - [reporting.wellcomecollection.org](https://github.com/wellcomecollection/platform-infrastructure/tree/master/cloudfront/reporting.wellcomecollection.org): Internal Search/Collections data Kibana instance
 - [roadmap.wellcomecollection.org](https://github.com/wellcomecollection/platform-infrastructure/tree/master/cloudfront/roadmap.wellcomecollection.org): Public facing product roadmap
 - [wellcomecollection.org](https://github.com/wellcomecollection/platform-infrastructure/tree/master/cloudfront/wellcomecollection.org): DNS only for wellcomecollection.org apex records.
-- [wellcomelibrary.org](https://github.com/wellcomecollection/platform-infrastructure/tree/master/cloudfront/wellcomelibrary.org): Redirection for the old Wellcome Library site
 
 ## Missing pieces
 
