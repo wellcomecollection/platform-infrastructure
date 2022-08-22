@@ -1,5 +1,7 @@
 locals {
+  # CNAME records for third party services.
   subdomain_cname_records = {
+
     # This is for our Chromatic instance of Storybook.
     # It will be up to date with what's in the main branch.
     "cardigan.wellcomecollection.org" = "domains.chromatic.com"
@@ -37,36 +39,6 @@ resource "aws_route53_record" "subdomains" {
   provider = aws.dns
 }
 
-moved {
-  from = aws_route53_record.docs
-  to   = aws_route53_record.subdomains["docs"]
-}
-
-moved {
-  from = aws_route53_record.subdomains["docs"]
-  to   = aws_route53_record.subdomains["docs.wellcomecollection.org"]
-}
-
-moved {
-  from = aws_route53_record.cardigan
-  to   = aws_route53_record.subdomains["cardigan.wellcomecollection.org"]
-}
-
-moved {
-  from = aws_route53_record.rank
-  to   = aws_route53_record.subdomains["rank.wellcomecollection.org"]
-}
-
-moved {
-  from = aws_route53_record.status
-  to   = aws_route53_record.subdomains["status.wellcomecollection.org"]
-}
-
-moved {
-  from = aws_route53_record.shop
-  to   = aws_route53_record.subdomains["shop.wellcomecollection.org"]
-}
-
 module "redirects" {
   for_each = toset(local.redirect_subdomains_to_apex)
   source   = "../../modules/redirect"
@@ -78,9 +50,4 @@ module "redirects" {
   providers = {
     aws.dns = aws.dns
   }
-}
-
-moved {
-  from = module.www
-  to   = module.redirects["www.wellcomecollection.org"]
 }
