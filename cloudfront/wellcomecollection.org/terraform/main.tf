@@ -1,63 +1,49 @@
-# Third-party services
-resource "aws_route53_record" "docs" {
+locals {
+  # CNAME records for third party services.
+  subdomain_cname_records = {
+
+    # This is for our Chromatic instance of Storybook.
+    # It will be up to date with what's in the main branch.
+    "cardigan.wellcomecollection.org" = "domains.chromatic.com"
+
+    # This is our GitBook instance.
+    "docs.wellcomecollection.org" = "hosting.gitbook.com"
+
+    # This is the front-end to rank, our tool for testing API search quality.
+    # See https://github.com/wellcomecollection/catalogue-api/tree/main/rank
+    "rank.wellcomecollection.org" = "cname.vercel-dns.com"
+
+    # See https://help.shopify.com/en/manual/online-store/os/domains/add-a-domain/using-existing-domains/connecting-domains#set-up-your-existing-domain-to-connect-to-shopify
+    "shop.wellcomecollection.org" = "shops.myshopify.com"
+
+    # Atlassion Statuspage (https://wellcomecollection.statuspage.io/)
+    "status.wellcomecollection.org" = "qyhn8w55666p.stspg-customer.com"
+  }
+
+  # Subdomains that should be redirected to wellcomecollection.org
+  redirect_subdomains_to_apex = [
+    "www.wellcomecollection.org",
+  ]
+}
+
+resource "aws_route53_record" "subdomains" {
+  for_each = local.subdomain_cname_records
+
+  name    = each.key
+  records = [each.value]
+
   zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "docs.wellcomecollection.org"
   type    = "CNAME"
-  records = ["hosting.gitbook.com"]
-  ttl     = "300"
+  ttl     = 300
 
   provider = aws.dns
 }
 
-// This adds a CNAME record for our Chromatic instance of Storybook.
-// It will be up to date with what's in the main branch.
-resource "aws_route53_record" "cardigan" {
-  zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "cardigan.wellcomecollection.org"
-  type    = "CNAME"
-  records = ["domains.chromatic.com"]
-  ttl     = "300"
+module "redirects" {
+  for_each = toset(local.redirect_subdomains_to_apex)
+  source   = "../../modules/redirect"
 
-  provider = aws.dns
-}
-
-resource "aws_route53_record" "rank" {
-  zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "rank.wellcomecollection.org"
-  type    = "CNAME"
-  records = ["cname.vercel-dns.com"]
-  ttl     = "300"
-
-  provider = aws.dns
-}
-
-// This adds a CNAME record for Atlassion Statuspage (https://wellcomecollection.statuspage.io/)
-resource "aws_route53_record" "status" {
-  zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "status.wellcomecollection.org"
-  type    = "CNAME"
-  records = ["qyhn8w55666p.stspg-customer.com"]
-  ttl     = "300"
-
-  provider = aws.dns
-}
-
-# See https://help.shopify.com/en/manual/online-store/os/domains/add-a-domain/using-existing-domains/connecting-domains#set-up-your-existing-domain-to-connect-to-shopify
-
-resource "aws_route53_record" "shop" {
-  zone_id = data.aws_route53_zone.weco_zone.id
-  name    = "shop.${data.aws_route53_zone.weco_zone.name}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = ["shops.myshopify.com"]
-
-  provider = aws.dns
-}
-
-# Redirects
-module "www" {
-  source  = "../../modules/redirect"
-  from    = "www.wellcomecollection.org"
+  from    = each.key
   to      = "wellcomecollection.org"
   zone_id = data.aws_route53_zone.weco_zone.id
 
