@@ -22,6 +22,8 @@ locals {
 
   # Subdomains that should be redirected to wellcomecollection.org
   redirect_subdomains_to_apex = [
+    "alpha.wellcomecollection.org",
+    "blog.wellcomecollection.org",
     "www.wellcomecollection.org",
   ]
 }
