@@ -9,6 +9,7 @@ data "aws_iam_policy_document" "get_images" {
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "ecr:BatchCheckLayerAvailability",
+      "ecr:DescribeImages",
     ]
 
     principals {
