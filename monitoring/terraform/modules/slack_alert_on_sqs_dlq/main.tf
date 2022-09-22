@@ -13,6 +13,8 @@ module "dlq_to_slack_alerts" {
     STR_ALARM_SLUG             = "sqs-dlq-not-empty"
     STR_ALARM_LEVEL            = "warning"
     CONTEXT_URL_TEMPLATE       = "${var.account_name}-dlq-alerts"
+    INT_SUPERPLURAL_THRESHOLD  = 10000
+    STR_SUPERPLURAL_ERROR_MESSAGE = "There is a very large number of messages ({error_count}) on the DLQ. See https://github.com/wellcomecollection/catalogue-pipeline/tree/main/docs/troubleshooting for help"
   }
 
   secrets = [
