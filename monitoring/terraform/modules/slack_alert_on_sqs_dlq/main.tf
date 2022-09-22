@@ -8,12 +8,12 @@ module "dlq_to_slack_alerts" {
   topic_name  = "dlq_non_empty_alarm"
 
   environment_variables = {
-    STR_SINGLE_ERROR_MESSAGE   = "There is 1 message on the DLQ"
-    STR_MULTIPLE_ERROR_MESSAGE = "There are {error_count} messages on the DLQ"
-    STR_ALARM_SLUG             = "sqs-dlq-not-empty"
-    STR_ALARM_LEVEL            = "warning"
-    CONTEXT_URL_TEMPLATE       = "${var.account_name}-dlq-alerts"
-    INT_SUPERPLURAL_THRESHOLD  = 10000
+    STR_SINGLE_ERROR_MESSAGE      = "There is 1 message on the DLQ"
+    STR_MULTIPLE_ERROR_MESSAGE    = "There are {error_count} messages on the DLQ"
+    STR_ALARM_SLUG                = "sqs-dlq-not-empty"
+    STR_ALARM_LEVEL               = "warning"
+    CONTEXT_URL_TEMPLATE          = "${var.account_name}-dlq-alerts"
+    INT_SUPERPLURAL_THRESHOLD     = 10000
     STR_SUPERPLURAL_ERROR_MESSAGE = "There is a very large number of messages ({error_count}) on the DLQ. See https://github.com/wellcomecollection/catalogue-pipeline/tree/main/docs/troubleshooting for help"
   }
 

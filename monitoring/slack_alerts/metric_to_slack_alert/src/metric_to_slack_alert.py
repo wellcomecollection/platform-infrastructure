@@ -179,9 +179,7 @@ def create_message(alarm_info):
             else "STR_MULTIPLE_ERROR_MESSAGE"
         ]
 
-        lines.append(
-            error_template.format(error_count=error_count)
-        )
+        lines.append(error_template.format(error_count=error_count))
 
     context_url = create_context_url(alarm_info)
     if context_url is not None:
@@ -206,7 +204,9 @@ def get_alarm_level(alarm_info, environ):
     >>> get_alarm_level({"count": 11.5}, {"STR_ALARM_LEVEL": "warning", "INT_SUPERPLURAL_THRESHOLD": "10"})
     (':rotating_light:', 'danger')
     """
-    if environ["STR_ALARM_LEVEL"] == "error" or is_alarm_count_very_big(alarm_info["count"], environ):
+    if environ["STR_ALARM_LEVEL"] == "error" or is_alarm_count_very_big(
+        alarm_info["count"], environ
+    ):
         icon_emoji = ":rotating_light:"
         color = "danger"
     else:
