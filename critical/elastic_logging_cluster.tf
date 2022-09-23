@@ -72,7 +72,7 @@ resource "ec_deployment" "logging" {
   name = "logging"
 
   region                 = "eu-west-1"
-  version                = "7.13.3"
+  version                = "8.4.0"
   deployment_template_id = "aws-io-optimized-v2"
 
   traffic_filter = [

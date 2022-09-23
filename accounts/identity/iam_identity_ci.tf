@@ -101,33 +101,6 @@ data "aws_iam_policy_document" "identity_ci" {
     ]
   }
 
-  # Secrets required for smoke tests to run
-  statement {
-    actions = [
-      "secretsmanager:GetSecretValue",
-    ]
-
-    resources = [
-      "${local.secrets_base_arn}identity/stage/account_management_system/api_key*",
-      "${local.secrets_base_arn}identity/stage/buildkite/credentials*",
-      "${local.secrets_base_arn}identity/stage/smoke_test/credentials*",
-      "${local.secrets_base_arn}identity/prod/account_management_system/api_key*",
-      "${local.secrets_base_arn}identity/prod/buildkite/credentials*",
-      "${local.secrets_base_arn}identity/prod/smoke_test/credentials*",
-    ]
-  }
-
-  statement {
-    actions = [
-      "ssm:GetParameter",
-    ]
-
-    resources = [
-      "${local.ssm_param_base_arn}identity-auth0_domain-stage",
-      "${local.ssm_param_base_arn}identity-auth0_domain-prod",
-    ]
-  }
-
   # This slightly unusual clause allows the identity-ci role to assume… itself.
   #
   # This is because Buildkite uses the identity-ci role to run tasks
