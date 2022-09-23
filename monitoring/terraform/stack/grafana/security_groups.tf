@@ -62,4 +62,12 @@ resource "aws_security_group" "external_lb_security_group" {
   tags = {
     Name = "${var.namespace}-external-lb"
   }
+
+  # The ingress list of the loadbalancer security group is normally maintained manually,
+  # so changes to the ingress records are to be ignored.
+  # Remove this lifecycle definition to reset them, destroying any manual changes.
+
+  lifecycle {
+    ignore_changes = [ingress]
+  }
 }
