@@ -43,5 +43,7 @@ module "slack_secrets" {
 module "lambda_error_alerts" {
   source = "../slack_alert_on_lambda_error"
 
-  account_name = var.account_name
+  # We need to add a suffix here, so this doesn't conflict with the
+  # "alert on Lambda errors" Lambda that lives in eu-west-1 in this account.
+  account_name = "${var.account_name}_useast1"
 }
