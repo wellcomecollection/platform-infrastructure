@@ -125,6 +125,9 @@ def should_alert_for_event(log_event):
             # This is the error we get from Sierra when it rejects
             # somebody's password.
             "PIN is not valid : PIN is trivial",
+            # It's not great that Sierra has an upper limit on password
+            # length, but it's a known issue and not something we can fix.
+            "PIN is not valid : PIN too long",
         ],
         # Rate Limit on the Authentication or Management APIs
         "api_limit": ["Global per second default group limit has been reached"],
@@ -167,6 +170,20 @@ def should_log_description_for_event(log_event):
     if log_event_type == "api_limit" and re.match(
         r"You passed the limit of allowed calls to '[^']+'$", log_description
     ):
+        return True
+
+    # Here we're matching on the complete text of the description, so we
+    # can be confident it doesn't contain PII.
+    if log_description in {
+        # This is a bit of a weird one that's not a big concern as a one-off,
+        # but we'd want to know if it starts happening regularly.
+        "Unhandled API response [socket hang up] (cause: [socket hang up]) There was some other error in finding the patron in Sierra",
+
+        # I don't know what this means, but it happens somewhat regularly.
+        # Passing the description through to Slack may help us spot a pattern,
+        # or start a discussion about what's causing it.
+        "Missing required parameter: response_type",
+    }:
         return True
 
     return False
