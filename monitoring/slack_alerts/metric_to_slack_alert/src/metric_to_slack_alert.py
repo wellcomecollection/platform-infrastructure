@@ -21,6 +21,12 @@ Plus optionally:
     CONTEXT_URL_TEMPLATE
     = select the template to use in create_context_url
 
+    INT_SUPERPLURAL_THRESHOLD
+    = The number above which this alarm can be considered "very big", triggering a different message and
+    causing this alarm to become an error (if it is not already).
+
+    STR_SUPERPLURAL_ERROR_MESSAGE
+    = The message to use if the superplural threshold is exceeded.
 """
 
 import datetime
@@ -167,15 +173,51 @@ def create_message(alarm_info):
         else:
             error_count = alarm_info["count"]
 
-        lines.append(
-            os.environ["STR_MULTIPLE_ERROR_MESSAGE"].format(error_count=error_count)
-        )
+        error_template = os.environ[
+            "STR_SUPERPLURAL_ERROR_MESSAGE"
+            if is_alarm_count_very_big(error_count, os.environ)
+            else "STR_MULTIPLE_ERROR_MESSAGE"
+        ]
+
+        lines.append(error_template.format(error_count=error_count))
 
     context_url = create_context_url(alarm_info)
     if context_url is not None:
         lines.append(f"👉 <{context_url['url']}|{context_url['label']}>")
 
     return "\n".join(lines)
+
+
+def get_alarm_level(alarm_info, environ):
+    """
+    Determine the values for conveying the severity of this alarm in Slack.
+
+    In most cases, the severity is defined at setup.  A given alarm, whenever triggered
+    is either a warning or an error:
+    >>> get_alarm_level({"count": 1}, {"STR_ALARM_LEVEL": "error"})
+    (':rotating_light:', 'danger')
+    >>> get_alarm_level({"count": 2}, {"STR_ALARM_LEVEL": "warning"})
+    ('warning', 'warning')
+
+    However, a "warning" can become an "error" if the scale of the problem is great enough
+
+    >>> get_alarm_level({"count": 11.5}, {"STR_ALARM_LEVEL": "warning", "INT_SUPERPLURAL_THRESHOLD": "10"})
+    (':rotating_light:', 'danger')
+    """
+    if environ["STR_ALARM_LEVEL"] == "error" or is_alarm_count_very_big(
+        alarm_info["count"], environ
+    ):
+        icon_emoji = ":rotating_light:"
+        color = "danger"
+    else:
+        icon_emoji = "warning"
+        color = "warning"
+    return icon_emoji, color
+
+
+def is_alarm_count_very_big(alarm_count, environ):
+    superplural_threshold = environ.get("INT_SUPERPLURAL_THRESHOLD")
+    return superplural_threshold and alarm_count > int(superplural_threshold)
 
 
 @log_on_error
@@ -186,13 +228,7 @@ def main(event, _ctxt=None):
     alarm_info = get_alarm_info(alarm)
 
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
-
-    if os.environ["STR_ALARM_LEVEL"] == "error":
-        icon_emoji = ":rotating_light:"
-        color = "danger"
-    else:
-        icon_emoji = "warning"
-        color = "warning"
+    (icon_emoji, color) = get_alarm_level(alarm_info, os.environ)
 
     slack_payload = {
         "username": f"{account}-{os.environ['STR_ALARM_SLUG']}",
