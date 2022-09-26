@@ -178,6 +178,7 @@ def should_log_description_for_event(log_event):
         # This is a bit of a weird one that's not a big concern as a one-off,
         # but we'd want to know if it starts happening regularly.
         "Unhandled API response [socket hang up] (cause: [socket hang up]) There was some other error in finding the patron in Sierra",
+        "Unhandled API response [socket hang up] (cause: [socket hang up])",
         # I don't know what this means, but it happens somewhat regularly.
         # Passing the description through to Slack may help us spot a pattern,
         # or start a discussion about what's causing it.
