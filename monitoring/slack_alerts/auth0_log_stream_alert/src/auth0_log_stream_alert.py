@@ -131,7 +131,7 @@ def should_alert_for_event(log_event):
         ],
         # fepft = Failed Exchange
         "fefpt": [
-            "We don't recognise the email and/or password you entered. Please check your entry and try again.",
+            "We don't recognise the email and/or password you entered. Please check your entry and try again."
         ],
         # Rate Limit on the Authentication or Management APIs
         "api_limit": ["Global per second default group limit has been reached"],
