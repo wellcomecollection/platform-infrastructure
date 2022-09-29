@@ -129,6 +129,10 @@ def should_alert_for_event(log_event):
             # length, but it's a known issue and not something we can fix.
             "PIN is not valid : PIN too long",
         ],
+        # fepft = Failed Exchange
+        "fefpt": [
+            "We don't recognise the email and/or password you entered. Please check your entry and try again.",
+        ],
         # Rate Limit on the Authentication or Management APIs
         "api_limit": ["Global per second default group limit has been reached"],
     }
@@ -175,6 +179,7 @@ def should_log_description_for_event(log_event):
     # Here we're matching on the complete text of the description, so we
     # can be confident it doesn't contain PII.
     if log_description in {
+        "Invalid authorization code",
         # This is a bit of a weird one that's not a big concern as a one-off,
         # but we'd want to know if it starts happening regularly.
         "Unhandled API response [socket hang up] (cause: [socket hang up]) There was some other error in finding the patron in Sierra",
@@ -183,6 +188,12 @@ def should_log_description_for_event(log_event):
         # Passing the description through to Slack may help us spot a pattern,
         # or start a discussion about what's causing it.
         "Missing required parameter: response_type",
+        # I saw this on a "Failed Signup", and I'm not sure why -- at
+        # what point in the signup flow do we expect an email/password
+        # combo?  I don't have enough info to debug for now, so piping
+        # through to Slack so it'll be more visible next time.
+        # https://manage.auth0.com/dashboard/eu/wellcomecollection/logs/90020220928222052464700061132390984065205105298365218898?page=1
+        "We don't recognise the email and/or password you entered. Please check your entry and try again.",
     }:
         return True
 
