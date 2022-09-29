@@ -24,6 +24,9 @@ data "aws_iam_policy_document" "ci_permissions" {
       "ecr-public:InitiateLayerUpload",
       "ecr-public:UploadLayerPart",
       "ecr-public:CompleteLayerUpload",
+      # Required for updating and checking Lambdas
+      "lambda:UpdateFunctionCode",
+      "lambda:GetFunctionConfiguration",
       # This is required for uploading to public repositories; see https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-policy-examples.html
       "sts:GetServiceBearerToken",
     ]
