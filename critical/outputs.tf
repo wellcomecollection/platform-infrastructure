@@ -1,11 +1,3 @@
-output "bucket_alb_logs_id" {
-  value = aws_s3_bucket.alb_logs.id
-}
-
-output "cloudfront_logs_bucket_domain_name" {
-  value = aws_s3_bucket.api_root_cf_logs.bucket_domain_name
-}
-
 output "infra_bucket_arn" {
   value = aws_s3_bucket.platform_infra.arn
 }
