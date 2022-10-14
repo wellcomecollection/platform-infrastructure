@@ -102,8 +102,6 @@ def should_alert_for_event(log_event):
         "fertft",               # Unknown or invalid refresh token
     }
 
-    # fmt: on
-
     no_alert_descriptions = {
         # f = Failed Login
         "f": [
@@ -112,30 +110,41 @@ def should_alert_for_event(log_event):
             "Missing required parameter: response type",
             "Unauthorized",
         ],
+
+        # fu = Failed Login (Invalid Email/Username)
+        "fu": [
+            # This is one of our custom errors; the user is prompted to
+            # contact LE&E to get their record corrected.
+            "There are duplicate patron records with email address",
+        ],
+
         # fcp = Failed Change Password
         "fcp": [
             "You may have pressed the back button",
             "PIN is not valid : PIN is trivial",
         ],
+
         # fs = Failed Signup
         "fs": [
             "Password contains user information",
             "Password is too common",
             "The user already exists.",
-            # This is the error we get from Sierra when it rejects
-            # somebody's password.
-            "PIN is not valid : PIN is trivial",
-            # It's not great that Sierra has an upper limit on password
-            # length, but it's a known issue and not something we can fix.
-            "PIN is not valid : PIN too long",
+            # This is one of our custom errors; when somebody signs up
+            # with a password that passes Auth0's requirements but gets
+            # rejected by Sierra.
+            "Please use a more complex password.",
         ],
+
         # fepft = Failed Exchange
         "fefpt": [
             "We don't recognise the email and/or password you entered. Please check your entry and try again."
         ],
+
         # Rate Limit on the Authentication or Management APIs
         "api_limit": ["Global per second default group limit has been reached"],
     }
+
+    # fmt: on
 
     if log_event_type.startswith(no_alert_code_prefixes):
         return False
@@ -184,10 +193,11 @@ def should_log_description_for_event(log_event):
         # but we'd want to know if it starts happening regularly.
         "Unhandled API response [socket hang up] (cause: [socket hang up]) There was some other error in finding the patron in Sierra",
         "Unhandled API response [socket hang up] (cause: [socket hang up])",
-        # I don't know what this means, but it happens somewhat regularly.
-        # Passing the description through to Slack may help us spot a pattern,
-        # or start a discussion about what's causing it.
+        # This is a collection of errors I don't understand or recognise;
+        # I'm piping them to Slack so maybe somebody else will understand
+        # what they mean, and we can see how often they occur.
         "Missing required parameter: response_type",
+        "Unsupported response type: pbqr",
         # I saw this on a "Failed Signup", and I'm not sure why -- at
         # what point in the signup flow do we expect an email/password
         # combo?  I don't have enough info to debug for now, so piping
