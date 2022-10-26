@@ -206,6 +206,11 @@ def should_log_description_for_event(log_event):
         # through to Slack so it'll be more visible next time.
         # https://manage.auth0.com/dashboard/eu/wellcomecollection/logs/90020220928222052464700061132390984065205105298365218898?page=1
         "We don't recognise the email and/or password you entered. Please check your entry and try again.",
+        # We got this alert on a "Failed Change Password" event.  We should
+        # check this gives a proper error message to the user and then
+        # suppress this event; until the surfacing the error in Slack.
+        # e.g. https://manage.auth0.com/dashboard/eu/wellcomecollection/logs/90020221022132024089066024656188128133303896269314326626?page=1
+        "Password is too common",
     }:
         return True
 
