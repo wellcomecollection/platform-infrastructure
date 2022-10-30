@@ -175,6 +175,8 @@ Within each account (except microsites), we create a standard set of roles:
   </tr>
 </table>
 
+You can see the IAM policy definitions for each of these roles in `modules/role_policies`.
+
 ## How we log into these accounts
 
 We log into these accounts using Azure Active Directory and SSO, although we don't use our standard network accounts – we use special `c_` accounts (e.g. `c_chana@wellcome.ac.uk`).
