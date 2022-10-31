@@ -198,6 +198,7 @@ def should_log_description_for_event(log_event):
         # what they mean, and we can see how often they occur.
         "Missing required parameter: response_type",
         "Unsupported response type: pbqr",
+        "Unsuccessful Refresh Token exchange, reused refresh token detected",
         # I saw this on a "Failed Signup", and I'm not sure why -- at
         # what point in the signup flow do we expect an email/password
         # combo?  I don't have enough info to debug for now, so piping
