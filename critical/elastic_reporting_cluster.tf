@@ -1,40 +1,40 @@
 locals {
   reporting_elasticsearch_user_settings = <<-EOT
-# Note that the syntax for user settings can change between major versions.
-# You might need to update these user settings before performing a major version upgrade.
-#
-# Slack integration example (for version 5.0 and later)
-# xpack.notification.slack:
-#   account:
-#     monitoring:
-#       url: https://hooks.slack.com/services/T0A6BLEEA/B0A6D1PRD/XYZ123
-#
-# Slack integration example (for versions before 5.0)
-# watcher.actions.slack.service:
-#   account:
-#     monitoring:
-#       url: https://hooks.slack.com/services/T0A6BLEEA/B0A6D1PRD/XYZ123
-#       message_defaults:
-#        from: Watcher
-#
-# HipChat and PagerDuty integration are also supported. To learn more, see the documentation.
-xpack:
-  security:
-    authc:
-      realms:
-        oidc:
-          cloud-oidc:
-            order: 2
-            rp.client_id: "45e3080f-367d-4c9c-828b-77c1c422c2c4"
-            rp.response_type: "code"
-            rp.redirect_uri: "https://reporting.wellcomecollection.org/api/security/v1/oidc"
-            op.issuer: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/v2.0"
-            op.authorization_endpoint: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/oauth2/v2.0/authorize"
-            op.token_endpoint: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/oauth2/v2.0/token"
-            op.userinfo_endpoint: "https://graph.microsoft.com/oidc/userinfo"
-            op.jwkset_path: "https://login.microsoftonline.com/common/discovery/v2.0/keys"
-            claims.principal: email
-            claims.groups: groups
+  # Note that the syntax for user settings can change between major versions.
+  # You might need to update these user settings before performing a major version upgrade.
+  #
+  # Slack integration example (for version 5.0 and later)
+  # xpack.notification.slack:
+  #   account:
+  #     monitoring:
+  #       url: https://hooks.slack.com/services/T0A6BLEEA/B0A6D1PRD/XYZ123
+  #
+  # Slack integration example (for versions before 5.0)
+  # watcher.actions.slack.service:
+  #   account:
+  #     monitoring:
+  #       url: https://hooks.slack.com/services/T0A6BLEEA/B0A6D1PRD/XYZ123
+  #       message_defaults:
+  #        from: Watcher
+  #
+  # HipChat and PagerDuty integration are also supported. To learn more, see the documentation.
+  xpack:
+    security:
+      authc:
+        realms:
+          oidc:
+            cloud-oidc:
+              order: 2
+              rp.client_id: "45e3080f-367d-4c9c-828b-77c1c422c2c4"
+              rp.response_type: "code"
+              rp.redirect_uri: "https://reporting.wellcomecollection.org/api/security/v1/oidc"
+              op.issuer: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/v2.0"
+              op.authorization_endpoint: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/oauth2/v2.0/authorize"
+              op.token_endpoint: "https://login.microsoftonline.com/3b7a675a-1fc8-4983-a100-cc52b7647737/oauth2/v2.0/token"
+              op.userinfo_endpoint: "https://graph.microsoft.com/oidc/userinfo"
+              op.jwkset_path: "https://login.microsoftonline.com/common/discovery/v2.0/keys"
+              claims.principal: email
+              claims.groups: groups
 EOT
 
   reporting_kibana_user_settings = <<-EOT
@@ -86,17 +86,9 @@ resource "ec_deployment" "reporting" {
   elasticsearch {
     ref_id = "elasticsearch"
 
-    /*node_type_data = "aws.data.highio.i3"*/
-    /*node_type_ml   = "aws.ml.m5"*/
-
     topology {
       zone_count = 3
       size       = "4g"
-    }
-
-    topology {
-      size       = "1g"
-      zone_count = 1
     }
 
     config {
