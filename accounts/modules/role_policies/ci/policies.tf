@@ -108,16 +108,6 @@ data "aws_iam_policy_document" "ci_permissions" {
 
   statement {
     actions = [
-      "dynamodb:*",
-    ]
-
-    resources = [
-      "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/wellcome-releases-*",
-    ]
-  }
-
-  statement {
-    actions = [
       "sns:Publish*",
     ]
 
