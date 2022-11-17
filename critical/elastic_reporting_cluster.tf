@@ -81,9 +81,11 @@ resource "ec_deployment" "reporting" {
 
   region                 = "eu-west-1"
   version                = "8.4.0"
-  deployment_template_id = "aws-io-optimized-v2"
+  deployment_template_id = "aws-io-optimized-v3"
 
   elasticsearch {
+    ref_id = "elasticsearch"
+
     topology {
       zone_count = 3
       size       = "4g"
@@ -100,6 +102,9 @@ resource "ec_deployment" "reporting" {
   }
 
   kibana {
+    elasticsearch_cluster_ref_id = "elasticsearch"
+    ref_id                       = "kibana"
+
     topology {
       zone_count = 1
       size       = "2g"
@@ -111,43 +116,12 @@ resource "ec_deployment" "reporting" {
   }
 
   apm {
+    elasticsearch_cluster_ref_id = "elasticsearch"
+    ref_id                       = "apm"
+
     topology {
       size       = "0.5g"
       zone_count = 1
     }
   }
 }
-
-/*locals {
-  reporting_elastic_id     = ec_deployment.reporting.elasticsearch[0].resource_id
-  reporting_elastic_region = ec_deployment.reporting.elasticsearch[0].region
-
-  reporting_kibana_id       = ec_deployment.reporting.kibana[0].resource_id
-  reporting_kibana_region   = ec_deployment.reporting.kibana[0].region
-  reporting_kibana_endpoint = "${local.reporting_kibana_id}.${local.reporting_kibana_region}.aws.found.io"
-
-  reporting_elastic_username = ec_deployment.reporting.elasticsearch_username
-  reporting_elastic_password = ec_deployment.reporting.elasticsearch_password
-
-  # See https://www.elastic.co/guide/en/cloud/current/ec-traffic-filtering-vpc.html
-  reporting_private_host = "${local.reporting_elastic_id}.vpce.${local.reporting_elastic_region}.aws.elastic-cloud.com"
-  reporting_public_host  = "${local.reporting_elastic_id}.${local.reporting_elastic_region}.aws.found.io"
-}
-
-module "reporting_secrets" {
-  source = "github.com/wellcomecollection/terraform-aws-secrets.git?ref=v1.3.0"
-
-  key_value_map = {
-    "elasticsearch/reporting/username"        = local.reporting_elastic_username
-    "elasticsearch/reporting/password"        = local.reporting_elastic_password
-    "elasticsearch/reporting/public_host"     = local.reporting_public_host
-    "elasticsearch/reporting/private_host"    = local.reporting_private_host
-    "elasticsearch/reporting/kibana_endpoint" = local.reporting_kibana_endpoint
-
-    # Duplicated as this is what consumers currently expect
-    # The above naming scheme is common to our other ES setups
-    # So we have both for now
-    "shared/reporting/es_host"         = local.reporting_public_host
-    "shared/reporting/es_host_private" = local.reporting_private_host
-  }
-}*/
