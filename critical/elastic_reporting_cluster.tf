@@ -81,11 +81,9 @@ resource "ec_deployment" "reporting" {
 
   region                 = "eu-west-1"
   version                = "8.4.0"
-  deployment_template_id = "aws-io-optimized"
+  deployment_template_id = "aws-io-optimized-v2"
 
   elasticsearch {
-    ref_id = "elasticsearch"
-
     topology {
       zone_count = 3
       size       = "4g"
@@ -102,9 +100,6 @@ resource "ec_deployment" "reporting" {
   }
 
   kibana {
-    elasticsearch_cluster_ref_id = "elasticsearch"
-    ref_id                       = "kibana"
-
     topology {
       zone_count = 1
       size       = "2g"
@@ -114,9 +109,16 @@ resource "ec_deployment" "reporting" {
       user_settings_yaml = local.reporting_kibana_user_settings
     }
   }
+
+  apm {
+    topology {
+      size       = "0.5g"
+      zone_count = 1
+    }
+  }
 }
 
-locals {
+/*locals {
   reporting_elastic_id     = ec_deployment.reporting.elasticsearch[0].resource_id
   reporting_elastic_region = ec_deployment.reporting.elasticsearch[0].region
 
@@ -148,4 +150,4 @@ module "reporting_secrets" {
     "shared/reporting/es_host"         = local.reporting_public_host
     "shared/reporting/es_host_private" = local.reporting_private_host
   }
-}
+}*/
