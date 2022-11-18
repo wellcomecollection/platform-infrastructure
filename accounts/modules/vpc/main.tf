@@ -28,6 +28,10 @@ output "private_route_table_id" {
   value = module.vpc.private_route_table_id
 }
 
+output "nat_elastic_ip" {
+  value = module.vpc.nat_elastic_ip
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
