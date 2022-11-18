@@ -1,4 +1,19 @@
+// TODO: These are set manually from values in Azure
+// We could provision the app using an Azure terraform provider
+// and hence automatically retrieve these values
+
+data "aws_ssm_parameter" "logging_client_id" {
+  name = "/logging/config/azure/client_id"
+}
+
+data "aws_ssm_parameter" "logging_tenant_id" {
+  name = "/logging/config/azure/tenant_id"
+}
+
 locals {
+  client_id = data.aws_ssm_parameter.logging_client_id.value
+  tenant_id = data.aws_ssm_parameter.logging_tenant_id.value
+
   aws_region = "eu-west-1"
 
   account_ids = {
