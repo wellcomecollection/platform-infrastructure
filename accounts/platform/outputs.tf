@@ -63,6 +63,10 @@ output "ci_vpc_private_subnets" {
   value = module.ci_vpc.private_subnets
 }
 
+output "ci_vpc_nat_elastic_ip" {
+  value = module.ci_vpc.nat_elastic_ip
+}
+
 output "ci_vpc_public_subnets" {
   value = module.ci_vpc.public_subnets
 }

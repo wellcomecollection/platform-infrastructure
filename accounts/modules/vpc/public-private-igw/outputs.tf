@@ -17,3 +17,7 @@ output "private_route_table_id" {
 output "vpc_id" {
   value = aws_vpc.vpc.id
 }
+
+output "nat_elastic_ip" {
+  value = module.nat.elastic_ip
+}
