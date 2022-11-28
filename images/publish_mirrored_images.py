@@ -51,8 +51,6 @@ IMAGE_TAGS = [
     "wellcome/image_builder:23",
     "wellcome/publish_lambda:130",
     "wellcome/sbt_wrapper",
-    "wellcome/scalafmt:edge",
-    "wellcome/scalafmt:latest",
     "wellcome/tox:latest",
     "zenko/cloudserver:8.1.8",
 ]
