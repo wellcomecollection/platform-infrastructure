@@ -141,7 +141,6 @@ locals {
     "wellcome/image_builder",
     "wellcome/publish_lambda",
     "wellcome/sbt_wrapper",
-    "wellcome/scalafmt",
     "wellcome/tox",
     "wellcome/weco-deploy",
     "zenko/cloudserver",
