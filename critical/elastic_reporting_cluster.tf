@@ -125,4 +125,8 @@ resource "ec_deployment" "reporting" {
       zone_count = 1
     }
   }
+
+  observability {
+    deployment_id = ec_deployment.logging.id
+  }
 }
