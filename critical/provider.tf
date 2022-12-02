@@ -25,6 +25,16 @@ provider "aws" {
 
 provider "ec" {}
 
+provider "elasticstack" {
+  alias = "logging"
+
+  elasticsearch {
+    endpoints = ec_deployment.logging.elasticsearch.*.https_endpoint
+    username  = ec_deployment.logging.elasticsearch_username
+    password  = ec_deployment.logging.elasticsearch_password
+  }
+}
+
 provider "aws" {
   alias  = "storage"
   region = local.aws_region

@@ -87,6 +87,7 @@ resource "ec_deployment" "reporting" {
     ref_id = "elasticsearch"
 
     topology {
+      id = "hot_content"
       zone_count = 3
       size       = "4g"
     }

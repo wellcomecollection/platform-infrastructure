@@ -75,6 +75,7 @@ resource "ec_deployment" "logging" {
 
   elasticsearch {
     topology {
+      id = "hot_content"
       zone_count = 3
       size       = "8g"
     }
@@ -147,18 +148,23 @@ module "host_secrets" {
 }
 
 # Create xpack config
+resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
+  provider = elasticstack.logging
 
-resource "null_resource" "elasticsearch_config" {
-  triggers = {
-    logging_elastic_id = ec_deployment.logging.elasticsearch[0].resource_id
-  }
+  name = "cloud_oidc_to_kibana"
+  enabled = true
 
-  depends_on = [
-    ec_deployment.logging,
-    module.host_secrets,
+  roles = [
+    "kibana_admin",
+    "reporting_user",
+    "logging_read_only",
+    "apm_user",
+    "monitoring_user",
   ]
-
-  provisioner "local-exec" {
-    command = "python3 scripts/configure_elastic.py"
-  }
+  rules = jsonencode({
+    field = {
+      "realm.name" = "cloud-oidc"
+    }
+  })
+  metadata = jsonencode({ version = 1 })
 }
