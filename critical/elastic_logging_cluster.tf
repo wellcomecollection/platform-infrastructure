@@ -75,7 +75,7 @@ resource "ec_deployment" "logging" {
 
   elasticsearch {
     topology {
-      id = "hot_content"
+      id         = "hot_content"
       zone_count = 3
       size       = "8g"
     }
@@ -151,7 +151,7 @@ module "host_secrets" {
 resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
   provider = elasticstack.logging
 
-  name = "cloud_oidc_to_kibana"
+  name    = "cloud_oidc_to_kibana"
   enabled = true
 
   roles = [

@@ -7,7 +7,7 @@ terraform {
       source = "hashicorp/aws"
     }
     ec = {
-      source  = "elastic/ec"
+      source = "elastic/ec"
     }
   }
 }
