@@ -251,6 +251,10 @@ module "data_dev_roleset" {
     local.catalogue_account_roles["read_only_role_arn"],
     local.catalogue_account_roles["ci_role_arn"],
 
+    # Experience
+    local.experience_account_roles["developer_role_arn"],
+    local.experience_account_roles["read_only_role_arn"],
+
     # Scala lib read Role
     aws_iam_role.s3_scala_releases_read.arn,
   ]
