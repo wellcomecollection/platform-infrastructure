@@ -1,0 +1,12 @@
+inputs:
+  - type: "kinesis-data-stream"
+    id: "${kinesis_stream_arn}"
+    outputs:
+      - type: "elasticsearch"
+        args:
+          elasticsearch_url: "${es_url_secret_arn}"
+          api_key: "${api_key_secret_arn}"
+          es_datastream_name: "service-logs-esf"
+
+
+
