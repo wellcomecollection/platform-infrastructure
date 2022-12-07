@@ -3,11 +3,11 @@ variable "stream_name" {
 }
 
 variable "index_rollover_max_age" {
-  type = string
+  type    = string
   default = "1d"
 }
 
 variable "index_delete_after" {
-  type = string
+  type    = string
   default = "30d"
 }

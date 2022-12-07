@@ -179,9 +179,9 @@ module "esf_data_stream" {
     elasticstack = elasticstack.logging
   }
 
-  stream_name = "service-logs-esf"
+  stream_name            = "service-logs-esf"
   index_rollover_max_age = "1d"
-  index_delete_after = "30d"
+  index_delete_after     = "30d"
 }
 
 resource "elasticstack_elasticsearch_security_api_key" "esf" {
@@ -193,7 +193,7 @@ resource "elasticstack_elasticsearch_security_api_key" "esf" {
     write-to-stream = {
       indices = [
         {
-          names = [module.esf_data_stream.name],
+          names      = [module.esf_data_stream.name],
           privileges = ["create_index", "index", "create"]
         }
       ]

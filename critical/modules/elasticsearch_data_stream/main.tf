@@ -17,7 +17,7 @@ resource "elasticstack_elasticsearch_index_template" "stream_template" {
   name = "${var.stream_name}-template"
 
   index_patterns = ["${var.stream_name}*"]
-  priority = 1
+  priority       = 1
 
   template {
     settings = jsonencode({
