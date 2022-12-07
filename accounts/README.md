@@ -192,6 +192,18 @@ You have to assume the account and role you actually want to use before you can 
 
 ## Who gets access to what
 
+Within the "Digital Platform" application in Azure AD, we have a series of user groups.
+
+![A three-column table listing user groups. The first column has the name of the group (e.g. RG_WC_Digirati_Developer), the second the object type (always "Group"), and the third is role assigned (e.g. "digirati-dev" and "azure_sso-saml_provider").](docs/azure_user_groups.png)
+
+Each group is assigned two roles:
+
+*   The first role is the role in the platform account that you assume initially (e.g. `digirati-dev`, `platform-superdev`).
+
+    These in turn allow you to assume roles in other accounts -- see `platform/rolesets.tf` for the exact specification.
+
+*   The second role is one that allows you to log in to AWS using single sign-on with your c_ cloud account.
+
 In general, all developers have access to every account.
 Most of the accounts don't contain any sensitive information, so the convenience outweighs the slight additional risk.
 
