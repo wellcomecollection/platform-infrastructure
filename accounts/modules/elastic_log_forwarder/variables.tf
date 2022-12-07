@@ -1,3 +1,3 @@
-variable "log_stream_arn" {
+variable "kinesis_log_stream_arn" {
   type = string
 }
