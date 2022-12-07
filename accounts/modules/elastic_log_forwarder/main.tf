@@ -1,3 +1,5 @@
+// This application is documented here:
+// https://github.com/elastic/elastic-serverless-forwarder/blob/main/docs/README-AWS.md
 data "aws_serverlessapplicationrepository_application" "esf_sar" {
   application_id = "arn:aws:serverlessrepo:eu-central-1:267093732750:applications/elastic-serverless-forwarder"
 }
