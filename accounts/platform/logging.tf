@@ -15,4 +15,5 @@ module "elastic_log_forwarder" {
 
   kinesis_log_stream_arn = aws_kinesis_stream.logs_for_esf.arn
   es_data_stream         = "service-logs-esf"
+  es_api_key_secret      = "elasticsearch/logging/esf/api_key"
 }

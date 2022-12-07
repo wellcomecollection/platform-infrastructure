@@ -42,5 +42,5 @@ data "aws_secretsmanager_secret" "logging_es_public_host" {
 }
 
 data "aws_secretsmanager_secret" "logging_es_api_key" {
-  name = "elasticsearch/logging/esf/api_key"
+  name = var.es_api_key_secret
 }
