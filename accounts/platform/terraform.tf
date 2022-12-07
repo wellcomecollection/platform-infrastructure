@@ -142,4 +142,16 @@ data "terraform_remote_state" "accounts_dam_prototype" {
   }
 }
 
+data "terraform_remote_state" "platform_infra_shared" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/shared.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 data "aws_caller_identity" "current" {}

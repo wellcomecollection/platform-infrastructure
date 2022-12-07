@@ -33,10 +33,10 @@ else
 
   git config user.name "Buildkite on behalf of Wellcome Collection"
   git config user.email wellcomedigitalplatform@wellcome.ac.uk
-  git remote add ssh-origin "$BUILDKITE_REPO"
+  git remote add ssh-origin "$BUILDKITE_REPO" || echo "(remote repo already configured)"
 
   git fetch ssh-origin
-  git checkout --track "ssh-origin/$BUILDKITE_BRANCH"
+  git checkout --track "ssh-origin/$BUILDKITE_BRANCH" || echo "(branch already checked out)"
 
   git add --verbose --update
   git commit -m "Apply auto-formatting rules"

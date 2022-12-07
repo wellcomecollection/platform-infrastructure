@@ -99,6 +99,10 @@ output "shared_secrets_apm" {
   value = local.apm_secrets
 }
 
+output "esf_data_stream_name" {
+  value = module.esf_data_stream.name
+}
+
 # Elastic Cloud
 
 output "ec_public_internet_traffic_filter_id" {
