@@ -25,9 +25,9 @@ resource "aws_s3_object" "esf_config" {
     "${path.module}/config.yml.tftpl",
     {
       kinesis_stream_arn  = var.kinesis_log_stream_arn
+      es_data_stream_name = var.es_data_stream
       es_url_secret_arn   = local.host_secret_arn
       api_key_secret_arn  = local.api_key_secret_arn
-      es_data_stream_name = "service-logs-esf"
     }
   )
 }

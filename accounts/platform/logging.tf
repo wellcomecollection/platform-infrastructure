@@ -11,6 +11,8 @@ resource "aws_kinesis_stream" "logs_for_esf" {
 }
 
 module "elastic_log_forwarder" {
-  source                 = "../modules/elastic_log_forwarder"
+  source = "../modules/elastic_log_forwarder"
+
   kinesis_log_stream_arn = aws_kinesis_stream.logs_for_esf.arn
+  es_data_stream         = "service-logs-esf"
 }
