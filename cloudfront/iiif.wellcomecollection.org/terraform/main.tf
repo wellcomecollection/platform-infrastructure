@@ -33,3 +33,15 @@ module "iiif-test" {
 
   default_target_origin_id = "iiif"
 }
+
+module "iiif-stage-new" {
+  source = "./cloudfront_distro"
+
+  environment         = "stage-new"
+  acm_certificate_arn = module.cert.arn
+
+  origins    = local.test_origins
+  behaviours = local.test_behaviours
+
+  default_target_origin_id = "iiif"
+}

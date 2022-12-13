@@ -22,6 +22,14 @@ module "iiif_test" {
   distribution_id = data.terraform_remote_state.iiif_wc_cloudfront.outputs.iiif_test_distribution_id
 }
 
+# topic and handler for invalidating iiif-stage-new.wc.org paths
+module "iiif_stage_new" {
+  source = "./sns_lambda"
+
+  friendly_name   = "iiif-stage-new"
+  distribution_id = data.terraform_remote_state.iiif_wc_cloudfront.outputs.iiif_stage_new_distribution_id
+}
+
 # topic and handler for invalidating api.wc.org paths
 module "api_prod" {
   source = "./sns_lambda"

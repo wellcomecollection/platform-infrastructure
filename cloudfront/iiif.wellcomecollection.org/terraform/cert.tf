@@ -7,6 +7,7 @@ module "cert" {
     "iiif-test.wellcomecollection.org",
     "iiif-prod.wellcomecollection.org",
     "iiif-stage.wellcomecollection.org",
+    "iiif-stage-new.wellcomecollection.org",
   ]
 
   zone_id = data.aws_route53_zone.zone.id

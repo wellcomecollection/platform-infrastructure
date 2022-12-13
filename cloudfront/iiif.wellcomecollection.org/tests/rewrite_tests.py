@@ -118,33 +118,33 @@ def validate_cors_headers(uri, origin):
     click.echo(click.style(f"Request to '{uri}' has expected CORS.", fg="green"))
 
 
-def run_checks(env_suffix=""):
+def run_checks(env_suffix="", dlcs_hostname="dlcs.io"):
     space = 5 if env_suffix == "" else 6
     id_checks = {
         # miro
         # wellcome_images_dlcs_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459": f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459",  # miro root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459",  # miro info.json, wc.org
-        f"https://dlcs.io/iiif-img/2/8/V0022459": f"https://dlcs.io/iiif-img/2/8/V0022459",  # miro root, dlcs.io
-        f"https://dlcs.io/iiif-img/2/8/V0022459/info.json": f"https://dlcs.io/iiif-img/2/8/V0022459",  # miro info.json, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459": f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro root, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459/info.json": f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro info.json, dlcs.io
         # non-miro images
         # dlcs_images_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2": f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2",  # non-miro root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2",  # non-miro info.json, wc.org
-        f"https://dlcs.io/iiif-img/2/{space}/b31905560_0006.jp2": f"https://dlcs.io/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro root, dlcs.io
-        f"https://dlcs.io/iiif-img/2/{space}/b31905560_0006.jp2/info.json": f"https://dlcs.io/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro info.json, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2": f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro root, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2/info.json": f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro info.json, dlcs.io
         # video
         # av_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, wc.org
-        f"https://dlcs.io/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https://dlcs.io/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, dlcs.io
-        f"https://dlcs.io/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https://dlcs.io/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, dlcs.io
         # audio
         # av_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3": f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3",  # root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3",  # info.json, wc.org
-        f"https://dlcs.io/iiif-av/2/{space}/b32496485_0001_0001.mp3": f"https://dlcs.io/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # root, dlcs.io
-        f"https://dlcs.io/iiif-av/2/{space}/b32496485_0001_0001.mp3/info.json": f"https://dlcs.io/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # info.json, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # root, dlcs.io
+        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3/info.json": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # info.json, dlcs.io
     }
 
     # validate info.json @id correct
@@ -232,6 +232,8 @@ def check_iiif(env):
         run_checks("-stage")
     elif env == "test":
         run_checks("-test")
+    elif env == "stage-new":
+        run_checks("-stage-new", "neworchestrator.dlcs.io")
     else:
         run_checks()
 

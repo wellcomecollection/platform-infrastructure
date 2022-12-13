@@ -138,3 +138,31 @@ resource "aws_sns_topic_policy" "iiif_test" {
   arn    = module.iiif_test.sns_topic_arn
   policy = data.aws_iam_policy_document.iiif_test.json
 }
+
+data "aws_iam_policy_document" "iiif_stage_new" {
+  statement {
+    actions = [
+      "sns:Publish",
+    ]
+
+    resources = [module.iiif_stage_new.sns_topic_arn, ]
+
+    condition {
+      test     = "StringLike"
+      variable = "aws:userId"
+      values = [
+        "${local.dds_workflow_stage_new}:*"
+      ]
+    }
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_sns_topic_policy" "iiif_stage_new" {
+  arn    = module.iiif_stage_new.sns_topic_arn
+  policy = data.aws_iam_policy_document.iiif_stage_new.json
+}
