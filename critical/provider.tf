@@ -122,6 +122,6 @@ provider "aws" {
   }
 
   assume_role {
-    role_arn = "arn:aws:iam::269807742353:role/reporting-read_only"
+    role_arn = "arn:aws:iam::269807742353:role/reporting-developer"
   }
 }
