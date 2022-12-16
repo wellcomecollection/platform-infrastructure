@@ -4,6 +4,6 @@ inputs:
     outputs:
       - type: "elasticsearch"
         args:
-          elasticsearch_url: "${es_url_secret_arn}"
+          elasticsearch_url: "https://${es_host_secret_arn}"
           api_key: "${api_key_secret_arn}"
           es_datastream_name: "${es_data_stream_name}"
