@@ -11,13 +11,13 @@ resource "aws_kinesis_stream" "destination" {
 }
 
 resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
-  name = "${var.name}-role"
+  name               = "${var.name}-role"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume_role.json
 }
 
 resource "aws_iam_role_policy" "kinesis_put_record" {
-  name = "kinesis-put-record-${var.name}"
-  role = aws_iam_role.cloudwatch_to_kinesis_role.name
+  name   = "kinesis-put-record-${var.name}"
+  role   = aws_iam_role.cloudwatch_to_kinesis_role.name
   policy = data.aws_iam_policy_document.kinesis_put_record.json
 }
 
@@ -41,8 +41,8 @@ data "aws_iam_policy_document" "cloudwatch_assume_role" {
 
 data "aws_iam_policy_document" "kinesis_put_record" {
   statement {
-    effect = "Allow"
-    actions = ["kinesis:PutRecord"]
+    effect    = "Allow"
+    actions   = ["kinesis:PutRecord"]
     resources = [aws_kinesis_stream.destination.arn]
   }
 }
