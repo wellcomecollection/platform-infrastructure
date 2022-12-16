@@ -112,3 +112,16 @@ provider "aws" {
     role_arn = "arn:aws:iam::653428163053:role/digirati-admin"
   }
 }
+
+provider "aws" {
+  alias  = "reporting"
+  region = "eu-west-1"
+
+  default_tags {
+    tags = local.default_tags
+  }
+
+  assume_role {
+    role_arn = "arn:aws:iam::269807742353:role/reporting-read_only"
+  }
+}

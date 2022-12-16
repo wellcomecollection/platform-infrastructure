@@ -17,12 +17,38 @@ locals {
   aws_region = "eu-west-1"
 
   account_ids = {
-    catalogue  = "756629837203"
-    reporting  = "269807742353"
-    experience = "130871440101"
+    catalogue  = data.aws_caller_identity.catalogue.account_id
+    digirati  = data.aws_caller_identity.digirati.account_id
+    experience = data.aws_caller_identity.experience.account_id
+    identity = data.aws_caller_identity.identity.account_id
+    reporting = data.aws_caller_identity.reporting.account_id
+    storage = data.aws_caller_identity.storage.account_id
+    workflow = data.aws_caller_identity.workflow.account_id
   }
 
   default_tags = {
     TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/critical"
   }
+}
+
+data "aws_caller_identity" "catalogue" {
+  provider = aws.catalogue
+}
+data "aws_caller_identity" "digirati" {
+  provider = aws.digirati
+}
+data "aws_caller_identity" "experience" {
+  provider = aws.experience
+}
+data "aws_caller_identity" "identity" {
+  provider = aws.identity
+}
+data "aws_caller_identity" "reporting" {
+  provider = aws.reporting
+}
+data "aws_caller_identity" "storage" {
+  provider = aws.storage
+}
+data "aws_caller_identity" "workflow" {
+  provider = aws.workflow
 }
