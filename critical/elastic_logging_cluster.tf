@@ -98,7 +98,7 @@ resource "ec_deployment" "logging" {
 
   apm {
     topology {
-      size       = "0.5g"
+      size       = "1g"
       zone_count = 1
     }
 
