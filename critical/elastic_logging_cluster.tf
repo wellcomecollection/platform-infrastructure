@@ -126,7 +126,7 @@ locals {
   logging_apm_server_url = ec_deployment.logging.apm[0].https_endpoint
   logging_apm_secret     = ec_deployment.logging.apm_secret_token
 
-  logging_esf_api_key = elasticstack_elasticsearch_security_api_key.esf.api_key
+  logging_esf_api_key = elasticstack_elasticsearch_security_api_key.esf.encoded
 }
 
 module "host_secrets" {
@@ -190,11 +190,14 @@ resource "elasticstack_elasticsearch_security_api_key" "esf" {
   name = "Elastic Serverless Forwarder"
 
   role_descriptors = jsonencode({
+    cluster-health = {
+      cluster = ["monitor"]
+    }
     write-to-stream = {
       indices = [
         {
           names      = [module.esf_data_stream.name],
-          privileges = ["create_index", "index", "create"]
+          privileges = ["create_index", "index", "create", "auto_configure"]
         }
       ]
     }
