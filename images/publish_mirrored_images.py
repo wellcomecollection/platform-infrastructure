@@ -44,7 +44,6 @@ IMAGE_TAGS = [
     "localstack/localstack:0.10.5",
     "localstack/localstack:0.14.2",
     "scality/s3server:mem-latest",
-    "wellcome/build_test_python",
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
     "wellcome/format_python:latest",

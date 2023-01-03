@@ -134,7 +134,6 @@ locals {
     "localstack/localstack",
     "nginx",
     "scality/s3server",
-    "wellcome/build_test_python",
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
