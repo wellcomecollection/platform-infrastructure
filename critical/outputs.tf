@@ -99,8 +99,12 @@ output "shared_secrets_apm" {
   value = local.apm_secrets
 }
 
-output "esf_data_stream_name" {
+output "elasticsearch_log_forwarder_data_stream_name" {
   value = module.esf_data_stream.name
+}
+
+output "elasticsearch_log_forwarder_kinesis_arn" {
+  value = module.kinesis_log_destination.kinesis_stream.arn
 }
 
 # Elastic Cloud
