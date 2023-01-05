@@ -126,7 +126,7 @@ locals {
   logging_apm_server_url = ec_deployment.logging.apm[0].https_endpoint
   logging_apm_secret     = ec_deployment.logging.apm_secret_token
 
-  logging_esf_api_key = elasticstack_elasticsearch_security_api_key.esf.encoded
+  logging_forwarder_api_key = elasticstack_elasticsearch_security_api_key.log_forwarder.encoded
 }
 
 module "host_secrets" {
@@ -141,7 +141,7 @@ module "host_secrets" {
     "elasticsearch/logging/apm_server_url"  = local.logging_apm_server_url
     "elasticsearch/logging/apm_secret"      = local.logging_apm_secret
 
-    "elasticsearch/logging/esf/api_key" = local.logging_esf_api_key
+    "elasticsearch/logging/forwarder/api_key" = local.logging_forwarder_api_key
 
     # Duplicated as this is what consumers currently expect
     # The above naming scheme is common to our other ES setups
@@ -173,21 +173,21 @@ resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
   metadata = jsonencode({ version = 1 })
 }
 
-module "esf_data_stream" {
+module "log_data_stream" {
   source = "./modules/elasticsearch_data_stream"
   providers = {
     elasticstack = elasticstack.logging
   }
 
-  stream_name            = "service-logs-esf"
+  stream_name            = "service-logs-forwarded"
   index_rollover_max_age = "1d"
   index_delete_after     = "30d"
 }
 
-resource "elasticstack_elasticsearch_security_api_key" "esf" {
+resource "elasticstack_elasticsearch_security_api_key" "log_forwarder" {
   provider = elasticstack.logging
 
-  name = "Elastic Serverless Forwarder"
+  name = "Elasticsearch log forwarder"
 
   role_descriptors = jsonencode({
     cluster-health = {
@@ -196,7 +196,7 @@ resource "elasticstack_elasticsearch_security_api_key" "esf" {
     write-to-stream = {
       indices = [
         {
-          names      = [module.esf_data_stream.name],
+          names      = [module.log_data_stream.name],
           privileges = ["create_index", "index", "create", "auto_configure"]
         }
       ]
