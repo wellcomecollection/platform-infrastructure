@@ -173,13 +173,13 @@ resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
   metadata = jsonencode({ version = 1 })
 }
 
-module "esf_data_stream" {
+module "log_data_stream" {
   source = "./modules/elasticsearch_data_stream"
   providers = {
     elasticstack = elasticstack.logging
   }
 
-  stream_name            = "service-logs-esf"
+  stream_name            = "service-logs-forwarded"
   index_rollover_max_age = "1d"
   index_delete_after     = "30d"
 }
@@ -196,7 +196,7 @@ resource "elasticstack_elasticsearch_security_api_key" "log_forwarder" {
     write-to-stream = {
       indices = [
         {
-          names      = [module.esf_data_stream.name],
+          names      = [module.log_data_stream.name],
           privileges = ["create_index", "index", "create", "auto_configure"]
         }
       ]

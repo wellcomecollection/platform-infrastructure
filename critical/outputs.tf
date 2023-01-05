@@ -100,7 +100,7 @@ output "shared_secrets_apm" {
 }
 
 output "elasticsearch_log_forwarder_data_stream_name" {
-  value = module.esf_data_stream.name
+  value = module.log_data_stream.name
 }
 
 output "elasticsearch_log_forwarder_kinesis_arn" {
