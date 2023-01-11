@@ -133,7 +133,6 @@ locals {
   mirrored_images = [
     "localstack/localstack",
     "nginx",
-    "scality/s3server",
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
