@@ -40,7 +40,7 @@ module "iiif-stage-new" {
   environment         = "stage-new"
   acm_certificate_arn = module.cert_stagenew.arn
 
-  origins    = local.test_origins
+  origins    = local.stage_new_origins
   behaviours = local.test_behaviours
 
   default_target_origin_id = "iiif"
