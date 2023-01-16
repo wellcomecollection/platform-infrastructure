@@ -38,7 +38,7 @@ module "iiif-stage-new" {
   source = "./cloudfront_distro"
 
   environment         = "stage-new"
-  acm_certificate_arn = module.cert.arn
+  acm_certificate_arn = module.cert_stagenew.arn
 
   origins    = local.test_origins
   behaviours = local.test_behaviours
