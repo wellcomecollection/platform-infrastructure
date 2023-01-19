@@ -3,6 +3,17 @@ locals {
   distro_alias       = "iiif${local.subdomain_modifier}.wellcomecollection.org"
 }
 
+resource "aws_route53_record" "subdomain" {
+  name    = local.distro_alias
+  records = [aws_cloudfront_distribution.iiif.domain_name]
+
+  zone_id = data.aws_route53_zone.weco_zone.id
+  type    = "CNAME"
+  ttl     = 300
+
+  provider = aws.dns
+}
+
 resource "aws_cloudfront_distribution" "iiif" {
   aliases = [
     local.distro_alias
