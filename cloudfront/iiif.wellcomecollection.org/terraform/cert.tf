@@ -17,6 +17,21 @@ module "cert" {
   }
 }
 
+# rather than alter the current, prod cert create a new one
+# for temporary environment
+module "cert_stagenew" {
+  source = "../../modules/certificate"
+
+  domain_name = "iiif-stage-new.wellcomecollection.org"
+
+  zone_id = data.aws_route53_zone.zone.id
+
+  providers = {
+    aws     = aws.us_east_1
+    aws.dns = aws.dns
+  }
+}
+
 data "aws_route53_zone" "zone" {
   provider = aws.dns
 

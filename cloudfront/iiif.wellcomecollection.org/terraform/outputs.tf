@@ -18,3 +18,7 @@ output "iiif_stage_distribution_id" {
 output "iiif_test_distribution_id" {
   value = module.iiif-test.distribution_id
 }
+
+output "iiif_stage_new_distribution_id" {
+  value = module.iiif-stage-new.distribution_id
+}
