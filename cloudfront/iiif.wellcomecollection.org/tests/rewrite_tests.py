@@ -131,14 +131,14 @@ def run_checks(env_suffix="", dlcs_hostname="dlcs.io"):
         # dlcs_images_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2": f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2",  # non-miro root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2",  # non-miro info.json, wc.org
-        f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2": f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro root, dlcs.io
-        f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2/info.json": f"https:/{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro info.json, dlcs.io
+        f"https://{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2": f"https://{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro root, dlcs.io
+        f"https://{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2/info.json": f"https://{dlcs_hostname}/iiif-img/2/{space}/b31905560_0006.jp2",  # non-miro info.json, dlcs.io
         # video
         # av_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/av/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, wc.org
-        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, dlcs.io
-        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, dlcs.io
+        f"https://{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg": f"https://{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # root, dlcs.io
+        f"https://{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg/info.json": f"https://{dlcs_hostname}/iiif-av/2/{space}/b16756654_0055-0000-4202-0000-0-0000-0000-0.mpg",  # info.json, dlcs.io
         # audio
         # av_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3": f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3",  # root, wc.org
