@@ -125,8 +125,8 @@ def run_checks(env_suffix="", dlcs_hostname="dlcs.io"):
         # wellcome_images_dlcs_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459": f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459",  # miro root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/image/V0022459",  # miro info.json, wc.org
-        f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459": f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro root, dlcs.io
-        f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459/info.json": f"https:/{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro info.json, dlcs.io
+        f"https://{dlcs_hostname}/iiif-img/2/8/V0022459": f"https://{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro root, dlcs.io
+        f"https://{dlcs_hostname}/iiif-img/2/8/V0022459/info.json": f"https://{dlcs_hostname}/iiif-img/2/8/V0022459",  # miro info.json, dlcs.io
         # non-miro images
         # dlcs_images_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2": f"https://iiif{env_suffix}.wellcomecollection.org/image/b31905560_0006.jp2",  # non-miro root, wc.org
@@ -143,8 +143,8 @@ def run_checks(env_suffix="", dlcs_hostname="dlcs.io"):
         # av_behaviours
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3": f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3",  # root, wc.org
         f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3/info.json": f"https://iiif{env_suffix}.wellcomecollection.org/av/b32496485_0001_0001.mp3",  # info.json, wc.org
-        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # root, dlcs.io
-        f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3/info.json": f"https:/{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # info.json, dlcs.io
+        f"https://{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3": f"https://{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # root, dlcs.io
+        f"https://{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3/info.json": f"https://{dlcs_hostname}/iiif-av/2/{space}/b32496485_0001_0001.mp3",  # info.json, dlcs.io
     }
 
     # validate info.json @id correct
