@@ -19,16 +19,6 @@ steps:
     retry:
       automatic: true
 
-  - label: "IIIF STAGE-NEW Redirects"
-    plugins:
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: iiif_tests
-          command: ["--env", "stage-new"]
-    retry:
-      automatic: true
-
   - label: "IIIF PROD Redirects"
     plugins:
       - ecr#v2.1.1:
