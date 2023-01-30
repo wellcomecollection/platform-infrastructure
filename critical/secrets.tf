@@ -5,6 +5,7 @@ locals {
     ES_HOST         = "shared/logging/es_host"
     ES_PORT         = "shared/logging/es_port"
     ES_HOST_PRIVATE = "shared/logging/es_host_private"
+    DATA_STREAM_NAME = "shared/logging/firelens_data_stream_name"
   }
 
   apm_secrets = {

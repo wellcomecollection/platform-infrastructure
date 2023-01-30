@@ -172,34 +172,3 @@ resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
   })
   metadata = jsonencode({ version = 1 })
 }
-
-module "log_data_stream" {
-  source = "./modules/elasticsearch_data_stream"
-  providers = {
-    elasticstack = elasticstack.logging
-  }
-
-  stream_name            = "service-logs-forwarded"
-  index_rollover_max_age = "1d"
-  index_delete_after     = "30d"
-}
-
-resource "elasticstack_elasticsearch_security_api_key" "log_forwarder" {
-  provider = elasticstack.logging
-
-  name = "Elasticsearch log forwarder"
-
-  role_descriptors = jsonencode({
-    cluster-health = {
-      cluster = ["monitor"]
-    }
-    write-to-stream = {
-      indices = [
-        {
-          names      = [module.log_data_stream.name],
-          privileges = ["create_index", "index", "create", "auto_configure"]
-        }
-      ]
-    }
-  })
-}
