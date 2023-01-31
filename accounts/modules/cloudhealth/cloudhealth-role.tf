@@ -13,11 +13,6 @@ resource "aws_iam_policy" "policy" {
   name        = "cloudhealth"
 }
 
-moved {
-  from = aws_iam_policy_attachment.wt-cloudhealth-policy-attachement
-  to   = aws_iam_policy_attachment.wt-cloudhealth-policy-attachment
-}
-
 resource "aws_iam_policy_attachment" "wt-cloudhealth-policy-attachment" {
   name       = "cloudhealth"
   policy_arn = aws_iam_policy.policy.arn
