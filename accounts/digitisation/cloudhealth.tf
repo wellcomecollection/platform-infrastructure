@@ -1,3 +1,4 @@
-module "cloudhealth-digitisation" {
-  source = "../modules/cloudhealth"
+moved {
+  from = module.cloudhealth-digitisation
+  to   = module.digitisation_account.module.cloudhealth
 }

@@ -1,3 +1,4 @@
-module "cloudhealth-catalogue" {
-  source = "../modules/cloudhealth"
+moved {
+  from = module.cloudhealth-catalogue
+  to   = module.catalogue_account.module.cloudhealth
 }

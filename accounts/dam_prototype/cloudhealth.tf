@@ -1,3 +1,4 @@
-module "cloudhealth-experience" {
-  source = "../modules/cloudhealth"
+moved {
+  from = module.cloudhealth-experience
+  to   = module.dam_prototype_account.module.cloudhealth
 }
