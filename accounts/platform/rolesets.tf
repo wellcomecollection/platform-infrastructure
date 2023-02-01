@@ -66,7 +66,7 @@ module "super_dev_roleset" {
     local.dam_prototype_account_roles["developer_role_arn"],
     local.dam_prototype_account_roles["read_only_role_arn"],
     local.dam_prototype_account_roles["admin_role_arn"],
-    
+
     # Microsites account
     local.microsites_account_roles["developer_role_arn"],
     local.microsites_account_roles["read_only_role_arn"],
