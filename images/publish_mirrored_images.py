@@ -46,8 +46,6 @@ IMAGE_TAGS = [
     "wellcome/flake8:latest",
     "wellcome/format_python:112",
     "wellcome/format_python:latest",
-    "wellcome/image_builder:23",
-    "wellcome/publish_lambda:130",
     "wellcome/sbt_wrapper",
     "wellcome/tox:latest",
     "zenko/cloudserver:8.1.8",

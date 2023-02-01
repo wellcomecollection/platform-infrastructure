@@ -136,8 +136,6 @@ locals {
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
-    "wellcome/image_builder",
-    "wellcome/publish_lambda",
     "wellcome/sbt_wrapper",
     "wellcome/tox",
     "zenko/cloudserver",
