@@ -111,7 +111,7 @@ There's a list of all of Wellcome's AWS account in the [Wellcome Trust Confluenc
 
 ## Standard roles
 
-Within each account (except microsites), we create a standard set of roles:
+Within each account, we create a standard set of roles:
 
 <table id="roles">
   <tr>
