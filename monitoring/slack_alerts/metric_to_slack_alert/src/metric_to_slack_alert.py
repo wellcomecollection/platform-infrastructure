@@ -80,7 +80,7 @@ def create_context_url(alarm_info):
     #
     # Note: if you're replacing or updating these URLs, remember to update
     # the template parameters like to_date/from_date.
-    
+
     # This is the ID for the index pattern `service-logs-*`
     # You can find index pattern IDs by doing:
     # GET .kibana/_search
