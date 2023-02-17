@@ -1,3 +1,6 @@
+# This provides a read-only role for CloudHealth, which is a service
+# used by D&T to manage all the Wellcome AWS accounts.
+
 resource "aws_iam_role" "role" {
   assume_role_policy = file("${path.module}/policies/wt-cloudhealth-role.json")
   description        = "This role provides read only access for cloudhealth"
@@ -10,7 +13,7 @@ resource "aws_iam_policy" "policy" {
   name        = "cloudhealth"
 }
 
-resource "aws_iam_policy_attachment" "wt-cloudhealth-policy-attachement" {
+resource "aws_iam_policy_attachment" "wt-cloudhealth-policy-attachment" {
   name       = "cloudhealth"
   policy_arn = aws_iam_policy.policy.arn
   roles      = [aws_iam_role.role.name]

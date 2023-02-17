@@ -1,18 +1,30 @@
 resource "aws_s3_bucket" "client_transfer_bucket" {
   bucket = "wellcomecollection-client-transfer"
-  acl    = "private"
 
   provider = aws.platform
+}
 
-  lifecycle_rule {
-    id      = "Transition to Infrequent Access"
-    enabled = true
+resource "aws_s3_bucket_lifecycle_configuration" "client_transfer_bucket" {
+  bucket = aws_s3_bucket.client_transfer_bucket.id
+
+  rule {
+    id     = "Transition to Infrequent Access"
+    status = "Enabled"
 
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
   }
+
+  provider = aws.platform
+}
+
+resource "aws_s3_bucket_acl" "client_transfer_bucket" {
+  bucket = aws_s3_bucket.client_transfer_bucket.id
+  acl    = "private"
+
+  provider = aws.platform
 }
 
 resource "aws_s3_bucket_policy" "client_transfer_read_write" {
