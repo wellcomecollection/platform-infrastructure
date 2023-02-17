@@ -8,6 +8,10 @@ module "iiif-prod" {
   behaviours = local.prod_behaviours
 
   default_target_origin_id = "iiif"
+
+  providers = {
+    aws.dns = aws.dns
+  }
 }
 
 module "iiif-stage" {
@@ -20,6 +24,10 @@ module "iiif-stage" {
   behaviours = local.stage_behaviours
 
   default_target_origin_id = "iiif"
+
+  providers = {
+    aws.dns = aws.dns
+  }
 }
 
 module "iiif-test" {
@@ -32,6 +40,10 @@ module "iiif-test" {
   behaviours = local.test_behaviours
 
   default_target_origin_id = "iiif"
+
+  providers = {
+    aws.dns = aws.dns
+  }
 }
 
 module "iiif-stage-new" {
@@ -44,4 +56,8 @@ module "iiif-stage-new" {
   behaviours = local.test_behaviours
 
   default_target_origin_id = "iiif"
+
+  providers = {
+    aws.dns = aws.dns
+  }
 }
