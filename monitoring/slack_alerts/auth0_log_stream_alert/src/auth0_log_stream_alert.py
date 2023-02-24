@@ -141,7 +141,10 @@ def should_alert_for_event(log_event):
         ],
 
         # Rate Limit on the Authentication or Management APIs
-        "api_limit": ["Global per second default group limit has been reached"],
+        "api_limit": [
+            "Global per second default group limit has been reached",
+            "You passed the limit of allowed calls to '/u/login'",
+        ],
     }
 
     # fmt: on
