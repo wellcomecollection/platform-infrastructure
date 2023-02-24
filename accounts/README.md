@@ -101,7 +101,7 @@ This includes getting AWS CLI credentials.
     <td>782179017633</td>
     <td>
       An old account with some microsites.
-      This predates the platform, and you can&rsquo;t access it using our role-based infrastructure.
+      This predates the platform.
       See <a href="./docs/microsites.md">notes on the microsites account</a>.
     </td>
   </tr>
