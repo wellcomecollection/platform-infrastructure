@@ -50,11 +50,8 @@ This is the rough architecture:
     |    this Lambda     |
     +--------------------+
               |
-              v
-    +--------------------+
-    |    is this event   |
-    |   worth alerting?  |
-    +--------------------+
+         is this event
+        worth alerting?
           /      \
          no       yes
         /          \
