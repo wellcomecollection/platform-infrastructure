@@ -49,6 +49,16 @@ This is the rough architecture:
     +--------------------+
     |    this Lambda     |
     +--------------------+
+              |
+              v
+    +--------------------+
+    |    is this event   |
+    |   worth alerting?  |
+    +--------------------+
+          /      \
+         no       yes
+        /          \
+   do nothing    send alert to Slack
 
 The log stream/EventBridge/SNS integration is set up in the identity repo, see https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf
 
