@@ -1,16 +1,69 @@
 """
-This is a Lambda which receives events from the Auth0 log stream rule in https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf
-These events are passed via an SNS topic to make permissions easier and for consistency with the other alerting lambdas.
+This Lambda posts alerts to Slack about Auth0 errors, for example:
 
-The contents of the messages looks like:
+    Error from Auth0 (prod)
+    Event type: Failed Change Password / View in dashboard
 
-{
-  "environment": string,
-  "tenant_name": string
-  "log_id": string,
-}
+    Error from Auth0 (stage)
+    Event type: Failed Login / View in dashboard
+    > Missing required parameter: response_type
 
-It sends alerts to Slack which link back to the log event in Auth0.
+It's designed to give us useful alerts about Auth0 issues without leaking
+private information into Slack.
+
+== Desired behaviour ==
+
+*   Auth0 log events are filtered, so we only see events that require
+    dev attention.
+
+    e.g. we shouldn't hear about a failed login because somebody entered
+    the wrong password, but we should hear if it fails because the Sierra API
+    returns an unexpected error
+
+*   It's easy for devs to start debugging the issue.  This includes sending
+    the error description to Slack (if we're sure the description doesn't
+    contain personal info) and providing a link to view the raw log in the
+    Auth0 management console (which requires a log in).
+
+*   Personally identifiable information from Auth0 never gets sent to Slack.
+
+== How it works ==
+
+This is the rough architecture:
+
+    +--------------------+
+    |  Auth0 log stream  |
+    +--------------------+
+              |
+              v
+    +--------------------+
+    | Amazon EventBridge |
+    +--------------------+
+              |
+              v
+    +--------------------+
+    |     Amazon SNS     |
+    +--------------------+
+              |
+              v
+    +--------------------+
+    |    this Lambda     |
+    +--------------------+
+
+The log stream/EventBridge/SNS integration is set up in the identity repo, see https://github.com/wellcomecollection/identity/blob/main/infra/scoped/auth0-logs.tf
+
+We send the events from Auth0 via an SNS topic, because that's how we handle
+events in our other alerting Lambdas.
+
+The events have this template:
+
+    {
+      "environment": string,
+      "tenant_name": string
+      "log_id": string,
+    }
+
+== Deployment ==
 
 This Lambda is deployed by running a Terraform plan/apply.
 
