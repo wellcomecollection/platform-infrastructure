@@ -121,6 +121,7 @@ def should_alert_for_event(log_event):
         # fcp = Failed Change Password
         "fcp": [
             "You may have pressed the back button",
+            "Password contains user information",
             "PIN is not valid : PIN is trivial",
         ],
 
