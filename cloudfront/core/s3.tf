@@ -7,8 +7,22 @@ resource "aws_s3_bucket" "edge_lambdas" {
   provider = aws.us_east_1
 
   bucket = "wellcomecollection-edge-lambdas"
-  acl    = "private"
-  versioning {
-    enabled = true
+}
+
+resource "aws_s3_bucket_acl" "edge_lambdas" {
+  bucket = aws_s3_bucket.edge_lambdas.id
+
+  provider = aws.us_east_1
+
+  acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "edge_lambdas" {
+  bucket = aws_s3_bucket.edge_lambdas.id
+
+  provider = aws.us_east_1
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
