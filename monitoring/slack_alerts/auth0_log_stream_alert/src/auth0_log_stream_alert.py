@@ -182,6 +182,7 @@ def should_alert_for_event(log_event):
         "fcp": [
             "You may have pressed the back button",
             "Password contains user information",
+            "Password is too common",
             "PIN is not valid : PIN is trivial",
         ],
 
