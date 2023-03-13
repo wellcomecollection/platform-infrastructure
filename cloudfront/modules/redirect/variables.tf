@@ -7,5 +7,6 @@ variable "from" {
 }
 
 variable "to" {
-  description = "Which domain to redirect to"
+  description = "The hostname of the domain to redirect to"
+  type        = string
 }

@@ -88,14 +88,6 @@ This includes getting AWS CLI credentials.
     <td>299497370133</td>
     <td>Goobi and Archivematica.</td>
   </tr>
-
-  <tr>
-    <td>dam_prototype</td>
-    <td>241906670800</td>
-    <td>
-      An empty account used for testing the storage service demo.
-    </td>
-  </tr>
   <tr>
     <td>microsites</td>
     <td>782179017633</td>
@@ -103,6 +95,18 @@ This includes getting AWS CLI credentials.
       An old account with some microsites.
       This predates the platform.
       See <a href="./docs/microsites.md">notes on the microsites account</a>.
+    </td>
+  </tr>
+</table>
+
+For historical reference, these are accounts we used to have but have since closed:
+
+<table>
+  <tr>
+    <td>dam_prototype</td>
+    <td>241906670800</td>
+    <td>
+      Used for testing the storage service demo.
     </td>
   </tr>
 </table>
