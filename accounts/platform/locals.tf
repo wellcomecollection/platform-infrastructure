@@ -16,6 +16,7 @@ locals {
   identity_account_roles      = data.terraform_remote_state.accounts_identity.outputs
   dam_prototype_account_roles = data.terraform_remote_state.accounts_dam_prototype.outputs
   microsites_account_roles    = data.terraform_remote_state.accounts_microsites.outputs
+  systems_strategy_account_roles    = data.terraform_remote_state.accounts_systems_strategy.outputs
 
   account_ids = {
     platform = local.account_id

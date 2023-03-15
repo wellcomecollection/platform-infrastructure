@@ -72,6 +72,11 @@ module "super_dev_roleset" {
     local.microsites_account_roles["read_only_role_arn"],
     local.microsites_account_roles["admin_role_arn"],
 
+    # Systems strategy account
+    local.systems_strategy_account_roles["developer_role_arn"],
+    local.systems_strategy_account_roles["read_only_role_arn"],
+    local.systems_strategy_account_roles["admin_role_arn"],
+
     # CI Roles
     local.ci_agent_role_arn,
     module.aws_account.publisher_role_arn,
