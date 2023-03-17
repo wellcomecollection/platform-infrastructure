@@ -17,6 +17,7 @@ variable "tags" {
 variable "origin_domains" {
   type = object({
     catalogue = string
+    content   = string
     storage   = string
     text      = string
   })
