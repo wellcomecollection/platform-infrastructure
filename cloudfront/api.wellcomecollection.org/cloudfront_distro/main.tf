@@ -21,6 +21,25 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   }
 
   origin {
+    domain_name = var.origin_domains.content
+    origin_id   = "content_api"
+    origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
+
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_keepalive_timeout = 5
+      origin_read_timeout      = 30
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
+    }
+  }
+
+  origin {
     domain_name = var.origin_domains.storage
     origin_id   = "storage_api"
     origin_path = "" // https://github.com/hashicorp/terraform-provider-aws/issues/12065#issuecomment-587518720
@@ -109,6 +128,33 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     #
     # A little bit of caching here should mitigate the effect of somebody
     # sending a flood of requests to /works.
+    min_ttl     = 0
+    default_ttl = 10
+    max_ttl     = 10
+
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "/content/*"
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "content_api"
+
+    forwarded_values {
+      query_string = true
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    # We don't want to cache these results for too long, because that
+    # means we'd be serving stale data -- but nor does this data need to
+    # be so fresh that we need to go back to the API every single time.
+    #
+    # A little bit of caching here should mitigate the effect of somebody
+    # sending a flood of requests.
     min_ttl     = 0
     default_ttl = 10
     max_ttl     = 10
