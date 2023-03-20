@@ -154,7 +154,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     # be so fresh that we need to go back to the API every single time.
     #
     # A little bit of caching here should mitigate the effect of somebody
-    # sending a flood of requests to /works.
+    # sending a flood of requests.
     min_ttl     = 0
     default_ttl = 10
     max_ttl     = 10
