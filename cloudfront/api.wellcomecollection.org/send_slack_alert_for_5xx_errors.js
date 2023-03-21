@@ -303,7 +303,6 @@ function isInterestingError(hit) {
   // are the first byte of multi-byte Unicode characters which don't
   // fit into a single byte.  This should filter out bogus requests but
   // avoid dropping errors from legitimate queries.
-  console.log(`@@AWLC hit.query = ${hit.query}`);
   if (
     hit.status === 503 &&
     (hit.query.split('%C3').length > 80 || hit.query.split('%25C2').length > 80)
