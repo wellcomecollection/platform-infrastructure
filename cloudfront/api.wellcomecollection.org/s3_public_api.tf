@@ -1,11 +1,23 @@
 // S3 origin for redirect to developers.wellcomecollection.org
 resource "aws_s3_bucket" "public_api" {
   bucket = "wellcomecollection-public-api"
-  acl    = "public-read"
+}
 
-  website {
-    index_document = "index.html"
+resource "aws_s3_bucket_acl" "public_api" {
+  bucket = aws_s3_bucket.public_api.id
+  acl = "public-read"
+}
+
+resource "aws_s3_bucket_website_configuration" "public_api" {
+  bucket = aws_s3_bucket.public_api.id
+
+  index_document {
+    suffix = "index.html"
   }
+}
+
+resource "aws_s3_bucket_policy" "public_api" {
+  bucket = aws_s3_bucket.public_api.id
 
   policy = <<EOF
 {
@@ -25,7 +37,7 @@ resource "aws_s3_bucket" "public_api" {
 EOF
 }
 
-resource "aws_s3_bucket_object" "object" {
+resource "aws_s3_object" "object" {
   bucket       = aws_s3_bucket.public_api.bucket
   key          = "index.html"
   source       = "${path.module}/s3_objects/index.html"
