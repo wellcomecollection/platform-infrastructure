@@ -97,6 +97,15 @@ This includes getting AWS CLI credentials.
       See <a href="./docs/microsites.md">notes on the microsites account</a>.
     </td>
   </tr>
+  <tr>
+    <td>systems_strategy</td>
+    <td>487094370410</td>
+    <td>
+      Another old account.
+      This predates the platform.
+    </td>
+  </tr>
+
 </table>
 
 For historical reference, these are accounts we used to have but have since closed:
