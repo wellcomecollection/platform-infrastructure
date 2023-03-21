@@ -1,12 +1,12 @@
 module "slack_alerts_for_5xx" {
-  source      = "./lambda"
+  source = "./lambda"
 
   source_file = "${path.module}/send_slack_alert_for_5xx_errors.js"
   handler     = "send_slack_alert_for_5xx_errors.handler"
   runtime     = "nodejs16.x"
 
-  description     = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
-  name            = "send_slack_alert_for_5xx_errors"
+  description = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
+  name        = "send_slack_alert_for_5xx_errors"
 
   environment_variables = {
     WEBHOOK_URL = data.aws_secretsmanager_secret_version.slack_webhook.secret_string

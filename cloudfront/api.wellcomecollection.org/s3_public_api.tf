@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "public_api" {
 
 resource "aws_s3_bucket_acl" "public_api" {
   bucket = aws_s3_bucket.public_api.id
-  acl = "public-read"
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_website_configuration" "public_api" {
