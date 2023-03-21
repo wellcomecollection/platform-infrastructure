@@ -209,8 +209,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
 
-  tags = var.tags
-
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
     ssl_support_method  = "sni-only"

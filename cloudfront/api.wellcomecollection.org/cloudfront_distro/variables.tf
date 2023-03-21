@@ -10,10 +10,6 @@ variable "comment" {
   type = string
 }
 
-variable "tags" {
-  type = map(string)
-}
-
 variable "origin_domains" {
   type = object({
     catalogue = string

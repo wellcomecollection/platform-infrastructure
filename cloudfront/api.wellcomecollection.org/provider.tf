@@ -1,8 +1,19 @@
+locals {
+  default_tags = {
+    Managed                   = "terraform"
+    TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/cloudfront/api.wellcomecollection.org"
+  }
+}
+
 provider "aws" {
   region = "eu-west-1"
 
   assume_role {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    role_arn = "arn:aws:iam::760097843905:role/platform-admin"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
 
@@ -14,6 +25,10 @@ provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
   }
+
+  default_tags {
+    tags = local.default_tags
+  }
 }
 
 provider "aws" {
@@ -22,5 +37,9 @@ provider "aws" {
 
   assume_role {
     role_arn = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
+  }
+
+  default_tags {
+    tags = local.default_tags
   }
 }
