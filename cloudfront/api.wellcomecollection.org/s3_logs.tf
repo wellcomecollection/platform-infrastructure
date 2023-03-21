@@ -37,7 +37,7 @@ resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
   }
 }
 
-/*resource "aws_s3_bucket_notification" "bucket_notification" {
+resource "aws_s3_bucket_notification" "bucket_notification" {
   bucket = aws_s3_bucket.cloudfront_logs.id
 
   # Whenever a new log file is written to the CloudFront logs bucket,
@@ -46,4 +46,4 @@ resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
     lambda_function_arn = module.slack_alerts_for_5xx.arn
     events              = ["s3:ObjectCreated:*"]
   }
-}*/
+}
