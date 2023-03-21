@@ -294,6 +294,24 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // We've seen requests for very long query strings that result in
+  // an HTTP 503 timeout from the API.
+  //
+  // There's not a lot we can do about these, and they're usually
+  // people putting spam into the API, so ignore them.
+  //
+  // This heuristic is deliberately quite hard to hit -- it has to
+  // be both a timeout and have a high frequency of %C2 or %C3, which
+  // are the first byte of multi-byte Unicode characters which don't
+  // fit into a single byte.  This should filter out bogus requests but
+  // avoid dropping errors from legitimate queries.
+  if (
+    hit.status === 503 &&
+    ((hit.query.match(/%C3/g) || []).length > 80 || (hit.query.match(/%C2/g) || []).length > 80)
+  ) {
+    return false;
+  }
+
   return true;
 }
 
