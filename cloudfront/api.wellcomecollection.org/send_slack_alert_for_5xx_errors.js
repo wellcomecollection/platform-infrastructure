@@ -81,7 +81,7 @@ async function findCloudFrontHitsFromLog(bucket, key) {
 
         // Note: if the request contained an empty query string, CloudFront
         // will log this as '-'
-        query: hit['cs-uri-query'] !== '-' ? hit['cs-uri-query'] : null,
+        query: hit['cs-uri-query'] !== '-' ? decodeURIComponent(hit['cs-uri-query']) : null,
       });
 
       result.push(hit);
@@ -200,12 +200,10 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
 }
 
 function createDisplayUrl(protocol, host, path, query) {
-  // Note: CloudFront encodes query parameters so we have to decode to get
-  // back to the actual URL requested.
   if (query === null) {
     return `${protocol}://${host}${path}`;
   } else {
-    return decodeURI(`${protocol}://${host}${path}?${query}`);
+    return `${protocol}://${host}${path}?${query}`;
   }
 }
 
@@ -305,9 +303,10 @@ function isInterestingError(hit) {
   // are the first byte of multi-byte Unicode characters which don't
   // fit into a single byte.  This should filter out bogus requests but
   // avoid dropping errors from legitimate queries.
+  console.log(`@@AWLC hit.query = ${hit.query}`);
   if (
     hit.status === 503 &&
-    ((hit.query.match(/%C3/g) || []).length > 80 || (hit.query.match(/%C2/g) || []).length > 80)
+    (hit.query.split('%C3').length > 80 || hit.query.split('%25C2').length > 80)
   ) {
     return false;
   }
