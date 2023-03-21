@@ -10,10 +10,6 @@ variable "comment" {
   type = string
 }
 
-variable "tags" {
-  type = map(string)
-}
-
 variable "origin_domains" {
   type = object({
     catalogue = string
@@ -24,5 +20,9 @@ variable "origin_domains" {
 }
 
 variable "root_s3_domain" {
+  type = string
+}
+
+variable "cloudfront_logs_bucket" {
   type = string
 }

@@ -209,8 +209,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
   price_class         = "PriceClass_100"
   default_root_object = "index.html"
 
-  tags = var.tags
-
   viewer_certificate {
     acm_certificate_arn = var.acm_certificate_arn
     ssl_support_method  = "sni-only"
@@ -220,5 +218,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
     geo_restriction {
       restriction_type = "none"
     }
+  }
+
+  logging_config {
+    include_cookies = false
+    bucket          = "${var.cloudfront_logs_bucket}.s3.amazonaws.com"
+    prefix          = "${var.aliases[0]}/"
   }
 }

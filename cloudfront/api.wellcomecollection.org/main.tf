@@ -1,10 +1,6 @@
 locals {
   prod_domain  = "api.wellcomecollection.org"
   stage_domain = "api-stage.wellcomecollection.org"
-  default_tags = {
-    Managed                   = "terraform"
-    TerraformConfigurationURL = "https://github.com/wellcomecollection/platform-infrastructure/tree/main/cloudfront/api.wellcomecollection.org"
-  }
 }
 
 module "wellcomecollection_prod" {
@@ -23,7 +19,7 @@ module "wellcomecollection_prod" {
 
   acm_certificate_arn = module.cert.arn
 
-  tags = local.default_tags
+  cloudfront_logs_bucket = aws_s3_bucket.cloudfront_logs.id
 }
 
 module "wellcomecollection_stage" {
@@ -42,5 +38,5 @@ module "wellcomecollection_stage" {
 
   acm_certificate_arn = module.cert.arn
 
-  tags = local.default_tags
+  cloudfront_logs_bucket = aws_s3_bucket.cloudfront_logs.id
 }
