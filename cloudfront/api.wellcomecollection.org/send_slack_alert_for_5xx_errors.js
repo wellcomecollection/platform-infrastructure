@@ -132,7 +132,7 @@ function createKibanaLogLink(serverErrors) {
   );
   const toDate = new Date(latestError.setMinutes(latestError.getMinutes() + 2));
 
-  return `https://logging.wellcomecollection.org/app/discover#/view/a73e29e0-675a-11ed-96c1-6b238c5d9965?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3A'${fromDate.toISOString()}'%2Cto%3A'${toDate.toISOString()}'))`;
+  return `https://logging.wellcomecollection.org/app/discover#?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3A'${fromDate.toISOString()}'%2Cto%3A'${toDate.toISOString()}'))`;
 }
 
 /** Send a message to Slack describing the errors.
@@ -200,43 +200,9 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
 }
 
 function createDisplayUrl(protocol, host, path, query) {
-  // URLs going to the account API might contain sensitive information, e.g. tokens,
-  // which we don't want to log to a public Slack channel.
-  //
-  // We include enough information to distinguish requests, but then redact
-  // the rest of the value.
-  //
-  // e.g.
-  //
-  //      https://wc.org/account/api?password=correct-horse-battery-staple&code=sekritsekrit
-  //
-  // would become
-  //
-  //      https://wc.org/account/api?password=[cor... REDACTED]&code=[sek... REDACTED]
-  //
-  if (path.startsWith('/account') && query !== null) {
-    const originalParams = new URLSearchParams(query);
-
-    const redactedParams = Array.from(originalParams.entries()).map(function (
-      param
-    ) {
-      const key = param[0];
-      const value = param[1];
-      return [key, `[${value.slice(0, 3)}... REDACTED]`];
-    });
-    const redactedQuery = new URLSearchParams(redactedParams).toString();
-
-    return `${protocol}://${host}${path}?${redactedQuery}`
-      .replaceAll('=%5B', '=[')
-      .replaceAll('+REDACTED%5D', ' REDACTED]');
-  }
-
-  // We can return all other URLs as-is; I'm not aware of non-account URLs
-  // that would contain sensitive information.
-  //
   // Note: CloudFront encodes query parameters so we have to decode to get
   // back to the actual URL requested.
-  else if (query === null) {
+  if (query === null) {
     return `${protocol}://${host}${path}`;
   } else {
     return decodeURI(`${protocol}://${host}${path}?${query}`);
@@ -325,21 +291,6 @@ function isInterestingError(hit) {
   // Since we already get alerts for the e2e tests and they can be
   // very chatty when something goes wrong, ignore these errors.
   if (hit.ipAddress === '54.216.243.181') {
-    return false;
-  }
-
-  // Ignore any requests for PHP pages.
-  //
-  // This is usually somebody doing something malicious and hitting
-  // an ALB error, e.g. somebody hammering /wp-login.php with a bunch
-  // of random errors.  We don't have any PHP endpoints, so people trying
-  // to target PHP exploits are just noise.
-  if (hit.path.endsWith('.php')) {
-    return false;
-  }
-
-  // This is a path we use for testing the 500 error page.
-  if (hit.path === '/500') {
     return false;
   }
 
