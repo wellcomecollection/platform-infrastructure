@@ -23,6 +23,8 @@ module "wellcomecollection_prod" {
 
   acm_certificate_arn = module.cert.arn
 
+  cloudfront_logs_bucket = aws_s3_bucket.cloudfront_logs.id
+
   tags = local.default_tags
 }
 
@@ -41,6 +43,8 @@ module "wellcomecollection_stage" {
   root_s3_domain = aws_s3_bucket.public_api.bucket_domain_name
 
   acm_certificate_arn = module.cert.arn
+
+  cloudfront_logs_bucket = aws_s3_bucket.cloudfront_logs.id
 
   tags = local.default_tags
 }

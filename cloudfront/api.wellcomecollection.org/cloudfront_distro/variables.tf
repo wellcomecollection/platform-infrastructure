@@ -26,3 +26,7 @@ variable "origin_domains" {
 variable "root_s3_domain" {
   type = string
 }
+
+variable "cloudfront_logs_bucket" {
+  type = string
+}

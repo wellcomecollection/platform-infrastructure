@@ -221,4 +221,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection" {
       restriction_type = "none"
     }
   }
+
+  logging_config {
+    include_cookies = false
+    bucket          = "${var.cloudfront_logs_bucket}.s3.amazonaws.com"
+    prefix          = "${var.aliases[0]}/"
+  }
 }
