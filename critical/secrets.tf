@@ -75,3 +75,13 @@ module "identity_logging_secrets" {
 
   secrets = local.shared_secrets
 }
+
+module "data_logging_secrets" {
+  source = "./modules/secrets/distributed"
+
+  providers = {
+    aws = aws.data
+  }
+
+  secrets = local.shared_secrets
+}

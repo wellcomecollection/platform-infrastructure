@@ -125,3 +125,16 @@ provider "aws" {
     role_arn = "arn:aws:iam::269807742353:role/reporting-developer"
   }
 }
+
+provider "aws" {
+  alias  = "data"
+  region = "eu-west-1"
+
+  default_tags {
+    tags = local.default_tags
+  }
+
+  assume_role {
+    role_arn = "arn:aws:iam::964279923020:role/data-developer"
+  }
+}
