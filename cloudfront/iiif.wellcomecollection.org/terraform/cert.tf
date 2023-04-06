@@ -1,5 +1,5 @@
 module "cert" {
-  source = "../../modules/certificate"
+  source = "github.com/wellcomecollection/terraform-aws-acm-certificate?ref=v1.0.0"
 
   domain_name = "iiif.wellcomecollection.org"
 
@@ -20,7 +20,7 @@ module "cert" {
 # rather than alter the current, prod cert create a new one
 # for temporary environment
 module "cert_stagenew" {
-  source = "../../modules/certificate"
+  source = "github.com/wellcomecollection/terraform-aws-acm-certificate?ref=v1.0.0"
 
   domain_name = "iiif-stage-new.wellcomecollection.org"
 
