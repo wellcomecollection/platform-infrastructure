@@ -15,24 +15,34 @@ module "alert_on_tasks_not_starting" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
-resource "aws_cloudwatch_event_rule" "tasks_stopped" {
-  name        = "capture-ecs-task-stopped"
-  description = "Capture each task-stopped event in ECS"
+moved {
+  from = aws_cloudwatch_event_rule.tasks_stopped
+  to   = aws_cloudwatch_event_rule.ecs_task_start_impaired
+}
 
+resource "aws_cloudwatch_event_rule" "ecs_task_start_impaired" {
+  name        = "capture-ecs-task-stopped"
+  description = "Capture each 'service task start impaired' event in ECS"
+
+  # This event is sent when the service is unable to consistently start
+  # tasks effectively.
+  # See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_cwe_events.html#ecs_service_events_warn_type
   event_pattern = jsonencode({
     source = ["aws.ecs"]
 
-    detail-type = ["ECS Task State Change"]
-
     detail = {
-      lastStatus = ["STOPPED"]
-      stopCode   = ["TaskFailedToStart"]
+      eventName = ["SERVICE_TASK_START_IMPAIRED"]
     }
   })
 }
 
-resource "aws_cloudwatch_event_target" "tasks_stopped" {
-  rule      = aws_cloudwatch_event_rule.tasks_stopped.name
+moved {
+  from = aws_cloudwatch_event_target.tasks_stopped
+  to   = aws_cloudwatch_event_target.ecs_task_start_impaired
+}
+
+resource "aws_cloudwatch_event_target" "ecs_task_start_impaired" {
+  rule      = aws_cloudwatch_event_rule.ecs_task_start_impaired.name
   target_id = "SendToSNS"
   arn       = module.alert_on_tasks_not_starting.trigger_topic_arn
 }
