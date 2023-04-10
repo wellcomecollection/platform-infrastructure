@@ -100,7 +100,7 @@ def main(event, _ctxt=None):
     sess = boto3.Session()
 
     account = os.environ["ACCOUNT_NAME"]
-    aws_region = os.environ['AWS_REGION']
+    aws_region = os.environ["AWS_REGION"]
 
     webhook_url = get_secret_string(sess, secret_id="monitoring/critical_slack_webhook")
 
@@ -110,7 +110,7 @@ def main(event, _ctxt=None):
     #
     # Extract the cluster/service name; in this case 'pipeline' and
     # 'image_inferrer'.
-    for r in event['resources']:
+    for r in event["resources"]:
         _, cluster_name, service_name = r.split("/")
 
         slack_payload = {
