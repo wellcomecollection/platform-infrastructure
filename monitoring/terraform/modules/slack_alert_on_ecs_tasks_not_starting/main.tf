@@ -30,11 +30,6 @@ resource "aws_cloudwatch_event_rule" "ecs_task_start_impaired" {
   })
 }
 
-moved {
-  from = aws_lambda_permission.allow_sns_trigger
-  to   = aws_lambda_permission.allow_eventbridge_trigger
-}
-
 resource "aws_lambda_permission" "allow_eventbridge_trigger" {
   action        = "lambda:InvokeFunction"
   function_name = module.alert_on_tasks_not_starting.arn

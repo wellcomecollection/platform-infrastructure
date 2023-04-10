@@ -24,21 +24,6 @@ module "dlq_to_slack_alerts" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
-moved {
-  from = module.dlq_to_slack_alerts.aws_sns_topic.topic
-  to   = module.dlq_to_slack_alerts_sns_trigger.aws_sns_topic.topic
-}
-
-moved {
-  from = module.dlq_to_slack_alerts.aws_lambda_permission.allow_sns_trigger
-  to   = module.dlq_to_slack_alerts_sns_trigger.aws_lambda_permission.allow_sns_trigger
-}
-
-moved {
-  from = module.dlq_to_slack_alerts.aws_sns_topic_subscription.topic_lambda
-  to   = module.dlq_to_slack_alerts_sns_trigger.aws_sns_topic_subscription.sns_to_lambda
-}
-
 module "dlq_to_slack_alerts_sns_trigger" {
   source = "../lambda_sns_trigger"
 

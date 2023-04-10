@@ -15,21 +15,6 @@ module "auth0_log_stream_alerts" {
   account_name = "identity"
 }
 
-moved {
-  from = module.auth0_log_stream_alerts.aws_sns_topic.topic
-  to   = module.auth0_log_stream_alerts_sns_trigger.aws_sns_topic.topic
-}
-
-moved {
-  from = module.auth0_log_stream_alerts.aws_lambda_permission.allow_sns_trigger
-  to   = module.auth0_log_stream_alerts_sns_trigger.aws_lambda_permission.allow_sns_trigger
-}
-
-moved {
-  from = module.auth0_log_stream_alerts.aws_sns_topic_subscription.topic_lambda
-  to   = module.auth0_log_stream_alerts_sns_trigger.aws_sns_topic_subscription.sns_to_lambda
-}
-
 module "auth0_log_stream_alerts_sns_trigger" {
   source = "../lambda_sns_trigger"
 
