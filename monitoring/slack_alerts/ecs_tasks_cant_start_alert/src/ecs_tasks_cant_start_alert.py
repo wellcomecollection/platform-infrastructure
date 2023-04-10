@@ -122,7 +122,7 @@ def main(event, _ctxt=None):
                     "title": f"{cluster_name} / {service_name}",
                     "fields": [
                         {
-                            "value": f"{service_name} is unable to consistently start tasks successfully. <https://{aws_region}.console.aws.amazon.com/ecs/v2/clusters/{cluster_name}/services/{service_name}/deployments?region=eu-west-1%7CView in console>"
+                            "value": f"{service_name} is unable to consistently start tasks successfully. <https://{aws_region}.console.aws.amazon.com/ecs/v2/clusters/{cluster_name}/services/{service_name}/deployments?region=eu-west-1|View in console>"
                         }
                     ],
                 }
