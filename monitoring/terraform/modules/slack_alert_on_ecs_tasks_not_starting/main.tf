@@ -15,13 +15,8 @@ module "alert_on_tasks_not_starting" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
-moved {
-  from = aws_cloudwatch_event_rule.tasks_stopped
-  to   = aws_cloudwatch_event_rule.ecs_task_start_impaired
-}
-
 resource "aws_cloudwatch_event_rule" "ecs_task_start_impaired" {
-  name        = "capture-ecs-task-stopped"
+  name        = "capture-ecs-task-start-impaired"
   description = "Capture each 'service task start impaired' event in ECS"
 
   # This event is sent when the service is unable to consistently start
@@ -37,31 +32,19 @@ resource "aws_cloudwatch_event_rule" "ecs_task_start_impaired" {
 }
 
 moved {
-  from = aws_cloudwatch_event_target.tasks_stopped
-  to   = aws_cloudwatch_event_target.ecs_task_start_impaired
+  from = aws_lambda_permission.allow_sns_trigger
+  to   = aws_lambda_permission.allow_eventbridge_trigger
 }
 
-resource "aws_cloudwatch_event_target" "ecs_task_start_impaired" {
+resource "aws_lambda_permission" "allow_eventbridge_trigger" {
+  action        = "lambda:InvokeFunction"
+  function_name = module.alert_on_tasks_not_starting.arn
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.ecs_task_start_impaired.arn
+}
+
+resource "aws_cloudwatch_event_target" "lambda" {
   rule      = aws_cloudwatch_event_rule.ecs_task_start_impaired.name
-  target_id = "SendToSNS"
-  arn       = module.alert_on_tasks_not_starting.trigger_topic_arn
-}
-
-resource "aws_sns_topic_policy" "default" {
-  arn    = module.alert_on_tasks_not_starting.trigger_topic_arn
-  policy = data.aws_iam_policy_document.sns_topic_policy.json
-}
-
-data "aws_iam_policy_document" "sns_topic_policy" {
-  statement {
-    effect  = "Allow"
-    actions = ["SNS:Publish"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
-    }
-
-    resources = [module.alert_on_tasks_not_starting.trigger_topic_arn]
-  }
+  target_id = "SendToLambda"
+  arn       = module.alert_on_tasks_not_starting.arn
 }
