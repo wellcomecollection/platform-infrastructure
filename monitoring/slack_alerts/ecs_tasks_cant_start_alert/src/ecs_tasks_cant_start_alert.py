@@ -11,27 +11,27 @@ an issue with ECS capacity.
 
 This is the rough architecture:
 
-    +--------------------+
-    | ECS service events |
-    +--------------------+
-              |
-       all service events
-              |
-              v
-    +--------------------+
-    | Amazon EventBridge |
-    +--------------------+
-              |
- "failed to start" events only"
-              |
-              v
-    +--------------------+
-    |    this Lambda     |
-    +--------------------+
-              |
-         Slack webhook
+    +------------------------+
+    |   ECS service events   |
+    +------------------------+
+                |
+         all service events
+                |
+                v
+    +-----------------------+
+    | CloudWatch Event rule |
+    +-----------------------+
+                |
+   "failed to start" events only"
+                |
+                v
+    +-----------------------+
+    |     this Lambda       |
+    +-----------------------+
+                |
+           Slack webhook
 
-The EventBridge integration is set up in Terraform.
+The CloudWatch integration is set up in Terraform.
 
 == Example event ==
 
