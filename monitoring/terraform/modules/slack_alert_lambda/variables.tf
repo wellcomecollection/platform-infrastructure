@@ -27,7 +27,3 @@ variable "account_name" {
 variable "alarm_topic_arn" {
   type = string
 }
-
-variable "topic_name" {
-  type = string
-}

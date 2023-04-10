@@ -5,7 +5,6 @@ module "alert_on_tasks_not_starting" {
   source_name = "ecs_tasks_cant_start_alert"
 
   description = "Sends a notification to Slack when ECS tasks are unable to start"
-  topic_name  = "ecs_tasks_cant_start"
 
   secrets = [
     "monitoring/critical_slack_webhook",
