@@ -6,6 +6,14 @@ resource "aws_s3_bucket" "photography_backups" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "photography_backups" {
+  bucket = aws_s3_bucket.photography_backups.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_acl" "photography_backups" {
   bucket = aws_s3_bucket.photography_backups.id
   acl    = "private"
