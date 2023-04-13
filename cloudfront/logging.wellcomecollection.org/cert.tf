@@ -1,13 +1,11 @@
 module "cert" {
-  source = "../modules/certificate"
+  source = "github.com/wellcomecollection/terraform-aws-acm-certificate?ref=v1.0.0"
 
   domain_name = "logging.wellcomecollection.org"
 
   subject_alternative_names = [
     "*.logging.wellcomecollection.org"
   ]
-
-  ttl = 30
 
   zone_id = data.aws_route53_zone.zone.id
 
