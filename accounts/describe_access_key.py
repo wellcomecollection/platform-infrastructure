@@ -104,7 +104,9 @@ if __name__ == "__main__":
         sys.exit(f"Usage: {__file__} <ACCESS_KEY_ID>")
 
     sess = get_aws_session(role_arn="arn:aws:iam::760097843905:role/platform-read_only")
-    account_id = sess.client("sts").get_access_key_info(AccessKeyId=access_key_id)["Account"]
+    account_id = sess.client("sts").get_access_key_info(AccessKeyId=access_key_id)[
+        "Account"
+    ]
 
     try:
         account_name = wellcome_account_names[account_id]
@@ -138,7 +140,8 @@ if __name__ == "__main__":
                 pprint_info(key="account", value=f"{account_name} ({account_id})")
                 pprint_info(key="username", value=info["user"]["UserName"])
                 pprint_info(
-                    key="key created", value=info["key"]["CreateDate"].strftime("%d %B %Y")
+                    key="key created",
+                    value=info["key"]["CreateDate"].strftime("%d %B %Y"),
                 )
 
                 print("")
