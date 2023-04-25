@@ -5,7 +5,6 @@ module "api_gateway_to_slack_alerts" {
   source_name = "metric_to_slack_alert"
 
   description = "Sends a notification to Slack when there are 5xx errors from API Gateway"
-  topic_name  = "api_gateway_5xx_alarm"
 
   environment_variables = {
     STR_SINGLE_ERROR_MESSAGE   = "There was 1 error in the API"
@@ -23,6 +22,13 @@ module "api_gateway_to_slack_alerts" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
+module "api_gateway_to_slack_alerts_sns_trigger" {
+  source = "../lambda_sns_trigger"
+
+  lambda_arn = module.api_gateway_to_slack_alerts.arn
+  topic_name = "${var.account_name}_api_gateway_5xx_alarm"
+}
+
 output "trigger_topic_arn" {
-  value = module.api_gateway_to_slack_alerts.trigger_topic_arn
+  value = module.api_gateway_to_slack_alerts_sns_trigger.topic_arn
 }

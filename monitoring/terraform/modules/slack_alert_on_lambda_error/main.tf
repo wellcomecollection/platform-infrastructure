@@ -3,18 +3,24 @@ module "lambda_errors_to_slack_alerts" {
 
   name        = "lambda_errors_to_slack_alerts"
   description = "Sends a notification to Slack when a Lambda function fails"
-  topic_name  = "lambda_error_alarm"
 
   secrets = [
     "monitoring/critical_slack_webhook",
   ]
 
   account_name    = var.account_name
-  alarm_topic_arn = module.lambda_errors_to_slack_alerts.trigger_topic_arn
+  alarm_topic_arn = module.lambda_errors_to_slack_alerts_sns_trigger.topic_arn
+}
+
+module "lambda_errors_to_slack_alerts_sns_trigger" {
+  source = "../lambda_sns_trigger"
+
+  lambda_arn = module.lambda_errors_to_slack_alerts.arn
+  topic_name = "${var.account_name}_lambda_error_alarm"
 }
 
 output "trigger_topic_arn" {
-  value = module.lambda_errors_to_slack_alerts.trigger_topic_arn
+  value = module.lambda_errors_to_slack_alerts_sns_trigger.topic_arn
 }
 
 data "aws_iam_policy_document" "cloudwatch_allow_filterlogs" {

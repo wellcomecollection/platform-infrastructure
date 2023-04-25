@@ -5,7 +5,6 @@ module "dlq_to_slack_alerts" {
   source_name = "metric_to_slack_alert"
 
   description = "Sends a notification to Slack when there are messages on DLQs"
-  topic_name  = "dlq_non_empty_alarm"
 
   environment_variables = {
     STR_SINGLE_ERROR_MESSAGE      = "There is 1 message on the DLQ"
@@ -25,6 +24,13 @@ module "dlq_to_slack_alerts" {
   alarm_topic_arn = var.alarm_topic_arn
 }
 
+module "dlq_to_slack_alerts_sns_trigger" {
+  source = "../lambda_sns_trigger"
+
+  lambda_arn = module.dlq_to_slack_alerts.arn
+  topic_name = "${var.account_name}_dlq_non_empty_alarm"
+}
+
 output "trigger_topic_arn" {
-  value = module.dlq_to_slack_alerts.trigger_topic_arn
+  value = module.dlq_to_slack_alerts_sns_trigger.topic_arn
 }
