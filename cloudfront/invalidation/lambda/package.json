@@ -4,7 +4,7 @@
   "description": "Lambda for handling CloudFront invalidation requests",
   "main": "index.js",
   "engines": {
-    "node": "12.*.*"
+    "node": "16.*.*"
   },
   "license": "MIT",
   "devDependencies": {
