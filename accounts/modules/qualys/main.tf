@@ -7,7 +7,7 @@
 resource "aws_iam_role" "wt-qualys-role" {
   assume_role_policy   = data.aws_iam_policy_document.allow_assume_instance_role.json
   description          = "Allow Qualys vulnerability scanning software in D&T to scan our EC2 instances"
-  max_session_duration = 2 * 60 * 60  # 2 hours
+  max_session_duration = 2 * 60 * 60 # 2 hours
   name                 = "wt-qualys-role"
 }
 
