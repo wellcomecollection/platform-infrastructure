@@ -26,6 +26,12 @@ locals {
     "blog.wellcomecollection.org",
     "www.wellcomecollection.org",
   ]
+
+  txt_records = {
+    # This value was sent by Slack from Flavio V on 17 May 2023.
+    # It's used for domain name validation.
+    "_pki-validation.wellcomecollection.org" = "19FA-9346-DF91-EF98-FB22-DA70-C569-A88E"
+  }
 }
 
 resource "aws_route53_record" "subdomains" {
@@ -37,6 +43,18 @@ resource "aws_route53_record" "subdomains" {
   zone_id = data.aws_route53_zone.weco_zone.id
   type    = "CNAME"
   ttl     = 300
+
+  provider = aws.dns
+}
+
+resource "aws_route53_record" "txt" {
+  for_each = local.txt_records
+
+  zone_id = data.aws_route53_zone.weco_zone.id
+  name    = each.key
+  type    = "TXT"
+  records = [each.value]
+  ttl     = 60
 
   provider = aws.dns
 }
