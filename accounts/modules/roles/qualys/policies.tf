@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "allow_assume_instance_role" {
+data "aws_iam_policy_document" "allow_assume_qualys_role" {
   statement {
     sid = "AllowsQualysToAssumeTheRole"
 

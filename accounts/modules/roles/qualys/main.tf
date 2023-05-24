@@ -5,7 +5,7 @@
 # It's based on https://github.com/wellcometrust/ncw-terraform-modules/blob/a5447056fd50175b47a1243dcb4c3228b9570751/AWS/iam-instance-roles/qualys-iam-role/main.tf
 
 resource "aws_iam_role" "wt-qualys-role" {
-  assume_role_policy   = data.aws_iam_policy_document.allow_assume_instance_role.json
+  assume_role_policy   = data.aws_iam_policy_document.allow_assume_qualys_role.json
   description          = "Allow Qualys vulnerability scanning software in D&T to scan our EC2 instances"
   max_session_duration = 2 * 60 * 60 # 2 hours
   name                 = "wt-qualys-role"
