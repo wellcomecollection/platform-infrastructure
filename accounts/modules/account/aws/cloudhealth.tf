@@ -1,3 +1,0 @@
-module "cloudhealth" {
-  source = "../../cloudhealth"
-}

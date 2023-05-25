@@ -1,3 +1,0 @@
-module "qualys" {
-  source = "../../qualys"
-}
