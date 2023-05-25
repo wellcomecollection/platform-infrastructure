@@ -117,7 +117,7 @@ module "dlcs_images_origin_set" {
   }
   test = {
     domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/iiif-img/wellcome/9"
+    origin_path : "/iiif-img/wellcome/5"
   }
   stage_new = {
     domain_name : "neworchestrator.dlcs.io"
@@ -166,7 +166,7 @@ module "dlcs_thumbs_origin_set" {
   }
   test = {
     domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/thumbs/wellcome/9"
+    origin_path : "/thumbs/wellcome/5"
   }
   stage_new = {
     domain_name : "neworchestrator.dlcs.io"
@@ -190,7 +190,7 @@ module "dlcs_av_origin_set" {
   }
   test = {
     domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/iiif-av/wellcome/9"
+    origin_path : "/iiif-av/wellcome/5"
   }
   stage_new = {
     domain_name : "neworchestrator.dlcs.io"
@@ -212,7 +212,7 @@ module "dlcs_pdf_origin_set" {
   }
   test = {
     domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/pdf/wellcome/pdf/9"
+    origin_path : "/pdf/wellcome/pdf/5"
   }
   stage_new = {
     domain_name : "neworchestrator.dlcs.io"
@@ -234,7 +234,7 @@ module "dlcs_file_origin_set" {
   }
   test = {
     domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/file/wellcome/9"
+    origin_path : "/file/wellcome/5"
   }
   stage_new = {
     domain_name : "neworchestrator.dlcs.io"
