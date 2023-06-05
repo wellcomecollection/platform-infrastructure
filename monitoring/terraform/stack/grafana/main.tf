@@ -79,6 +79,7 @@ module "service" {
   security_group_ids = [
     aws_security_group.service_lb_security_group.id,
     aws_security_group.service_egress_security_group.id,
-    var.efs_security_group_id
+    var.efs_security_group_id,
+    var.ec_privatelink_security_group_id
   ]
 }

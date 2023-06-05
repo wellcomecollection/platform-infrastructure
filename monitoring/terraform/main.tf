@@ -2,12 +2,11 @@ module "monitoring-271118" {
   source = "./stack"
 
   namespace = "monitoring-271118"
+  vpc_id    = local.vpc_id
 
-  namespace_id = aws_service_discovery_private_dns_namespace.namespace.id
-  vpc_id       = local.vpc_id
-
-  efs_id                = aws_efs_file_system.efs.id
-  efs_security_group_id = aws_security_group.efs_security_group.id
+  efs_id                           = aws_efs_file_system.efs.id
+  efs_security_group_id            = aws_security_group.efs_security_group.id
+  ec_privatelink_security_group_id = local.ec_privatelink_sg_id
 
   domain = "monitoring.wellcomecollection.org"
 

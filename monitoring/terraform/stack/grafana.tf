@@ -9,14 +9,14 @@ module "grafana" {
   cluster_name = aws_ecs_cluster.cluster.name
   cluster_arn  = aws_ecs_cluster.cluster.arn
 
-  vpc_id       = var.vpc_id
-  namespace_id = var.namespace_id
+  vpc_id = var.vpc_id
 
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
 
-  efs_id                = var.efs_id
-  efs_security_group_id = var.efs_security_group_id
+  efs_id                           = var.efs_id
+  efs_security_group_id            = var.efs_security_group_id
+  ec_privatelink_security_group_id = var.ec_privatelink_security_group_id
 
   key_name           = var.key_name
   admin_cidr_ingress = var.admin_cidr_ingress

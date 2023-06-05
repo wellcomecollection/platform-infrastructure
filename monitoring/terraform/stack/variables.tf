@@ -1,10 +1,12 @@
 variable "namespace" {}
 
-variable "namespace_id" {}
 variable "vpc_id" {}
 
 variable "efs_id" {}
 variable "efs_security_group_id" {}
+variable "ec_privatelink_security_group_id" {
+  type = string
+}
 
 variable "domain" {}
 

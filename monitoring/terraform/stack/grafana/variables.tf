@@ -4,6 +4,9 @@ variable "vpc_id" {}
 
 variable "efs_id" {}
 variable "efs_security_group_id" {}
+variable "ec_privatelink_security_group_id" {
+  type = string
+}
 
 variable "domain" {}
 
@@ -21,7 +24,6 @@ variable "admin_cidr_ingress" {}
 
 variable "cluster_name" {}
 variable "cluster_arn" {}
-variable "namespace_id" {}
 
 variable "grafana_version" {
   default = "9.5.2"

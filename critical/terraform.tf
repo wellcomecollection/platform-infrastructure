@@ -26,6 +26,18 @@ terraform {
   }
 }
 
+data "terraform_remote_state" "accounts_platform" {
+  backend = "s3"
+
+  config = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+
+    bucket = "wellcomecollection-platform-infra"
+    key    = "terraform/platform-infrastructure/accounts/platform.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 data "terraform_remote_state" "accounts_catalogue" {
   backend = "s3"
 
@@ -111,6 +123,7 @@ data "terraform_remote_state" "workflow_stage" {
 }
 
 locals {
+  platform_vpcs   = data.terraform_remote_state.accounts_platform.outputs
   catalogue_vpcs  = data.terraform_remote_state.accounts_catalogue.outputs
   storage_vpcs    = data.terraform_remote_state.accounts_storage.outputs
   experience_vpcs = data.terraform_remote_state.accounts_experience.outputs
