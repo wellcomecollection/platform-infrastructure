@@ -2,6 +2,28 @@ locals {
   container_port  = 3000
   container_name  = "app"
   efs_volume_name = "efs"
+
+  grafana_env = {
+    GF_SERVER_DOMAIN       = var.domain
+    GF_SERVER_ROOT_URL     = "https://${var.domain}/"
+    GF_SECURITY_ADMIN_USER = "admin"
+    # See https://grafana.com/docs/grafana/v9.3/setup-grafana/configure-security/configure-authentication/azuread/#enable-azure-ad-oauth-in-grafana
+    GF_AUTH_AZUREAD_NAME                       = "Azure AD"
+    GF_AUTH_AZUREAD_SCOPES                     = "openid email profile offline_access"
+    GF_AUTH_AZUREAD_ENABLED                    = true
+    GF_AUTH_AZUREAD_ALLOW_SIGN_UP              = true
+    GF_AUTH_AZUREAD_AUTO_LOGIN                 = false
+    GF_AUTH_AZUREAD_ROLE_ATTRIBUTE_STRICT      = false
+    GF_AUTH_AZUREAD_ALLOW_ASSIGN_GRAFANA_ADMIN = false
+    GF_AUTH_AZUREAD_USE_PKCE                   = true
+  }
+  grafana_secrets = {
+    GF_SECURITY_ADMIN_PASSWORD    = "monitoring/${var.namespace}/grafana/admin_password"
+    GF_AUTH_AZUREAD_CLIENT_ID     = "monitoring/${var.namespace}/grafana/azure_application_id"
+    GF_AUTH_AZUREAD_CLIENT_SECRET = "monitoring/${var.namespace}/grafana/azure_client_secret"
+    GF_AUTH_AZUREAD_AUTH_URL      = "monitoring/${var.namespace}/grafana/azure_auth_url"
+    GF_AUTH_AZUREAD_TOKEN_URL     = "monitoring/${var.namespace}/grafana/azure_token_url"
+  }
 }
 
 module "log_router_container" {
@@ -28,12 +50,8 @@ module "grafana_app_container" {
     sourceVolume  = local.efs_volume_name
   }]
 
-  environment = {
-    GF_AUTH_ANONYMOUS_ENABLED  = var.grafana_anonymous_enabled
-    GF_AUTH_ANONYMOUS_ORG_ROLE = var.grafana_anonymous_role
-    GF_SECURITY_ADMIN_USER     = var.grafana_admin_user
-    GF_SECURITY_ADMIN_PASSWORD = var.grafana_admin_password
-  }
+  environment = local.grafana_env
+  secrets     = local.grafana_secrets
 
   port_mappings = [{
     containerPort = local.container_port
@@ -42,6 +60,12 @@ module "grafana_app_container" {
   }]
 
   log_configuration = module.log_router_container.container_log_configuration
+}
+
+module "app_permissions" {
+  source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/secrets?ref=v3.13.2"
+  secrets   = local.grafana_secrets
+  role_name = module.task_definition.task_execution_role_name
 }
 
 module "task_definition" {

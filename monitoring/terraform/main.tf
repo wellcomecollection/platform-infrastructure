@@ -14,15 +14,6 @@ module "monitoring-271118" {
   public_subnets  = local.public_subnets
   private_subnets = local.private_subnets
 
-  admin_cidr_ingress = local.admin_cidr_ingress
-
-  # grafana
-
-  grafana_admin_user        = local.grafana_admin_user
-  grafana_anonymous_role    = local.grafana_anonymous_role
-  grafana_admin_password    = local.grafana_admin_password
-  grafana_anonymous_enabled = local.grafana_anonymous_enabled
-
   providers = {
     aws.dns = aws.dns
   }
