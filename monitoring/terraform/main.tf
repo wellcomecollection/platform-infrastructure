@@ -26,12 +26,7 @@ module "monitoring-271118" {
   grafana_admin_password    = local.grafana_admin_password
   grafana_anonymous_enabled = local.grafana_anonymous_enabled
 
-  # IAM
-
-  allow_cloudwatch_read_metrics_policy_json = data.aws_iam_policy_document.allow_cloudwatch_read_metrics.json
-  cloudwatch_allow_filterlogs_policy_json   = data.aws_iam_policy_document.cloudwatch_allow_filterlogs.json
-
   providers = {
-    aws.us_east_1 = aws.us_east_1
+    aws.dns = aws.dns
   }
 }

@@ -52,6 +52,14 @@ resource "aws_security_group" "external_lb_security_group" {
     cidr_blocks = [var.admin_cidr_ingress]
   }
 
+  ingress {
+    protocol  = "tcp"
+    from_port = 80
+    to_port   = 80
+
+    cidr_blocks = [var.admin_cidr_ingress]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

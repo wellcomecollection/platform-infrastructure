@@ -28,7 +28,3 @@ variable "grafana_anonymous_role" {}
 variable "grafana_admin_password" {}
 variable "grafana_anonymous_enabled" {}
 
-# IAM
-
-variable "allow_cloudwatch_read_metrics_policy_json" {}
-variable "cloudwatch_allow_filterlogs_policy_json" {}

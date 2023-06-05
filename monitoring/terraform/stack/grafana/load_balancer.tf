@@ -10,16 +10,13 @@ resource "aws_alb" "alb" {
   ]
 }
 
-resource "aws_alb_target_group" "ecs_service" {
-  # We use snake case in a lot of places, but ALB Target Group names can
-  # only contain alphanumerics and hyphens.
-  name = replace(var.namespace, "_", "-")
+resource "aws_alb_target_group" "grafana_ecs_service" {
+  name = "monitoring-grafana"
 
   target_type = "ip"
-
-  protocol = "HTTP"
-  port     = local.container_port
-  vpc_id   = var.vpc_id
+  protocol    = "HTTP"
+  port        = local.container_port
+  vpc_id      = var.vpc_id
 
   health_check {
     protocol = "HTTP"
@@ -33,15 +30,41 @@ resource "aws_alb_listener" "https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2015-05"
-  certificate_arn   = data.aws_acm_certificate.certificate.arn
+  certificate_arn   = module.cert.arn
 
   default_action {
-    target_group_arn = aws_alb_target_group.ecs_service.arn
+    target_group_arn = aws_alb_target_group.grafana_ecs_service.arn
     type             = "forward"
   }
 }
 
-data "aws_acm_certificate" "certificate" {
-  domain   = var.domain
-  statuses = ["ISSUED"]
+resource "aws_alb_listener" "http" {
+  load_balancer_arn = aws_alb.alb.id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+module "cert" {
+  source = "github.com/wellcomecollection/terraform-aws-acm-certificate?ref=v2.0.0"
+
+  domain_name = var.domain
+  zone_id     = data.aws_route53_zone.dotorg.id
+
+  providers = {
+    aws.dns = aws.dns
+  }
+}
+
+data "aws_route53_zone" "dotorg" {
+  provider = aws.dns
+  name     = "wellcomecollection.org."
 }

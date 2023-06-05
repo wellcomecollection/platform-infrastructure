@@ -25,4 +25,8 @@ module "grafana" {
   grafana_anonymous_role    = var.grafana_anonymous_role
   grafana_admin_password    = var.grafana_admin_password
   grafana_anonymous_enabled = var.grafana_anonymous_enabled
+
+  providers = {
+    aws.dns = aws.dns
+  }
 }
