@@ -60,7 +60,7 @@ module "task_definition" {
   efs_volumes = [{
     name           = local.efs_volume_name
     file_system_id = var.efs_id
-    root_directory = "/"
+    root_directory = "/grafana"
   }]
 }
 
