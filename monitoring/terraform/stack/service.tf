@@ -4,9 +4,10 @@ locals {
   efs_volume_name = "efs"
 
   grafana_env = {
-    GF_SERVER_DOMAIN       = var.domain
-    GF_SERVER_ROOT_URL     = "https://${var.domain}/"
-    GF_SECURITY_ADMIN_USER = "admin"
+    GF_SERVER_DOMAIN              = var.domain
+    GF_SERVER_ROOT_URL            = "https://${var.domain}/"
+    GF_SECURITY_ADMIN_USER        = "admin"
+    GF_USERS_AUTO_ASSIGN_ORG_ROLE = "Editor"
     # See https://grafana.com/docs/grafana/v9.3/setup-grafana/configure-security/configure-authentication/azuread/#enable-azure-ad-oauth-in-grafana
     GF_AUTH_AZUREAD_NAME                       = "Azure AD"
     GF_AUTH_AZUREAD_SCOPES                     = "openid email profile offline_access"
