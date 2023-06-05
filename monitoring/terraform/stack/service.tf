@@ -8,6 +8,9 @@ locals {
     GF_SERVER_ROOT_URL            = "https://${var.domain}/"
     GF_SECURITY_ADMIN_USER        = "admin"
     GF_USERS_AUTO_ASSIGN_ORG_ROLE = "Editor"
+    # This is used to fetch the current pipeline date
+    # https://grafana.github.io/grafana-json-datasource/
+    GF_INSTALL_PLUGINS = "marcusolsson-json-datasource"
     # See https://grafana.com/docs/grafana/v9.3/setup-grafana/configure-security/configure-authentication/azuread/#enable-azure-ad-oauth-in-grafana
     GF_AUTH_AZUREAD_NAME                       = "Azure AD"
     GF_AUTH_AZUREAD_SCOPES                     = "openid email profile offline_access"
