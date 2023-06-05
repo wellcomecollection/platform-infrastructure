@@ -1,6 +1,6 @@
 resource "aws_alb" "alb" {
   # This name can only contain alphanumerics and hyphens
-  name = replace(var.namespace, "_", "-")
+  name = "${replace(var.namespace, "_", "-")}-grafana"
 
   subnets = var.public_subnets
 

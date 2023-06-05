@@ -1,5 +1,5 @@
 resource "aws_security_group" "service_egress_security_group" {
-  name        = "${var.namespace}_service_egress_security_group"
+  name        = "${var.namespace}-grafana_service_egress_security_group"
   description = "Allow traffic between services"
   vpc_id      = var.vpc_id
 
@@ -11,12 +11,12 @@ resource "aws_security_group" "service_egress_security_group" {
   }
 
   tags = {
-    Name = "${var.namespace}-egress"
+    Name = "${var.namespace}-grafana-egress"
   }
 }
 
 resource "aws_security_group" "service_lb_security_group" {
-  name        = "${var.namespace}_service_lb_security_group"
+  name        = "${var.namespace}-grafana_service_lb_security_group"
   description = "Allow traffic between services and load balancer"
   vpc_id      = var.vpc_id
 
@@ -35,12 +35,12 @@ resource "aws_security_group" "service_lb_security_group" {
   }
 
   tags = {
-    Name = "${var.namespace}-service-lb"
+    Name = "${var.namespace}-grafana-service-lb"
   }
 }
 
 resource "aws_security_group" "external_lb_security_group" {
-  name        = "${var.namespace}_external_lb_security_group"
+  name        = "${var.namespace}-grafana_external_lb_security_group"
   description = "Allow traffic between load balancer and internet"
   vpc_id      = var.vpc_id
 
@@ -68,6 +68,6 @@ resource "aws_security_group" "external_lb_security_group" {
   }
 
   tags = {
-    Name = "${var.namespace}-external-lb"
+    Name = "${var.namespace}-grafana-external-lb"
   }
 }

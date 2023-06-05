@@ -1,14 +1,24 @@
-variable "namespace" {}
+variable "namespace" {
+  type = string
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "efs_id" {}
-variable "efs_security_group_id" {}
+variable "efs_id" {
+  type = string
+}
+variable "efs_security_group_id" {
+  type = string
+}
 variable "ec_privatelink_security_group_id" {
   type = string
 }
 
-variable "domain" {}
+variable "domain" {
+  type = string
+}
 
 variable "public_subnets" {
   type = list(string)
@@ -18,15 +28,25 @@ variable "private_subnets" {
   type = list(string)
 }
 
-variable "infra_bucket" {}
-variable "key_name" {}
-variable "aws_region" {}
-variable "admin_cidr_ingress" {}
+variable "admin_cidr_ingress" {
+  type = string
+}
 
 # Grafana
+variable "grafana_version" {
+  type = string
+}
 
-variable "grafana_admin_user" {}
-variable "grafana_anonymous_role" {}
-variable "grafana_admin_password" {}
-variable "grafana_anonymous_enabled" {}
+variable "grafana_admin_user" {
+  type = string
+}
+variable "grafana_anonymous_role" {
+  type = string
+}
+variable "grafana_admin_password" {
+  type = string
+}
+variable "grafana_anonymous_enabled" {
+  type = string
+}
 

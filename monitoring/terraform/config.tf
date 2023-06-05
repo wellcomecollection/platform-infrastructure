@@ -3,10 +3,6 @@ data "aws_ssm_parameter" "grafana_admin_password" {
 }
 
 locals {
-  infra_bucket = "wellcomecollection-platform-infra"
-
-  key_name = "wellcomedigitalplatform"
-
   grafana_anonymous_enabled = true
   grafana_anonymous_role    = "Editor"
   grafana_admin_user        = "admin"

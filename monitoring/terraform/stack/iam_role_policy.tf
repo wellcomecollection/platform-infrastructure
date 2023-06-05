@@ -1,7 +1,7 @@
 # Grafana
 
 resource "aws_iam_role_policy" "ecs_grafana_task_cloudwatch_read" {
-  role   = module.grafana.role_name
+  role   = module.task_definition.task_role_name
   policy = data.aws_iam_policy_document.read_cloudwatch_metrics.json
 }
 

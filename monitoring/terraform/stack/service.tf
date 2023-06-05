@@ -7,7 +7,7 @@ locals {
 module "log_router_container" {
   source = "github.com/wellcomecollection/terraform-aws-ecs-service//modules/firelens?ref=v3.13.2"
 
-  namespace                = var.namespace
+  namespace                = "${var.namespace}-grafana"
   use_privatelink_endpoint = true
 }
 
@@ -47,7 +47,7 @@ module "grafana_app_container" {
 module "task_definition" {
   source = "github.com/wellcomecollection/terraform-aws-ecs-service//modules/task_definition?ref=v3.13.2"
 
-  task_name    = var.namespace
+  task_name    = "${var.namespace}-grafana"
   launch_types = ["FARGATE"]
   cpu          = 256
   memory       = 512
@@ -67,8 +67,8 @@ module "task_definition" {
 module "service" {
   source = "github.com/wellcomecollection/terraform-aws-ecs-service//modules/service?ref=v3.13.2"
 
-  service_name        = var.namespace
-  cluster_arn         = var.cluster_arn
+  service_name        = "${var.namespace}-grafana"
+  cluster_arn         = aws_ecs_cluster.cluster.arn
   task_definition_arn = module.task_definition.arn
 
   container_name = local.container_name

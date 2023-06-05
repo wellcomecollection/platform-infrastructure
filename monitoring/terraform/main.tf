@@ -1,8 +1,8 @@
 module "monitoring-271118" {
   source = "./stack"
 
-  namespace = "monitoring-271118"
-  vpc_id    = local.vpc_id
+  grafana_version = "9.5.2"
+  namespace       = "monitoring-271118"
 
   efs_id                           = aws_efs_file_system.efs.id
   efs_security_group_id            = aws_security_group.efs_security_group.id
@@ -10,12 +10,10 @@ module "monitoring-271118" {
 
   domain = "monitoring.wellcomecollection.org"
 
+  vpc_id          = local.vpc_id
   public_subnets  = local.public_subnets
   private_subnets = local.private_subnets
 
-  infra_bucket       = local.infra_bucket
-  key_name           = local.key_name
-  aws_region         = var.aws_region
   admin_cidr_ingress = local.admin_cidr_ingress
 
   # grafana
