@@ -77,8 +77,13 @@ module "task_definition" {
 
   task_name    = "${var.namespace}-grafana"
   launch_types = ["FARGATE"]
-  cpu          = 256
-  memory       = 512
+
+  // Grafana previously ran on a t2.small (1vCPU/2GB)
+  // That was probably too large but its CPU usage is very bursty
+  // and unfortunately Fargate is not burstable (t2s are), so
+  // we're trying this as a compromise between latency and cost
+  cpu    = 512
+  memory = 1024
 
   container_definitions = [
     module.grafana_app_container.container_definition,
