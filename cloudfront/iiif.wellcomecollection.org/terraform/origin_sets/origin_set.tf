@@ -25,12 +25,6 @@ variable "test" {
     origin_path : string
   })
 }
-variable "stage_new" {
-  type = object({
-    domain_name : string
-    origin_path : string
-  })
-}
 
 output "origins" {
   value = {
@@ -50,12 +44,6 @@ output "origins" {
       origin_id    = var.id
       domain_name  = var.test.domain_name
       origin_path  = var.test.origin_path
-      forward_host = var.forward_host
-    },
-    stage_new : {
-      origin_id    = var.id
-      domain_name  = var.stage_new.domain_name
-      origin_path  = var.stage_new.origin_path
       forward_host = var.forward_host
     }
   }

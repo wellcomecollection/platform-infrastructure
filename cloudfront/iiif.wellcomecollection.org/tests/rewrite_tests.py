@@ -232,8 +232,6 @@ def check_iiif(env):
         run_checks("-stage")
     elif env == "test":
         run_checks("-test")
-    elif env == "stage-new":
-        run_checks("-stage-new", "neworchestrator.dlcs.io")
     else:
         run_checks()
 
