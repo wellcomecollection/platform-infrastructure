@@ -54,7 +54,7 @@ module "dlcs_origin_set" {
     origin_path : null
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
+    domain_name : "dlcs.io"
     origin_path : null
   }
 }
@@ -77,7 +77,7 @@ module "dlcs_wellcome_images_origin_set" {
     origin_path : "/iiif-img/wellcome/8"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
+    domain_name : "dlcs.io"
     origin_path : "/iiif-img/wellcome/8"
   }
 }
@@ -100,8 +100,8 @@ module "dlcs_images_origin_set" {
     origin_path : "/iiif-img/wellcome/6"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/iiif-img/wellcome/5"
+    domain_name : "dlcs.io"
+    origin_path : "/iiif-img/wellcome/9"
   }
 }
 
@@ -121,7 +121,7 @@ module "dlcs_wellcome_thumbs_origin_set" {
     origin_path : "/thumbs/wellcome/8"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
+    domain_name : "dlcs.io"
     origin_path : "/thumbs/wellcome/8"
   }
 }
@@ -141,8 +141,8 @@ module "dlcs_thumbs_origin_set" {
     origin_path : "/thumbs/wellcome/6"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/thumbs/wellcome/5"
+    domain_name : "dlcs.io"
+    origin_path : "/thumbs/wellcome/9"
   }
 }
 
@@ -161,8 +161,8 @@ module "dlcs_av_origin_set" {
     origin_path : "/iiif-av/wellcome/6"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/iiif-av/wellcome/5"
+    domain_name : "dlcs.io"
+    origin_path : "/iiif-av/wellcome/9"
   }
 }
 
@@ -179,8 +179,8 @@ module "dlcs_pdf_origin_set" {
     origin_path : "/pdf/wellcome/pdf/6"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/pdf/wellcome/pdf/5"
+    domain_name : "dlcs.io"
+    origin_path : "/pdf/wellcome/pdf/9"
   }
 }
 
@@ -197,8 +197,8 @@ module "dlcs_file_origin_set" {
     origin_path : "/file/wellcome/6"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
-    origin_path : "/file/wellcome/5"
+    domain_name : "dlcs.io"
+    origin_path : "/file/wellcome/9"
   }
 }
 
@@ -235,7 +235,7 @@ module "dlcs_auth_origin_set" {
     origin_path : "/auth/2"
   }
   test = {
-    domain_name : "neworchestrator.dlcs.io"
+    domain_name : "dlcs.io"
     origin_path : "/auth/2"
   }
 }
