@@ -104,6 +104,9 @@ module "service" {
   cluster_arn         = aws_ecs_cluster.cluster.arn
   task_definition_arn = module.task_definition.arn
 
+  // This service doesn't need to be up all the time, trying this to keep things frugal
+  use_fargate_spot = true
+
   container_name = local.container_name
   container_port = local.container_port
 
