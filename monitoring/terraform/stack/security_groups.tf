@@ -1,6 +1,6 @@
 resource "aws_security_group" "service_egress_security_group" {
   name        = "${var.namespace}-grafana_service_egress_security_group"
-  description = "Allow traffic between services"
+  description = "Allow the service to make network requests"
   vpc_id      = var.vpc_id
 
   egress {
