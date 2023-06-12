@@ -63,8 +63,3 @@ module "cert" {
     aws.dns = aws.dns
   }
 }
-
-data "aws_route53_zone" "dotorg" {
-  provider = aws.dns
-  name     = "wellcomecollection.org."
-}
