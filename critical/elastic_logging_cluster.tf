@@ -71,6 +71,7 @@ resource "ec_deployment" "logging" {
     module.identity_stage_privatelink.traffic_filter_vpce_id,
     module.workflow_prod_privatelink.traffic_filter_vpce_id,
     module.workflow_stage_privatelink.traffic_filter_vpce_id,
+    module.monitoring_privatelink.traffic_filter_vpce_id
   ]
 
   elasticsearch {

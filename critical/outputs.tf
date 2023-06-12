@@ -149,6 +149,10 @@ output "ec_workflow_prod_privatelink_sg_id" {
   value = module.workflow_prod_privatelink.security_group_id
 }
 
+output "ec_monitoring_privatelink_sg_id" {
+  value = module.monitoring_privatelink.security_group_id
+}
+
 output "ec_platform_privatelink_traffic_filter_id" {
   value = module.platform_privatelink.traffic_filter_vpce_id
 }
@@ -183,6 +187,10 @@ output "ec_workflow_stage_privatelink_traffic_filter_id" {
 
 output "ec_workflow_prod_privatelink_traffic_filter_id" {
   value = module.workflow_prod_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_monitoring_privatelink_traffic_filter_id" {
+  value = module.monitoring_privatelink.traffic_filter_vpce_id
 }
 
 output "logging_kibana_endpoint" {
