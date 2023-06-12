@@ -3,10 +3,13 @@ resource "aws_route53_record" "monitoring_wc_org" {
 
   zone_id = data.aws_route53_zone.dotorg.zone_id
   name    = var.domain
-  type    = "CNAME"
-  ttl     = 300
+  type    = "A"
 
-  records = [aws_alb.alb.dns_name]
+  alias {
+    name                   = aws_alb.alb.dns_name
+    zone_id                = aws_alb.alb.zone_id
+    evaluate_target_health = true
+  }
 }
 
 data "aws_route53_zone" "dotorg" {
