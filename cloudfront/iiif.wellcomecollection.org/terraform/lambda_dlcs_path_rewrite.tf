@@ -7,12 +7,12 @@ resource "aws_lambda_function" "dlcs_path_rewrite" {
   handler       = "dlcs_path_rewrite.request"
   publish       = true
 
-  s3_bucket         = data.aws_s3_bucket_object.dlcs_path_rewrite.bucket
-  s3_key            = data.aws_s3_bucket_object.dlcs_path_rewrite.key
-  s3_object_version = data.aws_s3_bucket_object.dlcs_path_rewrite.version_id
+  s3_bucket         = data.aws_s3_object.dlcs_path_rewrite.bucket
+  s3_key            = data.aws_s3_object.dlcs_path_rewrite.key
+  s3_object_version = data.aws_s3_object.dlcs_path_rewrite.version_id
 }
 
-data "aws_s3_bucket_object" "dlcs_path_rewrite" {
+data "aws_s3_object" "dlcs_path_rewrite" {
   provider = aws.us_east_1
 
   bucket = local.edge_lambdas_bucket
