@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "iiif" {
   logging_config {
     include_cookies = false
     bucket          = var.logging_bucket
-    prefix          = local.distro_alias
+    prefix          = "${local.distro_alias}/"
   }
 
   dynamic "origin" {
