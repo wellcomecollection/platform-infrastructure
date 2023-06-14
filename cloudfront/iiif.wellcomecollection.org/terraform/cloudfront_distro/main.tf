@@ -21,7 +21,7 @@ resource "aws_cloudfront_distribution" "iiif" {
 
   logging_config {
     include_cookies = false
-    bucket          = var.logging_bucket
+    bucket          = "${var.logging_bucket}.s3.amazonaws.com"
     prefix          = "${local.distro_alias}/"
   }
 

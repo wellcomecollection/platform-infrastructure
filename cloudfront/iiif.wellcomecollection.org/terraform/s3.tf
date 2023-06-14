@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "cloudfront_logs" {
-  bucket = "iiif.wellcomecollection.org-cloudfront-logs"
+  bucket = "wellcomecollection-iiif-cloudfront-logs"
 
   provider = aws.digirati
 }
@@ -34,6 +34,16 @@ resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
       # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
       grantee {
         id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    grant {
+      # Grant the platform account full permission to modify this bucket,
+      # which it needs to set up CloudFront ~> S3 logs.
+      grantee {
+        id   = "711c7bddce89222cf7830990b7f0c4c2e8a6ba323b5a2fe4168bfd69e19f1e72"
         type = "CanonicalUser"
       }
       permission = "FULL_CONTROL"
