@@ -7,6 +7,15 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias  = "digirati"
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::653428163053:role/digirati-admin"
+  }
+}
+
+provider "aws" {
   alias = "us_east_1"
 
   region = "us-east-1"

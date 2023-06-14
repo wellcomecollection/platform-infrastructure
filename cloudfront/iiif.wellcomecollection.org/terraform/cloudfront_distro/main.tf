@@ -19,6 +19,12 @@ resource "aws_cloudfront_distribution" "iiif" {
     local.distro_alias
   ]
 
+  logging_config {
+    include_cookies = false
+    bucket          = var.logging_bucket
+    prefix          = local.distro_alias
+  }
+
   dynamic "origin" {
     for_each = var.origins
     content {
