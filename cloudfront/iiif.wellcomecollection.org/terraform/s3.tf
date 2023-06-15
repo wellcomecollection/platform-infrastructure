@@ -1,3 +1,15 @@
+# This sets up CloudFront to S3 logging.
+#
+# Notes:
+#
+#   - The S3 bucket lives in the Digirati account so that Digirati can
+#     see the logs; these are primarily for their benefit and analysis.
+#
+#   - The CloudFront distro is in the platform account, so we need to give
+#     the platform role permission to set some ACLs on this bucket when
+#     it configures the logging.
+#
+
 resource "aws_s3_bucket" "cloudfront_logs" {
   bucket = "wellcomecollection-iiif-cloudfront-logs"
 
@@ -19,7 +31,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "expire_logs_after_30_days" {
   provider = aws.digirati
 }
 
-data "aws_canonical_user_id" "current" {}
+data "aws_canonical_user_id" "current" {
+  provider = aws.digirati
+}
 
 resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
   bucket = aws_s3_bucket.cloudfront_logs.id
@@ -51,4 +65,22 @@ resource "aws_s3_bucket_acl" "allow_cloudfront_access" {
   }
 
   provider = aws.digirati
+}
+
+data "aws_iam_policy_document" "allow_manage_bucket_acl" {
+  statement {
+    actions = [
+      "s3:GetBucketAcl",
+      "s3:PutBucketAcl",
+    ]
+
+    resources = [
+      aws_s3_bucket.cloudfront_logs.id,
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "allow_platform_to_manage_bucket_acl" {
+  role   = "platform-admin"
+  policy = data.aws_iam_policy_document.allow_manage_bucket_acl.json
 }

@@ -19,12 +19,6 @@ resource "aws_cloudfront_distribution" "iiif" {
     local.distro_alias
   ]
 
-  logging_config {
-    include_cookies = false
-    bucket          = "${var.logging_bucket}.s3.amazonaws.com"
-    prefix          = "${local.distro_alias}/"
-  }
-
   dynamic "origin" {
     for_each = var.origins
     content {
@@ -129,5 +123,10 @@ resource "aws_cloudfront_distribution" "iiif" {
       restriction_type = "none"
     }
   }
-}
 
+  logging_config {
+    include_cookies = false
+    bucket          = "${var.logging_bucket}.s3.amazonaws.com"
+    prefix          = "${local.distro_alias}/"
+  }
+}
