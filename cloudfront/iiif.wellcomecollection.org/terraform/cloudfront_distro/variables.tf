@@ -34,3 +34,7 @@ variable "behaviours" {
     max_ttl : number
   }))
 }
+
+variable "logging_bucket" {
+  type = string
+}

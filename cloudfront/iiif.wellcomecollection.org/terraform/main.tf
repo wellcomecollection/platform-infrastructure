@@ -7,6 +7,8 @@ module "iiif-prod" {
   origins    = local.prod_origins
   behaviours = local.prod_behaviours
 
+  logging_bucket = aws_s3_bucket.cloudfront_logs.id
+
   default_target_origin_id = "iiif"
 
   providers = {
@@ -23,6 +25,8 @@ module "iiif-stage" {
   origins    = local.stage_origins
   behaviours = local.stage_behaviours
 
+  logging_bucket = aws_s3_bucket.cloudfront_logs.id
+
   default_target_origin_id = "iiif"
 
   providers = {
@@ -38,6 +42,8 @@ module "iiif-test" {
 
   origins    = local.test_origins
   behaviours = local.test_behaviours
+
+  logging_bucket = aws_s3_bucket.cloudfront_logs.id
 
   default_target_origin_id = "iiif"
 
