@@ -92,9 +92,9 @@ def get_iam_access_key_info(sess):
                 }
 
 
-def pprint_info(*, key, value):
+def pprint_info(*, key, value, color="blue"):
     print(f"{key}:".ljust(17), end=" ")
-    print(termcolor.colored(value, "blue"))
+    print(termcolor.colored(value, color))
 
 
 if __name__ == "__main__":
@@ -141,7 +141,12 @@ if __name__ == "__main__":
                 pprint_info(key="username", value=info["user"]["UserName"])
                 pprint_info(
                     key="key created",
-                    value=info["key"]["CreateDate"].strftime("%d %B %Y"),
+                    value=info["key"]["CreateDate"].strftime("%-d %B %Y"),
+                )
+                pprint_info(
+                    key="status",
+                    value=info["key"]["Status"],
+                    color="red" if info["key"]["Status"] == "Inactive" else "blue",
                 )
 
                 print("")
