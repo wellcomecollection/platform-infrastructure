@@ -15,6 +15,13 @@ data "aws_iam_policy_document" "allow_assume_threataware_role" {
   }
 }
 
+data "aws_iam_policy_document" "allow_ssm_describe_instance_information" {
+  statement {
+    actions   = ["ssm:DescribeInstanceInformation"]
+    resources = ["*"]
+  }
+}
+
 data "aws_iam_policy_document" "disable_s3_get_object" {
   statement {
     effect = "Deny"
