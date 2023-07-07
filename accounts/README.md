@@ -124,7 +124,9 @@ There's a list of all of Wellcome's AWS account in the [Wellcome Trust Confluenc
 
 ## Standard roles
 
-Within each account, we create a standard set of roles:
+Within each account, we create a standard set of roles.
+Each role name is made up of two parts: the name of the account, and the role suffix.
+For example, `workflow-developer` has the account name `workflow` and the role suffix `developer`.
 
 <table id="roles">
   <tr>
