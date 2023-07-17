@@ -2,7 +2,7 @@
 # vulnerability scanning software from ThreatAware to gather data
 # about AWS accounts.
 #
-# It's based on https://github.com/wellcometrust/ncw-terraform-modules/tree/master/AWS/iam-roles/ta-iam-role
+# It's based on https://github.com/wellcometrust/ncw-terraform-modules/tree/a23da4a296c69b30352d53fd0e52de11496ca968/AWS/iam-roles/ta-iam-role, last retrieved 6 July 2023
 
 # IAM Role for ThreatAware - CHG0034245
 resource "aws_iam_role" "wt-ta-role" {
@@ -32,6 +32,11 @@ resource "aws_iam_role_policy_attachment" "wt-ta-role-policy-attachment" {
 
   role       = aws_iam_role.wt-ta-role.name
   policy_arn = each.value
+}
+
+resource "aws_iam_role_policy" "allow_ssm_describe_instance_information" {
+  role   = aws_iam_role.wt-ta-role.id
+  policy = data.aws_iam_policy_document.allow_ssm_describe_instance_information.json
 }
 
 resource "aws_iam_role_policy" "disable_s3_get_object" {
