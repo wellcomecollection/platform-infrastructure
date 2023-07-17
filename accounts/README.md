@@ -118,6 +118,14 @@ For historical reference, these are accounts we used to have but have since clos
       Used for testing the storage service demo.
     </td>
   </tr>
+  <tr>
+    <td>—</td>
+    <td>656287925160</td>
+    <td>
+      Used for very early Digital Platform testing and as the root of a Wellcome Collection-specific AWS Organization.
+      Our accounts are now in the Wellcome Trust Organization, so this account was unused.
+    </td>
+  </tr>
 </table>
 
 There's a list of all of Wellcome's AWS account in the [Wellcome Trust Confluence](https://wellcometrust.atlassian.net/wiki/spaces/INF/pages/719618052/AWS+Account+List).
