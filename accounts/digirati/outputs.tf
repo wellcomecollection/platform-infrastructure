@@ -2,10 +2,6 @@ output "admin_role_arn" {
   value = module.digirati_account.admin_role_arn
 }
 
-output "billing_role_arn" {
-  value = module.digirati_account.billing_role_arn
-}
-
 output "developer_role_arn" {
   value = module.digirati_account.developer_role_arn
 }

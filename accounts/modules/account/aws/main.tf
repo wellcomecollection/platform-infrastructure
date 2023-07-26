@@ -14,22 +14,6 @@ module "admin_role_policy" {
   role_name = module.admin_role.name
 }
 
-# Billing role
-
-module "billing_role" {
-  source = "../../assumable_role/aws"
-  name   = "${var.prefix}-billing"
-
-  max_session_duration_in_seconds = var.max_session_duration_in_seconds
-
-  principals = var.principals
-}
-
-module "billing_role_policy" {
-  source    = "../../role_policies/billing"
-  role_name = module.billing_role.name
-}
-
 # Developer role
 
 module "developer_role" {
