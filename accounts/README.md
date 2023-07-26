@@ -158,13 +158,6 @@ For example, `workflow-developer` has the account name `workflow` and the role s
     </td>
   </tr>
   <tr>
-    <td>billing</td>
-    <td>experience-billing</td>
-    <td>
-      Provides access to billing information.
-    </td>
-  </tr>
-  <tr>
     <td>ci</td>
     <td>identity-ci</td>
     <td>
