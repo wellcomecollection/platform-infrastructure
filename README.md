@@ -4,8 +4,6 @@
 
 Wellcome Collection common infrastructure.
 
-- [accounts](accounts/README.md): AWS account configuration, IAM etc.
-
 - [assets](assets/README.md): Infrastructure for managing S3 buckets that contain "assets" (files or documents that are irretrievable).
 
 - [images](images/README.md): Shared container definitions & repos (e.g. fluentbit, nginx).
@@ -22,6 +20,7 @@ Wellcome Collection common infrastructure.
 
 Some of the subdirectories of this repo have been broken out into their own repositories, to make them easier to find:
 
+*   `accounts` is now the [aws-account-infrastructure](https://github.com/wellcomecollection/aws-account-infrastructure) repository
 *   `builds` is now the [buildkite-infrastructure](https://github.com/wellcomecollection/buildkite-infrastructure) repository
 *   `cloudfront/wellcomelibrary.org` is now the [wellcomelibrary.org](https://github.com/wellcomecollection/wellcomelibrary.org) repository
 *   `cost_reporter` is now [a standalone repo of the same name](https://github.com/wellcomecollection/cost_reporter)
