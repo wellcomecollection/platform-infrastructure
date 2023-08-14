@@ -33,7 +33,7 @@ data "terraform_remote_state" "accounts_platform" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/platform.tfstate"
+    key    = "terraform/aws-account-infrastructure/platform.tfstate"
     region = "eu-west-1"
   }
 }
@@ -45,7 +45,7 @@ data "terraform_remote_state" "accounts_catalogue" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/catalogue.tfstate"
+    key    = "terraform/aws-account-infrastructure/catalogue.tfstate"
     region = "eu-west-1"
   }
 }
@@ -57,7 +57,7 @@ data "terraform_remote_state" "accounts_storage" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/storage.tfstate"
+    key    = "terraform/aws-account-infrastructure/storage.tfstate"
     region = "eu-west-1"
   }
 }
@@ -69,7 +69,7 @@ data "terraform_remote_state" "accounts_experience" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/experience.tfstate"
+    key    = "terraform/aws-account-infrastructure/experience.tfstate"
     region = "eu-west-1"
   }
 }
@@ -81,7 +81,7 @@ data "terraform_remote_state" "accounts_digirati" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/digirati.tfstate"
+    key    = "terraform/aws-account-infrastructure/digirati.tfstate"
     region = "eu-west-1"
   }
 }
@@ -93,7 +93,7 @@ data "terraform_remote_state" "accounts_identity" {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
 
     bucket = "wellcomecollection-platform-infra"
-    key    = "terraform/platform-infrastructure/accounts/identity.tfstate"
+    key    = "terraform/aws-account-infrastructure/identity.tfstate"
     region = "eu-west-1"
   }
 }
