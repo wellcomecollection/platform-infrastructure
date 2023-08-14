@@ -15,7 +15,12 @@ resource "elasticstack_elasticsearch_security_role" "firelens_client" {
   indices {
     # The "firelens-*" pattern is legacy, can be removed if we are sure all services
     # are using new versions of the logging sidecar that are pointed at service-logs-firelens
-    names      = ["firelens-*", module.firelens_service_log_data_stream.name]
+    names = [
+      "firelens-*",
+      "service-logs-*",
+      module.firelens_service_log_data_stream.name
+    ]
+
     privileges = ["all"]
   }
 }

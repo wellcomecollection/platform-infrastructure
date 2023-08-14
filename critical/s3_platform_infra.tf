@@ -1,20 +1,35 @@
 resource "aws_s3_bucket" "platform_infra" {
   bucket = "wellcomecollection-platform-infra"
-  acl    = "private"
 
-  lifecycle_rule {
-    id      = "tmp"
-    prefix  = "tmp/"
-    enabled = true
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_s3_bucket_acl" "platform_infra" {
+  bucket = aws_s3_bucket.platform_infra.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "platform_infra" {
+  bucket = aws_s3_bucket.platform_infra.id
+
+  rule {
+    id = "tmp"
+
+    filter {
+      prefix = "tmp/"
+    }
 
     expiration {
       days = 30
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
-    id      = "expire_old_versions"
-    enabled = true
+  rule {
+    id = "expire_old_versions"
 
     transition {
       days          = 30
@@ -22,15 +37,17 @@ resource "aws_s3_bucket" "platform_infra" {
     }
 
     noncurrent_version_expiration {
-      days = 90
+      noncurrent_days = 90
     }
-  }
 
-  lifecycle {
-    prevent_destroy = true
+    status = "Enabled"
   }
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "platform_infra" {
+  bucket = aws_s3_bucket.platform_infra.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
