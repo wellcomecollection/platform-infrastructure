@@ -122,15 +122,15 @@ function maxDate(dates) {
  * e.g. 200 OK or 404 Not Found responses.
  */
 function createKibanaLogLink(serverErrors) {
-  // Find the time of the earliest/latest error, then add a few minutes either
+  // Find the time of the earliest/latest error, then add an hour either
   // side for safety.
   const earliestError = minDate(serverErrors.map(e => e.date));
   const latestError = maxDate(serverErrors.map(e => e.date));
 
   const fromDate = new Date(
-    earliestError.setMinutes(earliestError.getMinutes() - 2)
+    earliestError.setMinutes(earliestError.getMinutes() - 60)
   );
-  const toDate = new Date(latestError.setMinutes(latestError.getMinutes() + 2));
+  const toDate = new Date(latestError.setMinutes(latestError.getMinutes() + 60));
 
   return `https://logging.wellcomecollection.org/app/discover#?_g=(filters%3A!()%2CrefreshInterval%3A(pause%3A!t%2Cvalue%3A0)%2Ctime%3A(from%3A'${fromDate.toISOString()}'%2Cto%3A'${toDate.toISOString()}'))`;
 }
