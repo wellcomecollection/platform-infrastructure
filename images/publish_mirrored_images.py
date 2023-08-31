@@ -40,15 +40,15 @@ PLATFORM_ROLE_ARN = "arn:aws:iam::760097843905:role/platform-developer"
 
 # These repositories must be provisioned in terraform/ecr.tf
 IMAGE_TAGS = [
-    # "localstack/localstack",
-    # "localstack/localstack:0.10.5",
-    # "localstack/localstack:0.14.2",
+    "localstack/localstack",
+    "localstack/localstack:0.10.5",
+    "localstack/localstack:0.14.2",
     "pyfound/black:23.7.0",
-    # "wellcome/flake8:latest",
-    # "wellcome/format_python:112",
-    # "wellcome/format_python:latest",
-    # "wellcome/tox:latest",
-    # "zenko/cloudserver:8.1.8",
+    "wellcome/flake8:latest",
+    "wellcome/format_python:112",
+    "wellcome/format_python:latest",
+    "wellcome/tox:latest",
+    "zenko/cloudserver:8.1.8",
 ]
 
 
