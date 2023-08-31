@@ -135,8 +135,6 @@ locals {
     "nginx",
     "pyfound/black",
     "wellcome/flake8",
-    "wellcome/format_python",
-    "wellcome/format_python",
     "wellcome/sbt_wrapper",
     "wellcome/tox",
     "zenko/cloudserver",
