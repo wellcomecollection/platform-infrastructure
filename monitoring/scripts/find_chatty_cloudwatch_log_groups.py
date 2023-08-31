@@ -41,7 +41,6 @@ def print_bar_chart(data):
     longest_label_length = max(len(label) for label, _ in data)
 
     for label, count in data:
-
         # The ASCII block elements come in chunks of 8, so we work out how
         # many fractions of 8 we need.
         # https://en.wikipedia.org/wiki/Block_Elements
@@ -63,11 +62,9 @@ def print_bar_chart(data):
 
 
 if __name__ == "__main__":
-
     stored_sizes = {}
 
     for group in describe_all_log_groups():
-
         # All our log group names are of one of two forms:
         #
         #   platform/:service_name

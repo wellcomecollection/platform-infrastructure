@@ -29,7 +29,6 @@ def get_parameter_store_entries():
     paginator = ssm_client.get_paginator("describe_parameters")
 
     for page in paginator.paginate():
-
         # The DescribeParameters call tells us what parameters exist, but it
         # doesn't tell us what their values are.  We need to make a separate
         # GetParameters call to fetch those.
