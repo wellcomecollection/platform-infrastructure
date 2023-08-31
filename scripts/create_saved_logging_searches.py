@@ -44,7 +44,6 @@ def get_service_names():
             for service_arn in get_service_arns_in_cluster(
                 ecs_client, cluster_arn=cluster_arn
             ):
-
                 # The service ARN is typically something like
                 #
                 #     arn:aws:ecs:eu-west-1:756629837203:service/snapshot_generator
@@ -134,7 +133,6 @@ if __name__ == "__main__":
     client = httpx.Client(base_url=endpoint, auth=httpx.BasicAuth(username, password))
 
     for service_name in get_service_names():
-
         # Skip services that don't log to Elasticsearch.
         if any(s in service_name for s in ("logstash_transit", "loris")):
             continue

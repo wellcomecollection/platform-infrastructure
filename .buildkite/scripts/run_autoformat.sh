@@ -14,7 +14,9 @@ docker run --tty --rm \
 # Run the Python autoformatting
 docker run --tty --rm \
   --volume "$ROOT":/repo \
-  760097843905.dkr.ecr.eu-west-1.amazonaws.com/wellcome/format_python:112
+  --workdir /repo \
+  760097843905.dkr.ecr.eu-west-1.amazonaws.com/pyfound/black \
+  black --exclude ".lambda_zips/|.terraform/|target/" .
 
 # If there are any changes, push to GitHub immediately and fail the
 # build.  This will abort the remaining jobs, and trigger a new build

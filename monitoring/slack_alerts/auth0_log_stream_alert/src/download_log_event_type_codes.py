@@ -29,7 +29,6 @@ if __name__ == "__main__":
     codes = {}
 
     for row in table.find_all("tr"):
-
         # header row
         if row.find("td") is None:
             continue

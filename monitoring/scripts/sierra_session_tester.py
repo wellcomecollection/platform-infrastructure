@@ -123,7 +123,6 @@ class SierraAPI(object):
 
             return self._current_response
         except requests.HTTPError as err:
-
             # When requesting a set of objects that is empty
             # the API will return a 404, so substitute for an
             # empty list.
