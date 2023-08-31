@@ -133,6 +133,7 @@ locals {
   mirrored_images = [
     "localstack/localstack",
     "nginx",
+    "pyfound/black",
     "wellcome/flake8",
     "wellcome/format_python",
     "wellcome/format_python",
