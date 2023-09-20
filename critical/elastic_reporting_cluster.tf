@@ -80,7 +80,7 @@ resource "ec_deployment" "reporting" {
   name = "reporting"
 
   region                 = "eu-west-1"
-  version                = "8.4.0"
+  version                = "8.9.2"
   deployment_template_id = "aws-io-optimized-v3"
 
   elasticsearch {
