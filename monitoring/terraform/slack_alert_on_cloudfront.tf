@@ -8,8 +8,6 @@ module "experience_cloudfront_alerts" {
   context_url_template = "experience-cloudfront-errors"
 
   account_name = "experience"
-
-  lambda_alarm_topic_arn = module.experience_cloudfront_lambda_error_alerts.trigger_topic_arn
 }
 
 output "experience_cloudfront_alerts_topic_arn" {
