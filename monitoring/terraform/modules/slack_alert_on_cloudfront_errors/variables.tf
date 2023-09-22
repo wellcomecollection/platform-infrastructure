@@ -5,3 +5,7 @@ variable "account_name" {
 variable "context_url_template" {
   type = string
 }
+
+variable "lambda_alarm_topic_arn" {
+  type = string
+}
