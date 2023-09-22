@@ -48,7 +48,6 @@ resource "aws_ssm_parameter" "log_destination_arn_platform" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_catalogue" {
@@ -57,7 +56,6 @@ resource "aws_ssm_parameter" "log_destination_arn_catalogue" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_digirati" {
@@ -66,7 +64,6 @@ resource "aws_ssm_parameter" "log_destination_arn_digirati" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_experience" {
@@ -75,7 +72,6 @@ resource "aws_ssm_parameter" "log_destination_arn_experience" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_identity" {
@@ -84,7 +80,6 @@ resource "aws_ssm_parameter" "log_destination_arn_identity" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_reporting" {
@@ -93,7 +88,6 @@ resource "aws_ssm_parameter" "log_destination_arn_reporting" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_storage" {
@@ -102,7 +96,6 @@ resource "aws_ssm_parameter" "log_destination_arn_storage" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_workflow" {
@@ -111,5 +104,4 @@ resource "aws_ssm_parameter" "log_destination_arn_workflow" {
   name      = local.log_destination_parameter_name
   type      = "String"
   value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
-  overwrite = true
 }
