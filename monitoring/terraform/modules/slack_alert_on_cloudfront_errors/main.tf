@@ -19,7 +19,7 @@ module "cloudfront_to_slack_alerts" {
   ]
 
   account_name    = var.account_name
-  alarm_topic_arn = module.lambda_error_alerts.trigger_topic_arn
+  alarm_topic_arn = var.lambda_alarm_topic_arn
 }
 
 module "cloudfront_to_slack_alerts_sns_trigger" {
@@ -31,25 +31,4 @@ module "cloudfront_to_slack_alerts_sns_trigger" {
 
 output "trigger_topic_arn" {
   value = module.cloudfront_to_slack_alerts_sns_trigger.topic_arn
-}
-
-# Because CloudFront lives in us-east-1 but the rest of our services
-# are in eu-west-1, we create a Lambda to alert on failures in the
-# CloudFront alerting Lambda within that region.
-#
-# This avoids the complication of cross-region alerting and the like.
-module "slack_secrets" {
-  source = "../../../../critical/modules/secrets/distributed"
-
-  secrets = {
-    noncritical_slack_webhook = "monitoring/critical_slack_webhook"
-  }
-}
-
-module "lambda_error_alerts" {
-  source = "../slack_alert_on_lambda_error"
-
-  # We need to add a suffix here, so this doesn't conflict with the
-  # "alert on Lambda errors" Lambda that lives in eu-west-1 in this account.
-  account_name = "${var.account_name}_useast1"
 }
