@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "cross_account_subscriptions" {
     resources = [aws_cloudwatch_log_destination.kinesis.arn]
 
     principals {
-      identifiers = local.all_account_ids
+      identifiers = sort(local.all_account_ids)
       type        = "AWS"
     }
   }
