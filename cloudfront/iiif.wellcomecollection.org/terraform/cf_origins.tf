@@ -240,6 +240,26 @@ module "dlcs_auth_origin_set" {
   }
 }
 
+module "dlcs_auth2_origin_set" {
+  source = "./origin_sets"
+  id     = "dlcs_auth_v2"
+
+  forward_host = true
+
+  prod = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/v2/2"
+  }
+  stage = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/v2/2"
+  }
+  test = {
+    domain_name : "dlcs.io"
+    origin_path : "/auth/v2/2"
+  }
+}
+
 locals {
 
   prod_origins = [
@@ -269,7 +289,8 @@ locals {
     module.dlcs_pdf_origin_set.origins["stage"],
     module.dlcs_file_origin_set.origins["stage"],
     module.dlcs_pdf_cover_origin_set.origins["stage"],
-    module.dlcs_auth_origin_set.origins["stage"]
+    module.dlcs_auth_origin_set.origins["stage"],
+    module.dlcs_auth2_origin_set.origins["stage"]
   ]
 
   test_origins = [
@@ -284,6 +305,7 @@ locals {
     module.dlcs_pdf_origin_set.origins["test"],
     module.dlcs_file_origin_set.origins["test"],
     module.dlcs_pdf_cover_origin_set.origins["test"],
-    module.dlcs_auth_origin_set.origins["test"]
+    module.dlcs_auth_origin_set.origins["test"],
+    module.dlcs_auth2_origin_set.origins["test"]
   ]
 }
