@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "allow_manage_bucket_acl" {
     ]
 
     resources = [
-      aws_s3_bucket.cloudfront_logs.id,
+      aws_s3_bucket.cloudfront_logs.arn,
     ]
   }
 }

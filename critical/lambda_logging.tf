@@ -45,63 +45,63 @@ locals {
 resource "aws_ssm_parameter" "log_destination_arn_platform" {
   provider = aws.platform
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_catalogue" {
   provider = aws.catalogue
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_digirati" {
   provider = aws.digirati
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_experience" {
   provider = aws.experience
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_identity" {
   provider = aws.identity
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_reporting" {
   provider = aws.reporting
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_storage" {
   provider = aws.storage
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
 resource "aws_ssm_parameter" "log_destination_arn_workflow" {
   provider = aws.workflow
 
-  name      = local.log_destination_parameter_name
-  type      = "String"
-  value     = module.kinesis_log_destination.cloudwatch_log_destination.arn
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
