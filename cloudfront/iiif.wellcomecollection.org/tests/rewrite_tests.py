@@ -48,8 +48,9 @@ def validate_auth(info_json, regex):
             service_description = [service_description]
 
         for service in service_description:
-            info_id = service.get("@id", None)
-            if not p.match(info_id):
+            # Get both @id and id for different IIIF versions
+            info_id = service.get("@id", service.get("id", None))
+            if not info_id or not p.match(info_id):
                 click.echo(
                     click.style(
                         f"Id fail - expected '{regex}' but found '{info_id}'", fg="red"
