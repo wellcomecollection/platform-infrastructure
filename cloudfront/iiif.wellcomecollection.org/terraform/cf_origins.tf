@@ -248,15 +248,15 @@ module "dlcs_auth2_origin_set" {
 
   prod = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/2"
+    origin_path : "/auth/v2/access/2"
   }
   stage = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/2"
+    origin_path : "/auth/v2/access/2"
   }
   test = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/2"
+    origin_path : "/auth/v2/access/2"
   }
 }
 
@@ -268,15 +268,15 @@ module "dlcs_auth2_probe_origin_set" {
 
   prod = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/probe/2"
+    origin_path : "/auth/v2/probe/2/5"
   }
   stage = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/probe/2"
+    origin_path : "/auth/v2/probe/2/6"
   }
   test = {
     domain_name : "dlcs.io"
-    origin_path : "/auth/v2/probe/2"
+    origin_path : "/auth/v2/probe/2/9"
   }
 }
 
