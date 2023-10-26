@@ -108,6 +108,23 @@ const rewrite_tests = (): Array<ExpectedRewrite> => {
       in: '/file/b21320962_National%20primary%20science%20survey.pdf',
       out: '/b21320962_National%20primary%20science%20survey.pdf'
     },
+    // DLCS iiif auth v2 paths
+    {
+      in : '/auth/v2/probe/foo?roles=api.dlcs.io/customers/2/roles/clickthrough',
+      out: '/foo?roles=api.dlcs.io/customers/2/roles/clickthrough'
+    },
+    {
+      in : '/auth/v2/access/clickthrough?origin=test.example',
+      out: '/clickthrough?origin=test.example'
+    },
+    {
+      in : '/auth/v2/access/clickthrough/logout',
+      out: '/clickthrough/logout'
+    },
+    {
+      in : '/auth/v2/access/token?origin=test.example&messageId=123',
+      out: '/token?origin=test.example&messageId=123'
+    },
     // DLCS auth paths
     {
       in: '/auth/fromcas?token=xyz',

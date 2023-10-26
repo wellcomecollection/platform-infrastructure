@@ -13,6 +13,7 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
     const dlcsThumbsUri: RegExp = /^\/thumbs\/.+/
     const dlcsPdfUri: RegExp = /^\/pdf\/.+/
     const dlcsFileUri: RegExp = /^\/file\/.+/
+    const dlcsAuth2Uri: RegExp = /^\/auth\/v2\/.+/
     const dlcsAuthUri: RegExp = /^\/auth\/.+/
 
     const rewriteRequestUri: (uri: string) => string = (uri: string) => {
@@ -38,6 +39,10 @@ export const request: CloudFrontRequestHandler = (event, context, callback) => {
         } else if(uri.match(dlcsFileUri)) {
             return uri
                 .replace('/file', '')
+        } else if(uri.match(dlcsAuth2Uri)) {
+            return uri
+                .replace('/auth/v2/access', '')
+                .replace('/auth/v2/probe', '')
         } else if(uri.match(dlcsAuthUri)) {
             return uri
                 .replace('/auth', '')
