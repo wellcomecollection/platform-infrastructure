@@ -294,7 +294,9 @@ locals {
     module.dlcs_pdf_origin_set.origins["prod"],
     module.dlcs_file_origin_set.origins["prod"],
     module.dlcs_pdf_cover_origin_set.origins["prod"],
-    module.dlcs_auth_origin_set.origins["prod"]
+    module.dlcs_auth_origin_set.origins["prod"],
+    module.dlcs_auth2_origin_set.origins["prod"],
+    module.dlcs_auth2_probe_origin_set.origins["prod"]
   ]
 
   stage_origins = [
