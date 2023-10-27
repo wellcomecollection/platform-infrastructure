@@ -346,8 +346,8 @@ locals {
       ]
 
       min_ttl     = 0
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
+      default_ttl = 0
+      max_ttl     = 0
     },
   ]
 
@@ -365,8 +365,8 @@ locals {
       ]
 
       min_ttl     = 0
-      default_ttl = 24 * 60 * 60
-      max_ttl     = 365 * 24 * 60 * 60
+      default_ttl = 0
+      max_ttl     = 0
     },
   ]
 
