@@ -313,6 +313,44 @@ locals {
     },
   ]
 
+  auth2_probe_behaviours_prod = [
+    {
+      path_pattern     = "auth/v2/probe/*"
+      target_origin_id = "dlcs_auth_v2_probe"
+      headers          = ["Authorization"]
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 0
+      max_ttl     = 0
+    },
+  ]
+
+  auth2_behaviours_prod = [
+    {
+      path_pattern     = "auth/v2/*"
+      target_origin_id = "dlcs_auth_v2"
+      headers          = ["Authorization"]
+      cookies          = "all"
+      lambdas = [
+        {
+          event_type = "origin-request"
+          lambda_arn = local.dlcs_path_rewrite_arn_prod
+        }
+      ]
+
+      min_ttl     = 0
+      default_ttl = 0
+      max_ttl     = 0
+    },
+  ]
+
   auth_behaviours_stage = [
     {
       path_pattern     = "auth/*"
@@ -407,6 +445,8 @@ locals {
     local.av_behaviours_prod,
     local.pdf_behaviours_prod,
     local.file_behaviours_prod,
+    local.auth2_probe_behaviours_prod,
+    local.auth2_behaviours_prod,
     local.auth_behaviours_prod,
     local.dash_behaviours,
     local.pdf_cover_behaviours,
