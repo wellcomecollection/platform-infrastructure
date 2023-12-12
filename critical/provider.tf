@@ -75,6 +75,19 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias  = "experience_cloudfront"
+  region = "us-east-1"
+
+  default_tags {
+    tags = local.default_tags
+  }
+
+  assume_role {
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+}
+
+provider "aws" {
   alias  = "workflow"
   region = local.aws_region
 
