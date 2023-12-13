@@ -179,7 +179,8 @@ resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
 // The rollover/deletion values are chosen with the intention of avoiding the cluster storage filling up
 // and may need modifying in future.
 resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
-  name = "weco-traces-apm"
+  provider = elasticstack.logging
+  name     = "weco-traces-apm"
 
   hot {
     rollover {
@@ -194,7 +195,8 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
 }
 
 resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
-  name = "weco-traces-apm-rum"
+  provider = elasticstack.logging
+  name     = "weco-traces-apm-rum"
 
   hot {
     rollover {
@@ -209,7 +211,8 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
 }
 
 resource "elasticstack_elasticsearch_component_template" "apm_traces_managed_custom" {
-  name = "traces-apm@custom"
+  provider = elasticstack.logging
+  name     = "traces-apm@custom"
 
   template {
     settings = jsonencode({
@@ -221,7 +224,8 @@ resource "elasticstack_elasticsearch_component_template" "apm_traces_managed_cus
 }
 
 resource "elasticstack_elasticsearch_component_template" "apm_traces_rum_managed_custom" {
-  name = "traces-apm.rum@custom"
+  provider = elasticstack.logging
+  name     = "traces-apm.rum@custom"
 
   template {
     settings = jsonencode({
