@@ -221,6 +221,16 @@ resource "elasticstack_elasticsearch_component_template" "apm_traces_managed_cus
       }
     })
   }
+
+  metadata = jsonencode(
+    {
+      managed    = true
+      managed_by = "fleet"
+      package = {
+        name = "apm"
+      }
+    }
+  )
 }
 
 resource "elasticstack_elasticsearch_component_template" "apm_traces_rum_managed_custom" {
@@ -234,4 +244,14 @@ resource "elasticstack_elasticsearch_component_template" "apm_traces_rum_managed
       }
     })
   }
+
+  metadata = jsonencode(
+    {
+      managed    = true
+      managed_by = "fleet"
+      package = {
+        name = "apm"
+      }
+    }
+  )
 }
