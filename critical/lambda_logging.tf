@@ -74,6 +74,14 @@ resource "aws_ssm_parameter" "log_destination_arn_experience" {
   value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
 
+resource "aws_ssm_parameter" "log_destination_arn_experience_cloudfront" {
+  provider = aws.experience_cloudfront
+
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
+}
+
 resource "aws_ssm_parameter" "log_destination_arn_identity" {
   provider = aws.identity
 

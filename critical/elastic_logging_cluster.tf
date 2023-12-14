@@ -173,3 +173,85 @@ resource "elasticstack_elasticsearch_security_role_mapping" "logging" {
   })
   metadata = jsonencode({ version = 1 })
 }
+
+// These are custom ILM policies which we attach to the @custom component templates as documented at
+// https://www.elastic.co/guide/en/apm/guide/current/ilm-how-to.html
+// The rollover/deletion values are chosen with the intention of avoiding the cluster storage filling up
+// and may need modifying in future.
+resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
+  provider = elasticstack.logging
+  name     = "weco-traces-apm"
+
+  hot {
+    rollover {
+      max_size = "50gb"
+      max_age  = "30d"
+    }
+  }
+
+  delete {
+    min_age = "10d"
+  }
+}
+
+resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
+  provider = elasticstack.logging
+  name     = "weco-traces-apm-rum"
+
+  hot {
+    rollover {
+      max_size = "50gb"
+      max_age  = "30d"
+    }
+  }
+
+  delete {
+    min_age = "10d"
+  }
+}
+
+resource "elasticstack_elasticsearch_component_template" "apm_traces_managed_custom" {
+  provider = elasticstack.logging
+  name     = "traces-apm@custom"
+
+  template {
+    settings = jsonencode({
+      lifecycle = {
+        name = elasticstack_elasticsearch_index_lifecycle.apm_traces.name
+      }
+    })
+  }
+
+  metadata = jsonencode(
+    {
+      managed    = true
+      managed_by = "fleet"
+      package = {
+        name = "apm"
+      }
+    }
+  )
+}
+
+resource "elasticstack_elasticsearch_component_template" "apm_traces_rum_managed_custom" {
+  provider = elasticstack.logging
+  name     = "traces-apm.rum@custom"
+
+  template {
+    settings = jsonencode({
+      lifecycle = {
+        name = elasticstack_elasticsearch_index_lifecycle.apm_traces_rum.name
+      }
+    })
+  }
+
+  metadata = jsonencode(
+    {
+      managed    = true
+      managed_by = "fleet"
+      package = {
+        name = "apm"
+      }
+    }
+  )
+}
