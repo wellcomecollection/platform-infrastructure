@@ -65,6 +65,7 @@ function build_template() {
     --tag="$tag" \
     --build-arg CONFIG_TEMPLATE="${template_file}" \
     --file nginx/template.Dockerfile \
+    --platform linux/amd64 \
     nginx
 }
 
