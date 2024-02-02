@@ -5,7 +5,6 @@ set -o errexit
 
 AWS_ACCOUNT_ID=760097843905
 AWS_PROFILE=platform-developer
-DEV_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/platform-developer"
 ROOT=$(git rev-parse --show-toplevel)
 CURRENT_COMMIT=$(git rev-parse HEAD)
 
