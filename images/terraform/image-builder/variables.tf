@@ -76,18 +76,6 @@ variable "recipe_version" {
   default     = "0.0.1"
 }
 
-# variable "recipe_volume_size" {
-#   default     = 100
-#   description = "(Optional) Volume Size of Imagebuilder Image Recipe Block Device Mapping"
-#   type        = string
-# }
-
-# variable "recipe_volume_type" {
-#   default     = "gp3"
-#   description = "(Optional) Volume Type of Imagebuilder Image Recipe Block Device Mapping"
-#   type        = string
-# }
-
 variable "build_component_arn" {
   type        = list(string)
   description = "(Required) List of ARNs for the Build EC2 Image Builder Build Components"
@@ -97,4 +85,26 @@ variable "build_component_arn" {
 variable "source_ami_id" {
   type        = string
   description = "(Required) The ID of the source AMI"
+}
+
+variable "ami_name" {
+  type        = string
+  description = "(Required) The name of the AMI"
+}
+
+variable "ami_description" {
+  type        = string
+  description = "(Required) The description of the AMI"
+}
+
+variable "timeout" {
+  type        = string
+  description = "(Optional) Number of hours before image time out. Defaults to 2h. "
+  default     = "2h"
+}
+
+variable "target_account_ids" {
+  description = "The list of AWS accounts to share the AMI with"
+  type        = list(string)
+  default     = []
 }
