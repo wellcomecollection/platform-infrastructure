@@ -1,4 +1,4 @@
-locals {  
+locals {
   account_ids_map = {
     "catalogue"    = "756629837203"
     "platform"     = "760097843905"

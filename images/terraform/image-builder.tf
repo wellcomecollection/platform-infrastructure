@@ -7,10 +7,10 @@ data "aws_vpc" "platform_ci" {
 }
 
 locals {
-  image_builder_aws_region        = "eu-west-1"
-  image_builder_vpc_id            = data.aws_vpc.platform_ci.id
-  image_builder_subnet_id         = data.terraform_remote_state.accounts_platform.outputs.ci_vpc_private_subnets[0]
-  image_builder_source_cidr       = [data.aws_vpc.platform_ci.cidr_block]
+  image_builder_aws_region  = "eu-west-1"
+  image_builder_vpc_id      = data.aws_vpc.platform_ci.id
+  image_builder_subnet_id   = data.terraform_remote_state.accounts_platform.outputs.ci_vpc_private_subnets[0]
+  image_builder_source_cidr = [data.aws_vpc.platform_ci.cidr_block]
 
   # Config for ecs-optimised-x86
   ecs-optimised-x86-image_builder_source_ami_filter = "amzn2-ami-ecs-hvm-2.0.*-x86_64-ebs"
