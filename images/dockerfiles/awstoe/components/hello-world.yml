@@ -1,0 +1,10 @@
+"phases":
+- "name": "build"
+  "steps":
+  - "action": "ExecuteBash"
+    "inputs":
+      "commands":
+      - "echo 'hello world' > /tmp/hello-world.txt"
+    "name": "example"
+    "onFailure": "Continue"
+"schemaVersion": 1

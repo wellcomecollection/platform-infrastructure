@@ -1,0 +1,11 @@
+# build and start the dockerfile in this folder, keeping it running and mounting a folder to /components
+services:
+  awstoe:
+    build: .
+    command: tail -f /dev/null
+    environment:
+      - AWS_PROFILE=platform-developer
+      - AWS_REGION=eu-west-1
+    volumes:
+      - ./components:/components
+      - ~/.aws:/root/.aws
