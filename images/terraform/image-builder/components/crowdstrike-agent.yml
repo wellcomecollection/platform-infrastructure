@@ -1,0 +1,41 @@
+---
+schemaVersion: 1
+phases:
+  -
+    name: 'build'
+    steps:
+      - 
+        name: DownloadAgent
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          -
+            source: 's3://wellcomecollection-imagebuilder/assets/falcon-agent.rpm'
+            destination: '/tmp/falcon-agent.rpm'
+  
+      - 
+        name: InstallAgentWithDeps
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo yum install awscli libnl -y
+            - sudo yum install /tmp/falcon-agent.rpm -y
+
+      - 
+        name: ConfigureAgent
+        action: ExecuteBash
+        inputs:
+          commands:
+            - |
+              CID=$(aws secretsmanager get-secret-value \
+                  --secret-id image-builder/crowdstrike-cid \
+                  --region eu-west-1 \
+                  --query "SecretString" \
+                  --output=text)
+              # Setup the CrowdStrike agent
+              sudo /opt/CrowdStrike/falconctl -s --cid=$CID
+              # Start the CrowdStrike agent
+              sudo systemctl start falcon-sensor
+              

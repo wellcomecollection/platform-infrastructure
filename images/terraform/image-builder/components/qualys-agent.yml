@@ -1,0 +1,51 @@
+---
+schemaVersion: 1
+phases:
+  -
+    name: 'build'
+    steps:
+      - 
+        name: DownloadAgent
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          -
+            source: 's3://wellcomecollection-imagebuilder/assets/qualys-agent.rpm'
+            destination: '/tmp/qualys-agent.rpm'
+  
+      - 
+        name: InstallAgentWithDeps
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo yum install /tmp/qualys-agent.rpm -y
+
+      - 
+        name: ConfigureAgent
+        action: ExecuteBash
+        inputs:
+          commands:
+            - |
+              CID=$(aws secretsmanager get-secret-value \
+                  --secret-id image-builder/qualys-cid \
+                  --region eu-west-1 \
+                  --query "SecretString" \
+                  --output=text)
+              AID=$(aws secretsmanager get-secret-value \
+                  --secret-id image-builder/qualys-aid \
+                  --region eu-west-1 \
+                  --query "SecretString" \
+                  --output=text)
+              URI=$(aws secretsmanager get-secret-value \
+                  --secret-id image-builder/qualys-uri \
+                  --region eu-west-1 \
+                  --query "SecretString" \
+                  --output=text)
+              # Setup the Qualys agent
+              sudo /usr/local/qualys/cloud-agent/bin/qualys-cloud-agent.sh \
+                ActivationId=$AID \
+                CustomerId=$CID \
+                ServerUri=$URI
+              

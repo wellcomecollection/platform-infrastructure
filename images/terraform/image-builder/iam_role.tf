@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "ssm" {
 }
 
 resource "aws_iam_instance_profile" "iam_instance_profile" {
-  name = "EC2InstanceProfileImageBuilder"
+  name = "${var.name}-EC2InstanceProfileImageBuilder"
   role = aws_iam_role.awsserviceroleforimagebuilder.name
 }
 
