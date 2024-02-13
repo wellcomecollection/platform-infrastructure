@@ -198,7 +198,7 @@ def should_alert_for_event(log_event):
         ],
 
         # fepft = Failed Exchange
-        "fefpt": [
+        "fepft": [
             "We don't recognise the email and/or password you entered. Please check your entry and try again."
         ],
 
