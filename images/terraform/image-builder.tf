@@ -131,11 +131,11 @@ module "ec2-image-builder-amzn2-ecs-optimised-hvm-x86_64-ebs" {
   custom_policy_arn    = aws_iam_policy.image_builder_policy.arn
   attach_custom_policy = true
   recipe_version       = "1.0.1"
-  build_component_arn  = [
+  build_component_arn = [
     aws_imagebuilder_component.crowdstrike_agent_component.arn,
     aws_imagebuilder_component.qualys_agent_component.arn,
   ]
-  target_account_ids   = local.amzn2-ecs-optimised-hvm-x86_64-ebs-target_account_ids
+  target_account_ids = local.amzn2-ecs-optimised-hvm-x86_64-ebs-target_account_ids
 }
 
 # amzn2-hvm-x86_64-gp2
@@ -161,9 +161,9 @@ module "ec2-image-builder-amzn2-hvm-x86_64-gp2" {
   custom_policy_arn    = aws_iam_policy.image_builder_policy.arn
   attach_custom_policy = true
   recipe_version       = "1.0.1"
-  build_component_arn  = [
+  build_component_arn = [
     aws_imagebuilder_component.crowdstrike_agent_component.arn,
     aws_imagebuilder_component.qualys_agent_component.arn,
-  ]  
-  target_account_ids   = local.amzn2-hvm-x86_64-gp2-target_account_ids
+  ]
+  target_account_ids = local.amzn2-hvm-x86_64-gp2-target_account_ids
 }
