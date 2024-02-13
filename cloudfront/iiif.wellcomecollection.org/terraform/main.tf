@@ -34,6 +34,11 @@ module "iiif-stage" {
   }
 }
 
+module "iiif-waf-test" {
+  source = "./waf"
+  stage  = "test"
+}
+
 module "iiif-test" {
   source = "./cloudfront_distro"
 
@@ -46,6 +51,8 @@ module "iiif-test" {
   logging_bucket = aws_s3_bucket.cloudfront_logs.id
 
   default_target_origin_id = "iiif"
+
+  web_acl_id = module.iiif-waf-test.web_acl_id
 
   providers = {
     aws.dns = aws.dns
