@@ -82,6 +82,17 @@ resource "aws_wafv2_web_acl" "acl" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+
+        rule_action_override {
+          // Overriding this rule as it causes failure in our e2e tests where "localhost" appears in the request
+          // Specifically running item requesting tests locally, where the URL path /auth/token?messageId=1&origin=http://localhost
+          // This rule is probably trying to stop the exfiltration of EC2 metadata from the localhost endpoint on an instance.
+          name = "EC2MetaDataSSRF_QUERYARGUMENTS"
+
+          action_to_use {
+            allow {}
+          }
+        }
       }
     }
 
