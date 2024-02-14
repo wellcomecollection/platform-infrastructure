@@ -51,7 +51,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 0
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -75,7 +75,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 1
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -98,7 +98,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 2
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -121,7 +121,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 3
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -151,7 +151,7 @@ resource "aws_wafv2_web_acl" "acl" {
     // Rules can be found here:
     // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
     override_action {
-      count {}
+      none {}
     }
 
     statement {
