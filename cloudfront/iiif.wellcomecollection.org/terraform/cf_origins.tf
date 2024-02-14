@@ -11,15 +11,15 @@ module "dashboard_origin_set" {
 
   prod = {
     domain_name : "dash.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   stage = {
     domain_name : "dash-stage.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   test = {
     domain_name : "dash-test.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
 }
 
@@ -29,15 +29,15 @@ module "iiif_origin_set" {
 
   prod = {
     domain_name : "dds.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   stage = {
     domain_name : "dds-stage.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   test = {
     domain_name : "dds-test.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
 }
 
@@ -47,15 +47,15 @@ module "dlcs_origin_set" {
 
   prod = {
     domain_name : "dlcs.io"
-    origin_path : null
+    origin_path : ""
   }
   stage = {
     domain_name : "dlcs.io"
-    origin_path : null
+    origin_path : ""
   }
   test = {
     domain_name : "dlcs.io"
-    origin_path : null
+    origin_path : ""
   }
 }
 
@@ -208,15 +208,15 @@ module "dlcs_pdf_cover_origin_set" {
 
   prod = {
     domain_name : "pdf.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   stage = {
     domain_name : "pdf-stage.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
   test = {
     domain_name : "pdf-stage.wellcomecollection.digirati.io"
-    origin_path : null
+    origin_path : ""
   }
 }
 

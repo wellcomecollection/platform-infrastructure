@@ -19,6 +19,8 @@ resource "aws_cloudfront_distribution" "iiif" {
     local.distro_alias
   ]
 
+  web_acl_id = var.web_acl_id
+
   dynamic "origin" {
     for_each = var.origins
     content {

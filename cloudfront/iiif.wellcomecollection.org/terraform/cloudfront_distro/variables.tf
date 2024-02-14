@@ -38,3 +38,9 @@ variable "behaviours" {
 variable "logging_bucket" {
   type = string
 }
+
+variable "web_acl_id" {
+  description = "The ID of the WAF WebACL to associate with the distribution"
+  type        = string
+  default     = null
+}
