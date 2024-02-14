@@ -1,3 +1,12 @@
+module "iiif-waf-prod" {
+  source = "./waf"
+  stage  = "prod"
+
+  providers = {
+    aws = aws.us_east_1
+  }
+}
+
 module "iiif-prod" {
   source = "./cloudfront_distro"
 
@@ -11,8 +20,19 @@ module "iiif-prod" {
 
   default_target_origin_id = "iiif"
 
+  web_acl_id = module.iiif-waf-prod.web_acl_arn
+
   providers = {
     aws.dns = aws.dns
+  }
+}
+
+module "iiif-waf-stage" {
+  source = "./waf"
+  stage  = "stage"
+
+  providers = {
+    aws = aws.us_east_1
   }
 }
 
@@ -29,6 +49,8 @@ module "iiif-stage" {
 
   default_target_origin_id = "iiif"
 
+  web_acl_id = module.iiif-waf-stage.web_acl_arn
+
   providers = {
     aws.dns = aws.dns
   }
@@ -37,6 +59,10 @@ module "iiif-stage" {
 module "iiif-waf-test" {
   source = "./waf"
   stage  = "test"
+
+  providers = {
+    aws = aws.us_east_1
+  }
 }
 
 module "iiif-test" {
@@ -52,7 +78,7 @@ module "iiif-test" {
 
   default_target_origin_id = "iiif"
 
-  web_acl_id = module.iiif-waf-test.web_acl_id
+  web_acl_id = module.iiif-waf-test.web_acl_arn
 
   providers = {
     aws.dns = aws.dns

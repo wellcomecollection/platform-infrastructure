@@ -39,7 +39,7 @@ locals {
 
 resource "aws_wafv2_web_acl" "acl" {
   name        = "${var.namespace}-cloudfront-acl-${var.stage}"
-  description = "Access control for the wellcomecollection.org CloudFront distributions"
+  description = "Access control for the iiif.wellcomecollection.org CloudFront distributions"
   scope       = "CLOUDFRONT"
 
   default_action {
