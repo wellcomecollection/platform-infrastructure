@@ -189,7 +189,7 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
     }
   }
 
-  warm {
+  delete {
     min_age = "1d"
   }
 }
@@ -205,7 +205,7 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
     }
   }
 
-  warm {
+  delete {
     min_age = "1d"
   }
 }
