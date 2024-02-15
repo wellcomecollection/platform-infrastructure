@@ -184,13 +184,13 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
 
   hot {
     rollover {
-      max_size = "50gb"
+      max_size = "30gb"
       max_age  = "30d"
     }
   }
 
   delete {
-    min_age = "10d"
+    min_age = "1d"
   }
 }
 
@@ -200,13 +200,13 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
 
   hot {
     rollover {
-      max_size = "50gb"
+      max_size = "30gb"
       max_age  = "30d"
     }
   }
 
   delete {
-    min_age = "10d"
+    min_age = "1d"
   }
 }
 
