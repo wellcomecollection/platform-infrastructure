@@ -167,7 +167,7 @@ def should_alert_for_event(log_event):
         "f": [
             "You may have pressed the back button",
             "PIN is not valid : PIN is trivial",
-            "Missing required parameter: response type",
+            "Missing required parameter: response_type",
             "Unauthorized",
         ],
 
