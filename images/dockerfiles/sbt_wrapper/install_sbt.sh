@@ -3,7 +3,7 @@
 set -o errexit
 set -o nounset
 
-apk add --no-cache curl
+apt-get install -y curl
 
 curl --location "https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz" \
   | gunzip \
@@ -35,5 +35,3 @@ echo "export COURSIER_DIR=$COURSIER_DIR" > ~/.env.sh
 # and after we've mounted the host caches.
 mv ~/.sbt ~/.sbt.image
 mv $COURSIER_DIR $COURSIER_DIR.image
-
-apk del curl
