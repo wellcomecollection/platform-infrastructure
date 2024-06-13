@@ -12,8 +12,6 @@ Wellcome Collection common infrastructure.
 
 - [cloudfront](cloudfront/README.md): Managing the infrastructure for Wellcome Collection's CloudFront distributions & DNS.
 
-- [monitoring](monitoring/README.md): Grafana platform monitoring stack.
-
 - **photography_backups**: Backup storage for photography (needs cleanup?)
 
 ## No longer in this repo
