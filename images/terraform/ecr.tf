@@ -49,19 +49,6 @@ module "ecr_nginx_frontend_identity" {
   }
 }
 
-module "ecr_nginx_grafana" {
-  source = "./repo_pair"
-
-  namespace = local.namespace
-  repo_name = "nginx_grafana"
-
-  description = "An nginx image for reverse proxying Grafana"
-
-  providers = {
-    aws.ecr_public = aws.ecr_public
-  }
-}
-
 module "ecr_nginx_apigw" {
   source = "./repo_pair"
 
