@@ -113,3 +113,11 @@ resource "aws_ssm_parameter" "log_destination_arn_workflow" {
   type  = "String"
   value = module.kinesis_log_destination.cloudwatch_log_destination.arn
 }
+
+resource "aws_ssm_parameter" "log_destination_arn_digitisation" {
+  provider = aws.digitisation
+
+  name  = local.log_destination_parameter_name
+  type  = "String"
+  value = module.kinesis_log_destination.cloudwatch_log_destination.arn
+}
