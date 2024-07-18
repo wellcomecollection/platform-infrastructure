@@ -17,13 +17,14 @@ locals {
   aws_region = "eu-west-1"
 
   account_ids = {
-    catalogue  = data.aws_caller_identity.catalogue.account_id
-    digirati   = data.aws_caller_identity.digirati.account_id
-    experience = data.aws_caller_identity.experience.account_id
-    identity   = data.aws_caller_identity.identity.account_id
-    reporting  = data.aws_caller_identity.reporting.account_id
-    storage    = data.aws_caller_identity.storage.account_id
-    workflow   = data.aws_caller_identity.workflow.account_id
+    catalogue    = data.aws_caller_identity.catalogue.account_id
+    digirati     = data.aws_caller_identity.digirati.account_id
+    experience   = data.aws_caller_identity.experience.account_id
+    identity     = data.aws_caller_identity.identity.account_id
+    reporting    = data.aws_caller_identity.reporting.account_id
+    storage      = data.aws_caller_identity.storage.account_id
+    workflow     = data.aws_caller_identity.workflow.account_id
+    digitisation = data.aws_caller_identity.digitisation.account_id
   }
 
   default_tags = {
@@ -36,6 +37,9 @@ data "aws_caller_identity" "catalogue" {
 }
 data "aws_caller_identity" "digirati" {
   provider = aws.digirati
+}
+data "aws_caller_identity" "digitisation" {
+  provider = aws.digitisation
 }
 data "aws_caller_identity" "experience" {
   provider = aws.experience

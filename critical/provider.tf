@@ -127,6 +127,19 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias  = "digitisation"
+  region = "eu-west-1"
+
+  default_tags {
+    tags = local.default_tags
+  }
+
+  assume_role {
+    role_arn = "arn:aws:iam::404315009621:role/digitisation-developer"
+  }
+}
+
+provider "aws" {
   alias  = "reporting"
   region = "eu-west-1"
 
