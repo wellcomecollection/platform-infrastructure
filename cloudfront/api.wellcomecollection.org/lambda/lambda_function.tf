@@ -16,7 +16,7 @@ resource "aws_lambda_function" "lambda_function" {
   runtime = var.runtime
   timeout = var.timeout
 
-  memory_size = 256
+  memory_size = var.memory_size
 
   dead_letter_config {
     target_arn = aws_sqs_queue.lambda_dlq.arn
