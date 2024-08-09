@@ -191,6 +191,7 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces" {
 
   delete {
     min_age = "1d"
+    delete {}
   }
 }
 
@@ -207,6 +208,7 @@ resource "elasticstack_elasticsearch_index_lifecycle" "apm_traces_rum" {
 
   delete {
     min_age = "1d"
+    delete {}
   }
 }
 
