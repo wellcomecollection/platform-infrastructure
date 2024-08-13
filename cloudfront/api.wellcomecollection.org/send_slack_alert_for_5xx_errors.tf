@@ -19,6 +19,8 @@ module "slack_alerts_for_5xx" {
   # Note: we used to specify a 30 second timeout here, but occasionally
   # the Lambda would error if there were lots of log events.
   timeout = 300
+
+  memory_size = 256
 }
 
 data "aws_secretsmanager_secret_version" "slack_webhook" {
