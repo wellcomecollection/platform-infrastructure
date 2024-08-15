@@ -93,6 +93,16 @@ resource "aws_wafv2_web_acl" "acl" {
             allow {}
           }
         }
+
+        rule_action_override {
+          // Overriding this rule as it the IIIF dashboard sometimes requires POSTing a request
+          // with a large body, which is blocked by this rule.
+          name = "SizeRestrictions_BODY"
+
+          action_to_use {
+            allow {}
+          }
+        }
       }
     }
 
