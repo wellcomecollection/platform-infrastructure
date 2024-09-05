@@ -251,7 +251,9 @@ def main(event, _ctxt=None):
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
     alarm_info = get_alarm_info(alarm)
 
-    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info["name"].startswith("catalogue-"):
+    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info[
+        "name"
+    ].startswith("catalogue-"):
         return
 
     send_slack_notification(alarm_info)
