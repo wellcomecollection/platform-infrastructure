@@ -213,8 +213,13 @@ def is_alarm_count_very_big(alarm_count, environ):
     return superplural_threshold and alarm_count > int(superplural_threshold)
 
 
-def send_slack_notification(alarm_info):
+@log_on_error
+def main(event, _ctxt=None):
     account = os.environ["ACCOUNT_NAME"]
+
+    alarm = json.loads(event["Records"][0]["Sns"]["Message"])
+    alarm_info = get_alarm_info(alarm)
+
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
     (icon_emoji, color) = get_alarm_level(alarm_info, os.environ)
 
@@ -244,16 +249,3 @@ def send_slack_notification(alarm_info):
         urllib.request.urlopen(req)
     except HTTPError as err:
         raise Exception(f"{err} - {err.read()}")
-
-
-@log_on_error
-def main(event, _ctxt=None):
-    alarm = json.loads(event["Records"][0]["Sns"]["Message"])
-    alarm_info = get_alarm_info(alarm)
-
-    if os.environ.get("CONTEXT_URL_TEMPLATE") == "platform-dlq-alerts" and alarm_info[
-        "name"
-    ].startswith("catalogue-"):
-        return
-
-    send_slack_notification(alarm_info)
