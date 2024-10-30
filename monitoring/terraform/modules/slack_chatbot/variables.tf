@@ -9,3 +9,8 @@ variable "slack_workspace_id" {
 variable "slack_channel_id" {
   type = string
 }
+
+variable "alarm_match_string" {
+  type = string
+  default = "*"
+}
