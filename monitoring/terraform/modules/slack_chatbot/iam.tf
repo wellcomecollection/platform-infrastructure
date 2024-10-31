@@ -41,13 +41,20 @@ resource "aws_iam_role_policy_attachment" "chatbot_role_policy" {
 
 # SNS Topic Policy
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
     effect  = "Allow"
     actions = ["SNS:Publish"]
     principals {
       type        = "Service"
-      identifiers = ["events.amazonaws.com"]
+      identifiers = ["cloudwatch.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id] 
     }
     resources = [aws_sns_topic.chatbot_events.arn]
   }
