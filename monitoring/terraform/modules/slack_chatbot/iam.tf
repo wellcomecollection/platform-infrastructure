@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = [data.aws_caller_identity.current.account_id] 
+      values   = [data.aws_caller_identity.current.account_id]
     }
     resources = [aws_sns_topic.chatbot_events.arn]
   }

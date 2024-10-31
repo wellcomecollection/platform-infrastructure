@@ -11,6 +11,6 @@ variable "slack_channel_id" {
 }
 
 variable "alarm_match_string" {
-  type = string
+  type    = string
   default = "*"
 }
