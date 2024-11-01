@@ -1,7 +1,12 @@
 # Terraform config
 
 terraform {
-  required_version = ">= 0.10"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.6.1"
+    }
+  }
 
   backend "s3" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
