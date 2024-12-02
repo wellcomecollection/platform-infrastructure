@@ -8,6 +8,7 @@ const { fromTemporaryCredentials } = require("@aws-sdk/credential-providers")
 const fs = require("fs")
 
 const s3Client = new S3Client({ 
+  region: process.env.AWS_REGION,
   credentials: fromTemporaryCredentials({
     params: { RoleArn: roleArn }
   })
