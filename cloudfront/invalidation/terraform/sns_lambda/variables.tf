@@ -8,11 +8,6 @@ variable "distribution_id" {
   type        = string
 }
 
-variable "runtime" {
-  description = "Temporary: allows setting a specific node runtime at the module level"
-  type        = string
-}
-
 locals {
   lambda_bucket = "wellcomecollection-platform-infra"
   lambda_key    = "lambdas/cloudfront_invalidation/sns_handler.zip"

@@ -36,7 +36,7 @@ resource "aws_iam_role_policy_attachment" "basic_execution_role" {
 resource "aws_lambda_function" "cloudfront_invalidation" {
   function_name = "${var.friendly_name}-cloudfront_invalidation"
   role          = aws_iam_role.cloudfront_invalidation_exec_role.arn
-  runtime       = var.runtime
+  runtime       = "nodejs20.x"
   handler       = "cacheInvalidation.handler"
   publish       = true
 
