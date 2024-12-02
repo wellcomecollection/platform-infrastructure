@@ -36,13 +36,13 @@ resource "aws_iam_role_policy_attachment" "basic_execution_role" {
 resource "aws_lambda_function" "cloudfront_invalidation" {
   function_name = "${var.friendly_name}-cloudfront_invalidation"
   role          = aws_iam_role.cloudfront_invalidation_exec_role.arn
-  runtime       = "nodejs12.x"
+  runtime       = "nodejs20.x"
   handler       = "cacheInvalidation.handler"
   publish       = true
 
-  s3_bucket         = data.aws_s3_bucket_object.cloudfront_invalidate.bucket
-  s3_key            = data.aws_s3_bucket_object.cloudfront_invalidate.key
-  s3_object_version = data.aws_s3_bucket_object.cloudfront_invalidate.version_id
+  s3_bucket         = data.aws_s3_object.cloudfront_invalidate.bucket
+  s3_key            = data.aws_s3_object.cloudfront_invalidate.key
+  s3_object_version = data.aws_s3_object.cloudfront_invalidate.version_id
 
   environment {
     variables = {
@@ -51,7 +51,7 @@ resource "aws_lambda_function" "cloudfront_invalidation" {
   }
 }
 
-data "aws_s3_bucket_object" "cloudfront_invalidate" {
+data "aws_s3_object" "cloudfront_invalidate" {
   bucket = local.lambda_bucket
   key    = local.lambda_key
 }
