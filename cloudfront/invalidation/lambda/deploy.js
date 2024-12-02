@@ -19,7 +19,7 @@ const s3Client = new S3Client({
 
 try {
   const data = fs.readFileSync(zipLocation)
-  console.log(process.env)
+
   const command = new PutObjectCommand({
     Bucket: s3Bucket,
     Key: s3Key,
