@@ -4,17 +4,16 @@
   "description": "Lambda for handling CloudFront invalidation requests",
   "main": "index.js",
   "engines": {
-    "node": "16.*.*"
+    "node": "20.*.*"
   },
   "license": "MIT",
   "devDependencies": {
-    "@aws-sdk/types": "^3.10.0",
     "@types/aws-lambda": "^8.10.73",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
-    "aws-sdk-mock": "^5.1.0",
+    "aws-sdk-client-mock": "^4.1.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard": "^16.0.2",
@@ -34,12 +33,12 @@
     "build": "tsc -p tsconfig.build.json && (cd dist && zip -r sns_handler.zip .)",
     "deploy": "yarn build && yarn test && node deploy",
     "lint": "eslint src/*.ts --fix",
-    "dockerLoginLocal": "aws ecr get-login-password --region eu-west-1 --profile platform | docker login --username AWS --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com",
+    "dockerLoginLocal": "aws ecr get-login-password --region eu-west-1 --profile platform-developer | docker login --username AWS --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com",
     "dockerBuildLocal": "yarn dockerLoginLocal && docker build . -t weco_invalidation_lambda",
     "dockerTestLocal": "yarn dockerBuildLocal && docker run weco_invalidation_lambda yarn test",
     "dockerDeployLocal": "yarn dockerBuildLocal && docker run weco_invalidation_lambda -v ~/.aws:/root/.aws yarn deploy"
   },
   "dependencies": {
-    "aws-sdk": "^2.881.0"
+    "@aws-sdk/client-cloudfront": "^3.699.0"
   }
 }
