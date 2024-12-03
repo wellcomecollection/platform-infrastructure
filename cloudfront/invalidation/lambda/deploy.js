@@ -7,11 +7,14 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
 const { fromTemporaryCredentials } = require("@aws-sdk/credential-providers")
 const fs = require("fs")
 
-const s3Client = new S3Client({ 
+const s3Client = new S3Client({
   region: "eu-west-1",
   credentials: fromTemporaryCredentials({
-    params: { RoleArn: roleArn }
-  })
+    params: {
+      RoleArn: roleArn,
+    },
+    clientConfig: { region: "eu-west-1" },
+  }),
 });
 
 try {
