@@ -19,7 +19,7 @@
  *
  */
 
-const AWS = require('aws-sdk');
+const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3")
 const events = require('events');
 const https = require('https');
 const readline = require('readline');
@@ -42,14 +42,13 @@ const zlib = require('zlib');
  *      { date: '2022-05-18', time: '14:11:09', cs-uri-stem: '/works/atry66dj/items' }
  *
  */
-async function findCloudFrontHitsFromLog(bucket, key) {
-  const s3 = new AWS.S3();
+async function findCloudFrontHitsFromLog(bucket, key, region) {
+  const s3Client = new S3Client({ region })
+  const GetObjectCommandOutput = await s3Client.send(
+    new GetObjectCommand({ Bucket: bucket, Key: key })
+  )
 
-  const input = s3
-    .getObject({ Bucket: bucket, Key: key })
-    .createReadStream()
-    .pipe(zlib.createGunzip());
-
+  const input = GetObjectCommandOutput.Body.pipe(zlib.createGunzip())
   const lineReader = readline.createInterface({ input: input });
 
   let fields = [];
@@ -140,7 +139,7 @@ function createKibanaLogLink(serverErrors) {
  * This includes a list of the erroring URLs.  Note that it's written
  * to a public Slack channel, so we need to be a bit careful what we log.
  */
-async function sendSlackMessage(bucket, key, serverErrors, hits) {
+async function sendSlackMessage(bucket, key, region, serverErrors, hits) {
   const lines = serverErrors.map(function (e) {
     const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
 
@@ -162,7 +161,7 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   //
   // e.g. https://wellcome.slack.com/archives/CQ720BG02/p1659031456721909
   //
-  const cloudfrontUrl = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
+  const cloudfrontUrl = `https://${region}.console.aws.amazon.com/s3/object/${bucket}?region=${region}&prefix=${key}`;
   const kibanaUrl = createKibanaLogLink(serverErrors);
 
   const errorCount = `${humanize(lines.length)} error${
@@ -320,6 +319,7 @@ exports.handler = async event => {
   // from the event.
   const affectedObjects = event.Records.map(function (r) {
     return {
+      region: r.awsRegion,
       bucket: r.s3.bucket.name,
       key: r.s3.object.key,
     };
@@ -330,7 +330,7 @@ exports.handler = async event => {
       `Inspecting CloudFront logs for s3://${s3Object.bucket}/${s3Object.key}`
     );
 
-    const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
+    const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key, s3Object.region);
     const serverErrors = hits.filter(isError);
     const interestingErrors = serverErrors.filter(isInterestingError);
 
@@ -347,6 +347,7 @@ exports.handler = async event => {
       await sendSlackMessage(
         s3Object.bucket,
         s3Object.key,
+        s3Object.region,
         interestingErrors,
         hits
       );
