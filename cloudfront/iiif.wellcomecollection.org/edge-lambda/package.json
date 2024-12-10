@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-    "node": "16.*.*"
+    "node": "20.*.*"
   },
   "license": "MIT",
   "scripts": {
@@ -23,6 +23,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "aws-sdk": "^2.836.0"
+    "@aws-sdk/client-s3": "3.703.0",
+    "@aws-sdk/credential-providers": "^3.699.0"
   }
 }
