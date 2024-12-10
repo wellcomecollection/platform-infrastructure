@@ -3,7 +3,7 @@ resource "aws_lambda_function" "dlcs_path_rewrite" {
 
   function_name = "cf_edge_dlcs_path_rewrite"
   role          = aws_iam_role.edge_lambda_role.arn
-  runtime       = "nodejs20.x"
+  runtime       = "nodejs16.x"
   handler       = "dlcs_path_rewrite.request"
   publish       = true
 
