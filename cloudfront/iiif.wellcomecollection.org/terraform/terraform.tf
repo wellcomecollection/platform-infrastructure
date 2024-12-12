@@ -5,11 +5,11 @@ terraform {
     bucket         = "wellcomecollection-platform-infra"
     key            = "terraform/platform-infrastructure/cloudfront/iiif_wc_org.tfstate"
     dynamodb_table = "terraform-locktable"
-    
+
     assume_role = {
       role_arn = "arn:aws:iam::760097843905:role/platform-developer"
     }
-    region   = "eu-west-1"
+    region = "eu-west-1"
   }
 }
 
