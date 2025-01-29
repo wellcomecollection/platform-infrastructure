@@ -63,6 +63,7 @@ resource "ec_deployment" "logging" {
   traffic_filter = [
     ec_deployment_traffic_filter.public_internet.id,
     module.platform_privatelink.traffic_filter_vpce_id,
+    module.developer_privatelink.traffic_filter_vpce_id,
     module.catalogue_privatelink.traffic_filter_vpce_id,
     module.storage_privatelink.traffic_filter_vpce_id,
     module.experience_privatelink.traffic_filter_vpce_id,
