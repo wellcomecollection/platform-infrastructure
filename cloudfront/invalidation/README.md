@@ -2,6 +2,9 @@
 
 Lambda function for invalidating CloudFront caches, triggered by SNS topic. 
 
-Message sent to SNS topic is an array of paths to invalidate, e.g. `["/path/to/invalidate", "/wildcard/path*"]`
+SNS message body is an array of paths to invalidate, e.g. 
+```
+{ "paths": ["/path/to/invalidate", "/wildcard/path*", "/catalogue/v2/works/z869w74a"] }
+```
 
-Current timestamp is used for [`CallerReference`](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateInvalidation.html#API_CreateInvalidation_RequestSyntax) parameter to `CreateInvalidation`.
+SNS timestamp, ie. the time (GMT) when the notification was published, is used for [`CallerReference`](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateInvalidation.html#API_CreateInvalidation_RequestSyntax) parameter to `CreateInvalidationCommand`.

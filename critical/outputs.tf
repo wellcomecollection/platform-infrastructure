@@ -117,6 +117,10 @@ output "ec_platform_privatelink_sg_id" {
   value = module.platform_privatelink.security_group_id
 }
 
+output "ec_developer_privatelink_sg_id" {
+  value = module.developer_privatelink.security_group_id
+}
+
 output "ec_catalogue_privatelink_sg_id" {
   value = module.catalogue_privatelink.security_group_id
 }
@@ -154,6 +158,10 @@ output "ec_monitoring_privatelink_sg_id" {
 }
 
 output "ec_platform_privatelink_traffic_filter_id" {
+  value = module.platform_privatelink.traffic_filter_vpce_id
+}
+
+output "ec_developer_privatelink_traffic_filter_id" {
   value = module.platform_privatelink.traffic_filter_vpce_id
 }
 

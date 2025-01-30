@@ -8,6 +8,12 @@ locals {
   }
 }
 
+provider "awscc" {
+  assume_role = {
+    role_arn = "arn:aws:iam::760097843905:role/platform-admin"
+  }
+}
+
 provider "aws" {
   region = var.aws_region
 
