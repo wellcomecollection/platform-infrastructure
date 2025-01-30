@@ -36,6 +36,22 @@ module "platform_privatelink" {
   ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
 }
 
+module "developer_privatelink" {
+  source = "./modules/elasticsearch_privatelink"
+
+  providers = {
+    aws = aws.platform
+  }
+
+  traffic_filter_name = "ec_allow_vpc_endpoint"
+
+  vpc_id     = local.platform_vpcs["developer_vpc_id"]
+  subnet_ids = local.platform_vpcs["developer_vpc_private_subnets"]
+
+  service_name   = local.ec_eu_west_1_service_name
+  ec_vpce_domain = local.catalogue_pipeline_ec_vpce_domain
+}
+
 module "monitoring_privatelink" {
   source = "./modules/elasticsearch_privatelink"
 

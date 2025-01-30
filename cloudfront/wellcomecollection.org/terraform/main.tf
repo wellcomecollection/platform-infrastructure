@@ -18,6 +18,10 @@ locals {
 
     # Atlassion Statuspage (https://wellcomecollection.statuspage.io/)
     "status.wellcomecollection.org" = "qyhn8w55666p.stspg-customer.com"
+
+    # Sectigo domain name validation records
+    # Sent by Flavio V 29 October 2024
+    "_0dc4e7168ed7814510307bb24b6f7418.wellcomecollection.org" = "699a0e70174c47ab5faaf2993303e2ad.962cb5fa70ca907c6d976adbedfe809a.sectigo.com"
   }
 
   # Subdomains that should be redirected to wellcomecollection.org
