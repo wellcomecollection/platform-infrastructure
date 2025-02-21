@@ -1,6 +1,6 @@
-#wellcome/flake8
+# wellcome/flake8
 
-##Usage
+## Usage
 
 ```
 docker run wellcome/flake8:latest --volume=my_code:/src

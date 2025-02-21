@@ -5,14 +5,28 @@ set -o errexit
 
 AWS_ACCOUNT_ID=760097843905
 AWS_PROFILE=platform-developer
-ROOT=$(git rev-parse --show-toplevel)
 CURRENT_COMMIT=$(git rev-parse HEAD)
+CURRENT_DIR=$(dirname "$0")
 
 ECR_PRIVATE_PREFIX="$AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome"
 ECR_PUBLIC_PREFIX="public.ecr.aws/l7a1d1z4"
 AWS_REGION="eu-west-1"
 
-SERVICE_IDS="frontend frontend_identity"
+# get the tag name if passed, and set TAG_NAME if so otherwise use CURRENT_COMMIT
+SERVICE_ID=$1
+TAG_NAME=${2:-$CURRENT_COMMIT}
+
+# check if service_id matchers a folder in this directory
+if [ ! -d "$CURRENT_DIR/$SERVICE_ID" ]; then
+  echo "Service ID $SERVICE_ID not found in $CURRENT_DIR"
+  exit 1
+fi
+
+# check if the folder contains a Dockerfile
+if [ ! -f "$CURRENT_DIR/$SERVICE_ID/Dockerfile" ]; then
+  echo "Dockerfile not found in $CURRENT_DIR/$SERVICE_ID"
+  exit 1
+fi
 
 function ecr_login() {
   local aws_profile=$1
@@ -37,8 +51,9 @@ function ecr_login() {
 }
 
 function push_to_ecr() {
-  local tag=$1
-  local ecr_prefix=$2
+  local service_id=$1
+  local tag=$2
+  local ecr_prefix=$3
   local ecr_tag="$ecr_prefix/$tag"
 
   echo ""
@@ -50,46 +65,45 @@ function push_to_ecr() {
   docker rmi "$ecr_tag"
 }
 
-function build_template() {
+function build_image() {
   local service_id=$1
   local tag=$2
-  local template_file="$service_id.nginx.conf"
 
   echo ""
-  echo "*** Building $template_file ***"
+  echo "*** Building $service_id:$tag ***"
   echo ""
 
   docker build \
     --tag="$tag" \
-    --build-arg CONFIG_TEMPLATE="${template_file}" \
-    --file nginx/template.Dockerfile \
     --platform linux/amd64 \
-    nginx
+    --platform linux/arm64 \
+    $service_id
 }
 
 function publish_service() {
   local service_id=$1
-  local template_file="$service_id.nginx.conf"
-  local tag="nginx_$service_id:$CURRENT_COMMIT"
+  local tag="$service_id:$2"
 
-  build_template "$service_id" "$tag"
-  push_to_ecr "$tag" "$ECR_PRIVATE_PREFIX"
-  push_to_ecr "$tag" "$ECR_PUBLIC_PREFIX"
+  build_image "$service_id" "$tag"
+  push_to_ecr "$service_id" "$tag" "$ECR_PRIVATE_PREFIX"
+  push_to_ecr "$service_id" "$tag" "$ECR_PUBLIC_PREFIX"
 }
-
-echo ""
-echo "*** WARNING! ***"
-echo "Updating these images may result in downstream updates!"
-echo "Check if consumers are using untagged images before proceeding."
-echo "See: https://github.com/search?q=org%3Awellcomecollection%20uk.ac.wellcome%2Fnginx&type=code"
-echo "*** WARNING! ***"
-echo ""
-read -p "Press enter to continue"
 
 ecr_login "$AWS_PROFILE" "$AWS_REGION" false
 ecr_login "$AWS_PROFILE" "$AWS_REGION" true
 
-for SERVICE_ID in $SERVICE_IDS
-do
-  publish_service "$SERVICE_ID"
-done
+if [ $# -eq 0 ]; then
+  echo "Usage: publish_service.sh <service_id> [<tag_name>]"
+  exit 1
+fi
+
+echo ""
+echo "*** WARNING! ***"
+echo "Updating these images may result in downstream updates to $SERVICE_ID!"
+echo "See: https://github.com/search?q=org%3Awellcomecollection%20uk.ac.wellcome%2F$SERVICE_ID&type=code"
+echo "Check if consumers are using untagged images before proceeding."
+echo "*** WARNING! ***"
+echo ""
+read -p "Press enter to continue"
+
+publish_service "$SERVICE_ID" "$TAG_NAME"

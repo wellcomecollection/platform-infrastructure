@@ -1,3 +1,15 @@
+module "ecr_jvm_container_lambda" {
+  source = "./repo_pair"
+
+  namespace   = local.namespace
+  repo_name   = "jvm_container_lambda"
+  description = "A base image for JVM-based Lambda functions"
+
+  providers = {
+    aws.ecr_public = aws.ecr_public
+  }
+}
+
 module "ecr_fluentbit" {
   source = "./repo_pair"
 
