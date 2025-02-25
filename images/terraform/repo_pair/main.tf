@@ -7,6 +7,7 @@ resource "aws_ecrpublic_repository" "public" {
 
   repository_name = var.repo_name
 
+
   catalog_data {
     about_text      = var.description
     logo_image_blob = filebase64("${path.module}/weco.png")
