@@ -86,7 +86,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 3
 
     action {
-      count { }
+      count {}
     }
 
     statement {
