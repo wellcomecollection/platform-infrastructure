@@ -86,11 +86,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 3
 
     action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
+      count { }
     }
 
     statement {
@@ -125,11 +121,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 4
 
     action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
+      count {}
     }
 
     statement {
@@ -162,7 +154,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 5
 
     action {
-      block {}
+      count {}
     }
 
     statement {
@@ -184,7 +176,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 6
 
     action {
-      block {}
+      count {}
     }
 
     statement {
@@ -221,7 +213,7 @@ resource "aws_wafv2_web_acl" "acl" {
     priority = 7
 
     action {
-      block {}
+      count {}
     }
 
     statement {
