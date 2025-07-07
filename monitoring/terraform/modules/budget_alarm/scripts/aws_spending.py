@@ -41,12 +41,13 @@ developer_roles = {
 ROLE_SESSION_NAME = "CostExplorerSession"
 # ---------------------
 
-def assume_role(role_arn, role_session_name):
+def assume_role(role_arn, role_session_name, sts_client=None):
     """
     Assumes the specified IAM role and returns temporary credentials.
     """
     try:
-        sts_client = boto3.client("sts")
+        if sts_client is None:
+            sts_client = boto3.client("sts")
         assumed_role_object = sts_client.assume_role(
             RoleArn=role_arn, RoleSessionName=role_session_name
         )
@@ -55,19 +56,11 @@ def assume_role(role_arn, role_session_name):
         print(f"Error assuming role: {e}")
         return None
 
-def set_ssm_parameter(credentials, parameter_name, parameter_value):
+def set_ssm_parameter(ssm_client, parameter_name, parameter_value):
     """
     Sets an SSM parameter value.
     """
     try:
-        # Create SSM client using the assumed role's credentials
-        ssm_client = boto3.client(
-            "ssm",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
-        
         # Set the parameter
         ssm_client.put_parameter(
             Name=parameter_name,
@@ -80,7 +73,26 @@ def set_ssm_parameter(credentials, parameter_name, parameter_value):
         print(f"Error setting SSM parameter {parameter_name}: {e}")
         return False
 
-def initialize_budget_parameters(credentials, role_arn, budget_percentage=110, email_address="digital@wellcomecollection.org"):
+def create_clients_from_credentials(credentials):
+    """
+    Creates AWS service clients using the provided credentials.
+    """
+    return {
+        'ce': boto3.client(
+            "ce",
+            aws_access_key_id=credentials["AccessKeyId"],
+            aws_secret_access_key=credentials["SecretAccessKey"],
+            aws_session_token=credentials["SessionToken"],
+        ),
+        'ssm': boto3.client(
+            "ssm",
+            aws_access_key_id=credentials["AccessKeyId"],
+            aws_secret_access_key=credentials["SecretAccessKey"],
+            aws_session_token=credentials["SessionToken"],
+        )
+    }
+
+def initialize_budget_parameters(clients, role_arn, budget_percentage=110, email_address="digital@wellcomecollection.org"):
     """
     Initializes budget parameters based on spending data.
     """
@@ -88,12 +100,7 @@ def initialize_budget_parameters(credentials, role_arn, budget_percentage=110, e
         role_name = role_arn.split('/')[-1]
         
         # Get cost data to calculate budget
-        ce_client = boto3.client(
-            "ce",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
+        ce_client = clients['ce']
 
         # Calculate the time period for the last 6 full months
         end_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
@@ -115,8 +122,8 @@ def initialize_budget_parameters(credentials, role_arn, budget_percentage=110, e
         budget_amount = int(average_cost * (budget_percentage / 100))
 
         # Set the budget parameters
-        monthly_param_set = set_ssm_parameter(credentials, '/platform/budget/monthly', str(budget_amount))
-        email_param_set = set_ssm_parameter(credentials, '/platform/budget/email_notifications', email_address)
+        monthly_param_set = set_ssm_parameter(clients['ssm'], '/platform/budget/monthly', str(budget_amount))
+        email_param_set = set_ssm_parameter(clients['ssm'], '/platform/budget/email_notifications', email_address)
 
         print(f"\n--- Budget Initialization for {role_name} ---")
         print(f"Average monthly spend (last 6 months): ${average_cost:.2f}")
@@ -141,7 +148,7 @@ def initialize_budget_parameters(credentials, role_arn, budget_percentage=110, e
         print(f"Error initializing budget parameters for {role_name}: {e}")
         return False
 
-def get_ssm_parameters(credentials):
+def get_ssm_parameters(ssm_client):
     """
     Gets the SSM parameters for budget configuration.
     """
@@ -151,14 +158,6 @@ def get_ssm_parameters(credentials):
     }
     
     try:
-        # Create SSM client using the assumed role's credentials
-        ssm_client = boto3.client(
-            "ssm",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
-        
         # Try to get both parameters
         param_names = ['/platform/budget/monthly', '/platform/budget/email_notifications']
         
@@ -186,18 +185,11 @@ def get_ssm_parameters(credentials):
     
     return budget_params
 
-def get_current_month_cost_and_forecast(credentials):
+def get_current_month_cost_and_forecast(ce_client):
     """
     Gets current month cost and forecast for the month.
     """
     try:
-        ce_client = boto3.client(
-            "ce",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
-        
         # Current month dates
         now = datetime.now()
         current_month_start = now.replace(day=1).strftime("%Y-%m-%d")
@@ -244,18 +236,11 @@ def get_current_month_cost_and_forecast(credentials):
     except Exception:
         return 0, 0
 
-def get_last_month_cost(credentials):
+def get_last_month_cost(ce_client):
     """
     Gets the cost for the previous month.
     """
     try:
-        ce_client = boto3.client(
-            "ce",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
-        
         # Last month dates
         now = datetime.now()
         last_month_start = (now.replace(day=1) - relativedelta(months=1)).strftime("%Y-%m-%d")
@@ -308,25 +293,18 @@ def format_budget_status(current_cost, forecast_cost, budget_amount):
     
     return f"Budget: ${budget_val:.0f} | " + " | ".join(status_parts)
 
-def get_cost_and_usage(credentials, role_arn):
+def get_cost_and_usage(clients, role_arn):
     """
-    Gets the total and average cost for the last 6 months using the provided credentials.
+    Gets the total and average cost for the last 6 months using the provided clients.
     """
-    if not credentials:
-        return
-
     try:
         # Extract account name from role ARN for display
         account_name = role_arn.split(':')[4]
         role_name = role_arn.split('/')[-1]
         
-        # Create a Cost Explorer client using the assumed role's credentials
-        ce_client = boto3.client(
-            "ce",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
+        # Use the provided Cost Explorer client
+        ce_client = clients['ce']
+        ssm_client = clients['ssm']
 
         # Calculate the time period for the last 6 full months
         end_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
@@ -352,11 +330,11 @@ def get_cost_and_usage(credentials, role_arn):
         average_cost = total_cost / len(response["ResultsByTime"]) if response["ResultsByTime"] else 0
 
         # Get current and last month data
-        current_cost, forecast_cost = get_current_month_cost_and_forecast(credentials)
-        last_month_cost = get_last_month_cost(credentials)
+        current_cost, forecast_cost = get_current_month_cost_and_forecast(ce_client)
+        last_month_cost = get_last_month_cost(ce_client)
         
         # Get SSM budget parameters
-        budget_params = get_ssm_parameters(credentials)
+        budget_params = get_ssm_parameters(ssm_client)
 
         # Print the results
         print(f"\n{Colors.BOLD}{Colors.CYAN}=== AWS Cost Report for {role_name} (Account: {account_name}) ==={Colors.END}")
@@ -393,25 +371,18 @@ def get_cost_and_usage(credentials, role_arn):
         print(f"Error getting cost and usage data for {role_name}: {e}")
         return None, None, None, None, None, None, None
 
-def get_cost_and_usage_silent(credentials, role_arn):
+def get_cost_and_usage_silent(clients, role_arn):
     """
-    Gets the total and average cost for the last 6 months using the provided credentials.
+    Gets the total and average cost for the last 6 months using the provided clients.
     This version doesn't print individual account details (for summary-only mode).
     """
-    if not credentials:
-        return None, None, None, None
-
     try:
         # Extract role name from role ARN for error reporting
         role_name = role_arn.split('/')[-1]
         
-        # Create a Cost Explorer client using the assumed role's credentials
-        ce_client = boto3.client(
-            "ce",
-            aws_access_key_id=credentials["AccessKeyId"],
-            aws_secret_access_key=credentials["SecretAccessKey"],
-            aws_session_token=credentials["SessionToken"],
-        )
+        # Use the provided Cost Explorer client
+        ce_client = clients['ce']
+        ssm_client = clients['ssm']
 
         # Calculate the time period for the last 6 full months
         end_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
@@ -433,11 +404,11 @@ def get_cost_and_usage_silent(credentials, role_arn):
         average_cost = total_cost / len(response["ResultsByTime"]) if response["ResultsByTime"] else 0
 
         # Get current and last month data
-        current_cost, forecast_cost = get_current_month_cost_and_forecast(credentials)
-        last_month_cost = get_last_month_cost(credentials)
+        current_cost, forecast_cost = get_current_month_cost_and_forecast(ce_client)
+        last_month_cost = get_last_month_cost(ce_client)
 
         # Get SSM budget parameters
-        budget_params = get_ssm_parameters(credentials)
+        budget_params = get_ssm_parameters(ssm_client)
 
         return total_cost, average_cost, unit, budget_params, current_cost, forecast_cost, last_month_cost
 
@@ -551,6 +522,9 @@ if __name__ == "__main__":
         list_available_accounts()
         sys.exit(0)
     
+    # Create a base STS client for role assumption
+    sts_client = boto3.client("sts")
+    
     # Handle budget initialization
     if args.init_budget:
         print("=" * 80)
@@ -562,10 +536,11 @@ if __name__ == "__main__":
             role_arn = get_role_arn_by_name(account_name)
             if role_arn:
                 print(f"\nInitializing budget for {account_name}...")
-                assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME)
+                assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
                 if assumed_role_credentials:
+                    clients = create_clients_from_credentials(assumed_role_credentials)
                     if initialize_budget_parameters(
-                        assumed_role_credentials, 
+                        clients, 
                         role_arn, 
                         args.budget_percentage,
                         args.email_address
@@ -596,10 +571,11 @@ if __name__ == "__main__":
         
         for account_name, role_arn in developer_roles.items():
             print(f"\nInitializing budget for {account_name}...")
-            assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME)
+            assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
             if assumed_role_credentials:
+                clients = create_clients_from_credentials(assumed_role_credentials)
                 if initialize_budget_parameters(
-                    assumed_role_credentials, 
+                    clients, 
                     role_arn, 
                     args.budget_percentage,
                     args.email_address
@@ -641,13 +617,14 @@ if __name__ == "__main__":
         if not args.summary_only:
             print(f"\nProcessing {role_name}...")
         
-        assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME)
+        assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
         if assumed_role_credentials:
+            clients = create_clients_from_credentials(assumed_role_credentials)
             if args.summary_only:
                 # For summary only, don't print individual reports
-                total_cost, average_cost, unit, budget_params, current_cost, forecast_cost, last_month_cost = get_cost_and_usage_silent(assumed_role_credentials, role_arn)
+                total_cost, average_cost, unit, budget_params, current_cost, forecast_cost, last_month_cost = get_cost_and_usage_silent(clients, role_arn)
             else:
-                total_cost, average_cost, unit, budget_params, current_cost, forecast_cost, last_month_cost = get_cost_and_usage(assumed_role_credentials, role_arn)
+                total_cost, average_cost, unit, budget_params, current_cost, forecast_cost, last_month_cost = get_cost_and_usage(clients, role_arn)
             
             if total_cost is not None:
                 total_all_accounts += total_cost
