@@ -7,7 +7,7 @@ module "platform_budget_alarm" {
   }
 
   budget_name = "platform-monthly-budget"
-  
+
   tags = {
     Name        = "platform-budget-alarm"
     Environment = "Production"
@@ -24,7 +24,7 @@ module "catalogue_budget_alarm" {
   }
 
   budget_name = "catalogue-monthly-budget"
-  
+
   tags = {
     Name        = "catalogue-budget-alarm"
     Environment = "Production"
@@ -41,7 +41,7 @@ module "data_budget_alarm" {
   }
 
   budget_name = "data-monthly-budget"
-  
+
   tags = {
     Name        = "data-budget-alarm"
     Environment = "Production"
@@ -58,7 +58,7 @@ module "digirati_budget_alarm" {
   }
 
   budget_name = "digirati-monthly-budget"
-  
+
   tags = {
     Name        = "digirati-budget-alarm"
     Environment = "Production"
@@ -75,7 +75,7 @@ module "digitisation_budget_alarm" {
   }
 
   budget_name = "digitisation-monthly-budget"
-  
+
   tags = {
     Name        = "digitisation-budget-alarm"
     Environment = "Production"
@@ -92,7 +92,7 @@ module "experience_budget_alarm" {
   }
 
   budget_name = "experience-monthly-budget"
-  
+
   tags = {
     Name        = "experience-budget-alarm"
     Environment = "Production"
@@ -109,7 +109,7 @@ module "identity_budget_alarm" {
   }
 
   budget_name = "identity-monthly-budget"
-  
+
   tags = {
     Name        = "identity-budget-alarm"
     Environment = "Production"
@@ -126,7 +126,7 @@ module "microsites_budget_alarm" {
   }
 
   budget_name = "microsites-monthly-budget"
-  
+
   tags = {
     Name        = "microsites-budget-alarm"
     Environment = "Production"
@@ -143,7 +143,7 @@ module "reporting_budget_alarm" {
   }
 
   budget_name = "reporting-monthly-budget"
-  
+
   tags = {
     Name        = "reporting-budget-alarm"
     Environment = "Production"
@@ -160,7 +160,7 @@ module "storage_budget_alarm" {
   }
 
   budget_name = "storage-monthly-budget"
-  
+
   tags = {
     Name        = "storage-budget-alarm"
     Environment = "Production"
@@ -177,7 +177,7 @@ module "systems_strategy_budget_alarm" {
   }
 
   budget_name = "systems-strategy-monthly-budget"
-  
+
   tags = {
     Name        = "systems-strategy-budget-alarm"
     Environment = "Production"
@@ -194,7 +194,7 @@ module "workflow_budget_alarm" {
   }
 
   budget_name = "workflow-monthly-budget"
-  
+
   tags = {
     Name        = "workflow-budget-alarm"
     Environment = "Production"
