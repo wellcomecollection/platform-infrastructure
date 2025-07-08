@@ -92,60 +92,71 @@ def create_clients_from_credentials(credentials):
         )
     }
 
-def initialize_budget_parameters(clients, role_arn, budget_percentage=110, email_address="digital@wellcomecollection.org"):
+def set_budget_parameters(clients, role_arn, budget_percentage=110, budget_amount=None, email_address="digital@wellcomecollection.org"):
     """
-    Initializes budget parameters based on spending data.
+    Sets budget parameters based on spending data or a specific amount.
     """
     try:
         role_name = role_arn.split('/')[-1]
+        account_name = role_arn.split(':')[4]
         
-        # Get cost data to calculate budget
+        # Get cost data to calculate budget (if not providing specific amount)
         ce_client = clients['ce']
 
-        # Calculate the time period for the last 6 full months
-        end_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-        start_date = (datetime.now() - relativedelta(months=6)).replace(day=1).strftime("%Y-%m-%d")
+        print(f"\n{Colors.BOLD}{Colors.CYAN}=== Budget Setup for {role_name} (Account: {account_name}) ==={Colors.END}")
 
-        # Get cost and usage data
-        response = ce_client.get_cost_and_usage(
-            TimePeriod={"Start": start_date, "End": end_date},
-            Granularity="MONTHLY",
-            Metrics=["UnblendedCost"],
-        )
+        if budget_amount is not None:
+            # Use the specific budget amount provided
+            calculated_budget = int(budget_amount)
+            print(f"💰 {Colors.BOLD}Budget Configuration:{Colors.END}")
+            print(f"   Using specified budget amount: {Colors.BOLD}${calculated_budget}{Colors.END}")
+        else:
+            # Calculate budget based on historical spending
+            # Calculate the time period for the last 6 full months
+            end_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+            start_date = (datetime.now() - relativedelta(months=6)).replace(day=1).strftime("%Y-%m-%d")
 
-        total_cost = 0
-        for result in response["ResultsByTime"]:
-            amount = float(result["Total"]["UnblendedCost"]["Amount"])
-            total_cost += amount
+            # Get cost and usage data
+            response = ce_client.get_cost_and_usage(
+                TimePeriod={"Start": start_date, "End": end_date},
+                Granularity="MONTHLY",
+                Metrics=["UnblendedCost"],
+            )
 
-        average_cost = total_cost / len(response["ResultsByTime"]) if response["ResultsByTime"] else 0
-        budget_amount = int(average_cost * (budget_percentage / 100))
+            total_cost = 0
+            for result in response["ResultsByTime"]:
+                amount = float(result["Total"]["UnblendedCost"]["Amount"])
+                total_cost += amount
+
+            average_cost = total_cost / len(response["ResultsByTime"]) if response["ResultsByTime"] else 0
+            calculated_budget = int(average_cost * (budget_percentage / 100))
+
+            print(f"📊 {Colors.BOLD}Historical Analysis:{Colors.END}")
+            print(f"   Average monthly spend (6 months): ${average_cost:.2f}")
+            print(f"   Budget percentage: {budget_percentage}%")
+            print(f"💰 {Colors.BOLD}Budget Configuration:{Colors.END}")
+            print(f"   Calculated budget: {Colors.BOLD}${calculated_budget}{Colors.END}")
 
         # Set the budget parameters
-        monthly_param_set = set_ssm_parameter(clients['ssm'], '/platform/budget/monthly', str(budget_amount))
+        monthly_param_set = set_ssm_parameter(clients['ssm'], '/platform/budget/monthly', str(calculated_budget))
         email_param_set = set_ssm_parameter(clients['ssm'], '/platform/budget/email_notifications', email_address)
-
-        print(f"\n--- Budget Initialization for {role_name} ---")
-        print(f"Average monthly spend (last 6 months): ${average_cost:.2f}")
-        print(f"Budget percentage: {budget_percentage}%")
-        print(f"Calculated budget: ${budget_amount}")
         
         if monthly_param_set:
-            print(f"✓ Monthly budget parameter set: ${budget_amount}")
+            print(f"   {Colors.GREEN}✅ Monthly budget parameter set: ${calculated_budget}{Colors.END}")
         else:
-            print("✗ Failed to set monthly budget parameter")
+            print(f"   {Colors.RED}✗ Failed to set monthly budget parameter{Colors.END}")
             
         if email_param_set:
-            print(f"✓ Email notifications parameter set: {email_address}")
+            print(f"   {Colors.GREEN}✅ Email notifications parameter set: {email_address}{Colors.END}")
         else:
-            print("✗ Failed to set email notifications parameter")
+            print(f"   {Colors.RED}✗ Failed to set email notifications parameter{Colors.END}")
             
-        print("-" * 50)
+        print("-" * 80)
         
         return monthly_param_set and email_param_set
 
     except Exception as e:
-        print(f"Error initializing budget parameters for {role_name}: {e}")
+        print(f"{Colors.RED}Error setting budget parameters for {role_name}: {e}{Colors.END}")
         return False
 
 def get_ssm_parameters(ssm_client):
@@ -432,11 +443,13 @@ Examples:
   %(prog)s --account catalogue             # Show only catalogue account
   %(prog)s --account platform --account storage  # Show multiple accounts
   %(prog)s --list-accounts                 # List all available accounts
-  %(prog)s --init-budget catalogue         # Initialize budget for catalogue account
-  %(prog)s --init-budget platform --budget-percentage 120  # Set budget to 120%% of average spend
-  %(prog)s --init-budget storage --email-address team@example.com  # Set custom email
-  %(prog)s --init-all-budgets              # Initialize budget for all accounts
-  %(prog)s --init-all-budgets --budget-percentage 105  # Initialize all with 105%% budget
+  %(prog)s --set-budget catalogue          # Set budget for catalogue account
+  %(prog)s --set-budget platform --budget-percentage 120  # Set budget to 120%% of average spend
+  %(prog)s --set-budget storage --budget-amount 1000     # Set budget to specific $1000
+  %(prog)s --set-budget storage --email-address team@example.com  # Set custom email
+  %(prog)s --set-all-budgets               # Set budget for all accounts
+  %(prog)s --set-all-budgets --budget-percentage 105  # Set all with 105%% budget
+  %(prog)s --set-all-budgets --budget-amount 500      # Set all with $500 budget
 
 Available accounts:
   {account_names}
@@ -465,21 +478,26 @@ Available accounts:
         help="List all available accounts and exit"
     )
     group.add_argument(
-        "--init-budget",
+        "--set-budget",
         action="append",
-        help="Initialize budget parameters for specified account(s) (can be used multiple times)"
+        help="Set budget parameters for specified account(s) (can be used multiple times)"
     )
     group.add_argument(
-        "--init-all-budgets",
+        "--set-all-budgets",
         action="store_true",
-        help="Initialize budget parameters for all accounts"
+        help="Set budget parameters for all accounts"
     )
     
     parser.add_argument(
         "--budget-percentage",
         type=float,
         default=110.0,
-        help="Percentage of average monthly spend to set as budget (default: 110%%)"
+        help="Percentage of average monthly spend to set as budget (default: 110%%) - ignored if --budget-amount is specified"
+    )
+    parser.add_argument(
+        "--budget-amount",
+        type=float,
+        help="Specific dollar amount to set as budget (overrides --budget-percentage)"
     )
     parser.add_argument(
         "--email-address",
@@ -525,70 +543,66 @@ if __name__ == "__main__":
     # Create a base STS client for role assumption
     sts_client = boto3.client("sts")
     
-    # Handle budget initialization
-    if args.init_budget:
-        print("=" * 80)
-        print("BUDGET PARAMETER INITIALIZATION")
-        print("=" * 80)
-        
+    # Handle budget setting
+    if args.set_budget:        
         success_count = 0
-        for account_name in args.init_budget:
+        for account_name in args.set_budget:
             role_arn = get_role_arn_by_name(account_name)
             if role_arn:
-                print(f"\nInitializing budget for {account_name}...")
+                print(f"\n{Colors.BOLD}{Colors.WHITE}Setting budget for {account_name}...{Colors.END}")
                 assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
                 if assumed_role_credentials:
                     clients = create_clients_from_credentials(assumed_role_credentials)
-                    if initialize_budget_parameters(
+                    if set_budget_parameters(
                         clients, 
                         role_arn, 
                         args.budget_percentage,
+                        args.budget_amount,
                         args.email_address
                     ):
                         success_count += 1
                 else:
-                    print(f"Failed to assume role for {account_name}")
+                    print(f"{Colors.RED}Failed to assume role for {account_name}{Colors.END}")
             else:
-                print(f"Error: Unknown account '{account_name}'")
+                print(f"{Colors.RED}Error: Unknown account '{account_name}'{Colors.END}")
                 print("Use --list-accounts to see available accounts")
                 sys.exit(1)
         
-        print(f"\n{success_count} out of {len(args.init_budget)} accounts initialized successfully.")
+        print(f"\n{Colors.BOLD}{Colors.GREEN}✅ {success_count} out of {len(args.set_budget)} accounts configured successfully.{Colors.END}")
         sys.exit(0)
     
-    # Handle initialization of all budgets
-    if args.init_all_budgets:
-        print("=" * 80)
-        print("BUDGET PARAMETER INITIALIZATION - ALL ACCOUNTS")
-        print("=" * 80)
-        print(f"Initializing budget parameters for all {len(developer_roles)} accounts...")
-        print(f"Budget percentage: {args.budget_percentage}%")
+    # Handle setting all budgets
+    if args.set_all_budgets:
+        print(f"{Colors.BOLD}{Colors.CYAN}BUDGET PARAMETER CONFIGURATION - ALL ACCOUNTS{Colors.END}")
+        print(f"Setting budget parameters for all {len(developer_roles)} accounts...")
+        if args.budget_amount:
+            print(f"Budget amount: ${args.budget_amount}")
+        else:
+            print(f"Budget percentage: {args.budget_percentage}%")
         print(f"Email address: {args.email_address}")
-        print("-" * 80)
         
         success_count = 0
         total_accounts = len(developer_roles)
         
         for account_name, role_arn in developer_roles.items():
-            print(f"\nInitializing budget for {account_name}...")
+            print(f"\n{Colors.BOLD}{Colors.WHITE}Setting budget for {account_name}...{Colors.END}")
             assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
             if assumed_role_credentials:
                 clients = create_clients_from_credentials(assumed_role_credentials)
-                if initialize_budget_parameters(
+                if set_budget_parameters(
                     clients, 
                     role_arn, 
                     args.budget_percentage,
+                    args.budget_amount,
                     args.email_address
                 ):
                     success_count += 1
             else:
-                print(f"Failed to assume role for {account_name}")
+                print(f"{Colors.RED}Failed to assume role for {account_name}{Colors.END}")
         
-        print(f"\n" + "=" * 80)
-        print(f"INITIALIZATION COMPLETE: {success_count} out of {total_accounts} accounts initialized successfully.")
+        print(f"\n{Colors.BOLD}CONFIGURATION COMPLETE: {Colors.GREEN}✅ {success_count}{Colors.END} out of {Colors.BOLD}{total_accounts}{Colors.END} accounts configured successfully.")
         if success_count < total_accounts:
-            print(f"Failed to initialize {total_accounts - success_count} accounts.")
-        print("=" * 80)
+            print(f"{Colors.YELLOW}⚠️  Failed to configure {total_accounts - success_count} accounts.{Colors.END}")
         sys.exit(0)
     
     # Determine which accounts to process
@@ -614,8 +628,15 @@ if __name__ == "__main__":
     
     for role_arn in roles_to_process:
         role_name = role_arn.split('/')[-1]
-        if not args.summary_only:
-            print(f"\nProcessing {role_name}...")
+        account_name = role_arn.split(':')[4]
+        
+        # Extract account name from the role name (remove -developer suffix)
+        display_account_name = role_name.replace('-developer', '')
+        
+        if args.summary_only:
+            print(f"{Colors.BOLD}{Colors.WHITE}Retrieving budget from {display_account_name}...{Colors.END}")
+        else:
+            print(f"\n{Colors.BOLD}{Colors.WHITE}Processing {display_account_name}...{Colors.END}")
         
         assumed_role_credentials = assume_role(role_arn, ROLE_SESSION_NAME, sts_client)
         if assumed_role_credentials:
@@ -630,6 +651,7 @@ if __name__ == "__main__":
                 total_all_accounts += total_cost
                 successful_accounts += 1
                 account_summaries.append({
+                    'account_name': display_account_name,
                     'role': role_name,
                     'total': total_cost,
                     'average': average_cost,
@@ -694,7 +716,7 @@ if __name__ == "__main__":
                 budget_status = f"{Colors.YELLOW}⚠️  Budget: UNSET | ⚠️  No emails{Colors.END}"
             
             # Account line with enhanced formatting
-            print(f"{Colors.BOLD}{i:2d}.{Colors.END} {account['role']:<25}: "
+            print(f"{Colors.BOLD}{i:2d}.{Colors.END} {account['account_name']:<25}: "
                   f"{Colors.BOLD}${account['total']:>8.0f}{Colors.END} (6mo) | "
                   f"${account.get('last_month_cost', 0):>6.0f} (last) | "
                   f"${account.get('current_cost', 0):>6.0f} (curr) | "

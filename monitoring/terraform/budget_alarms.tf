@@ -1,6 +1,8 @@
 module "platform_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "platform"
+
   providers = {
     aws = aws.platform
   }
@@ -8,6 +10,8 @@ module "platform_budget_alarm" {
 
 module "catalogue_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "catalogue"
 
   providers = {
     aws = aws.catalogue
@@ -17,6 +21,8 @@ module "catalogue_budget_alarm" {
 module "data_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "data"
+
   providers = {
     aws = aws.data
   }
@@ -24,6 +30,8 @@ module "data_budget_alarm" {
 
 module "digirati_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "digirati"
 
   providers = {
     aws = aws.digirati
@@ -33,6 +41,8 @@ module "digirati_budget_alarm" {
 module "digitisation_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "digitisation"
+
   providers = {
     aws = aws.digitisation
   }
@@ -40,6 +50,8 @@ module "digitisation_budget_alarm" {
 
 module "experience_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "experience"
 
   providers = {
     aws = aws.experience
@@ -49,6 +61,8 @@ module "experience_budget_alarm" {
 module "identity_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "identity"
+
   providers = {
     aws = aws.identity
   }
@@ -56,6 +70,8 @@ module "identity_budget_alarm" {
 
 module "microsites_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "microsites"
 
   providers = {
     aws = aws.microsites
@@ -65,6 +81,8 @@ module "microsites_budget_alarm" {
 module "reporting_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "reporting"
+
   providers = {
     aws = aws.reporting
   }
@@ -72,6 +90,8 @@ module "reporting_budget_alarm" {
 
 module "storage_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "storage"
 
   providers = {
     aws = aws.storage
@@ -81,6 +101,8 @@ module "storage_budget_alarm" {
 module "systems_strategy_budget_alarm" {
   source = "./modules/budget_alarm"
 
+  account_name = "systems_strategy"
+
   providers = {
     aws = aws.systems_strategy
   }
@@ -88,6 +110,8 @@ module "systems_strategy_budget_alarm" {
 
 module "workflow_budget_alarm" {
   source = "./modules/budget_alarm"
+
+  account_name = "workflow"
 
   providers = {
     aws = aws.workflow

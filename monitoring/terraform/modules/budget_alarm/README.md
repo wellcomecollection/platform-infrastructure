@@ -50,20 +50,26 @@ chmod +x scripts/aws_spending.py
 # List available accounts
 ./scripts/aws_spending.py --list-accounts
 
-# Initialize budget parameters for an account (110% of average spend)
-./scripts/aws_spending.py --init-budget catalogue
+# Set budget parameters for an account (110% of average spend)
+./scripts/aws_spending.py --set-budget catalogue
 
-# Initialize budget parameters for all accounts
-./scripts/aws_spending.py --init-all-budgets
+# Set budget parameters for all accounts
+./scripts/aws_spending.py --set-all-budgets
 
-# Initialize with custom budget percentage
-./scripts/aws_spending.py --init-budget platform --budget-percentage 120
+# Set with custom budget percentage
+./scripts/aws_spending.py --set-budget platform --budget-percentage 120
 
-# Initialize with custom email address
-./scripts/aws_spending.py --init-budget workflow --email-address team@example.com
+# Set with specific dollar amount
+./scripts/aws_spending.py --set-budget catalogue --budget-amount 1000
 
-# Initialize all accounts with custom settings
-./scripts/aws_spending.py --init-all-budgets --budget-percentage 105 --email-address devs@wellcomecollection.org
+# Set with custom email address
+./scripts/aws_spending.py --set-budget workflow --email-address team@example.com
+
+# Set all accounts with custom settings
+./scripts/aws_spending.py --set-all-budgets --budget-percentage 105 --email-address devs@wellcomecollection.org
+
+# Set all accounts with specific dollar amount
+./scripts/aws_spending.py --set-all-budgets --budget-amount 500
 ```
 
 ### Script Configuration
@@ -71,11 +77,20 @@ chmod +x scripts/aws_spending.py
 The script is pre-configured with developer role ARNs for the following accounts:
 - catalogue, data, digirati, digitisation, experience, identity, microsites, platform, reporting, storage, systems_strategy, workflow
 
-### Budget Initialization
+### Budget Configuration
 
-The `--init-budget` option calculates a budget based on the average monthly spend over the last 6 months and sets the SSM parameters. The `--init-all-budgets` option performs the same initialization for all configured accounts at once.
+The `--set-budget` option can set budgets in two ways:
 
-- **Default Budget**: 110% of average monthly spend
+1. **Percentage-based** (default): Calculates a budget based on the average monthly spend over the last 6 months
+2. **Fixed amount**: Sets a specific dollar amount as the budget
+
+The `--set-all-budgets` option performs the same configuration for all configured accounts at once.
+
+**Budget Options:**
+- `--budget-percentage` - Percentage of average monthly spend (default: 110%)
+- `--budget-amount` - Specific dollar amount (overrides percentage calculation)
+
+**Other Options:**
 - **Default Email**: digital@wellcomecollection.org
 - **SSM Parameters Created/Updated**:
   - `/platform/budget/monthly` - Monthly budget amount in USD
