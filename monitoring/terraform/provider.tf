@@ -148,3 +148,87 @@ provider "aws" {
     role_arn = "arn:aws:iam::267269328833:role/wellcomecollection-assume_role_hosted_zone_update"
   }
 }
+
+provider "aws" {
+  alias = "data"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::964279923020:role/data-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "digirati"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::653428163053:role/digirati-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "digitisation"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::404315009621:role/digitisation-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "microsites"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::782179017633:role/microsites-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "reporting"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::269807742353:role/reporting-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
+
+provider "aws" {
+  alias = "systems_strategy"
+
+  region = "eu-west-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::487094370410:role/systems_strategy-developer"
+  }
+
+  default_tags {
+    tags = local.default_tags
+  }
+}
