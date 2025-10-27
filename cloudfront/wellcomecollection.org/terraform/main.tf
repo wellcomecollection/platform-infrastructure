@@ -22,6 +22,8 @@ locals {
     # Sectigo domain name validation records
     # Sent by Flavio V 29 October 2024
     "_0dc4e7168ed7814510307bb24b6f7418.wellcomecollection.org" = "699a0e70174c47ab5faaf2993303e2ad.962cb5fa70ca907c6d976adbedfe809a.sectigo.com"
+    # Sent by Flavio V 27 October 2025
+    "_1882c94c37766802a5e85c69567c4d4e.wellcomecollection.org" = "23f8ac140a4bb21ebe7d6a2cd2eac622.ec236ed453fc4227652e181ea1747c5e.sectigo.com"
   }
 
   # Subdomains that should be redirected to wellcomecollection.org
