@@ -140,3 +140,11 @@ data "aws_iam_policy_document" "working_storage" {
     ]
   }
 }
+
+resource "aws_s3_bucket_ownership_controls" "working_storage" {
+  bucket = "wellcomecollection-assets-workingstorage"
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
