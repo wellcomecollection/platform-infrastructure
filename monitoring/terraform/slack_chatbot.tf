@@ -4,6 +4,11 @@ module "slack_chatbot" {
   configuration_name = "alerting"
   slack_workspace_id = data.aws_ssm_parameter.slack_workspace_id.value
   slack_channel_id   = data.aws_ssm_parameter.slack_channel_id.value
+
+  providers = {
+    aws.platform   = aws.platform
+    aws.experience = aws.experience
+  }
 }
 
 data "aws_ssm_parameter" "slack_workspace_id" {

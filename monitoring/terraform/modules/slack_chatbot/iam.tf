@@ -40,6 +40,12 @@ resource "aws_iam_role_policy_attachment" "chatbot_role_policy" {
 }
 
 # SNS Topic Policy
+data "aws_caller_identity" "platform" {
+    provider = aws.platform
+}
+data "aws_caller_identity" "experience" {
+  provider = aws.experience
+}
 
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
@@ -53,8 +59,8 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
       values   = [
-        "760097843905", # platform
-        "130871440101", # experience
+        data.aws_caller_identity.platform.account_id,
+        data.aws_caller_identity.experience.account_id
       ]
     }
     resources = [aws_sns_topic.chatbot_events.arn]
