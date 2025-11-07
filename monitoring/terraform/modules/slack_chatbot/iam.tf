@@ -41,8 +41,6 @@ resource "aws_iam_role_policy_attachment" "chatbot_role_policy" {
 
 # SNS Topic Policy
 
-data "aws_caller_identity" "current" {}
-
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
     effect  = "Allow"
@@ -54,7 +52,10 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = [data.aws_caller_identity.current.account_id]
+      values   = [
+        "760097843905", # platform
+        "130871440101", # experience
+      ]
     }
     resources = [aws_sns_topic.chatbot_events.arn]
   }
