@@ -41,7 +41,7 @@ resource "aws_iam_role_policy_attachment" "chatbot_role_policy" {
 
 # SNS Topic Policy
 data "aws_caller_identity" "platform" {
-    provider = aws.platform
+  provider = aws.platform
 }
 data "aws_caller_identity" "experience" {
   provider = aws.experience
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = [
+      values = [
         data.aws_caller_identity.platform.account_id,
         data.aws_caller_identity.experience.account_id
       ]
