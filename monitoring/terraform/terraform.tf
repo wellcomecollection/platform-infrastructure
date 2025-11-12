@@ -9,7 +9,9 @@ terraform {
   }
 
   backend "s3" {
-    role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    assume_role = {
+      role_arn = "arn:aws:iam::760097843905:role/platform-developer"
+    }
 
     bucket         = "wellcomecollection-platform-infra"
     key            = "terraform/monitoring.tfstate"
@@ -22,7 +24,9 @@ data "terraform_remote_state" "accounts_platform" {
   backend = "s3"
 
   config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    assume_role = {
+      role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    }
 
     bucket = "wellcomecollection-platform-infra"
     key    = "terraform/aws-account-infrastructure/platform.tfstate"
@@ -34,7 +38,9 @@ data "terraform_remote_state" "infra_critical" {
   backend = "s3"
 
   config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    assume_role = {
+      role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    }
 
     bucket = "wellcomecollection-platform-infra"
     key    = "terraform/platform-infrastructure/shared.tfstate"
