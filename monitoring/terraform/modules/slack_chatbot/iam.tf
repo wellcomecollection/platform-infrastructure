@@ -47,6 +47,10 @@ data "aws_caller_identity" "experience" {
   provider = aws.experience
 }
 
+data "aws_caller_identity" "catalogue" {
+  provider = aws.catalogue
+}
+
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
     effect  = "Allow"
@@ -60,7 +64,8 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       variable = "aws:SourceAccount"
       values = [
         data.aws_caller_identity.platform.account_id,
-        data.aws_caller_identity.experience.account_id
+        data.aws_caller_identity.experience.account_id,
+        data.aws_caller_identity.catalogue.account_id
       ]
     }
     resources = [aws_sns_topic.chatbot_events.arn]
