@@ -8,6 +8,7 @@ module "slack_chatbot" {
   providers = {
     aws.platform   = aws.platform
     aws.experience = aws.experience
+    aws.catalogue  = aws.catalogue
   }
 }
 
@@ -21,6 +22,7 @@ module "slack_chatbot_testing" {
   providers = {
     aws.platform   = aws.platform
     aws.experience = aws.experience
+    aws.catalogue  = aws.catalogue
   }
 }
 
