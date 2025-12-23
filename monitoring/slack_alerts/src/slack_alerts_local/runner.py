@@ -170,6 +170,7 @@ def _patch_get_secret_string_simple(module: types.ModuleType, webhook_url: str) 
 def _patch_get_secret_string_ecs(module: types.ModuleType, webhook_url: str) -> None:
     # ecs_tasks_cant_start_alert has: get_secret_string(sess, *, secret_id)
     if hasattr(module, "get_secret_string"):
+
         def _get_secret_string(_sess: Any, *, secret_id: str) -> str:
             return webhook_url
 

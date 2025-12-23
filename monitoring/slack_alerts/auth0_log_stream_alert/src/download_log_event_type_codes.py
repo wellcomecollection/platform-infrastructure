@@ -87,7 +87,9 @@ def main() -> None:
         )
 
     out_path = Path(__file__).with_name("log_event_type_codes.json")
-    out_path.write_text(json.dumps(codes, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    out_path.write_text(
+        json.dumps(codes, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     print(f"Wrote {len(codes)} codes to {out_path}")
 
 
