@@ -10,9 +10,11 @@ dependencies = [
 
 [project.optional-dependencies]
 # Only needed for running the Auth0 helper script download_log_event_type_codes.py locally.
+# To install run `uv sync --extra tools`
 tools = [
   "requests>=2.31",
   "beautifulsoup4>=4.12",
+  "httpx>=0.28.1",
 ]
 
 [project.scripts]
