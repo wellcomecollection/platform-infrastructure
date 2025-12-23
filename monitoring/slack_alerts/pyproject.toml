@@ -1,0 +1,29 @@
+[project]
+name = "slack-alerts"
+version = "0.0.0"
+description = "Local runner for Wellcome Collection monitoring Slack alert Lambdas"
+readme = "README.md"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+  "boto3>=1.26",
+]
+
+[project.optional-dependencies]
+# Only needed for running the Auth0 helper script download_log_event_type_codes.py locally.
+tools = [
+  "requests>=2.31",
+  "beautifulsoup4>=4.12",
+]
+
+[project.scripts]
+slack-alert-auth0 = "slack_alerts_local.cli:auth0"
+slack-alert-ecs-tasks = "slack_alerts_local.cli:ecs_tasks"
+slack-alert-lambda-errors = "slack_alerts_local.cli:lambda_errors"
+slack-alert-metric = "slack_alerts_local.cli:metric"
+
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/slack_alerts_local"]

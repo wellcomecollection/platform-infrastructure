@@ -1,0 +1,9 @@
+{
+  "Records": [
+    {
+      "Sns": {
+        "Message": "{\"AlarmName\": \"lambda-platform_example_lambda-errors\", \"NewStateReason\": \"Threshold Crossed: 1 datapoint [2.0 (17/08/21 09:08:00)] was greater than the threshold (0.0).\", \"StateChangeTime\": \"2021-08-17T09:09:00.000+0000\"}"
+      }
+    }
+  ]
+}

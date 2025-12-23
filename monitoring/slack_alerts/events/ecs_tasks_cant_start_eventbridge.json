@@ -1,0 +1,18 @@
+{
+  "account": "000000000000",
+  "detail": {
+    "clusterArn": "arn:aws:ecs:eu-west-1:000000000000:cluster/example",
+    "createdAt": "2023-04-07T07:22:50.331Z",
+    "eventName": "SERVICE_TASK_START_IMPAIRED",
+    "eventType": "WARN"
+  },
+  "detail-type": "ECS Service Action",
+  "id": "b2a64ade-0dfc-adcc-567d-7ffbd225a3c6",
+  "region": "eu-west-1",
+  "resources": [
+    "arn:aws:ecs:eu-west-1:000000000000:service/example-cluster/example-service"
+  ],
+  "source": "aws.ecs",
+  "time": "2023-04-07T07:22:50Z",
+  "version": "0"
+}

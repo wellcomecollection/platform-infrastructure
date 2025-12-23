@@ -1,0 +1,9 @@
+{
+  "Records": [
+    {
+      "Sns": {
+        "Message": "{\"environment\": \"stage\", \"tenant_name\": \"wellcomecollection\", \"log_id\": \"900000000000000000000000000000000000000000000000000000000000\", \"log_event_type\": \"api_limit\", \"log_description\": \"You passed the limit of allowed calls to '/u/authorize'\"}"
+      }
+    }
+  ]
+}

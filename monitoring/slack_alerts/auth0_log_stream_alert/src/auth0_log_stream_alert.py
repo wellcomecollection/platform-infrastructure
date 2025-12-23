@@ -80,13 +80,15 @@ import functools
 import json
 import sys
 import re
+from pathlib import Path
 import urllib.request
 from urllib.error import HTTPError
 
 import boto3
 
 
-LOG_EVENT_TYPE_CODES = json.load(open("log_event_type_codes.json"))
+_CODES_PATH = Path(__file__).with_name("log_event_type_codes.json")
+LOG_EVENT_TYPE_CODES = json.loads(_CODES_PATH.read_text(encoding="utf-8"))
 
 
 def log_on_error(fn):
