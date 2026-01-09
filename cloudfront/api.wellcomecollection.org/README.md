@@ -20,7 +20,7 @@ You can then send a test request to the local server thus:
 sh post-to-rie.sh api.wellcomecollection.org/EIF11EK4Z5JS8.2026-01-08-12.9690b66d.gz
 ```
 
-The argument is the path to a CloudFront log file in s3. You can find recent log files in the `wellcomecollection-api-logs` bucket.
+The argument is the path to a CloudFront log file in s3. You can find recent log files in the `wellcomecollection-api-cloudfront-logs` bucket.
 
 
 This allows you to try out any changes to filtering or thresholds against real data before deploying them to Lambda.
