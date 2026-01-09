@@ -141,14 +141,17 @@ def run_handler(spec: HandlerSpec, argv: Optional[list[str]] = None) -> None:
 
     event = load_event(args.event)
 
-    with prepend_sys_path(spec.src_dir):
-        module = __import__(spec.module_name)
+    send_enabled = bool(args.send)
+    # Patch urlopen *before* importing the handler module.
+    # This ensures handlers that do `from urllib.request import urlopen` bind to
+    # the patched function during import in dry-run mode.
+    with dry_run_urlopen(enabled=not send_enabled):
+        with prepend_sys_path(spec.src_dir):
+            module = __import__(spec.module_name)
 
-        if args.webhook_url:
-            spec.patch_webhook_lookup(module, args.webhook_url)
+            if args.webhook_url:
+                spec.patch_webhook_lookup(module, args.webhook_url)
 
-        send_enabled = bool(args.send)
-        with dry_run_urlopen(enabled=not send_enabled):
             # All handlers in this folder use `main(event, _ctxt=None)`.
             module.main(event, None)
 
