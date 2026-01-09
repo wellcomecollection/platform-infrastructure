@@ -329,16 +329,16 @@ exports.handler = async event => {
     console.info(
       `Inspecting CloudFront logs for s3://${s3Object.bucket}/${s3Object.key}`
     );
-    const threshold_percent = process.env.THRESHOLD_PERCENT;
+    const thresholdPercent = process.env.THRESHOLD_PERCENT;
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key, s3Object.region);
     const serverErrors = hits.filter(isError);
     const interestingErrors = serverErrors.filter(isInterestingError);
-	const total_hits = hits.length;
-	const total_interestingErrors = interestingErrors.length;
-	const interestingErrorsPercent = total_hits === 0
+	const totalHits = hits.length;
+	const totalInterestingErrors = interestingErrors.length;
+	const interestingErrorsPercent = totalHits === 0
       ? '0.00'
-      : ((total_interestingErrors / total_hits) * 100).toFixed(2);
+      : ((totalInterestingErrors / totalHits) * 100).toFixed(2);
     const lines = interestingErrors.map(function (e) {
 	  const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
 
@@ -352,14 +352,14 @@ exports.handler = async event => {
       console.info(
         `Detected ${serverErrors.length} error(s) in this log file, but nothing interesting, nothing to do`
       );
-    } else if (interestingErrorsPercent < threshold_percent) {
+    } else if (interestingErrorsPercent < thresholdPercent) {
       // The percentage of interesting errors is below the threshold,
       // we log them so we don't have to filter the source logs to find them
       // later, but we don't send a Slack message.
       // The occasional ephemeral error is inevitable, so we don't alert if there are only a few in
       // relation to total requests.
       console.info(
-        `Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% < ${threshold_percent}% of ${total_hits} requests), nothing to do`
+        `Detected ${serverErrors.length} error(s) (${totalInterestingErrors} of which may be interesting) (${interestingErrorsPercent}% < ${thresholdPercent}% of ${totalHits} requests), nothing to do`
       );
       console.info(
         `Potentially interesting errors: ` + lines.join(' ')
@@ -369,7 +369,7 @@ exports.handler = async event => {
       // Errors are becoming more common now, this is indicative of something we should investigate immediately.
       // so send a Slack message.
       console.info(
-        `Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% > ${threshold_percent}% of ${total_hits} requests), sending message to Slack`
+        `Detected ${serverErrors.length} error(s) (${totalInterestingErrors} of which may be interesting) (${interestingErrorsPercent}% > ${thresholdPercent}% of ${totalHits} requests), sending message to Slack`
       );
       await sendSlackMessage(
         s3Object.bucket,
