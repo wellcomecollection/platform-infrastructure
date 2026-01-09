@@ -56,37 +56,25 @@ class _DummyHTTPResponse:
         return self._body
 
 
-@contextlib.contextmanager
-def dry_run_urlopen(enabled: bool) -> Iterator[None]:
-    if not enabled:
-        yield
-        return
+def _dry_run_sender(req: urllib.request.Request) -> _DummyHTTPResponse:
+    """A fake Slack sender that prints the outgoing payload (no network)."""
 
-    original = urllib.request.urlopen
+    url = getattr(req, "full_url", None) or getattr(req, "url", "<unknown>")
+    data = getattr(req, "data", None)
+    headers = getattr(req, "headers", {})
 
-    def _urlopen(req: urllib.request.Request, *args: Any, **kwargs: Any) -> _DummyHTTPResponse:  # type: ignore[override]
-        url = getattr(req, "full_url", None) or getattr(req, "url", "<unknown>")
-        data = getattr(req, "data", None)
-        headers = getattr(req, "headers", {})
+    print("[dry-run] Would POST to Slack webhook")
+    print(f"[dry-run] URL: {url}")
+    if headers:
+        print(f"[dry-run] Headers: {dict(headers)}")
+    if data is not None:
+        try:
+            decoded = data.decode("utf-8")
+        except Exception:
+            decoded = repr(data)
+        print(f"[dry-run] Body: {decoded}")
 
-        print("[dry-run] Would POST to Slack webhook")
-        print(f"[dry-run] URL: {url}")
-        if headers:
-            print(f"[dry-run] Headers: {dict(headers)}")
-        if data is not None:
-            try:
-                decoded = data.decode("utf-8")
-            except Exception:
-                decoded = repr(data)
-            print(f"[dry-run] Body: {decoded}")
-
-        return _DummyHTTPResponse()
-
-    urllib.request.urlopen = _urlopen  # type: ignore[assignment]
-    try:
-        yield
-    finally:
-        urllib.request.urlopen = original  # type: ignore[assignment]
+    return _DummyHTTPResponse()
 
 
 def run_handler(spec: HandlerSpec, argv: Optional[list[str]] = None) -> None:
@@ -142,18 +130,19 @@ def run_handler(spec: HandlerSpec, argv: Optional[list[str]] = None) -> None:
     event = load_event(args.event)
 
     send_enabled = bool(args.send)
-    # Patch urlopen *before* importing the handler module.
-    # This ensures handlers that do `from urllib.request import urlopen` bind to
-    # the patched function during import in dry-run mode.
-    with dry_run_urlopen(enabled=not send_enabled):
-        with prepend_sys_path(spec.src_dir):
-            module = __import__(spec.module_name)
 
-            if args.webhook_url:
-                spec.patch_webhook_lookup(module, args.webhook_url)
+    with prepend_sys_path(spec.src_dir):
+        module = __import__(spec.module_name)
 
-            # All handlers in this folder use `main(event, _ctxt=None)`.
-            module.main(event, None)
+        if args.webhook_url:
+            spec.patch_webhook_lookup(module, args.webhook_url)
+
+        sender: Callable[[urllib.request.Request], Any]
+        sender = urllib.request.urlopen if send_enabled else _dry_run_sender
+
+        # All handlers accept a `sender=` kwarg so we can avoid doing any
+        # stdlib networking in dry-run mode.
+        module.main(event, None, sender=sender)
 
 
 def _root_dir() -> Path:

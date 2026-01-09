@@ -83,8 +83,12 @@ import re
 from pathlib import Path
 import urllib.request
 from urllib.error import HTTPError
+from typing import Any, Callable, Optional
 
 import boto3
+
+
+SlackSender = Callable[[urllib.request.Request], Any]
 
 
 _CODES_PATH = Path(__file__).with_name("log_event_type_codes.json")
@@ -289,7 +293,10 @@ def get_log_url(log_id, *, tenant_name):
 
 
 @log_on_error
-def main(event, _ctxt=None):
+def main(event, _ctxt=None, *, sender: Optional[SlackSender] = None):
+    if sender is None:
+        sender = urllib.request.urlopen
+
     webhook_url = get_secret_string(secret_id="monitoring/critical_slack_webhook")
     # There will only ever be 1 record
     log_event = json.loads(event["Records"][0]["Sns"]["Message"])
@@ -336,6 +343,6 @@ def main(event, _ctxt=None):
     )
 
     try:
-        urllib.request.urlopen(req)
+        sender(req)
     except HTTPError as err:
         raise Exception(redact_string(f"{err} - {err.read()}"))

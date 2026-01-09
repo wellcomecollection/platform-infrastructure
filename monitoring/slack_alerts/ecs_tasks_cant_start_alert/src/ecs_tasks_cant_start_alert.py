@@ -68,8 +68,12 @@ import os
 import sys
 import urllib.request
 from urllib.error import HTTPError
+from typing import Any, Callable, Optional
 
 import boto3
+
+
+SlackSender = Callable[[urllib.request.Request], Any]
 
 
 def log_on_error(fn):
@@ -96,7 +100,10 @@ def get_secret_string(sess, *, secret_id):
 
 
 @log_on_error
-def main(event, _ctxt=None):
+def main(event, _ctxt=None, *, sender: Optional[SlackSender] = None):
+    if sender is None:
+        sender = urllib.request.urlopen
+
     sess = boto3.Session()
 
     account = os.environ["ACCOUNT_NAME"]
@@ -138,6 +145,6 @@ def main(event, _ctxt=None):
         )
 
         try:
-            urllib.request.urlopen(req)
+            sender(req)
         except HTTPError as err:
             raise Exception(f"{err} - {err.read()}")

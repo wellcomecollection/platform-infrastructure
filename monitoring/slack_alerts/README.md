@@ -38,7 +38,7 @@ To keep that deployment mechanism unchanged, local execution is provided by a sm
 
 Local runs **do not send to Slack by default**.
 
-*   By default the runner monkey-patches `urllib.request.urlopen` and prints the payload instead.
+*   By default the runner passes a "dry-run" sender into the handler and prints the payload instead.
 *   To actually send, you must pass `--send`.
 
 ### Python version
@@ -75,7 +75,7 @@ For local runs you can avoid AWS credentials by providing a webhook URL override
 
 ### Optional dependencies
 
-The helper script `auth0_log_stream_alert/src/download_log_event_type_codes.py` uses `requests` + `beautifulsoup4`.
+The helper script `auth0_log_stream_alert/src/download_log_event_type_codes.py` uses `httpx` + `beautifulsoup4`.
 These are not required for the deployed Lambda handler; if you want to run that script locally, install the optional `tools` extra.
 
 ## How to deploy

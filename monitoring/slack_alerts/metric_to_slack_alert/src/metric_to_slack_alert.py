@@ -37,8 +37,12 @@ import re
 import sys
 import urllib.request
 from urllib.error import HTTPError
+from typing import Any, Callable, Optional
 
 import boto3
+
+
+SlackSender = Callable[[urllib.request.Request], Any]
 
 
 def log_on_error(fn):
@@ -214,7 +218,10 @@ def is_alarm_count_very_big(alarm_count, environ):
 
 
 @log_on_error
-def main(event, _ctxt=None):
+def main(event, _ctxt=None, *, sender: Optional[SlackSender] = None):
+    if sender is None:
+        sender = urllib.request.urlopen
+
     account = os.environ["ACCOUNT_NAME"]
 
     alarm = json.loads(event["Records"][0]["Sns"]["Message"])
@@ -246,6 +253,6 @@ def main(event, _ctxt=None):
     )
 
     try:
-        urllib.request.urlopen(req)
+        sender(req)
     except HTTPError as err:
         raise Exception(f"{err} - {err.read()}")
