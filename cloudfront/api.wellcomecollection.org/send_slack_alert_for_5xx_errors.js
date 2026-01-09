@@ -329,8 +329,10 @@ exports.handler = async event => {
     console.info(
       `Inspecting CloudFront logs for s3://${s3Object.bucket}/${s3Object.key}`
     );
-    const thresholdPercent = process.env.THRESHOLD_PERCENT;
-
+    const thresholdPercent = parseFloat(process.env.THRESHOLD_PERCENT);
+	if (isNaN(thresholdPercent)){
+	  throw new Error(`Invalid THRESHOLD_PERCENT: ${process.env.THRESHOLD_PERCENT}`);
+	}
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key, s3Object.region);
     const serverErrors = hits.filter(isError);
     const interestingErrors = serverErrors.filter(isInterestingError);
