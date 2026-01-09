@@ -187,10 +187,14 @@ async function sendSlackMessage(bucket, key, region, serverErrors, hits, lines) 
 
   const webhookUrl = process.env.WEBHOOK_URL;
   if (webhookUrl == "example.com") {
+  	// If it's example.com, the caller has explicitly indicated they don't
+ 	// want to send a Slack message (e.g. in a test environment).
   	console.info("dummy WEBHOOK_URL set, skipping Slack message");
   	console.info(JSON.stringify(slackPayload));
   }
   else {
+ 	// Any other URL, including an empty one, is treated as a real webhook.
+ 	// If it's empty or invalid, the post() function will fail noisily.
 	  await post(webhookUrl, slackPayload);
   }
 }
@@ -349,7 +353,11 @@ exports.handler = async event => {
         `Detected ${serverErrors.length} error(s) in this log file, but nothing interesting, nothing to do`
       );
     } else if (interestingErrorsPercent < threshold_percent) {
-
+		// The percentage of interesting errors is below the threshold,
+		// we log them so we don't have to filter the source logs to find them
+		// later, but we don't send a Slack message.
+	    // The occasional ephemeral error is inevitable, so we don't alert if there are only a few in
+	    // relation to total requests.
       console.info(
 		`Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% < ${threshold_percent}% of ${total_hits} requests), nothing to do`
 	  );
@@ -358,6 +366,8 @@ exports.handler = async event => {
 	  );
     }
      else {
+      // Errors are becoming more common now, this is indicative of something we should investigate immediately.
+      // so send a Slack message.
       console.info(
         `Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% > ${threshold_percent}% of ${total_hits} requests), sending message to Slack`
       );
