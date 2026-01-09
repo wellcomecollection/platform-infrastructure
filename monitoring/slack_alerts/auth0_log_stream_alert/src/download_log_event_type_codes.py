@@ -30,7 +30,7 @@ is the most straightforward way to keep our local
 import json
 import re
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict
 
 import bs4
 import httpx
@@ -70,22 +70,60 @@ def _extract_codes_from_table(table: bs4.Tag) -> Dict[str, str]:
     return codes
 
 
-def _find_codes_table(soup: bs4.BeautifulSoup) -> Optional[Dict[str, str]]:
-    """Find the best candidate table on the page that contains event codes."""
-    best: Optional[Dict[str, str]] = None
-    best_count = 0
+def _extract_header_cells(table: bs4.Tag) -> list[str]:
+    """Return the normalised header cell text for a table.
 
-    for table in soup.find_all("table"):
-        codes = _extract_codes_from_table(table)
-        if len(codes) > best_count:
-            best = codes
-            best_count = len(codes)
+    Auth0's docs table uses headers like "Event" and "Event Name".
+    """
 
-    # Heuristic: the real table should contain lots of codes.
-    if best is None or best_count < 20:
-        return None
+    header_row = table.find("tr")
+    if header_row is None:
+        return []
 
-    return best
+    ths = header_row.find_all("th")
+    return [_normalise(th.get_text(" ", strip=True)) for th in ths]
+
+
+def _find_codes_table(soup: bs4.BeautifulSoup) -> Dict[str, str]:
+    """Find the event codes table on the page.
+
+    This script is run manually and infrequently by a developer. Rather than
+    trying to guess the "right" table if the Auth0 docs page changes, we fail
+    fast with a clear error unless the page matches our expectations:
+
+    * There must be exactly one table on the page.
+    * The table headers must include "Event" and "Event Name".
+    """
+
+    tables = soup.find_all("table")
+    if len(tables) != 1:
+        raise SystemExit(
+            "Expected exactly one table on the Auth0 docs page, "
+            f"but found {len(tables)}. "
+            "The page structure may have changed. "
+            f"URL: {URL}"
+        )
+
+    table = tables[0]
+    headers = {h.lower() for h in _extract_header_cells(table)}
+    if not {"event code", "event"}.issubset(headers):
+        raise SystemExit(
+            "Could not find expected table headers on the Auth0 docs page. "
+            "Expected headers to include 'event code' and 'event'. "
+            f"Found headers: {sorted(headers)}. "
+            "The page structure may have changed. "
+            f"URL: {URL}"
+        )
+
+    codes = _extract_codes_from_table(table)
+    if not codes:
+        raise SystemExit(
+            "Found the expected table on the Auth0 docs page, but extracted no codes. "
+            "The page structure may have changed. "
+            f"URL: {URL}"
+        )
+
+    return codes
 
 
 def main() -> None:
@@ -94,13 +132,6 @@ def main() -> None:
 
     soup = bs4.BeautifulSoup(resp.text, "html.parser")
     codes = _find_codes_table(soup)
-
-    if codes is None:
-        raise SystemExit(
-            "Could not find the log event type codes table on the Auth0 docs page. "
-            "The page structure may have changed. "
-            f"URL: {URL}"
-        )
 
     out_path = Path(__file__).with_name("log_event_type_codes.json")
     out_path.write_text(
