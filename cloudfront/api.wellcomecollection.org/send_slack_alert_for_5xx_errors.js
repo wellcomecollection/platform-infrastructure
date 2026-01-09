@@ -139,15 +139,7 @@ function createKibanaLogLink(serverErrors) {
  * This includes a list of the erroring URLs.  Note that it's written
  * to a public Slack channel, so we need to be a bit careful what we log.
  */
-async function sendSlackMessage(bucket, key, region, serverErrors, hits) {
-  const lines = serverErrors.map(function (e) {
-    const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
-
-    // We assume that most errors are generic 500 errors, but non-500 codes
-    // might be interesting and worth highlighting.
-    return e.status === 500 ? url : `${url} (${e.status})`;
-  });
-
+async function sendSlackMessage(bucket, key, region, serverErrors, hits, lines) {
   // This creates a Markdown-formatted message like:
   //
   //    5 errors / 5K requests / [View app logs in Kibana] / [View CloudFront logs in S3]
@@ -194,8 +186,13 @@ async function sendSlackMessage(bucket, key, region, serverErrors, hits) {
   };
 
   const webhookUrl = process.env.WEBHOOK_URL;
-
-  await post(webhookUrl, slackPayload);
+  if (webhookUrl == "example.com") {
+  	console.info("dummy WEBHOOK_URL set, skipping Slack message");
+  	console.info(JSON.stringify(slackPayload));
+  }
+  else {
+	  await post(webhookUrl, slackPayload);
+  }
 }
 
 function createDisplayUrl(protocol, host, path, query) {
@@ -317,6 +314,7 @@ exports.handler = async event => {
   //
   // We only care about the affected objects; extract this information
   // from the event.
+
   const affectedObjects = event.Records.map(function (r) {
     return {
       region: r.awsRegion,
@@ -329,27 +327,47 @@ exports.handler = async event => {
     console.info(
       `Inspecting CloudFront logs for s3://${s3Object.bucket}/${s3Object.key}`
     );
+    const threshold_percent = process.env.THRESHOLD_PERCENT;
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key, s3Object.region);
     const serverErrors = hits.filter(isError);
     const interestingErrors = serverErrors.filter(isInterestingError);
+	const total_hits = hits.length;
+	const total_interestingErrors = interestingErrors.length;
+	const interestingErrorsPercent = ((total_interestingErrors/total_hits)*100).toFixed(2);
+    const lines = interestingErrors.map(function (e) {
+	  const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
 
+	  // We assume that most errors are generic 500 errors, but non-500 codes
+	  // might be interesting and worth highlighting.
+	  return e.status === 500 ? url : `${url} (${e.status})`;
+	});
     if (interestingErrors.length === 0 && serverErrors.length === 0) {
       console.info('No errors in this log file, nothing to do');
     } else if (interestingErrors.length === 0) {
       console.info(
         `Detected ${serverErrors.length} error(s) in this log file, but nothing interesting, nothing to do`
       );
-    } else {
+    } else if (interestingErrorsPercent < threshold_percent) {
+
       console.info(
-        `Detected ${serverErrors.length} error(s) and ${interestingErrors.length} interesting error(s), sending message to Slack`
+		`Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% < ${threshold_percent}% of ${total_hits} requests), nothing to do`
+	  );
+      console.info(
+		`Potentially interesting errors: ` + lines.join(' ')
+	  );
+    }
+     else {
+      console.info(
+        `Detected ${serverErrors.length} error(s) (${total_interestingErrors} of which may be interesting) (${interestingErrorsPercent}% > ${threshold_percent}% of ${total_hits} requests), sending message to Slack`
       );
       await sendSlackMessage(
         s3Object.bucket,
         s3Object.key,
         s3Object.region,
         interestingErrors,
-        hits
+        hits,
+        lines
       );
     }
   }
