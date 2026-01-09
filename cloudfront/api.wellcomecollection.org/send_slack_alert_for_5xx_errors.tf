@@ -9,8 +9,8 @@ module "slack_alerts_for_5xx" {
   name        = "send_slack_alert_for_5xx_errors"
 
   environment_variables = {
-    WEBHOOK_URL = data.aws_secretsmanager_secret_version.slack_webhook.secret_string
-    THRESHOLD_PERCENT   = "0.1"  # Alert if more than 0.1% of requests are 5xx
+    WEBHOOK_URL       = data.aws_secretsmanager_secret_version.slack_webhook.secret_string
+    THRESHOLD_PERCENT = "0.1" # Alert if more than 0.1% of requests are 5xx
   }
 
   # TODO: We should be able to pull this from the monitoring remote state,
