@@ -24,11 +24,9 @@ class HandlerSpec:
 def _parse_kv_pairs(pairs: list[str]) -> dict[str, str]:
     result: dict[str, str] = {}
     for p in pairs:
-        if "=" not in p:
+        if p.find("=") < 1:
             raise ValueError(f"Invalid --set-env value {p!r}; expected KEY=VALUE")
         k, v = p.split("=", 1)
-        if not k:
-            raise ValueError(f"Invalid --set-env value {p!r}; empty key")
         result[k] = v
     return result
 
