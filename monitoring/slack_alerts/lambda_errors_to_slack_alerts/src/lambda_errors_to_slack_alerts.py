@@ -50,8 +50,8 @@ def build_cloudwatch_url(search_term, log_group_name, start_date, end_date, regi
         f"?region={region}"
         f"#logEventViewer:group={log_group_name};"
         f"filter={urlquote(search_term)};"
-        f'start={start_date.strftime("%Y-%m-%dT%H:%M:%SZ")};'
-        f'end={end_date.strftime("%Y-%m-%dT%H:%M:%SZ")};'
+        f"start={start_date.strftime('%Y-%m-%dT%H:%M:%SZ')};"
+        f"end={end_date.strftime('%Y-%m-%dT%H:%M:%SZ')};"
     )
 
 
