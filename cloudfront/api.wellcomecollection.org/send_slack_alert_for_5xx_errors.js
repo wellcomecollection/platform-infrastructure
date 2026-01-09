@@ -186,7 +186,7 @@ async function sendSlackMessage(bucket, key, region, serverErrors, hits, lines) 
   };
 
   const webhookUrl = process.env.WEBHOOK_URL;
-  if (webhookUrl == "example.com") {
+  if (webhookUrl === "example.com") {
   	// If it's example.com, the caller has explicitly indicated they don't
  	// want to send a Slack message (e.g. in a test environment).
   	console.info("dummy WEBHOOK_URL set, skipping Slack message");
