@@ -338,7 +338,9 @@ exports.handler = async event => {
     const interestingErrors = serverErrors.filter(isInterestingError);
 	const total_hits = hits.length;
 	const total_interestingErrors = interestingErrors.length;
-	const interestingErrorsPercent = ((total_interestingErrors/total_hits)*100).toFixed(2);
+	const interestingErrorsPercent = total_hits === 0
+      ? '0.00'
+      : ((total_interestingErrors / total_hits) * 100).toFixed(2);
     const lines = interestingErrors.map(function (e) {
 	  const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
 
