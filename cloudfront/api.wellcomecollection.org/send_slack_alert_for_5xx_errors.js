@@ -187,18 +187,16 @@ async function sendSlackMessage(bucket, key, region, serverErrors, hits, lines) 
 
   const webhookUrl = process.env.WEBHOOK_URL;
   if (webhookUrl === "example.com") {
-  	// If it's example.com, the caller has explicitly indicated they don't
- 	// want to send a Slack message (e.g. in a test environment).
-  	console.info("dummy WEBHOOK_URL set, skipping Slack message");
-  	console.info(JSON.stringify(slackPayload));
-  }
-  else {
- 	// Any other URL, including an empty one, is treated as a real webhook.
- 	// If it's empty or invalid, the post() function will fail noisily.
-	  await post(webhookUrl, slackPayload);
+    // If it's example.com, the caller has explicitly indicated they don't
+    // want to send a Slack message (e.g. in a test environment).
+    console.info("dummy WEBHOOK_URL set, skipping Slack message");
+    console.info(JSON.stringify(slackPayload));
+  } else {
+    // Any other URL, including an empty one, is treated as a real webhook.
+    // If it's empty or invalid, the post() function will fail noisily.
+    await post(webhookUrl, slackPayload);
   }
 }
-
 function createDisplayUrl(protocol, host, path, query) {
   if (query === null) {
     return `${protocol}://${host}${path}`;
