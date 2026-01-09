@@ -9,6 +9,22 @@ You only need to re-run this script if Auth0 add new codes; it's kept
 for posterity, rather than something I expect to be used as part of
 normal operations.
 
+Why scrape HTML with BeautifulSoup?
+
+Auth0 don't currently publish a single machine-readable (e.g. JSON/XML)
+resource that includes *both* the log event type code and the
+human-friendly name we want to show in Slack.
+
+There is a JSON schema with the ids and descriptions:
+https://github.com/auth0/auth0-log-schemas/blob/main/schemas/all-log-types.schema.json
+
+But the human-friendly name isn't present there; to derive it you'd need to
+read each of the per-type files in:
+https://github.com/auth0/auth0-log-schemas/tree/main/schemas/log-types
+
+Until Auth0 publish a simpler API for this mapping, scraping the docs table
+is the most straightforward way to keep our local
+``log_event_type_codes.json`` up to date.
 """
 
 import json
