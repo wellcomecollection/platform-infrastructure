@@ -1,0 +1,17 @@
+FROM public.ecr.aws/lambda/nodejs:20
+
+# Install aws-lambda-rie for local testing
+ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+RUN chmod +x /usr/local/bin/aws-lambda-rie
+
+# Copy the handler file
+COPY send_slack_alert_for_5xx_errors.js ./
+
+# Set the Lambda handler (filename.handlerFunction)
+# Replace 'handler' with the actual exported function name if different
+ENV _HANDLER=send_slack_alert_for_5xx_errors.handler
+
+# Set entrypoint for local testing with RIE
+ENTRYPOINT ["/usr/local/bin/aws-lambda-rie", "/var/runtime/bootstrap"]
+
+# Command is not needed; Lambda runtime will use _HANDLER
