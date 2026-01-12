@@ -1,15 +1,4 @@
 locals {
-
-  // Rate limiting based on https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/modules/wc_org_cloudfront/waf.tf
-  // Rate-limits cover 5 minute window  
-  blanket_rate_limit = 2500
-
-  restrictive_rate_limit  = 1000
-  restricted_path_regexes = ["^\\/presentation\\/collections$"]
-
-  lenient_rate_limit   = 10000
-  lenient_path_regexes = ["^\\/image$", "^\\/thumbs$"]
-
   // This is the complete list of Bot Control rules from
   // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
   //
@@ -80,183 +69,10 @@ resource "aws_wafv2_web_acl" "acl" {
     }
   }
 
-  // RATE LIMITING
-  rule {
-    name     = "geo-rate-limit-APAC"
-    priority = 3
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 500
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "CN",
-              "SG",
-              "HK",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "${var.namespace}-geo-rate-limit-apac-${var.stage}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-LATAM"
-    priority = 4
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 200
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "BR",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "${var.namespace}-geo-rate-limit-latam-${var.stage}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "blanket-rate-limiting"
-    priority = 5
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = local.blanket_rate_limit
-        aggregate_key_type = "IP"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "${var.namespace}-weco-cloudfront-acl-rate-limit-${var.stage}"
-    }
-  }
-
-  rule {
-    name     = "restrictive-rate-limiting"
-    priority = 6
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = local.restrictive_rate_limit
-        aggregate_key_type = "IP"
-
-        scope_down_statement {
-          regex_pattern_set_reference_statement {
-            field_to_match {
-              uri_path {}
-            }
-
-            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
-
-            text_transformation {
-              priority = 1
-              type     = "URL_DECODE"
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "${var.namespace}-weco-cloudfront-restrictive-rate-limit-${var.stage}"
-    }
-  }
-
-  rule {
-    name     = "lenient-rate-limiting"
-    priority = 7
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = local.lenient_rate_limit
-        aggregate_key_type = "IP"
-
-        scope_down_statement {
-          regex_pattern_set_reference_statement {
-            field_to_match {
-              uri_path {}
-            }
-
-            arn = aws_wafv2_regex_pattern_set.lenient_urls.arn
-
-            text_transformation {
-              priority = 1
-              type     = "URL_DECODE"
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "${var.namespace}-weco-cloudfront-lenient-rate-limit-${var.stage}"
-    }
-  }
-
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 10
+    priority = 1
 
     override_action {
       none {}
@@ -300,7 +116,7 @@ resource "aws_wafv2_web_acl" "acl" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 11
+    priority = 2
 
     override_action {
       none {}
@@ -323,7 +139,7 @@ resource "aws_wafv2_web_acl" "acl" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 12
+    priority = 3
 
     override_action {
       none {}
@@ -345,7 +161,7 @@ resource "aws_wafv2_web_acl" "acl" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 13
+    priority = 4
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -393,29 +209,5 @@ resource "aws_wafv2_web_acl" "acl" {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
     metric_name                = "${var.namespace}-cloudfront-acl-metric-${var.stage}"
-  }
-}
-
-resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
-  name  = "${var.namespace}-restricted-urls-${var.stage}"
-  scope = "CLOUDFRONT"
-
-  dynamic "regular_expression" {
-    for_each = local.restricted_path_regexes
-    content {
-      regex_string = regular_expression.value
-    }
-  }
-}
-
-resource "aws_wafv2_regex_pattern_set" "lenient_urls" {
-  name  = "${var.namespace}-lenient-urls-${var.stage}"
-  scope = "CLOUDFRONT"
-
-  dynamic "regular_expression" {
-    for_each = local.lenient_path_regexes
-    content {
-      regex_string = regular_expression.value
-    }
   }
 }
